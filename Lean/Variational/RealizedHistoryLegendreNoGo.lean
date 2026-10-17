@@ -1,4 +1,7 @@
-import Variational.LegendreBridge
+module
+public import Variational.LegendreBridge
+
+@[expose] public section
 
 namespace OPH.Variational
 
@@ -72,7 +75,7 @@ theorem chainLogLagrangian_momentum (x y : ℝ) :
       (chainFiberSlope x) y := by
     convert (hasDerivAt_const y (chainLogBase x)).add
       ((hasDerivAt_id y).const_mul (chainFiberSlope x)) using 1
-    all_goals ring_nf
+    all_goals first | (funext z; rfl) | ring_nf
   show HasDerivAt (fun z => chainLogLagrangian x z)
     (chainFiberSlope x) y
   rw [show (fun z => chainLogLagrangian x z)
@@ -222,10 +225,10 @@ theorem chainCurvedLagrangian_momentum (a x y : ℝ) :
       (chainFiberSlope x) y := by
     convert (hasDerivAt_const y (chainLogBase x)).add
       ((hasDerivAt_id y).const_mul (chainFiberSlope x)) using 1
-    all_goals ring_nf
+    all_goals first | (funext z; rfl) | ring_nf
   have hbump : HasDerivAt (fun z : ℝ => (a / 2) * z * (z - 1))
       (a * y - a / 2) y := by
-    convert (((hasDerivAt_id y).const_mul (a / 2)).mul
+    convert (((hasDerivAt_id y).const_mul (a / 2)).fun_mul
       ((hasDerivAt_id y).sub_const 1)) using 1
     all_goals simp only [id_eq]
     all_goals ring

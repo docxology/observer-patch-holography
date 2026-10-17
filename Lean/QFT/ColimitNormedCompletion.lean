@@ -1,12 +1,15 @@
-import QFT.LocallyCovariantLimit
-import Mathlib.Analysis.CStarAlgebra.Matrix
-import Mathlib.Analysis.CStarAlgebra.Spectrum
-import Mathlib.Analysis.CStarAlgebra.Classes
-import Mathlib.Analysis.Normed.Algebra.Spectrum
-import Mathlib.Analysis.Normed.Module.Completion
-import Mathlib.Topology.Algebra.UniformRing
-import Mathlib.Topology.Algebra.StarSubalgebra
-import Mathlib.LinearAlgebra.Eigenspace.Minpoly
+module
+public import QFT.LocallyCovariantLimit
+public import Mathlib.Analysis.CStarAlgebra.Matrix
+public import Mathlib.Analysis.CStarAlgebra.Spectrum
+public import Mathlib.Analysis.CStarAlgebra.Classes
+public import Mathlib.Analysis.Normed.Algebra.Spectrum
+public import Mathlib.Analysis.Normed.Module.Completion
+public import Mathlib.Topology.Algebra.UniformRing
+public import Mathlib.Topology.Algebra.StarSubalgebra
+public import Mathlib.LinearAlgebra.Eigenspace.Minpoly
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false
@@ -356,8 +359,8 @@ theorem norm_starAlgHom_mem_spectralSet {n m : ℕ}
     left
     have h0 : φ X = 0 := Subsingleton.elim (α := Matrix (Fin 0) (Fin 0) ℂ) _ _
     rw [h0, norm_zero]
-  · haveI : Nonempty (Fin m) := ⟨⟨0, hm⟩⟩
-    haveI : Nontrivial (Matrix (Fin m) (Fin m) ℂ) := inferInstance
+  · have : Nonempty (Fin m) := ⟨⟨0, hm⟩⟩
+    have : Nontrivial (Matrix (Fin m) (Fin m) ℂ) := inferInstance
     right
     set a : Matrix (Fin m) (Fin m) ℂ := star (φ X) * φ X with ha
     have hsa : IsSelfAdjoint a := IsSelfAdjoint.star_mul_self _
@@ -679,7 +682,7 @@ theorem completion_star_coe (a : A) :
   completion_map_star_coe a
 
 /-- The star of the completion is continuous. -/
-@[reducible] def completionContinuousStar : ContinuousStar (Completion A) :=
+theorem completionContinuousStar : ContinuousStar (Completion A) :=
   ⟨completion_map_star_continuous⟩
 
 /-- The star of the completion is isometric. -/
@@ -690,7 +693,7 @@ theorem completion_norm_star (x : Completion A) : ‖star x‖ = ‖x‖ := by
   | ih a => rw [completion_star_coe (A := A), Completion.norm_coe, Completion.norm_coe, norm_star]
 
 /-- The star of the completion is isometric for the extended norm. -/
-@[reducible] def completionNormedStarGroup : NormedStarGroup (Completion A) :=
+theorem completionNormedStarGroup : NormedStarGroup (Completion A) :=
   ⟨fun x => le_of_eq (completion_norm_star x)⟩
 
 /-- **The C*-identity transports to the completion** from the dense image,
@@ -708,11 +711,11 @@ theorem completion_norm_star_mul_self [CStarRing A] (x : Completion A) :
       Completion.norm_coe, CStarRing.norm_star_mul_self]
 
 /-- The completion of a C*-ring satisfies the C*-identity. -/
-@[reducible] def completionCStarRing [CStarRing A] : CStarRing (Completion A) :=
+theorem completionCStarRing [CStarRing A] : CStarRing (Completion A) :=
   ⟨fun x => le_of_eq (completion_norm_star_mul_self x).symm⟩
 
 /-- The star module law transports to the completion. -/
-@[reducible] def completionStarModule [NormedSpace ℂ A] [StarModule ℂ A] :
+theorem completionStarModule [NormedSpace ℂ A] [StarModule ℂ A] :
     StarModule ℂ (Completion A) :=
   ⟨fun c x => by
     induction x using Completion.induction_on with

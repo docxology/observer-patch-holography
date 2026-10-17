@@ -1,4 +1,7 @@
-import EventAlgebra.StateExpectation
+module
+public import EventAlgebra.StateExpectation
+
+@[expose] public section
 
 /-!
 # Robertson inequality from a supplied state pairing
@@ -163,9 +166,9 @@ theorem finite_state_pairing_robertson
     (hB : B.IsHermitian) :
     stateCommutatorReadout ρ A B ^ 2 / 4 ≤
       stateVariance ρ A * stateVariance ρ B := by
-  letI : SeminormedAddCommGroup (Matrix (Fin n) (Fin n) ℂ) :=
+  let : SeminormedAddCommGroup (Matrix (Fin n) (Fin n) ℂ) :=
     Matrix.toMatrixSeminormedAddCommGroup ρ hρ.1
-  letI : InnerProductSpace ℂ (Matrix (Fin n) (Fin n) ℂ) :=
+  let : InnerProductSpace ℂ (Matrix (Fin n) (Fin n) ℂ) :=
     Matrix.toMatrixInnerProductSpace ρ hρ.1
   let A₀ := centeredObservable ρ A
   let B₀ := centeredObservable ρ B

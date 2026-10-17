@@ -1,5 +1,8 @@
-import Mathlib.Order.Interval.Finset.Basic
-import ObserverPatchHolography.Provenance.FiniteCausetCompiler
+module
+public import Mathlib.Order.Interval.Finset.Basic
+public import ObserverPatchHolography.Provenance.FiniteCausetCompiler
+
+@[expose] public section
 
 /-!
 # Finite cover-relation compiler into authenticated provenance
@@ -57,7 +60,7 @@ theorem rel_iff_transGen_coverRelation
     (htrans : ∀ {a b c : Event}, R a b → R b c → R a c)
     (a b : Event) :
     R a b ↔ Relation.TransGen (CoverRelation R) a b := by
-  letI : PartialOrder Event := {
+  let : PartialOrder Event := {
     le a b := a = b ∨ R a b
     le_refl a := Or.inl rfl
     le_trans a b c hab hbc := by
@@ -73,11 +76,11 @@ theorem rel_iff_transGen_coverRelation
       · exact hba.symm
       · exact False.elim (hirrefl a (htrans hab hba))
   }
-  letI : DecidableLE Event := fun a b => by
+  let : DecidableLE Event := fun a b => by
     change Decidable (a = b ∨ R a b)
     infer_instance
-  letI : DecidableLT Event := decidableLTOfDecidableLE
-  letI : LocallyFiniteOrder Event := Fintype.toLocallyFiniteOrder
+  let : DecidableLT Event := decidableLTOfDecidableLE
+  let : LocallyFiniteOrder Event := Fintype.toLocallyFiniteOrder
 
   have hlt : ∀ x y : Event, x < y ↔ R x y := by
     intro x y

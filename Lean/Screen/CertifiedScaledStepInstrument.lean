@@ -1,4 +1,7 @@
-import ScaledMaxwellStability
+module
+public import ScaledMaxwellStability
+
+@[expose] public section
 
 set_option autoImplicit false
 

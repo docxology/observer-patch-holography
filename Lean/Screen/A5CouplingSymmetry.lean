@@ -1,4 +1,7 @@
-import A5PortAction
+module
+public import A5PortAction
+
+@[expose] public section
 
 namespace OPH.A5CouplingSymmetry
 

@@ -1,6 +1,9 @@
-import Mathlib.Analysis.SpecialFunctions.Complex.CircleAddChar
-import EventAlgebra.PublicRecordAlgebra
-import QuantumMatterIntegration
+module
+public import Mathlib.Analysis.SpecialFunctions.Complex.CircleAddChar
+public import EventAlgebra.PublicRecordAlgebra
+public import QuantumMatterIntegration
+
+@[expose] public section
 
 /-!
 # B10 partition-center readout and finite central action
@@ -334,7 +337,7 @@ theorem mappedCentralAction_kernel_card
     exact mappedCentralAction_eq_id_iff bridge c
   rw [hset]
   rw [Set.ncard_eq_toFinset_card]
-  simpa only [Set.Finite.toFinset_setOf] using
+  simpa only [Set.Finite.toFinset_ofPred] using
     OPH.TraceBalancedKernel.kernel_card
 
 /-! ## Attaching the anomaly-free parity selection -/

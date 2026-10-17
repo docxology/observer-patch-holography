@@ -1,5 +1,8 @@
-import PrimitivePortFrameQuotient
-import ObserverPatchHolography.A2EndpointCommutator
+module
+public import PrimitivePortFrameQuotient
+public import ObserverPatchHolography.A2EndpointCommutator
+
+@[expose] public section
 
 open scoped Topology
 

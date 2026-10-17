@@ -1,5 +1,8 @@
-import CarrierModeEquivariance
-import Geometry.ScreenCarrierMapCandidate
+module
+public import CarrierModeEquivariance
+public import Geometry.ScreenCarrierMapCandidate
+
+@[expose] public section
 
 open scoped BigOperators Matrix
 
@@ -273,10 +276,15 @@ theorem plus_add_minus :
   decide
 
 theorem minus_eq_conj_plus : ∀ i j : Fin 20, goldenMinusZ i j = zconj (goldenPlusZ i j) := by
-  decide
+  intro i j
+  fin_cases i <;> fin_cases j <;> decide +kernel
 
-theorem plus_symm : ∀ i j : Fin 20, goldenPlusZ i j = goldenPlusZ j i := by decide
-theorem minus_symm : ∀ i j : Fin 20, goldenMinusZ i j = goldenMinusZ j i := by decide
+theorem plus_symm : ∀ i j : Fin 20, goldenPlusZ i j = goldenPlusZ j i := by
+  intro i j
+  fin_cases i <;> fin_cases j <;> decide +kernel
+theorem minus_symm : ∀ i j : Fin 20, goldenMinusZ i j = goldenMinusZ j i := by
+  intro i j
+  fin_cases i <;> fin_cases j <;> decide +kernel
 
 theorem plus_trace : (∑ i : Fin 20, goldenPlusZ i i) = (60, 0) := by decide
 theorem minus_trace : (∑ i : Fin 20, goldenMinusZ i i) = (60, 0) := by decide
@@ -427,9 +435,9 @@ theorem faceAct_mul_left (p : List Nat) (hp : p ∈ perms) (Q : Matrix (Fin 20) 
     (∑ k : Fin 20, zint (faceActZ p i k) (Q k j)) = Q (facePerm p i) j := by
   simp only [faceActZ, Matrix.of_apply]
   rw [Finset.sum_eq_single (facePerm p i)]
-  · rw [if_pos rfl, faceSign_eq_one p hp, zint_one]
+  · rw [ite_eq_left rfl, faceSign_eq_one p hp, zint_one]
   · intro k _ hk
-    rw [if_neg (Ne.symm hk), zint_zero]
+    rw [ite_eq_right (Ne.symm hk), zint_zero]
   · intro h; exact absurd (Finset.mem_univ _) h
 
 /-- The face permutation applied to the inverse image of `j` returns `j`. -/
@@ -444,14 +452,14 @@ theorem faceAct_mul_right (p : List Nat) (hp : p ∈ perms) (Q : Matrix (Fin 20)
     (∑ k : Fin 20, zint (faceActZ p k j) (Q i k)) = Q i ((faceEquiv p hp).symm j) := by
   simp only [faceActZ, Matrix.of_apply]
   rw [Finset.sum_eq_single ((faceEquiv p hp).symm j)]
-  · rw [if_pos (facePerm_symm_apply p hp j), faceSign_eq_one p hp, zint_one]
+  · rw [ite_eq_left (facePerm_symm_apply p hp j), faceSign_eq_one p hp, zint_one]
   · intro k _ hk
     have hne : facePerm p k ≠ j := by
       intro h
       apply hk
       rw [← faceEquiv_apply p hp] at h
       rw [← h, Equiv.symm_apply_apply]
-    rw [if_neg hne, zint_zero]
+    rw [ite_eq_right hne, zint_zero]
   · intro h; exact absurd (Finset.mem_univ _) h
 
 /-- **(5)** The action matrix of every listed row commutes with the `λ₊`

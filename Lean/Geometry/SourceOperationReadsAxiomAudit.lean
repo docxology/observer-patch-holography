@@ -1,6 +1,9 @@
-import Geometry.SourceReusableBusAxiomAudit
-import Geometry.SourceOperationReads
-import Geometry.SourceRepairInstrument
+module
+public import Geometry.SourceReusableBusAxiomAudit
+public import Geometry.SourceOperationReads
+public import Geometry.SourceRepairInstrument
+
+@[expose] public section
 
 /-! Standard-axiom audit for the disjoint source-operation and read theorems. -/
 

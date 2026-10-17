@@ -140,5 +140,5 @@ def test_postdiction_row_matches_theorem_and_boundary() -> None:
 
 def test_qft_umbrella_imports_the_kernel_checked_module() -> None:
     umbrella = (ROOT / "Lean/QFT.lean").read_text(encoding="utf-8")
-    import_line = "import QFT.FiniteUnitaryScatteringNoGo"
+    import_line = "public import QFT.FiniteUnitaryScatteringNoGo"
     assert umbrella.splitlines().count(import_line) == 1

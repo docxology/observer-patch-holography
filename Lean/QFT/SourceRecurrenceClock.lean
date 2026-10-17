@@ -1,7 +1,10 @@
-import Mathlib
-import MixingChainRealization
-import PhysicalCalibrationImport
-import ObserverPatchHolography.RateBridgeObstruction
+module
+public import Mathlib
+public import MixingChainRealization
+public import PhysicalCalibrationImport
+public import ObserverPatchHolography.RateBridgeObstruction
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false

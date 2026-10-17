@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Coupling-Algebra Part A: Capacity Fixed-Point Schema
@@ -78,8 +81,8 @@ theorem capacity_Icc_unique_fixedPt {a b : ℝ} (hab : a ≤ b)
     (hmaps : Set.MapsTo f (Set.Icc a b) (Set.Icc a b))
     (hlip : LipschitzOnWith K f (Set.Icc a b)) :
     ∃! x : ℝ, x ∈ Set.Icc a b ∧ f x = x := by
-  haveI : Nonempty (Set.Icc a b) := (Set.nonempty_Icc.mpr hab).to_subtype
-  haveI : CompleteSpace (Set.Icc a b) := isClosed_Icc.isComplete.completeSpace_coe
+  have : Nonempty (Set.Icc a b) := (Set.nonempty_Icc.mpr hab).to_subtype
+  have : CompleteSpace (Set.Icc a b) := isClosed_Icc.isComplete.completeSpace_coe
   have hg : ContractingWith K (hmaps.restrict f _ _) :=
     ⟨hK, hlip.mapsToRestrict hmaps⟩
   obtain ⟨x, hx, huniq⟩ := banach_unique_fixedPt hg

@@ -1,5 +1,8 @@
-import LowTemperatureControl
-import FourLawAdequacySurface
+module
+public import LowTemperatureControl
+public import FourLawAdequacySurface
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -406,12 +409,12 @@ def ladderTrunc (r : ℕ) {s : ℕ} (x : LadderState s) : LadderState r :=
 theorem ladderTrunc_id (r : ℕ) (x : LadderState r) :
     ladderTrunc r x = x := by
   unfold ladderTrunc
-  exact dif_pos (Nat.lt_succ_iff.mp x.1.isLt)
+  exact dite_eq_left (Nat.lt_succ_iff.mp x.1.isLt)
 
 theorem ladderTrunc_ground (r s : ℕ) :
     ladderTrunc r (ladderGround s) = ladderGround r := by
   unfold ladderTrunc
-  exact dif_pos (Nat.zero_le r)
+  exact dite_eq_left (Nat.zero_le r)
 
 theorem ladderTrunc_comp {r s t : ℕ} (hrs : r ≤ s)
     (x : LadderState t) :
@@ -419,25 +422,25 @@ theorem ladderTrunc_comp {r s t : ℕ} (hrs : r ≤ s)
   by_cases hs : (x.1 : ℕ) ≤ s
   · have h1 : ladderTrunc s x
         = (⟨⟨(x.1 : ℕ), Nat.lt_succ_of_le hs⟩, x.2⟩ : LadderState s) :=
-      dif_pos hs
+      dite_eq_left hs
     rw [h1]
     by_cases hr : (x.1 : ℕ) ≤ r
     · have h2 : ladderTrunc r
           (⟨⟨(x.1 : ℕ), Nat.lt_succ_of_le hs⟩, x.2⟩ : LadderState s)
           = (⟨⟨(x.1 : ℕ), Nat.lt_succ_of_le hr⟩, x.2⟩ : LadderState r) :=
-        dif_pos hr
+        dite_eq_left hr
       have h3 : ladderTrunc r x
           = (⟨⟨(x.1 : ℕ), Nat.lt_succ_of_le hr⟩, x.2⟩ : LadderState r) :=
-        dif_pos hr
+        dite_eq_left hr
       rw [h2, h3]
     · have h2 : ladderTrunc r
           (⟨⟨(x.1 : ℕ), Nat.lt_succ_of_le hs⟩, x.2⟩ : LadderState s)
-          = ladderGround r := dif_neg hr
-      have h3 : ladderTrunc r x = ladderGround r := dif_neg hr
+          = ladderGround r := dite_eq_right hr
+      have h3 : ladderTrunc r x = ladderGround r := dite_eq_right hr
       rw [h2, h3]
   · have hr : ¬ (x.1 : ℕ) ≤ r := fun h => hs (le_trans h hrs)
-    have h1 : ladderTrunc s x = ladderGround s := dif_neg hs
-    have h3 : ladderTrunc r x = ladderGround r := dif_neg hr
+    have h1 : ladderTrunc s x = ladderGround s := dite_eq_right hs
+    have h3 : ladderTrunc r x = ladderGround r := dite_eq_right hr
     rw [h1, ladderTrunc_ground, h3]
 
 theorem ladderTrunc_energy_le (δ : ℝ) (hδ : 0 ≤ δ) (r : ℕ) {s : ℕ}
@@ -446,10 +449,10 @@ theorem ladderTrunc_energy_le (δ : ℝ) (hδ : 0 ≤ δ) (r : ℕ) {s : ℕ}
   by_cases h : (x.1 : ℕ) ≤ r
   · have h1 : ladderTrunc r x
         = (⟨⟨(x.1 : ℕ), Nat.lt_succ_of_le h⟩, x.2⟩ : LadderState r) :=
-      dif_pos h
+      dite_eq_left h
     rw [h1]
     exact le_of_eq rfl
-  · have h1 : ladderTrunc r x = ladderGround r := dif_neg h
+  · have h1 : ladderTrunc r x = ladderGround r := dite_eq_right h
     rw [h1, ladder_ground_energy]
     exact mul_nonneg (Nat.cast_nonneg _) hδ
 
@@ -492,22 +495,22 @@ theorem ladder_excitedSum_eq (δ : ℝ) (hδ : 0 < δ) (n : ℕ) (beta : ℝ) :
         then gibbsWeight (ladderEnergy δ n) beta ⟨k, i⟩ else 0)
       = if (k : ℕ) ≠ 0 then (2 * Real.exp (-beta * δ)) ^ (k : ℕ) else 0
     by_cases hk : (k : ℕ) = 0
-    · rw [if_neg (fun h => h hk)]
+    · rw [ite_eq_right (fun h => h hk)]
       apply Finset.sum_eq_zero
       intro i _
-      apply if_neg
+      apply ite_eq_right
       intro hcon
       apply hcon
       show (((k : ℕ) : ℝ)) * δ = 0
       rw [hk]
       simp
-    · rw [if_pos hk]
+    · rw [ite_eq_left hk]
       have hall : ∀ i ∈ (Finset.univ : Finset (Fin (2 ^ (k : ℕ)))),
           (if ladderEnergy δ n ⟨k, i⟩ ≠ 0
            then gibbsWeight (ladderEnergy δ n) beta ⟨k, i⟩ else 0)
           = Real.exp (-beta * (((k : ℕ) : ℝ) * δ)) := by
         intro i _
-        rw [if_pos (show ladderEnergy δ n ⟨k, i⟩ ≠ 0 from
+        rw [ite_eq_left (show ladderEnergy δ n ⟨k, i⟩ ≠ 0 from
           mul_ne_zero (Nat.cast_ne_zero.mpr hk) hδ.ne')]
         rfl
       rw [Finset.sum_congr rfl hall, Finset.sum_const,
@@ -619,7 +622,8 @@ noncomputable def ladderFamily (δ : ℝ) (hδ : 0 < δ) :
       have h := hnum.const_sub 1
       simpa using h
     have h := hnum.div hden one_ne_zero
-    simpa using h
+    convert h using 1
+    simp
 
 /-- Stage `n` of the ladder has at least `2^n` states: level `n` alone
 carries `2^n` copies. -/

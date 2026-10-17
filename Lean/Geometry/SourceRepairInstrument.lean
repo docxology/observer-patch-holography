@@ -1,5 +1,8 @@
-import Dynamics.ChoiCPTP
-import Geometry.SourceOperationReads
+module
+public import Dynamics.ChoiCPTP
+public import Geometry.SourceOperationReads
+
+@[expose] public section
 
 /-!
 # Quantum extensions and obstructions for the registered scalar repair
@@ -150,7 +153,7 @@ theorem threshold_nonaffine (epsilon delta : ℝ) (hd : 0 < delta)
   have h2 : ¬ |2*(1/2+2*delta)-1| ≤ epsilon := by
     rw [show 2*(1/2+2*delta)-1 = 4*delta by ring, abs_of_pos (by positivity)]
     linarith
-  simp only [thresholdRead, if_pos h1, if_neg h2]
+  simp only [thresholdRead, ite_eq_left h1, ite_eq_right h2]
   norm_num [epos]
   linarith
 

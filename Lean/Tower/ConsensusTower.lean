@@ -1,5 +1,8 @@
-import EventAlgebra.PublicRecordAlgebra
-import Time.TimeOrderLedger
+module
+public import EventAlgebra.PublicRecordAlgebra
+public import Time.TimeOrderLedger
+
+@[expose] public section
 
 /-!
 # Timeless finite observer-consensus towers
@@ -172,7 +175,7 @@ The private algebra is `M_n(ℂ)`, the sole observer's public algebra is exactly
 `part.publicSubalgebra`, and the record type is exactly `part.ActiveIndex`.
 The discrete order and zero generator prevent this adaptor from smuggling in
 history, dynamics, or a physical clock. -/
-noncomputable def constantConsensusTower
+noncomputable abbrev constantConsensusTower
     (part : EventAlgebra.ProjectivePartition n k)
     (ρ : EventAlgebra.StateMatrix n) : ConsensusTower Unit where
   indexNonempty := ⟨()⟩

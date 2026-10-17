@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 namespace OPH.A5CharacterField
 
@@ -138,7 +141,7 @@ theorem dims_readout (m : Fin 5 → ℕ) :
 /-- Inside the twelve-port module `1 + 3 + 3' + 5` the multiplicities are
 bounded by `1, 1, 1, 0, 1`; with the Galois constraint `m 1 = m 2` the
 dimension takes one of seven values. -/
-theorem centreDim_cases (m : Fin 5 → ℕ) (h0 : m 0 ≤ 1) (h1 : m 1 ≤ 1)
+theorem centreDim_cases (m : Fin 5 → ℕ) (h0 : m 0 ≤ 1) (_h1 : m 1 ≤ 1)
     (h2 : m 2 ≤ 1) (h3 : m 3 = 0) (h4 : m 4 ≤ 1) (hg : m 1 = m 2) :
     let d := m 0 + 3 * m 1 + 3 * m 2 + 4 * m 3 + 5 * m 4
     d = 0 ∨ d = 1 ∨ d = 5 ∨ d = 6 ∨ d = 7 ∨ d = 11 ∨ d = 12 := by

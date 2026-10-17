@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Exact observable fibers
@@ -73,7 +76,7 @@ theorem canonicalPartialNormalizer_spec
     simp [canonicalPartialNormalizer]
   · intro c hc
     have hfiber : (fiber C B (B c)).Nonempty := ⟨c, hc, rfl⟩
-    rw [canonicalPartialNormalizer, dif_pos hfiber]
+    rw [canonicalPartialNormalizer, dite_eq_left hfiber]
     apply congrArg some
     apply Subtype.ext
     exact hinj (Classical.choose_spec hfiber).1 hc (Classical.choose_spec hfiber).2
@@ -82,8 +85,8 @@ theorem canonicalPartialNormalizer_spec
     · have hy : (fiber C B (B y)).Nonempty := by
         rcases hx with ⟨c, hc, hcx⟩
         exact ⟨c, hc, hcx.trans hxy⟩
-      rw [canonicalPartialNormalizer, dif_pos hx,
-        canonicalPartialNormalizer, dif_pos hy]
+      rw [canonicalPartialNormalizer, dite_eq_left hx,
+        canonicalPartialNormalizer, dite_eq_left hy]
       apply congrArg some
       apply Subtype.ext
       apply hinj (Classical.choose_spec hx).1 (Classical.choose_spec hy).1
@@ -111,7 +114,7 @@ theorem partialNormalizer_unique
     | none => exact absurd hNx hNne
     | some d =>
         let hxfiber : (fiber C B (B x)).Nonempty := ⟨c, hc, hBc⟩
-        rw [canonicalPartialNormalizer, dif_pos hxfiber]
+        rw [canonicalPartialNormalizer, dite_eq_left hxfiber]
         apply congrArg some
         apply Subtype.ext
         apply hinj d.2 (Classical.choose_spec hxfiber).1
@@ -296,7 +299,11 @@ inductive State where
   | start
   | intended
   | escaped
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype State where
+  elems := {.start, .intended, .escaped}
+  complete := by intro state; cases state <;> simp
 
 open State
 

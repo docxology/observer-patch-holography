@@ -1,4 +1,7 @@
-import ObserverPatchHolography.EinsteinBranch.PerCutCollarComposition
+module
+public import ObserverPatchHolography.EinsteinBranch.PerCutCollarComposition
+
+@[expose] public section
 
 /-!
 # Per-cut collar premises from independence and cut geometry
@@ -577,7 +580,7 @@ theorem gappyCut_not_dense :
 /-- Exactly one sparse cut lies within radius `3`. -/
 theorem gappyCut_indexSet : {k : ℕ | gappyCut k ≤ 3} = Set.Iio 1 := by
   ext k
-  simp only [Set.mem_setOf_eq, Set.mem_Iio, gappyCut]
+  simp only [Set.mem_ofPred_eq, Set.mem_Iio, gappyCut]
   constructor
   · intro h
     by_contra hk
@@ -628,7 +631,7 @@ theorem unitCutFamily_count_two : unitCutFamily.count 2 = 2 := by
 coin atoms on the product of two fair coins, each contributing
 `headsIndicator` of its own coordinate, with per-atom variance `1 / 4` and
 unit mass `1`. -/
-def coinPairModel : AtomicDefectModel where
+abbrev coinPairModel : AtomicDefectModel where
   Ω := Fin 2 → Bool
   mΩ := inferInstance
   μ := Measure.pi fun _ => coinMeasure

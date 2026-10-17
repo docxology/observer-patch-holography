@@ -1,5 +1,8 @@
-import ObserverPatchHolography.EinsteinBranch.Composition
-import EinsteinPremiseLink
+module
+public import ObserverPatchHolography.EinsteinBranch.Composition
+public import EinsteinPremiseLink
+
+@[expose] public section
 
 /-!
 # Register surface for the composed Einstein branch

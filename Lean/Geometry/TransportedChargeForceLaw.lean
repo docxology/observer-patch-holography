@@ -1,4 +1,7 @@
-import Geometry.WorldlineHopTransport
+module
+public import Geometry.WorldlineHopTransport
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -340,11 +343,11 @@ theorem sum_two_site_difference (f f' : ℕ → ℝ) (M j : ℕ) (hj : j + 1 < M
     · by_cases h2 : n = j + 1
       · subst h2
         simp
-      · rw [hne n h1 h2, if_neg h1, if_neg h2]
+      · rw [hne n h1 h2, ite_eq_right h1, ite_eq_right h2]
         ring
   rw [← Finset.sum_sub_distrib, Finset.sum_congr rfl fun n _ ↦ hpt n, Finset.sum_add_distrib,
-    Finset.sum_ite_eq', Finset.sum_ite_eq', if_pos (Finset.mem_range.mpr (by omega)),
-    if_pos (Finset.mem_range.mpr hj)]
+    Finset.sum_ite_eq', Finset.sum_ite_eq', ite_eq_left (Finset.mem_range.mpr (by omega)),
+    ite_eq_left (Finset.mem_range.mpr hj)]
   ring
 
 /-- The potential pairing along a two-step route `u → p → x` starting at
@@ -705,15 +708,15 @@ theorem hopIndicator_symm (u v : Fin 12) : hopIndicator v u = -hopIndicator u v 
   by_cases h1 : seamLeft e = v ∧ seamRight e = u
   · have h3 : ¬ (seamLeft e = u ∧ seamRight e = v) := fun h3 ↦
       hlt.ne (h1.1.trans h3.2.symm)
-    rw [if_pos h1, if_neg h3, if_pos ⟨h1.2, h1.1⟩]
+    rw [ite_eq_left h1, ite_eq_right h3, ite_eq_left ⟨h1.2, h1.1⟩]
     norm_num
   · by_cases h2 : seamRight e = v ∧ seamLeft e = u
     · have h4 : ¬ (seamRight e = u ∧ seamLeft e = v) := fun h4 ↦
         hlt.ne (h4.2.trans h2.1.symm)
-      rw [if_neg h1, if_pos h2, if_pos ⟨h2.2, h2.1⟩]
+      rw [ite_eq_right h1, ite_eq_left h2, ite_eq_left ⟨h2.2, h2.1⟩]
     · have h3 : ¬ (seamLeft e = u ∧ seamRight e = v) := fun h3 ↦ h2 ⟨h3.2, h3.1⟩
       have h4 : ¬ (seamRight e = u ∧ seamLeft e = v) := fun h4 ↦ h1 ⟨h4.2, h4.1⟩
-      rw [if_neg h1, if_neg h2, if_neg h3, if_neg h4]
+      rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3, ite_eq_right h4]
       norm_num
 
 /-- The circulation of a static seam potential around the port loop

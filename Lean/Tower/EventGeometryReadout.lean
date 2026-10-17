@@ -1,4 +1,7 @@
-import ObserverPatchHolography.EinsteinBranch.Consensus
+module
+public import ObserverPatchHolography.EinsteinBranch.Consensus
+
+@[expose] public section
 
 /-!
 # All-quotient event and geometry readout over the bare consensus tower

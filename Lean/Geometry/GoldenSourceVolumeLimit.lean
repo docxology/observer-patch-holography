@@ -1,5 +1,8 @@
-import Geometry.SourceNetVolumeError
-import Geometry.GoldenSourceCausalLimit
+module
+public import Geometry.SourceNetVolumeError
+public import Geometry.GoldenSourceCausalLimit
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -53,7 +56,7 @@ theorem golden_weighted_error {n : ℕ} (hn : 0 < n) {L c : ℝ} (hL : 0 < L) (h
       (show y ∈ cube L from fun i _ => hy i))
   · intro i
     exact Eventually.of_forall fun y hy => by
-      simpa only [dist_eq_norm] using tensor_assignment hn hL.le i (WithLp.toLp 2 y)
+      simpa only [dist_eq_norm, assignment] using tensor_assignment hn hL.le i (WithLp.toLp 2 y)
         (fun k => ⟨(hy k (mem_univ k)).1, (hy k (mem_univ k)).2.le⟩)
   · exact mem_range_self b
   · intro y hy i

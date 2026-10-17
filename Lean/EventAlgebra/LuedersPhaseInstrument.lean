@@ -1,5 +1,8 @@
-import EventAlgebra.OperationalPhaseAttainment
-import Dynamics.ChoiCPTP
+module
+public import EventAlgebra.OperationalPhaseAttainment
+public import Dynamics.ChoiCPTP
+
+@[expose] public section
 
 set_option autoImplicit false
 

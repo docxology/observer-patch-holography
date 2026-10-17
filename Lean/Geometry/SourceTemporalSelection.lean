@@ -1,7 +1,10 @@
-import Geometry.SourceTemporalObservation
-import Geometry.SourceConstrainedSelection
-import Geometry.SourceTemporalMenu
-import Geometry.SourceTemporalConnected
+module
+public import Geometry.SourceTemporalObservation
+public import Geometry.SourceConstrainedSelection
+public import Geometry.SourceTemporalMenu
+public import Geometry.SourceTemporalConnected
+
+@[expose] public section
 
 /-!
 # Exact temporal grammar for a constrained classical information projection
@@ -24,9 +27,10 @@ variable {V I W : Type*} [AddCommGroup V] [Module ℝ V] [Fintype I] [Fintype W]
 def Certain (L : W → I → V →ₗ[ℝ] ℝ) (f : V →ₗ[ℝ] ℝ) (p : W → ℝ) : Prop :=
   ∀ w, 0 < p w → Observable (L w) f
 
+omit [Fintype I] in
 /-- Exact necessity and sufficiency, strengthening a crossing-only test.
 All weights, references and feasible constraints are explicit inputs. -/
-theorem selected_certain_iff (K : Set (W → ℝ)) (hK : Convex ℝ K)
+theorem selected_certain_iff [_instFintypeI : Fintype I] (K : Set (W → ℝ)) (hK : Convex ℝ K)
     (hn : ∀ p ∈ K, ∀ w, 0 ≤ p w) (weight reference selected : W → ℝ)
     (hw : ∀ w, 0 < weight w) (hr : ∀ w, 0 < reference w) (hp : selected ∈ K)
     (hm : ∀ q ∈ K, weightedKL weight reference selected ≤ weightedKL weight reference q)

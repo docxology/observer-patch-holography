@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Einstein-branch tensor algebra
@@ -137,7 +140,7 @@ theorem eta_symm : ∀ i j : Fin (n + 1), eta n i j = eta n j i := by
   by_cases h : i = j
   · subst h
     rfl
-  · rw [if_neg h, if_neg (Ne.symm h)]
+  · rw [ite_eq_right h, ite_eq_right (Ne.symm h)]
 
 @[simp] theorem eta_zero_zero : eta n 0 0 = -1 := by simp [eta]
 

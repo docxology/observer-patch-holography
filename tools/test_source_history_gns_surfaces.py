@@ -80,7 +80,7 @@ def test_lean_packet_keeps_source_and_quantum_layers_distinct() -> None:
     assert "the source data only fixes its diagonal" in source
     assert "has no physical clock calibration" in source
     umbrella = (ROOT / "Lean/QFT.lean").read_text(encoding="utf-8")
-    assert umbrella.splitlines().count("import QFT.SourceHistoryGNSDynamics") == 1
+    assert umbrella.splitlines().count("public import QFT.SourceHistoryGNSDynamics") == 1
     assert "exact mean energy `197 / 1754`" in umbrella
 
 

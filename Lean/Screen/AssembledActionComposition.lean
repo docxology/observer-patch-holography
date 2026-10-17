@@ -1,5 +1,8 @@
-import GaugeKineticInvariantForms
-import ElectroweakBreakingComposition
+module
+public import GaugeKineticInvariantForms
+public import ElectroweakBreakingComposition
+
+@[expose] public section
 
 /-!
 # The first assembled structural action (V3, issue #735, OL-G9)

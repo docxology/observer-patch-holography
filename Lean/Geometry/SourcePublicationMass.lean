@@ -1,6 +1,9 @@
-import Geometry.SourceCheckpointPolicy
-import Mathlib.Topology.Order.MonotoneConvergence
-import Mathlib.Topology.Algebra.InfiniteSum.Basic
+module
+public import Geometry.SourceCheckpointPolicy
+public import Mathlib.Topology.Order.MonotoneConvergence
+public import Mathlib.Topology.Algebra.InfiniteSum.Basic
+
+@[expose] public section
 
 /-!
 # Monotone native-publication masses
@@ -111,10 +114,10 @@ theorem eventual_harmonic (step : S → A → S) (weight : S → A → ℝ)
     (f : S → ℝ) (hf : ∀ s, f s ≤ 1)
     (hp : ∀ s, f s ≤ ∑ a, weight s a * f (step s a)) (s : S) :
     ∑ a, weight s a * eventual step weight f (step s a) = eventual step weight f s := by
-  have hl := tendsto_finset_sum Finset.univ (fun a _ =>
+  have hl := tendsto_finsetSum Finset.univ (fun a _ =>
     (mass_tendsto step weight hw hs f hf hp (step s a)).const_mul (weight s a))
   have hr := (mass_tendsto step weight hw hs f hf hp s).comp (tendsto_add_atTop_nat 1)
-  exact tendsto_nhds_unique hl (by simpa only [mass] using hr)
+  exact tendsto_nhds_unique hl (by simpa only [Function.comp_def, mass] using hr)
 
 theorem eventual_pos_iff (step : S → A → S) (weight : S → A → ℝ)
     (hw : ∀ s a, 0 ≤ weight s a) (hs : ∀ s, ∑ a, weight s a = 1)

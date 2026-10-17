@@ -1,6 +1,9 @@
-import Mathlib
-import Z6Exact
-import TraceBalancedKernel
+module
+public import Mathlib
+public import Z6Exact
+public import TraceBalancedKernel
+
+@[expose] public section
 
 namespace OPH.Z6Descent
 

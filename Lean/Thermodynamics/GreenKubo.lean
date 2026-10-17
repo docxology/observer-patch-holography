@@ -1,4 +1,7 @@
-import FluctuationTheorems
+module
+public import FluctuationTheorems
+
+@[expose] public section
 
 namespace OPH.Thermodynamics
 

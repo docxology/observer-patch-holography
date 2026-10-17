@@ -1,4 +1,8 @@
-import ObserverPatchHolography.CollarLayer
+module
+public import ObserverPatchHolography.CollarLayer
+public import Mathlib.Analysis.Matrix.Order
+
+@[expose] public section
 
 /-!
 # #544 state-side layer: T0 : the identity-channel no-go with real states
@@ -82,9 +86,13 @@ theorem uu_sq : uu * uu = 1 := by decide
 
 theorem XX_sq : XX * XX = 1 := by decide
 
-theorem uu_symm : ∀ i j, uu i j = uu j i := by decide
+theorem uu_symm : ∀ i j, uu i j = uu j i := by
+  intro i j
+  fin_cases i <;> fin_cases j <;> decide +kernel
 
-theorem XX_symm : ∀ i j, XX i j = XX j i := by decide
+theorem XX_symm : ∀ i j, XX i j = XX j i := by
+  intro i j
+  fin_cases i <;> fin_cases j <;> decide +kernel
 
 theorem uu_trace_eq : uu.trace = 0 := by decide
 
@@ -225,7 +233,6 @@ theorem invariant_of_comm_uuC {a : CollarC} (h : uuC * a = a * uuC) :
     subst hm
     exact h.symm
   have hk' := hle hk
-  rw [Subring.mem_centralizer_iff] at hk'
   exact (hk' a rfl).symm
 
 theorem uuC_invariant : GaugeInvariantC uuC := invariant_of_comm_uuC rfl
@@ -445,7 +452,7 @@ theorem sgnC_mul_ne {s s' : Fin 2} (h : s ≠ s') :
 theorem quP_mul (s s' : Fin 2) :
     quP s * quP s' = if s = s' then quP s else 0 := by
   rcases eq_or_ne s s' with rfl | h
-  · rw [if_pos rfl, quP, Matrix.smul_mul, Matrix.mul_smul, smul_smul]
+  · rw [ite_eq_left rfl, quP, Matrix.smul_mul, Matrix.mul_smul, smul_smul]
     rw [add_mul, one_mul, mul_add, mul_one, smul_mul_smul_comm, uuC_sq,
       sgnC_sq, one_smul]
     rw [show ((1 : CollarC) + ((sgnR s : ℝ) : ℂ) • uuC)
@@ -455,7 +462,7 @@ theorem quP_mul (s s' : Fin 2) :
       abel]
     rw [smul_smul]
     norm_num
-  · rw [if_neg h, quP, quP, Matrix.smul_mul, Matrix.mul_smul, smul_smul]
+  · rw [ite_eq_right h, quP, quP, Matrix.smul_mul, Matrix.mul_smul, smul_smul]
     rw [add_mul, one_mul, mul_add, mul_one, smul_mul_smul_comm, uuC_sq,
       sgnC_mul_ne h]
     rw [show ((1 : CollarC) + ((sgnR s' : ℝ) : ℂ) • uuC)
@@ -473,7 +480,7 @@ theorem quP_mul (s s' : Fin 2) :
 theorem qxP_mul (t t' : Fin 2) :
     qxP t * qxP t' = if t = t' then qxP t else 0 := by
   rcases eq_or_ne t t' with rfl | h
-  · rw [if_pos rfl, qxP, Matrix.smul_mul, Matrix.mul_smul, smul_smul]
+  · rw [ite_eq_left rfl, qxP, Matrix.smul_mul, Matrix.mul_smul, smul_smul]
     rw [add_mul, one_mul, mul_add, mul_one, smul_mul_smul_comm, XXC_sq,
       sgnC_sq, one_smul]
     rw [show ((1 : CollarC) + ((sgnR t : ℝ) : ℂ) • XXC)
@@ -483,7 +490,7 @@ theorem qxP_mul (t t' : Fin 2) :
       abel]
     rw [smul_smul]
     norm_num
-  · rw [if_neg h, qxP, qxP, Matrix.smul_mul, Matrix.mul_smul, smul_smul]
+  · rw [ite_eq_right h, qxP, qxP, Matrix.smul_mul, Matrix.mul_smul, smul_smul]
     rw [add_mul, one_mul, mul_add, mul_one, smul_mul_smul_comm, XXC_sq,
       sgnC_mul_ne h]
     rw [show ((1 : CollarC) + ((sgnR t' : ℝ) : ℂ) • XXC)
@@ -523,19 +530,19 @@ theorem specProjP_mul (p q : Fin 2 × Fin 2) :
     rw [← mul_assoc (quP p.1) (quP q.1) (qxP p.2 * qxP q.2)]
   rw [key, quP_mul, qxP_mul]
   rcases eq_or_ne p q with rfl | h
-  · rw [if_pos rfl, if_pos rfl, if_pos rfl, specProjP]
-  · rw [if_neg h]
+  · rw [ite_eq_left rfl, ite_eq_left rfl, ite_eq_left rfl, specProjP]
+  · rw [ite_eq_right h]
     have h' : p.1 ≠ q.1 ∨ p.2 ≠ q.2 := by
       rcases eq_or_ne p.1 q.1 with h1 | h1
       · exact Or.inr fun h2 => h (Prod.ext h1 h2)
       · exact Or.inl h1
     rcases h' with h1 | h2
-    · rw [if_neg h1, zero_mul]
-    · rw [if_neg h2, mul_zero]
+    · rw [ite_eq_right h1, zero_mul]
+    · rw [ite_eq_right h2, mul_zero]
 
 theorem specProjP_idem (p : Fin 2 × Fin 2) :
     specProjP p * specProjP p = specProjP p := by
-  rw [specProjP_mul, if_pos rfl]
+  rw [specProjP_mul, ite_eq_left rfl]
 
 theorem sum_quP : ∑ s : Fin 2, quP s = 1 := by
   rw [Fin.sum_univ_two]
@@ -735,9 +742,9 @@ theorem exp_sum_smul_specProjP (c : Fin 2 × Fin 2 → ℂ) :
       rw [Finset.mul_sum]
       rw [Finset.sum_eq_single p
         (fun q _ hq => by
-          rw [smul_mul_smul_comm, specProjP_mul, if_neg (Ne.symm hq), smul_zero])
+          rw [smul_mul_smul_comm, specProjP_mul, ite_eq_right (Ne.symm hq), smul_zero])
         (fun h => absurd (Finset.mem_univ p) h)]
-      rw [smul_mul_smul_comm, specProjP_mul, if_pos rfl, ← pow_succ]
+      rw [smul_mul_smul_comm, specProjP_mul, ite_eq_left rfl, ← pow_succ]
   rw [exp_eq_tsum ℂ]
   simp only [hpow]
   have hsummand : ∀ n : ℕ,
@@ -845,8 +852,7 @@ NOT needed for T0 and is not claimed. -/
 
 section StateSide
 
-attribute [local instance] Matrix.linftyOpNormedAddCommGroup
-  Matrix.linftyOpNormedRing Matrix.linftyOpNormedAlgebra
+open scoped Matrix.Norms.L2Operator
 
 /-- The matrix logarithm on the collar algebra, via the continuous
     functional calculus (Mathlib has no `Matrix.log`). -/
@@ -966,9 +972,9 @@ theorem sum_smul_specProjP_mul (c d : Fin 2 × Fin 2 → ℂ) :
   rw [Finset.mul_sum]
   rw [Finset.sum_eq_single p
     (fun q _ hq => by
-      rw [smul_mul_smul_comm, specProjP_mul, if_neg (Ne.symm hq), smul_zero])
+      rw [smul_mul_smul_comm, specProjP_mul, ite_eq_right (Ne.symm hq), smul_zero])
     (fun h => absurd (Finset.mem_univ p) h)]
-  rw [smul_mul_smul_comm, specProjP_mul, if_pos rfl]
+  rw [smul_mul_smul_comm, specProjP_mul, ite_eq_left rfl]
 
 /-- The relative entropy between two Gibbs states of the retained family
     is the classical Kullback–Leibler divergence of their spectral

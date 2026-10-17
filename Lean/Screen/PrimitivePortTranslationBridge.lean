@@ -1,6 +1,9 @@
-import Mathlib
-import A5PortModule
-import A5PrimitivePortPrediction
+module
+public import Mathlib
+public import A5PortModule
+public import A5PrimitivePortPrediction
+
+@[expose] public section
 
 open scoped BigOperators
 

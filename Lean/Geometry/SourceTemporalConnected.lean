@@ -1,5 +1,8 @@
-import Geometry.SourceTemporalTomography
-import Mathlib.Combinatorics.SimpleGraph.Connectivity.Connected
+module
+public import Geometry.SourceTemporalTomography
+public import Mathlib.Combinatorics.SimpleGraph.Connectivity.Connected
+
+@[expose] public section
 
 /-!
 # Connected support constructs a complete native read plan
@@ -27,7 +30,8 @@ def Rooted (G : SimpleGraph P) (root : P) (K : Finset P) : Prop :=
   ∀ p ∈ K, ∃ vs : List P, (p::vs).Nodup ∧ destination p vs = root ∧
     (∀ q ∈ vs, q ∈ K) ∧ Supported G (route p vs)
 
-theorem walk_stays (G : SimpleGraph P) (K : Set P)
+omit [DecidableEq P] in
+theorem walk_stays [_instDecidableEqP : DecidableEq P] (G : SimpleGraph P) (K : Set P)
     (closed : ∀ a ∈ K, ∀ b, G.Adj a b → b ∈ K)
     {a b : P} (walk : G.Walk a b) (ha : a ∈ K) : b ∈ K := by
   induction walk with

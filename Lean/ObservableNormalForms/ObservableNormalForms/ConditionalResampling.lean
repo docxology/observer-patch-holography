@@ -1,4 +1,7 @@
-import ObservableNormalForms.Stochastic
+module
+public import ObservableNormalForms.Stochastic
+
+@[expose] public section
 
 /-!
 # Finite conditional resampling
@@ -77,7 +80,7 @@ noncomputable def transition (M : FiniteWeightedObservation S O) (x y : S) : ℝ
 theorem transition_nonneg (M : FiniteWeightedObservation S O) (x y : S) :
     0 ≤ M.transition x y := by
   by_cases hxy : M.observe y = M.observe x
-  · simp only [transition, hxy, if_true]
+  · simp only [transition, hxy, ite_true]
     exact div_nonneg (M.weight_pos y).le (M.fiberMass_pos x).le
   · simp [transition, hxy]
 
@@ -132,11 +135,11 @@ theorem conditionalResamplingKernel_fiberRowConstant
   show M.transition x y = M.transition x' y
   by_cases hyx : M.observe y = M.observe x
   · have hyx' : M.observe y = M.observe x' := hyx.trans hxx'
-    rw [transition, transition, if_pos hyx, if_pos hyx',
+    rw [transition, transition, ite_eq_left hyx, ite_eq_left hyx',
       M.fiberMass_eq_of_observe_eq hxx']
   · have hyx' : M.observe y ≠ M.observe x' :=
       fun hyx' => hyx (hyx'.trans hxx'.symm)
-    rw [transition, transition, if_neg hyx, if_neg hyx']
+    rw [transition, transition, ite_eq_right hyx, ite_eq_right hyx']
 
 theorem conditionalResamplingKernel_weightedDetailedBalance
     (M : FiniteWeightedObservation S O) :
@@ -144,11 +147,11 @@ theorem conditionalResamplingKernel_weightedDetailedBalance
   intro x y
   show M.weight x * M.transition x y = M.weight y * M.transition y x
   by_cases hxy : M.observe x = M.observe y
-  · rw [transition, transition, if_pos hxy.symm, if_pos hxy,
+  · rw [transition, transition, ite_eq_left hxy.symm, ite_eq_left hxy,
       M.fiberMass_eq_of_observe_eq hxy]
     ring
   · have hyx : M.observe y ≠ M.observe x := fun hyx => hxy hyx.symm
-    rw [transition, transition, if_neg hyx, if_neg hxy]
+    rw [transition, transition, ite_eq_right hyx, ite_eq_right hxy]
     ring
 
 /-- Conditional resampling of a real-valued function. -/
@@ -228,7 +231,7 @@ theorem observationMeasurable_iff_exists_factor
     change f x = g (M.observe x)
     rw [show g (M.observe x) = f (Classical.choose hx) by
       simp only [g]
-      rw [dif_pos hx]]
+      rw [dite_eq_left hx]]
     exact (hf hchoice).symm
   · rintro ⟨g, rfl⟩ x y hxy
     simp only [Function.comp_apply]
@@ -289,12 +292,12 @@ theorem pairWeight_comm (M : FiniteWeightedObservation S O) (x y : S) :
     M.pairWeight x y = M.pairWeight y x := by
   by_cases hxy : M.observe x = M.observe y
   · rw [pairWeight, pairWeight, transition, transition,
-      if_pos hxy.symm, if_pos hxy]
+      ite_eq_left hxy.symm, ite_eq_left hxy]
     rw [M.fiberMass_eq_of_observe_eq hxy]
     ring
   · have hyx : M.observe y ≠ M.observe x := fun hyx => hxy hyx.symm
     rw [pairWeight, pairWeight, transition, transition,
-      if_neg hxy, if_neg hyx]
+      ite_eq_right hxy, ite_eq_right hyx]
     ring
 
 theorem finiteMarkovKernel_ext
@@ -346,8 +349,8 @@ theorem kernel_eq_conditionalResamplingKernel_of_recognition
           apply Finset.sum_congr rfl
           intro z _
           by_cases hzx : M.observe z = M.observe x
-          · rw [if_pos hzx]
-          · rw [if_neg hzx]
+          · rw [ite_eq_left hzx]
+          · rw [ite_eq_right hzx]
             exact (hSupport (fun hxz => hzx hxz.symm)).symm
         _ = 1 := K.probability_sum_one x
     have hnormal :
@@ -367,10 +370,10 @@ theorem kernel_eq_conditionalResamplingKernel_of_recognition
         K.probability x x / M.weight x = 1 / M.fiberMass x := by
       apply (eq_div_iff (M.fiberMass_ne_zero x)).2
       simpa [mul_comm] using hnormal
-    rw [transition, if_pos hyx, hentry, hconstant]
+    rw [transition, ite_eq_left hyx, hentry, hconstant]
     ring
   · have hxy : M.observe x ≠ M.observe y := fun hxy => hyx hxy.symm
-    rw [hSupport hxy, transition, if_neg hyx]
+    rw [hSupport hxy, transition, ite_eq_right hyx]
 
 /-- Exact matrix recognition: a finite Markov kernel is the conditional
 fiber-resampling kernel if and only if it satisfies R1 fiber support, R2

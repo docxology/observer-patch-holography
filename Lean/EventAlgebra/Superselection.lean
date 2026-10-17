@@ -1,4 +1,7 @@
-import EventAlgebra.PartitionAverage
+module
+public import EventAlgebra.PartitionAverage
+
+@[expose] public section
 
 /-!
 # Operational invisibility of partition-off-diagonal data
@@ -115,11 +118,11 @@ theorem bornWeight_partitionCorner_proj_eq_zero
       _ = ((part.proj j * part.proj i) * X).trace := by
         rw [mul_assoc]
       _ = 0 := by
-        rw [part.proj_mul_proj, if_neg (Ne.symm hij), zero_mul, trace_zero]
+        rw [part.proj_mul_proj, ite_eq_right (Ne.symm hij), zero_mul, trace_zero]
   · rw [show (part.proj i * X * part.proj j) * part.proj l =
         part.proj i * X * (part.proj j * part.proj l) by
           simp only [mul_assoc]]
-    rw [part.proj_mul_proj, if_neg hjl, mul_zero, trace_zero]
+    rw [part.proj_mul_proj, ite_eq_right hjl, mul_zero, trace_zero]
 
 /-- **Algebra-only.** Sector pinching erases every cross-sector corner
 exactly. -/

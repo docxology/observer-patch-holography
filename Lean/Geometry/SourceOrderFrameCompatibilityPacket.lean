@@ -1,5 +1,8 @@
-import Geometry.SourceDerivedSpacetimeCarrier
-import Geometry.SpatialReadbackSoldering
+module
+public import Geometry.SourceDerivedSpacetimeCarrier
+public import Geometry.SpatialReadbackSoldering
+
+@[expose] public section
 
 /-!
 # Finite source-order/frame compatibility packet

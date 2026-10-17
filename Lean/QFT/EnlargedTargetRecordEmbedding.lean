@@ -1,4 +1,7 @@
-import QFT.SourceHistoryExpectationNet
+module
+public import QFT.SourceHistoryExpectationNet
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false
@@ -121,7 +124,7 @@ def swapStageEquiv :
       Matrix (ThreeSlotIndex × Spin) (ThreeSlotIndex × Spin) ℂ :=
   StarAlgEquiv.ofAlgEquiv (Matrix.reindexAlgEquiv ℂ ℂ slotSwap)
     (fun M => by
-      simp only [Matrix.reindexAlgEquiv_apply, Matrix.star_eq_conjTranspose]
+      simp only [Matrix.coe_reindexAlgEquiv, Matrix.star_eq_conjTranspose]
       exact reindex_conjTranspose slotSwap M)
 
 @[simp]
@@ -140,7 +143,7 @@ def enlargedStageEquiv :
       EnlargedHistoryMatrix :=
   StarAlgEquiv.ofAlgEquiv (Matrix.reindexAlgEquiv ℂ ℂ enlargedIndexEquiv)
     (fun M => by
-      simp only [Matrix.reindexAlgEquiv_apply, Matrix.star_eq_conjTranspose]
+      simp only [Matrix.coe_reindexAlgEquiv, Matrix.star_eq_conjTranspose]
       exact reindex_conjTranspose enlargedIndexEquiv M)
 
 @[simp]
@@ -155,14 +158,10 @@ factor, and read the first three coordinates back as the source carrier.
 The slot-two record bit of each history is thereby carried by the ancilla
 factor. -/
 def recordEmbedding : HistoryMatrix →⋆ₐ[ℂ] EnlargedHistoryMatrix :=
-  ((enlargedStageEquiv :
-      Matrix (ThreeSlotIndex × Spin) (ThreeSlotIndex × Spin) ℂ →⋆ₐ[ℂ]
-        EnlargedHistoryMatrix).comp
-    ((swapStageEquiv :
-        Matrix (ThreeSlotIndex × Spin) (ThreeSlotIndex × Spin) ℂ →⋆ₐ[ℂ]
-          Matrix (ThreeSlotIndex × Spin) (ThreeSlotIndex × Spin) ℂ).comp
+  (enlargedStageEquiv.toStarAlgHom.comp
+    (swapStageEquiv.toStarAlgHom.comp
       (slotLeft Spin (α := ThreeSlotIndex)))).comp
-    (historyStageEquiv.symm : HistoryMatrix →⋆ₐ[ℂ] ThreeSlotMatrix)
+    historyStageEquiv.symm.toStarAlgHom
 
 /-! ## The enlarged target `algebra01 ⊗ M₂(ℂ)` -/
 
@@ -401,7 +400,7 @@ theorem recordEmbedding_injective : Function.Injective recordEmbedding := by
   have h1 := congrFun (congrFun hXY (readout g 0, sourceState2 g))
     (readout g' 0, sourceState2 g')
   rw [recordEmbedding_apply, recordEmbedding_apply,
-    sourceState2_readout, sourceState2_readout, if_pos rfl, if_pos rfl,
+    sourceState2_readout, sourceState2_readout, ite_eq_left rfl, ite_eq_left rfl,
     readout_readout, readout_readout, readout_slot2, readout_slot2] at h1
   exact h1
 
@@ -483,7 +482,7 @@ theorem enlargedExpectation_recordEmbedding (X : HistoryMatrix) :
   have happ : ∀ a : Spin,
       recordEmbedding X (h, a) (h, a) = X (readout h a) (readout h a) := by
     intro a
-    rw [recordEmbedding_apply, if_pos rfl]
+    rw [recordEmbedding_apply, ite_eq_left rfl]
   calc ∑ a : Spin, enlargedWeight (h, a) * recordEmbedding X (h, a) (h, a)
       = ∑ a : Spin, enlargedWeight (h, a) * X (readout h a) (readout h a) :=
         Finset.sum_congr rfl fun a _ => by rw [happ]
@@ -511,9 +510,9 @@ theorem enlargedDensity_posSemidef : enlargedDensity.PosSemidef := by
   simp only [Pi.zero_apply]
   unfold enlargedWeight
   by_cases hz : z.2 = sourceState2 z.1
-  · rw [if_pos hz]
+  · rw [ite_eq_left hz]
     exact Complex.zero_le_real.mpr (le_of_lt (sourceTauEmpR_pos z.1))
-  · rw [if_neg hz]
+  · rw [ite_eq_right hz]
 
 /-- The exhibited enlarged density is a state: positive semidefinite with
 unit trace. -/
@@ -534,9 +533,9 @@ theorem enlargedDensity_ne_product (σ : SpinMatrix) :
       = (sourceHistoryDensity ⊗ₖ σ) ((1 : Fin 8), (1 : Spin))
           ((1 : Fin 8), (1 : Spin)) := by rw [heq]
   rw [enlargedDensity, Matrix.diagonal_apply_eq] at h0 h1
-  have hw0 : enlargedWeight ((0 : Fin 8), (1 : Spin)) = 0 := if_neg (by decide)
+  have hw0 : enlargedWeight ((0 : Fin 8), (1 : Spin)) = 0 := ite_eq_right (by decide)
   have hw1 : enlargedWeight ((1 : Fin 8), (1 : Spin))
-      = ((sourceTauEmpR 1 : ℝ) : ℂ) := if_pos (by decide)
+      = ((sourceTauEmpR 1 : ℝ) : ℂ) := ite_eq_left (by decide)
   rw [hw0] at h0
   rw [hw1] at h1
   have hde : ∀ g : Fin 8,
@@ -577,7 +576,7 @@ theorem enlargedTarget_wall_pair {M : EnlargedHistoryMatrix}
   obtain ⟨X, rfl⟩ := hMr
   show recordEmbedding X ((2 : Fin 8), a) ((2 : Fin 8), a')
       = recordEmbedding X ((3 : Fin 8), a) ((3 : Fin 8), a')
-  rw [recordEmbedding_apply, recordEmbedding_apply, if_pos rfl, if_pos rfl,
+  rw [recordEmbedding_apply, recordEmbedding_apply, ite_eq_left rfl, ite_eq_left rfl,
     readout_two_eq_three, readout_two_eq_three]
 
 /-! ## Delimitation one: product-form extensions stay obstructed -/

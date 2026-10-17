@@ -1,5 +1,8 @@
-import Mathlib
-import PortFrameGram
+module
+public import Mathlib
+public import PortFrameGram
+
+@[expose] public section
 
 namespace OPH.A5IncidenceResponse
 

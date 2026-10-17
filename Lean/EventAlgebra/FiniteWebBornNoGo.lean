@@ -1,4 +1,7 @@
-import EventAlgebra.InterlockingContexts
+module
+public import EventAlgebra.InterlockingContexts
+
+@[expose] public section
 
 /-!
 # A planar cubic counterexample on the current finite context web

@@ -1,4 +1,7 @@
-import QFT.ObserverAccessCut
+module
+public import QFT.ObserverAccessCut
+
+@[expose] public section
 
 /-!
 # Sim-attached access-cut witness from the locally frozen B12 run
@@ -117,12 +120,16 @@ set_option maxRecDepth 8192
 
 /-- The four selected `patch_observer` rows of the payload, named by their
 `observer_id` values. -/
-inductive PayloadObserver : Type
+inductive PayloadObserver where
   | o36
   | o60
   | o64
   | o92
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype PayloadObserver where
+  elems := {PayloadObserver.o36, PayloadObserver.o60, PayloadObserver.o64, PayloadObserver.o92}
+  complete := by intro x; cases x <;> simp
 
 namespace PayloadObserver
 
@@ -514,14 +521,18 @@ pairwise intersections and carries the scalar algebra. -/
 
 /-- Region labels: the bottom region, the four truncated supports, and
 the top region. -/
-inductive SimRegion : Type
+inductive SimRegion where
   | bot
   | s36
   | s60
   | s64
   | s92
   | top
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype SimRegion where
+  elems := {SimRegion.bot, SimRegion.s36, SimRegion.s60, SimRegion.s64, SimRegion.s92, SimRegion.top}
+  complete := by intro x; cases x <;> simp
 
 namespace SimRegion
 
@@ -954,8 +965,8 @@ theorem o64Separator_not_mem_public :
   have e2 : fAcc PayloadObserver.o64 17 = some (18, 13) := by decide
   have e3 : fPub PayloadObserver.o64 20 = some 18 := by decide
   have e4 : fAcc PayloadObserver.o64 20 = some (18, 3) := by decide
-  rw [e1, e2, if_pos rfl] at h17
-  rw [e3, e4, if_neg (by decide)] at h20
+  rw [e1, e2, ite_eq_left rfl] at h17
+  rw [e3, e4, ite_eq_right (by decide)] at h20
   rw [h17] at h20
   exact one_ne_zero h20
 
@@ -965,7 +976,7 @@ public record algebra sits strictly inside its accessible algebra. -/
 theorem simEarnedCut_public_lt_accessible_o64 :
     simEarnedTower.publicAlgebra () PayloadObserver.o64 <
       simEarnedCut.accessibleAlgebra PayloadObserver.o64 := by
-  rw [SetLike.lt_iff_le_and_exists]
+  rw [IsConcreteLE.lt_iff_le_and_exists]
   exact ⟨simEarnedCut.public_le_accessible _, o64Separator,
     o64Separator_mem_accessible, o64Separator_not_mem_public⟩
 
@@ -1049,8 +1060,8 @@ theorem o36Separator_not_mem_accessible :
   have e2 : fReg PayloadObserver.o36 3 = some 3 := by decide
   have e3 : fAcc PayloadObserver.o36 4 = some (20, 6) := by decide
   have e4 : fReg PayloadObserver.o36 4 = some 4 := by decide
-  rw [e1, e2, if_pos rfl] at h3
-  rw [e3, e4, if_neg (by decide)] at h4
+  rw [e1, e2, ite_eq_left rfl] at h3
+  rw [e3, e4, ite_eq_right (by decide)] at h4
   rw [h3] at h4
   exact one_ne_zero h4
 
@@ -1061,7 +1072,7 @@ theorem simEarnedCut_accessible_lt_regional_o36 :
     simEarnedCut.accessibleAlgebra PayloadObserver.o36 <
       simEarnedNet.localAlgebra ()
         (SimRegion.regionOf PayloadObserver.o36) := by
-  rw [SetLike.lt_iff_le_and_exists]
+  rw [IsConcreteLE.lt_iff_le_and_exists]
   exact ⟨simEarnedCut.accessible_le_region _, o36Separator,
     o36Separator_mem_regional, o36Separator_not_mem_accessible⟩
 
@@ -1134,7 +1145,7 @@ theorem simEarnedCut_accessible_lt_top (o : PayloadObserver) :
     simEarnedCut.accessibleAlgebra o <
       (⊤ : StarSubalgebra ℂ
         (ConsensusTower.PrivateAlgebra simEarnedTower ())) := by
-  rw [SetLike.lt_iff_le_and_exists]
+  rw [IsConcreteLE.lt_iff_le_and_exists]
   exact ⟨le_top, simRaise, StarSubalgebra.mem_top, simRaise_not_mem (fAcc o)⟩
 
 /-- The cut satisfies the repair-stability receipt: the net's repair

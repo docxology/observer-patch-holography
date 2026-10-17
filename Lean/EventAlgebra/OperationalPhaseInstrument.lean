@@ -1,4 +1,7 @@
-import EventAlgebra.QuantumAdequacySurface
+module
+public import EventAlgebra.QuantumAdequacySurface
+
+@[expose] public section
 
 set_option autoImplicit false
 

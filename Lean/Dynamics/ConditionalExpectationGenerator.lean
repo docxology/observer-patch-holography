@@ -1,4 +1,7 @@
-import EventAlgebra.PartitionPinchingCP
+module
+public import EventAlgebra.PartitionPinchingCP
+
+@[expose] public section
 
 /-!
 # Conditional-expectation generators and their projector GKSL form

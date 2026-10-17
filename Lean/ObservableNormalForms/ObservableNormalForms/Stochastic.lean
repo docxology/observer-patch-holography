@@ -1,5 +1,8 @@
-import Mathlib
-import ObservableNormalForms.Exact
+module
+public import Mathlib
+public import ObservableNormalForms.Exact
+
+@[expose] public section
 
 /-!
 # Finite Markov drift certificates
@@ -165,9 +168,9 @@ theorem finite_markov_tail_bound
       apply Finset.sum_le_sum
       intro x _
       by_cases hx : a ≤ V x
-      · simp only [hx, if_true]
+      · simp only [hx, ite_true]
         nlinarith [hμ x]
-      · simp only [hx, if_false, mul_zero]
+      · simp only [hx, ite_false, mul_zero]
         exact mul_nonneg (hμ x) (hV x)
     _ = finiteExpectation μ V := rfl
 
@@ -403,7 +406,8 @@ theorem endpointDistribution_eq_pathWeight_sum (K : FiniteMarkovKernel S) :
       rw [Fintype.sum_unique]
       by_cases h : y = x
       · subst h; simp
-      · rw [if_neg h, if_neg fun hxy => h hxy.symm]
+      · rw [ite_eq_right h]
+        exact (ite_eq_right (Ne.symm h)).symm
   | succ n ih =>
       intro x y
       calc K.endpointDistribution (n + 1) x y
@@ -449,7 +453,7 @@ theorem exists_supportedPath_of_endpointDistribution_pos
       simp only [endpointDistribution] at h
       by_cases hyx : y = x
       · exact ⟨[], rfl, trivial, by simp [pathTarget, hyx]⟩
-      · rw [if_neg hyx] at h
+      · rw [ite_eq_right hyx] at h
         exact absurd h (lt_irrefl 0)
   | succ n ih =>
       intro x y h
@@ -762,7 +766,7 @@ theorem confinedMass_eq_pathWeight_sum
   | zero =>
       intro x
       simp only [confinedMass]
-      rw [Fintype.sum_unique, if_pos (fun i => i.elim0)]
+      rw [Fintype.sum_unique, ite_eq_left (fun i => i.elim0)]
       rfl
   | succ n ih =>
       intro x
@@ -793,7 +797,7 @@ theorem confinedMass_eq_pathWeight_sum
         rw [pathWeight_cons, if_congr (hcond q) rfl rfl, ite_and]
       rw [hrw]
       by_cases hz : A z
-      · simp only [if_pos hz]
+      · simp only [ite_eq_left hz]
         rw [ih z, Finset.mul_sum]
         refine Finset.sum_congr rfl fun q _ => ?_
         rw [mul_ite, mul_zero]
@@ -868,9 +872,9 @@ theorem noisy_endpoint_tail_const (n : ℕ) (hn : n ≠ 0) (x : Bool) :
         (fun y => (1 : ℝ) / 2 < escapeIndicator y) = 1 / 2 := by
   unfold finiteEventMass
   rw [Finset.sum_filter, Fintype.sum_bool]
-  rw [if_pos (by norm_num [escapeIndicator] :
+  rw [ite_eq_left (by norm_num [escapeIndicator] :
         (1 : ℝ) / 2 < escapeIndicator true)]
-  rw [if_neg (by norm_num [escapeIndicator] :
+  rw [ite_eq_right (by norm_num [escapeIndicator] :
         ¬ (1 : ℝ) / 2 < escapeIndicator false)]
   rw [noisy_endpoint_uniform n hn x true, add_zero]
 
@@ -889,9 +893,9 @@ theorem noisy_confinedMass :
       intro x
       simp only [FiniteMarkovKernel.confinedMass]
       rw [Fintype.sum_bool]
-      rw [if_neg (by norm_num [escapeIndicator] :
+      rw [ite_eq_right (by norm_num [escapeIndicator] :
             ¬ escapeIndicator true ≤ (1 : ℝ) / 2)]
-      rw [if_pos (by norm_num [escapeIndicator] :
+      rw [ite_eq_left (by norm_num [escapeIndicator] :
             escapeIndicator false ≤ (1 : ℝ) / 2)]
       rw [ih false]
       simp only [noisyKernel]

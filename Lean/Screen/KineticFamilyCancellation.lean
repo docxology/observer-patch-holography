@@ -1,5 +1,8 @@
-import KineticFormDichotomy
-import RGRepresentationFrontier
+module
+public import KineticFormDichotomy
+public import RGRepresentationFrontier
+
+@[expose] public section
 
 namespace OPH.KineticFamilyCancellation
 

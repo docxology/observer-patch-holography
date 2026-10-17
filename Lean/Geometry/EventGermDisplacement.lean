@@ -1,4 +1,7 @@
-import Geometry.LorentzOverlapCocycle
+module
+public import Geometry.LorentzOverlapCocycle
+
+@[expose] public section
 
 /-!
 # C2: event-germ coordinates and displacement covariance

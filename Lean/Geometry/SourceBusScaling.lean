@@ -1,4 +1,7 @@
-import Geometry.SourceReusableBus
+module
+public import Geometry.SourceReusableBus
+
+@[expose] public section
 
 /-!
 # Arbitrary finite paired-rail chains
@@ -34,7 +37,7 @@ theorem forward_later (n j : ℕ) (a : ℕ → ℝ) (h : n < j) :
   | succ n ih =>
     simp only [forward, execute_append, execute, step]
     simp only [copied, show j ≠ n by omega, show j ≠ n+1 by omega, or_self,
-      if_false]
+      ite_false]
     exact ih (by omega)
 
 theorem forward_last (n : ℕ) (a : ℕ → ℝ) :
@@ -42,7 +45,7 @@ theorem forward_last (n : ℕ) (a : ℕ → ℝ) :
   induction n with
   | zero => rfl
   | succ n ih =>
-    simp only [forward, execute_append, execute, step, copied, or_true, if_true]
+    simp only [forward, execute_append, execute, step, copied, or_true, ite_true]
     rw [ih, forward_later n (n+1) a (by omega)]
     rfl
 
@@ -71,10 +74,10 @@ theorem forward_before (n j : ℕ) (a : ℕ → ℝ) (h : j < n) :
     simp only [forward, execute_append, execute, step]
     by_cases hj : j = n
     · subst j
-      simp only [copied, true_or, if_true]
+      simp only [copied, true_or, ite_true]
       rw [forward_last, forward_later n (n+1) a (by omega)]
       rfl
-    · simp only [copied, hj, show j ≠ n+1 by omega, or_self, if_false]
+    · simp only [copied, hj, show j ≠ n+1 by omega, or_self, ite_false]
       exact ih (by omega)
 
 theorem forward_length (n : ℕ) : (compile (forward n)).length = 2*n := by
@@ -186,7 +189,7 @@ theorem carry_bound (n k : ℕ) (a : ℕ → ℝ) (E : ℝ)
     have ha' := abs_le.mp (ha (k+2) hk)
     have hw := mul_le_mul_of_nonneg_left (step_weight n k hn hk) hE
     change |(carry (cleared 0 a) (k+1) + cleared 0 a (k+2))/2| ≤ _
-    simp only [cleared, show k+2 ≠ 0 by omega, if_false]
+    simp only [cleared, show k+2 ≠ 0 by omega, ite_false]
     apply abs_le.mpr
     constructor <;> nlinarith
 

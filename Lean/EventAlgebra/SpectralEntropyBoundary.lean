@@ -1,6 +1,10 @@
-import EventAlgebra.RecordMajorization
-import Mathlib.Analysis.CStarAlgebra.ContinuousFunctionalCalculus.Projection
-import Mathlib.Analysis.SpecialFunctions.ContinuousFunctionalCalculus.ExpLog.Basic
+module
+public import Mathlib.Analysis.Matrix.Order
+public import EventAlgebra.RecordMajorization
+public import Mathlib.Analysis.CStarAlgebra.ContinuousFunctionalCalculus.Projection
+public import Mathlib.Analysis.SpecialFunctions.ContinuousFunctionalCalculus.ExpLog.Basic
+
+@[expose] public section
 
 /-!
 # B9: support boundary for totalized matrix logarithms
@@ -29,8 +33,7 @@ variable {n : ℕ}
 
 section CFC
 
-attribute [local instance] Matrix.linftyOpNormedAddCommGroup
-  Matrix.linftyOpNormedRing Matrix.linftyOpNormedAlgebra
+open scoped Matrix.Norms.L2Operator
 
 /-- The tempting totalized matrix logarithm. -/
 noncomputable def totalizedMatrixLog

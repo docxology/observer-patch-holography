@@ -1,5 +1,8 @@
-import QFT.SourceContextWeb
-import EventAlgebra.Basic
+module
+public import QFT.SourceContextWeb
+public import EventAlgebra.Basic
+
+@[expose] public section
 
 /-!
 # Tomography no-go for the current real S3 source context web

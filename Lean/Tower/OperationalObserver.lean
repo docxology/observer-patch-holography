@@ -1,5 +1,8 @@
-import Tower.ConsensusTower
-import Time.ObserverHistory
+module
+public import Tower.ConsensusTower
+public import Time.ObserverHistory
+
+@[expose] public section
 
 /-!
 # Operational observerhood receipts over consensus towers
@@ -198,12 +201,12 @@ noncomputable def witnessPartition : ProjectivePartition 2 2 where
       congr 1
       funext j
       rcases eq_or_ne j i with h | h <;>
-        simp [h, Pi.single_apply]
+        simp [h]
     · rw [Matrix.diagonal_mul_diagonal]
       congr 1
       funext j
       rcases eq_or_ne j i with h | h <;>
-        simp [h, Pi.single_apply]
+        simp [h]
   orthogonal i j hij := by
     rw [Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_zero]
     congr 1
@@ -357,7 +360,7 @@ theorem witnessControl_raise :
 chain-ordered records represented on the diagonal partition, the first
 coordinate projector as state, and the scaled Hamiltonian commutator as
 generator. -/
-noncomputable def witnessTower : ConsensusTower Unit where
+noncomputable abbrev witnessTower : ConsensusTower Unit where
   indexNonempty := ⟨()⟩
   commonRefinement := fun _ _ => ⟨(), by trivial, by trivial⟩
   dim := fun _ => 2

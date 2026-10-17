@@ -1,5 +1,14 @@
-import Mathlib
-import PortGramRepairBand
+module
+public import Mathlib
+public import PortGramRepairBand
+
+public meta import Mathlib.Algebra.QuadraticAlgebra.Defs
+
+public meta import PortGramRepairBand
+public meta import A5FamilyBand
+public meta import PortFrameGram
+
+@[expose] public section
 
 open scoped BigOperators Matrix
 open Filter Topology
@@ -271,7 +280,7 @@ theorem pLowR_idempotent : pLowR * pLowR = pLowR := by
 /-- Real evaluation preserves symmetry. -/
 theorem pLowR_symmetric : pLowR.transpose = pLowR := by
   have h := congrArg realMatrix pLow_symmetric
-  simpa [realMatrix] using h
+  simpa [realMatrix, Matrix.transpose_map] using h
 
 /-- Each intrinsic generator is twice the corresponding projector column. -/
 theorem intrinsicPortVector_apply (p i : Fin 12) :
@@ -330,7 +339,8 @@ theorem intrinsicPortGenerator_gram (p q : Fin 12) :
   have hgram := congrFun (congrFun (congrArg realMatrix
     portGram_eq_four_pLow) p) q
   have hfour : evalReal (q5 4 0) = (4 : ℝ) := by
-    norm_num [evalReal, q5]
+    change (((4 : ℚ) : ℝ) + ((0 : ℚ) : ℝ) * Real.sqrt 5) = 4
+    norm_num
   simp only [realMatrix, Matrix.map_apply, Matrix.smul_apply, smul_eq_mul,
     map_mul, hfour] at hgram
   calc
@@ -501,7 +511,8 @@ theorem normalizedKernel_tendsto_portGram (i j : Fin 12) :
   have hgram := congrArg realMatrix portGram_eq_four_pLow
   have hentry := congrFun (congrFun hgram i) j
   have hfour : evalReal (q5 4 0) = (4 : ℝ) := by
-    norm_num [evalReal, q5]
+    change (((4 : ℚ) : ℝ) + ((0 : ℚ) : ℝ) * Real.sqrt 5) = 4
+    norm_num
   have htarget : realMatrix portGram i j = (4 : ℝ) * pLowR i j := by
     simpa [realMatrix, hfour] using hentry
   rw [htarget]

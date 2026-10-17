@@ -1,5 +1,8 @@
-import EventAlgebra.PartitionPinching
-import Mathlib.Logic.Equiv.Bool
+module
+public import EventAlgebra.PartitionPinching
+public import Mathlib.Logic.Equiv.Bool
+
+@[expose] public section
 
 /-!
 # B9: the sign-average representation of record pinching
@@ -99,7 +102,7 @@ theorem sum_recordSignScalar_mul (i j : Fin k) :
   by_cases hij : i = j
   · subst j
     simp [recordSignScalar_sq]
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     let f : RecordSign k → ℂ := fun s =>
       recordSignScalar (s i) * recordSignScalar (s j)
     have hflip : ∀ s, f (flipRecordSign i s) = -f s := by
@@ -222,10 +225,10 @@ theorem sum_signedRecordUnitary_conjugations
     _ = ∑ i, (2 ^ k : ℂ) • (part.proj i * X * part.proj i) := by
           refine Finset.sum_congr rfl fun i _ => ?_
           rw [Finset.sum_eq_single i]
-          · rw [← Finset.sum_smul, sum_recordSignScalar_mul, if_pos rfl]
+          · rw [← Finset.sum_smul, sum_recordSignScalar_mul, ite_eq_left rfl]
           · intro j _ hji
             rw [← Finset.sum_smul, sum_recordSignScalar_mul,
-              if_neg (Ne.symm hji), zero_smul]
+              ite_eq_right (Ne.symm hji), zero_smul]
           · intro hi
             exact (hi (Finset.mem_univ i)).elim
     _ = (2 ^ k : ℂ) • partitionPinching part X := by
@@ -255,12 +258,12 @@ noncomputable def binaryCoordinatePartition : ProjectivePartition 2 2 where
       congr 1
       funext j
       rcases eq_or_ne j i with h | h <;>
-        simp [h, Pi.single_apply]
+        simp [h]
     · rw [Matrix.diagonal_mul_diagonal]
       congr 1
       funext j
       rcases eq_or_ne j i with h | h <;>
-        simp [h, Pi.single_apply]
+        simp [h]
   orthogonal i j hij := by
     rw [Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_zero]
     congr 1

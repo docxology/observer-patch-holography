@@ -1,5 +1,8 @@
-import PrimitivePortOperatorSelectionBoundary
-import ObserverPatchHolography.EqualSeamSelection
+module
+public import PrimitivePortOperatorSelectionBoundary
+public import ObserverPatchHolography.EqualSeamSelection
+
+@[expose] public section
 
 namespace OPH.PrimitiveHopSelection
 

@@ -1,4 +1,7 @@
-import Geometry.SourcePublicationMass
+module
+public import Geometry.SourcePublicationMass
+
+@[expose] public section
 
 /-!
 # Consistent publication laws from the derived continuation potential

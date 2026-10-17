@@ -1,5 +1,8 @@
-import Geometry.SourceTemporalMenu
-import Mathlib.Logic.Function.DependsOn
+module
+public import Geometry.SourceTemporalMenu
+public import Mathlib.Logic.Function.DependsOn
+
+@[expose] public section
 
 /-!
 # Required direct records for arbitrary finite product meanings
@@ -21,7 +24,8 @@ variable {N A B : Type*} [DecidableEq N]
 def Essential (f : (N → A) → B) (i : N) : Prop :=
   ∃ x y, (∀ j, j ≠ i → x j = y j) ∧ f x ≠ f y
 
-theorem inessential_agreement (f : (N → A) → B) (i : N) (hi : ¬ Essential f i)
+omit [DecidableEq N] in
+theorem inessential_agreement [_instDecidableEqN : DecidableEq N] (f : (N → A) → B) (i : N) (hi : ¬ Essential f i)
     (x y : N → A) (h : ∀ j, j ≠ i → x j = y j) : f x = f y := by
   by_contra hn
   exact hi ⟨x,y,h,hn⟩
@@ -73,9 +77,10 @@ theorem essential_is_minimal [Fintype N] (f : (N → A) → B) :
   · intro S h
     exact (dependsOn_iff_essential_subset f S).mp h
 
+omit [DecidableEq N] in
 /-- A missing essential record supplies a deletion intervention that every
 sound direct-read service must distinguish. -/
-theorem omitted_record_witness (f : (N → A) → B) (S : Set N) (i : N)
+theorem omitted_record_witness [_instDecidableEqN : DecidableEq N] (f : (N → A) → B) (S : Set N) (i : N)
     (hi : Essential f i) (hs : i ∉ S) :
     ∃ x y, (∀ j ∈ S, x j = y j) ∧ f x ≠ f y := by
   obtain ⟨x,y,hxy,hf⟩ := hi

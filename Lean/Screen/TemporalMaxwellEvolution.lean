@@ -1,4 +1,7 @@
-import LocalFaceMaxwellAction
+module
+public import LocalFaceMaxwellAction
+
+@[expose] public section
 
 set_option autoImplicit false
 

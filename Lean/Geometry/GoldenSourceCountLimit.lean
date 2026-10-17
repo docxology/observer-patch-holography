@@ -1,6 +1,9 @@
-import Geometry.GoldenSourceAssignment
-import Mathlib.MeasureTheory.Integral.DominatedConvergence
-import Mathlib.MeasureTheory.Measure.Prod
+module
+public import Geometry.GoldenSourceAssignment
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+public import Mathlib.MeasureTheory.Measure.Prod
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -89,7 +92,7 @@ theorem partition_count_tendsto {ι : ℕ → Type*} [∀ n, Fintype (ι n)]
   have heq (n : ℕ) : ∫ x, sampled (C n) (s n) A x ∂μ =
       ∑ i, μ.real (C n i) * A.indicator (fun _ => (1 : ℝ)) (s n i) := by
     unfold sampled
-    rw [integral_finset_sum]
+    rw [integral_finsetSum]
     · apply Finset.sum_congr rfl
       intro i hi
       rw [integral_indicator (hC n i), setIntegral_const]
@@ -126,7 +129,7 @@ theorem golden_count_tendsto {L : ℝ} (hL : 0 < L)
       atTop (𝓝 ((volume.restrict (cube L)).real A)) := by
   classical
   let μ : Measure (Fin 3 → ℝ) := volume.restrict (cube L)
-  letI : IsFiniteMeasure μ := cube_measure_finite L
+  let : IsFiniteMeasure μ := cube_measure_finite L
   have hcube : MeasurableSet (cube L) := MeasurableSet.univ_pi fun _ => measurableSet_Ico
   have hsub (n : ℕ) (b : Fin 3 → Fin (Nat.fib (n + 2))) :
       cell (n + 2) L b ⊆ cube L := by
@@ -263,8 +266,8 @@ theorem eventCell_assignment {n : ℕ} (hn : 0 < n) {T L δ : ℝ}
     (hs.trans (le_add_of_nonneg_left hδ.le))
 
 theorem spaceTimeVolume_finite (T L : ℝ) : IsFiniteMeasure (spaceTimeVolume T L) := by
-  letI : IsFiniteMeasure (volume.restrict (cube L)) := cube_measure_finite L
-  letI : IsFiniteMeasure (volume.restrict (Ico 0 T)) :=
+  let : IsFiniteMeasure (volume.restrict (cube L)) := cube_measure_finite L
+  let : IsFiniteMeasure (volume.restrict (Ico 0 T)) :=
     isFiniteMeasure_restrict.mpr (by simp [Real.volume_Ico])
   unfold spaceTimeVolume
   infer_instance
@@ -276,7 +279,7 @@ theorem event_weighted_count_tendsto {T L : ℝ} (hL : 0 < L)
     Tendsto (fun n => ∑ i, (spaceTimeVolume T L).real (eventCell (n + 2) T L (δ n) i) *
       A.indicator (fun _ => (1 : ℝ)) (eventPosition L (δ n) i))
       atTop (𝓝 ((spaceTimeVolume T L).real A)) := by
-  letI : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
+  let : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
   have hcov (n : ℕ) : ∀ᵐ x ∂spaceTimeVolume T L, ∃ i, x ∈ eventCell (n + 2) T L (δ n) i := by
     have hh : ∀ᵐ x ∂spaceTimeVolume T L, x ∈ Ico 0 T ×ˢ cube L := by
       unfold spaceTimeVolume
@@ -328,7 +331,7 @@ theorem eventCell_mass_le {n : ℕ} (hn : 0 < n) {T L δ : ℝ}
 theorem sum_eventCell_mass {n : ℕ} (hn : 0 < n) {T L δ : ℝ}
     (hT : 0 ≤ T) (hL : 0 < L) (hδ : 0 < δ) :
     (∑ i, (spaceTimeVolume T L).real (eventCell n T L δ i)) = T * L ^ 3 := by
-  letI : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
+  let : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
   rw [← measureReal_iUnion_fintype (eventCell_disjoint hn hL hδ) (eventCell_measurable n T L δ),
     eventCell_cover hn hL hδ]
   unfold spaceTimeVolume
@@ -434,7 +437,7 @@ theorem sourceDelta_tendsto (L c : ℝ) :
   have hfib : Tendsto (fun n => (Nat.fib (n + 2) : ℝ)) atTop atTop :=
     tendsto_natCast_atTop_atTop.comp Nat.fib_add_two_strictMono.tendsto_atTop
   have h := ((Real.tendsto_sqrt_atTop.comp hfib).const_div_atTop L).div_const c
-  simpa only [sourceDelta, zero_div] using h
+  simpa only [sourceDelta, zero_div, Function.comp_def] using h
 
 /-- Normalized counts for the actual golden source-net time grid and site
 positions. The causal read law is not needed for this sampling theorem. -/

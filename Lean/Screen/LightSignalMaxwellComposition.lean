@@ -1,5 +1,8 @@
-import LightSignalAdequacySurface
-import ModalMaxwellFactorizationBoundary
+module
+public import LightSignalAdequacySurface
+public import ModalMaxwellFactorizationBoundary
+
+@[expose] public section
 
 open scoped BigOperators Matrix
 

@@ -1,4 +1,7 @@
-import QFT.ConvexAffinityBridge
+module
+public import QFT.ConvexAffinityBridge
+
+@[expose] public section
 
 /-!
 # A declared convex-family adapter over B12 fibre counts

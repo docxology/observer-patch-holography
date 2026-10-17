@@ -1,7 +1,7 @@
 import Lake
 open Lake DSL
 
-require "leanprover-community" / "mathlib" @ git "v4.29.1"
+require "leanprover-community" / "mathlib" @ git "v4.35.0"
 
 package «ObserverPatchHolography» where
   leanOptions := #[

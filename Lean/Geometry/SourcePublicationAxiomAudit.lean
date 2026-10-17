@@ -1,14 +1,17 @@
-import Geometry.SourceCheckpointAxiomAudit
-import Geometry.SourcePublicationMass
-import Geometry.SourcePublicationLaw
-import Geometry.SourcePublicationNative
-import Geometry.SourcePublicationTail
-import Geometry.SourcePublicationPath
-import Geometry.SourcePublicationPathInvariant
-import Geometry.SourcePublicationMenu
-import Geometry.SourceRadiusSelection
-import Geometry.SourceRadiusRemoval
-import Geometry.SourceStateSelection
+module
+public import Geometry.SourceCheckpointAxiomAudit
+public import Geometry.SourcePublicationMass
+public import Geometry.SourcePublicationLaw
+public import Geometry.SourcePublicationNative
+public import Geometry.SourcePublicationTail
+public import Geometry.SourcePublicationPath
+public import Geometry.SourcePublicationPathInvariant
+public import Geometry.SourcePublicationMenu
+public import Geometry.SourceRadiusSelection
+public import Geometry.SourceRadiusRemoval
+public import Geometry.SourceStateSelection
+
+@[expose] public section
 
 /-! Transitive standard-axiom gate for eventual publication and selection diagnostics. -/
 

@@ -1,5 +1,8 @@
-import EventAlgebra.StateExpectation
-import EventAlgebra.Tsirelson
+module
+public import EventAlgebra.StateExpectation
+public import EventAlgebra.Tsirelson
+
+@[expose] public section
 
 /-!
 # The state-expectation bound and the state-level CHSH corollary
@@ -51,7 +54,7 @@ theorem norm_diag_entry_le_l2_opNorm (B : Matrix (Fin n) (Fin n) ℂ)
   set y : EuclideanSpace ℂ (Fin n) :=
     (EuclideanSpace.equiv (Fin n) ℂ).symm (B *ᵥ x) with hydef
   have hxnorm : ‖x‖ = 1 := by
-    rw [hxdef, EuclideanSpace.norm_single, norm_one]
+    rw [hxdef, PiLp.norm_single, norm_one]
   have hyi : y i = B i i := by
     show (B *ᵥ (Pi.single i (1 : ℂ) : Fin n → ℂ)) i = B i i
     simp [Matrix.mulVec, dotProduct_single]
@@ -72,7 +75,7 @@ one, by the C*-identity. -/
 theorem norm_eq_one_of_mem_unitaryGroup [NeZero n]
     {V : Matrix (Fin n) (Fin n) ℂ}
     (hV : V ∈ Matrix.unitaryGroup (Fin n) ℂ) : ‖V‖ = 1 := by
-  haveI : Nontrivial (Matrix (Fin n) (Fin n) ℂ) := by
+  have : Nontrivial (Matrix (Fin n) (Fin n) ℂ) := by
     refine ⟨0, 1, fun h => ?_⟩
     have h00 := Matrix.ext_iff.mpr h ⟨0, Nat.pos_of_ne_zero (NeZero.ne n)⟩
       ⟨0, Nat.pos_of_ne_zero (NeZero.ne n)⟩

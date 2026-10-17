@@ -1,6 +1,9 @@
-import EventAlgebra.Superselection
-import ExteriorComponentBridge
-import Z6Descent
+module
+public import EventAlgebra.Superselection
+public import ExteriorComponentBridge
+public import Z6Descent
+
+@[expose] public section
 
 /-!
 # Typed integration of finite sectors, exterior components, and Z6 descent

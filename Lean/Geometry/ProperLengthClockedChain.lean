@@ -1,4 +1,7 @@
-import Geometry.SourceClockRateAlongWorldlines
+module
+public import Geometry.SourceClockRateAlongWorldlines
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -266,7 +269,7 @@ theorem crossingCount_uniform_general (e : Fin 30) (k p j : ℕ) (hj : j ≤ k) 
   rw [crossingCount_block_additive, crossingCount_uniform]
   rcases j with _ | j
   · simp [crossingCount]
-  · simp only [Nat.succ_ne_zero, if_false]
+  · simp only [Nat.succ_ne_zero, ite_false]
     congr 1
     exact crossingCount_uniform_block e k p j (by omega)
 
@@ -283,14 +286,14 @@ theorem accumulatedLength_uniform_general (τ : ℝ) (hτ : 0 ≤ τ) (e : Fin 3
   have hr := crossingCount_add_restCount (uniformWorldline e k).steps ((k + 1) * p + j)
   rw [hc] at hr ⊢
   rcases j with _ | j
-  · simp only [if_true, Nat.add_zero] at hr ⊢
+  · simp only [ite_true, Nat.add_zero] at hr ⊢
     have hrest : restCount (uniformWorldline e k).steps ((k + 1) * p) = k * p := by
       have : (k + 1) * p = k * p + p := by ring
       omega
     rw [hrest]
     push_cast
     ring
-  · simp only [Nat.succ_ne_zero, if_false] at hr ⊢
+  · simp only [Nat.succ_ne_zero, ite_false] at hr ⊢
     have hrest : restCount (uniformWorldline e k).steps ((k + 1) * p + (j + 1)) =
         k * p + j := by
       have : (k + 1) * p = k * p + p := by ring
@@ -320,11 +323,11 @@ theorem uniform_deficit (τ : ℝ) (hτ : 0 < τ) (e : Fin 30) (k p j : ℕ) (hj
   rw [accumulatedLength_uniform_general τ hτ.le e k p j hj, dilationFactor_mul_unit τ hτ]
   have hk : ((k : ℝ) + 1) ≠ 0 := by positivity
   rcases j with _ | j
-  · simp only [if_true]
+  · simp only [ite_true]
     push_cast
     field_simp
     ring
-  · simp only [Nat.succ_ne_zero, if_false]
+  · simp only [Nat.succ_ne_zero, ite_false]
     push_cast
     field_simp
     ring
@@ -367,7 +370,7 @@ theorem accumulatedLength_uniform_period (τ : ℝ) (hτ : 0 < τ) (e : Fin 30) 
     accumulatedLength τ (uniformWorldline e k) ((k + 1) * p) =
       (((k + 1) * p : ℕ) : ℝ) * (dilationFactor τ k * τ) := by
   have hd := uniform_deficit τ hτ e k p 0 (Nat.zero_le k)
-  simp only [if_true, Nat.add_zero] at hd
+  simp only [ite_true, Nat.add_zero] at hd
   linarith
 
 /-- **Two-sided bound on the clocked index** at every index of the uniform
@@ -676,7 +679,7 @@ theorem stepDuration_matches_uniform_zero (τ : ℝ) (hτ : 0 ≤ τ) (e : Fin 3
       OPH.CommonWorldInstrumentJoin.stepTime δ n = accumulatedLength τ (uniformWorldline e 0) n := by
   refine ⟨Real.sqrt (τ ^ 2 - 4), fun n => ?_⟩
   have h := accumulatedLength_uniform_general τ hτ e 0 n 0 le_rfl
-  simp only [Nat.one_mul, if_true, Nat.cast_zero, zero_mul, zero_add, add_zero] at h
+  simp only [Nat.one_mul, ite_true, Nat.cast_zero, zero_mul, zero_add, add_zero] at h
   rw [h]
   unfold OPH.CommonWorldInstrumentJoin.stepTime
   ring

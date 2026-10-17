@@ -1,8 +1,11 @@
-import Geometry.CommonWorldIslandBridge
-import EventAlgebra.LuedersPhaseInstrument
-import EventAlgebra.PartitionPinching
-import ScaledMaxwellStability
-import Geometry.EinsteinBranchInhabitant
+module
+public import Geometry.CommonWorldIslandBridge
+public import EventAlgebra.LuedersPhaseInstrument
+public import EventAlgebra.PartitionPinching
+public import ScaledMaxwellStability
+public import Geometry.EinsteinBranchInhabitant
+
+@[expose] public section
 
 set_option autoImplicit false
 

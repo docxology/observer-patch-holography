@@ -1,6 +1,9 @@
-import Geometry.EventGermDisplacement
-import Geometry.ObserverFrameHyperboloid
-import Time.ObserverHistory
+module
+public import Geometry.EventGermDisplacement
+public import Geometry.ObserverFrameHyperboloid
+public import Time.ObserverHistory
+
+@[expose] public section
 
 /-!
 # D1: bounded affine-timelike history realization

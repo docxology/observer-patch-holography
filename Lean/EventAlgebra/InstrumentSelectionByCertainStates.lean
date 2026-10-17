@@ -1,6 +1,9 @@
-import EventAlgebra.LuedersPhaseInstrument
-import EventAlgebra.FrequencyConcentration
-import FiniteConditionalRepair
+module
+public import EventAlgebra.LuedersPhaseInstrument
+public import EventAlgebra.FrequencyConcentration
+public import FiniteConditionalRepair
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -245,7 +248,7 @@ theorem sum_star_dotProduct_mul_of_sum_vecMulVec {ι κ : Type*} [Fintype ι]
     rw [star_dotProduct]
   have := congrArg (fun M : Matrix κ κ ℂ => star φ ⬝ᵥ M *ᵥ φ) h
   simp only [sum_mulVec, dotProduct_sum, vecMulVec_mulVec, dotProduct_smul] at this
-  simpa only [hs, mul_comm] using this
+  simpa only [hs, op_smul_eq_mul, mul_comm] using this
 
 /-- **Algebra-only.**  If `∑ c, v_c v_cᴴ = ψ ψᴴ` then every `v_c` is a
 scalar multiple of `ψ`: the component of `v_c` orthogonal to `ψ` has
@@ -714,9 +717,9 @@ theorem luedersChannel_hasKrausFormWithEffect_one {P : CMat n} (hP : IsEvent P) 
     HasKrausFormWithEffect (luedersChannel P) 1 := by
   refine ⟨2, ![P, 1 - P], fun X => ?_, ?_⟩
   · rw [Fin.sum_univ_two, luedersChannel_apply]
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one]
   · rw [Fin.sum_univ_two]
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one]
     rw [hP.1.eq, hP.2, hP.compl.1.eq, hP.compl.2, add_sub_cancel]
 
 /-- **Non-vacuity of the scope (swap witness).**  A Kraus-form map with
@@ -893,7 +896,7 @@ theorem classical_subkernel_fixing_certain_laws_is_restriction
     · have hyx : ¬ y = x := fun h => hxy h.symm
       simp [hxy, hyx]
   · -- Row `x` sums to zero with nonnegative entries.
-    have hsum : ∑ y, K x y = 0 := by rw [heff x, if_neg hx]
+    have hsum : ∑ y, K x y = 0 := by rw [heff x, ite_eq_right hx]
     have h0 := (Finset.sum_eq_zero_iff_of_nonneg (fun y _ => hnn x y)).mp hsum y
       (Finset.mem_univ y)
     rw [h0]
@@ -921,7 +924,7 @@ theorem push_single_heatBath_ne_single {B : Type*} [DecidableEq B]
       exact absurd (Finset.mem_univ x) hxu
   rw [hrow, Pi.single_eq_of_ne (Ne.symm hxy)] at hy
   unfold heatBath at hy
-  rw [if_pos hb] at hy
+  rw [ite_eq_left hb] at hy
   exact (div_pos (hπ y) (fiberMass_pos hπ x)).ne' hy
 
 end ClassicalKernel

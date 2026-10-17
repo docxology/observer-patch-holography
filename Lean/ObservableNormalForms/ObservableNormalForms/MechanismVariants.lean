@@ -1,5 +1,8 @@
-import ObservableNormalForms.Exact
-import ObservableNormalForms.Repair
+module
+public import ObservableNormalForms.Exact
+public import ObservableNormalForms.Repair
+
+@[expose] public section
 
 /-!
 # Conditional mechanism-variant comparison

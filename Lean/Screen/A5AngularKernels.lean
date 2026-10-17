@@ -1,5 +1,8 @@
-import Mathlib
-import A5IncidenceResponse
+module
+public import Mathlib
+public import A5IncidenceResponse
+
+@[expose] public section
 
 namespace OPH.A5AngularKernels
 

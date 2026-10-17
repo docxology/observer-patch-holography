@@ -1,5 +1,8 @@
-import Mathlib
-import A5PortModule
+module
+public import Mathlib
+public import A5PortModule
+
+@[expose] public section
 
 namespace OPH.A5PrimitivePortPrediction
 

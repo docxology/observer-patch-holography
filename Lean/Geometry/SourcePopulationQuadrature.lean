@@ -1,6 +1,9 @@
-import Mathlib.MeasureTheory.Integral.Bochner.Basic
-import Mathlib.Topology.MetricSpace.Lipschitz
-import Mathlib.Tactic
+module
+public import Mathlib.MeasureTheory.Integral.Bochner.Basic
+public import Mathlib.Topology.MetricSpace.Lipschitz
+public import Mathlib.Tactic
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -72,7 +75,7 @@ theorem finite_cell_quadrature {ι : Type*} [Fintype ι]
     (hcell : ∀ i, ∀ᵐ x ∂μ i, dist (s i) x ≤ H i) :
     ‖(∑ i, (μ i).real univ • f (s i)) - ∫ x, f x ∂(∑ i, μ i)‖ ≤
       ∑ i, (μ i).real univ * K i * H i := by
-  rw [integral_finset_sum_measure (fun i _ => hf i), ← Finset.sum_sub_distrib]
+  rw [integral_finsetSum_measure (fun i _ => hf i), ← Finset.sum_sub_distrib]
   exact (norm_sum_le _ _).trans <| Finset.sum_le_sum fun i _ =>
     cell_uniform_error (μ i) f (s i) (K i) (H i) (hK i) (hf i)
       (hfcell i) (hcell i)
@@ -85,7 +88,7 @@ theorem finite_cell_first_moment {ι : Type*} [Fintype ι]
     (hd : ∀ i, Integrable (fun x => dist (s i) x) (μ i)) :
     ‖(∑ i, (μ i).real univ • f (s i)) - ∫ x, f x ∂(∑ i, μ i)‖ ≤
       (K : ℝ) * ∑ i, ∫ x, dist (s i) x ∂μ i := by
-  rw [integral_finset_sum_measure (fun i _ => hf i), ← Finset.sum_sub_distrib,
+  rw [integral_finsetSum_measure (fun i _ => hf i), ← Finset.sum_sub_distrib,
     Finset.mul_sum]
   exact (norm_sum_le _ _).trans <| Finset.sum_le_sum fun i _ =>
     cell_transport_error (μ i) f (s i) hK (hf i) (hd i)
@@ -99,7 +102,7 @@ theorem finite_cell_local_first_moment {ι : Type*} [Fintype ι]
     (hcell : ∀ i, ∀ᵐ x ∂μ i, ‖f (s i) - f x‖ ≤ K i * dist (s i) x) :
     ‖(∑ i, (μ i).real univ • f (s i)) - ∫ x, f x ∂(∑ i, μ i)‖ ≤
       ∑ i, K i * ∫ x, dist (s i) x ∂μ i := by
-  rw [integral_finset_sum_measure (fun i _ => hf i), ← Finset.sum_sub_distrib]
+  rw [integral_finsetSum_measure (fun i _ => hf i), ← Finset.sum_sub_distrib]
   exact (norm_sum_le _ _).trans <| Finset.sum_le_sum fun i _ =>
     cell_local_first_moment (μ i) f (s i) (K i) (hf i) (hd i) (hcell i)
 

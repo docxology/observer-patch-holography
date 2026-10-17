@@ -1,4 +1,7 @@
-import Computation.FixedFederationFanoutControl
+module
+public import Computation.FixedFederationFanoutControl
+
+@[expose] public section
 
 /-!
 # Tower endpoint: the compiler separation in one metric

@@ -1,3 +1,4 @@
+module
 /-
   A5_OPH.lean: consolidated, machine-checked corpus
 
@@ -58,7 +59,9 @@
   Axiom audit is at the end of the file.
 -/
 
-import Mathlib
+public import Mathlib
+
+@[expose] public section
 
 universe u v
 
@@ -442,7 +445,8 @@ lemma isLieAbelian_of_lieEquiv {L' : Type v} [LieRing L'] [LieAlgebra R L']
     [IsLieAbelian L'] (e : L ≃ₗ⁅R⁆ L') : IsLieAbelian L := by
   refine ⟨fun x y => ?_⟩
   apply e.injective
-  simp
+  rw [LieHom.map_lie, map_zero]
+  exact LieModule.IsTrivial.trivial _ _
 
 /-- **No Lie isomorphism to the trivial-bracket synonym, when `L` is nonabelian.** -/
 theorem isEmpty_lieEquiv_triv (h : ¬ IsLieAbelian L) :
@@ -638,8 +642,8 @@ theorem action_trivial_of_card_le_four {n : ℕ} (hn : n ≤ 4)
     (f : alternatingGroup (Fin 5) →* Perm (Fin n)) (g : alternatingGroup (Fin 5)) :
     f g = 1 := by
   have hsimple : IsSimpleGroup (alternatingGroup (Fin 5)) :=
-    alternatingGroup.isSimpleGroup_five
-  rcases hsimple.eq_bot_or_eq_top_of_normal f.ker (MonoidHom.normal_ker f) with hk | hk
+    alternatingGroup.isSimpleGroup (by simp)
+  rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal f.ker with hk | hk
   · exfalso
     have hinj : Function.Injective f := (MonoidHom.ker_eq_bot_iff f).mp hk
     have hcard : Nat.card (alternatingGroup (Fin 5)) ≤ Nat.card (Perm (Fin n)) :=
@@ -1081,7 +1085,8 @@ theorem bracket_ne_zero : (⁅Sq, Tq⁆ : Matrix (Fin 3) (Fin 3) ℂ) ≠ 0 := b
 theorem quintet_noncentral :
     ⁅(Complex.I • Sq), (Complex.I • Tq)⁆ ≠ 0 := by
   have hI : ⁅(Complex.I • Sq), (Complex.I • Tq)⁆ = -⁅Sq, Tq⁆ := by
-    rw [smul_lie, lie_smul, smul_smul, Complex.I_mul_I, neg_one_smul]
+    simp only [Ring.lie_def, smul_mul_smul_comm, Complex.I_mul_I, neg_one_smul]
+    abel
   rw [hI, neg_ne_zero]
   exact bracket_ne_zero
 

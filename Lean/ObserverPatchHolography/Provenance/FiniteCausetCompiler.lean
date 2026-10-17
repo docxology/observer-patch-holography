@@ -1,4 +1,7 @@
-import ObserverPatchHolography.Provenance.SemanticEventProvenance
+module
+public import ObserverPatchHolography.Provenance.SemanticEventProvenance
+
+@[expose] public section
 
 /-!
 # Finite ranked-relation compiler into authenticated provenance

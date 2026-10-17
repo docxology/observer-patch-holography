@@ -1,5 +1,8 @@
-import PrimitivePortMetricAttachment
-import SeamCurrentDirichletGenerator
+module
+public import PrimitivePortMetricAttachment
+public import SeamCurrentDirichletGenerator
+
+@[expose] public section
 
 namespace OPH.SeamCurrentPhysicalMetricAttachment
 

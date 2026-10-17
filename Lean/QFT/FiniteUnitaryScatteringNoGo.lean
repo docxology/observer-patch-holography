@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false
@@ -49,7 +52,7 @@ theorem tendsto_powers_forces_identity
     (h : Tendsto (fun n : ℕ => g ^ n) atTop (nhds a)) :
     g = 1 := by
   have hshift : Tendsto (fun n : ℕ => g ^ (n + 1)) atTop (nhds a) := by
-    simpa only [Function.comp_apply] using
+    simpa only [Function.comp_def] using
       h.comp (tendsto_add_atTop_nat 1)
   have hright : Tendsto (fun n : ℕ => g ^ n * g) atTop (nhds (a * g)) :=
     h.mul tendsto_const_nhds

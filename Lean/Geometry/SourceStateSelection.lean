@@ -1,4 +1,7 @@
-import Geometry.SourceConstrainedSelection
+module
+public import Geometry.SourceConstrainedSelection
+
+@[expose] public section
 
 /-!
 # Finite A3 state-selection inequalities

@@ -1,4 +1,7 @@
-import GoldenSectorIrreducibility
+module
+public import GoldenSectorIrreducibility
+
+@[expose] public section
 
 open scoped BigOperators Matrix
 
@@ -263,11 +266,11 @@ theorem NR_mul_M_C (C : GoldenCert) (q q' : Fin 3 × Fin 3) :
       if q = q' then ((evalPhi C.e : ℝ) : ℂ) else 0 := by
   have h := NR_mul_M C q q'
   by_cases hq : q = q'
-  · rw [if_pos hq] at h ⊢
+  · rw [ite_eq_left hq] at h ⊢
     have h' := congrArg (fun x : ℝ ↦ (x : ℂ)) h
     push_cast at h'
     exact h'
-  · rw [if_neg hq] at h ⊢
+  · rw [ite_eq_right hq] at h ⊢
     have h' := congrArg (fun x : ℝ ↦ (x : ℂ)) h
     push_cast at h'
     exact h'
@@ -291,7 +294,7 @@ theorem eq_sum_gtC (C : GoldenCert) (Y : Matrix (Fin 3) (Fin 3) ℂ) :
     refine Finset.sum_congr rfl fun q _ ↦ Finset.sum_congr rfl fun b _ ↦ ?_
     ring
   rw [h]
-  simp only [NR_mul_M_C, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [NR_mul_M_C, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   rw [mul_div_assoc, div_self (eC_ne C), mul_one]
 
 /-- **(1)** The complex span of the nine complexified transported tables is
@@ -414,7 +417,7 @@ theorem trivial_of_forall_mulVec (U' : Submodule ℂ (Fin 3 → ℂ))
   have hYu : Y.mulVec u = v := by
     funext j
     simp only [Matrix.mulVec, dotProduct, Y, Matrix.of_apply, ite_mul, zero_mul,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     exact div_mul_cancel₀ (v j) hi
   rw [← hYu]
   exact h Y u hu
@@ -517,7 +520,7 @@ theorem trace_transported (C : GoldenCert) (p : List Nat) (hp : p ∈ perms) :
   rw [Phi_gP C p hp, Matrix.trace_mul_comm, ← Matrix.mul_assoc, AR_mul_BR, Matrix.trace_mul_comm]
   simp only [Matrix.trace, Matrix.diag_apply, Matrix.mul_apply, gR, projR, castZ_apply, faceActZ,
     Matrix.of_apply, Int.cast_ite, Int.cast_zero, ite_mul, zero_mul, Finset.sum_ite_eq,
-    Finset.mem_univ, if_true, faceSign_eq_one p hp, Int.cast_one, one_mul]
+    Finset.mem_univ, ite_true, faceSign_eq_one p hp, Int.cast_one, one_mul]
   rw [traceZphi_eq C.Q p hp, evalPhi_sum, Finset.sum_div]
 
 /-- The transported traces of the two pieces differ on every listed row of

@@ -1,4 +1,7 @@
-import ObserverPatchHolography.ScalarSeamRepair
+module
+public import ObserverPatchHolography.ScalarSeamRepair
+
+@[expose] public section
 
 /-!
 # Reusable classical transport with declared local feedback

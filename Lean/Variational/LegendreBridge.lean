@@ -1,6 +1,9 @@
-import Variational.DiscreteNoether
-import Variational.FiniteRealTransfer
-import MixingChainRealization
+module
+public import Variational.DiscreteNoether
+public import Variational.FiniteRealTransfer
+public import MixingChainRealization
+
+@[expose] public section
 
 namespace OPH.Variational
 
@@ -317,7 +320,8 @@ theorem quadTwoPoint_hasDerivAt_second (a : ℝ) (V : ℝ → ℝ) (x y : ℝ) :
   have h1 : HasDerivAt (fun w : ℝ => w - x) 1 y :=
     (hasDerivAt_id y).sub_const x
   have h2 : HasDerivAt (fun w : ℝ => (w - x) ^ 2) (2 * (y - x)) y := by
-    simpa using h1.pow 2
+    convert h1.pow 2 using 1
+    norm_num
   have h3 : HasDerivAt (fun w : ℝ => a * (w - x) ^ 2 / 2 - V x)
       (a * (2 * (y - x)) / 2) y :=
     ((h2.const_mul a).div_const 2).sub_const (V x)
@@ -335,7 +339,8 @@ theorem quadTwoPoint_hasDerivAt_first (a : ℝ) (V V' : ℝ → ℝ) (y x : ℝ)
     (hasDerivAt_id x).const_sub y
   have h2 : HasDerivAt (fun w : ℝ => (y - w) ^ 2)
       (2 * (y - x) * -1) x := by
-    simpa using h1.pow 2
+    convert h1.pow 2 using 1
+    norm_num
   have h3 : HasDerivAt (fun w : ℝ => a * (y - w) ^ 2 / 2 - V w)
       (a * (2 * (y - x) * -1) / 2 - V' x) x :=
     ((h2.const_mul a).div_const 2).sub hV
@@ -469,10 +474,10 @@ theorem stationary_hamilton_strictConvex
         ((0, 1) : ℝ × ℝ) (γ k.succ) :=
       (hasDerivAt_const _ _).prodMk (hasDerivAt_id _)
     have h := hL'.comp_hasDerivAt (γ k.succ) hg
-    simpa [ContinuousLinearMap.add_apply,
-      ContinuousLinearMap.smul_apply, ContinuousLinearMap.coe_fst',
+    simpa [add_apply,
+      smul_apply, ContinuousLinearMap.coe_fst',
       ContinuousLinearMap.coe_snd', smul_eq_mul,
-      Function.uncurry] using h
+      Function.uncurry, Function.comp_def] using h
   have hd₁ : HasDerivAt (fun x => L x (γ m.succ))
       (d₁ (γ m.castSucc) (γ m.succ)) (γ m.castSucc) := by
     have hL' := hL (γ m.castSucc, γ m.succ)
@@ -480,10 +485,10 @@ theorem stationary_hamilton_strictConvex
         ((1, 0) : ℝ × ℝ) (γ m.castSucc) :=
       (hasDerivAt_id _).prodMk (hasDerivAt_const _ _)
     have h := hL'.comp_hasDerivAt (γ m.castSucc) hg
-    simpa [ContinuousLinearMap.add_apply,
-      ContinuousLinearMap.smul_apply, ContinuousLinearMap.coe_fst',
+    simpa [add_apply,
+      smul_apply, ContinuousLinearMap.coe_fst',
       ContinuousLinearMap.coe_snd', smul_eq_mul,
-      Function.uncurry] using h
+      Function.uncurry, Function.comp_def] using h
   have hEL := stationary_localAction_discreteEulerLagrange
     L γ hkm _ _ hd₂ hd₁ hmin
   exact (discreteEulerLagrange_iff_hamilton_strictConvex d₁ d₂ vel hmono

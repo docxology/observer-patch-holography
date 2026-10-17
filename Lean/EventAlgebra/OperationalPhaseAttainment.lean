@@ -1,4 +1,7 @@
-import EventAlgebra.PhaseInstrumentDetermination
+module
+public import EventAlgebra.PhaseInstrumentDetermination
+
+@[expose] public section
 
 set_option autoImplicit false
 

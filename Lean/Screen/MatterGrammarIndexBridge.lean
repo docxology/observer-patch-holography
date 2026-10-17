@@ -1,5 +1,8 @@
-import SMStructureAdequacySurface
-import BaryonDimensionSix
+module
+public import SMStructureAdequacySurface
+public import BaryonDimensionSix
+
+@[expose] public section
 
 /-!
 # The matter-grammar index dictionary (V3, issue #734)

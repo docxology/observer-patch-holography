@@ -1,4 +1,7 @@
-import OphGap.OphOrigWitness
+module
+public import OphGap.OphOrigWitness
+
+@[expose] public section
 
 /-!
 # Ending B measured, and negative controls for the transport on the REAL data

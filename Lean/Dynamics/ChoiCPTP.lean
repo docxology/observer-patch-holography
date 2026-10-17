@@ -1,6 +1,9 @@
-import Dynamics.ConditionalExpectationGenerator
-import EventAlgebra.PartitionAverageCP
-import EventAlgebra.TwoScalePublicRepair
+module
+public import Dynamics.ConditionalExpectationGenerator
+public import EventAlgebra.PartitionAverageCP
+public import EventAlgebra.TwoScalePublicRepair
+
+@[expose] public section
 
 /-!
 # Complete positivity and the CPTP discharge for the B2 channels
@@ -117,8 +120,8 @@ theorem oneKron_conjTranspose (m : ℕ) (K : CMat n) :
   ext p q
   simp only [Matrix.conjTranspose_apply, oneKron_apply]
   by_cases h : p.1 = q.1
-  · rw [if_pos h.symm, if_pos h]
-  · rw [if_neg (h ∘ Eq.symm), star_zero, if_neg h]
+  · rw [ite_eq_left h.symm, ite_eq_left h]
+  · rw [ite_eq_right (h ∘ Eq.symm), star_zero, ite_eq_right h]
 
 /-- Left multiplication by `1_m tensor K` acts as `K` on each block row. -/
 theorem oneKron_mul_apply (m : ℕ) (K : CMat n)
@@ -385,7 +388,6 @@ theorem relaxationChannel_apply_eq_publicRelaxTime (gamma t : ℝ)
     partitionPinchingRealLinearMap_apply,
     EventAlgebra.partitionPinchingLinearMap_apply]
   rw [ofReal_smul_matrix, ofReal_smul_matrix]
-  rfl
 
 /-- **CPTP discharge for the relaxation semigroup.** For nonnegative rate
 and time, the semigroup member is a convex combination of the identity and

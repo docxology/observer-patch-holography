@@ -1,6 +1,9 @@
-import Mathlib
-import ObserverPatchHolography.CollarStatesT1
-import EventAlgebra.PartitionPinching
+module
+public import Mathlib
+public import ObserverPatchHolography.CollarStatesT1
+public import EventAlgebra.PartitionPinching
+
+@[expose] public section
 
 /-!
 # Issue #544 bridge receipts: the flux expectation against the
@@ -89,7 +92,7 @@ noncomputable def fluxPartition : EventAlgebra.ProjectivePartition (2 * 2) 2 whe
     ⟨isHermitian_collarReindex (quP_isHermitian s), by
       rw [← map_mul, quP_idem]⟩
   orthogonal s t hst := by
-    rw [← map_mul, quP_mul, if_neg hst, map_zero]
+    rw [← map_mul, quP_mul, ite_eq_right hst, map_zero]
   complete := by
     rw [← map_sum, sum_quP, map_one]
 

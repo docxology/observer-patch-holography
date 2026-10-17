@@ -1,5 +1,8 @@
-import Time.WorldlineRealization
-import Time.ClockReadout
+module
+public import Time.WorldlineRealization
+public import Time.ClockReadout
+
+@[expose] public section
 
 /-!
 # D1: proper-time calibration on a supplied affine history

@@ -1,6 +1,9 @@
-import Geometry.FlatLorentzVolume
-import Geometry.OrderingFractionFourDimensional
-import Mathlib.MeasureTheory.Constructions.HaarToSphere
+module
+public import Geometry.FlatLorentzVolume
+public import Geometry.OrderingFractionFourDimensional
+public import Mathlib.MeasureTheory.Constructions.HaarToSphere
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -44,7 +47,7 @@ theorem closedPairs_integral {c : ℝ} (hc : 0 < c) (p q : Spacetime) :
       diamond c p q ×ˢ diamond c p q from fun _ h => ⟨h.1, h.2.1⟩))
     rw [Measure.prod_prod]
     exact ENNReal.mul_ne_top hdf hdf
-  letI : IsFiniteMeasure ((coordinateVolume.prod coordinateVolume).restrict (closedPairs c p q)) :=
+  let : IsFiniteMeasure ((coordinateVolume.prod coordinateVolume).restrict (closedPairs c p q)) :=
     isFiniteMeasure_restrict.mpr hcf
   have hi : Integrable ((closedPairs c p q).indicator (1 : Spacetime × Spacetime → ℝ))
       (coordinateVolume.prod coordinateVolume) := by
@@ -186,7 +189,7 @@ theorem closedPairs_preimage (c d : ℝ) (p q p' q' : Spacetime) (f : Spacetime 
     (hc : ∀ x y, (0 ≤ margin c x y ↔ 0 ≤ margin d (f x) (f y))) :
     closedPairs c p q = Prod.map f f ⁻¹' closedPairs d p' q' := by
   ext z
-  simp only [closedPairs, mem_setOf_eq, hD, mem_preimage, Prod.map_fst, Prod.map_snd, hc]
+  simp only [closedPairs, mem_ofPred_eq, hD, mem_preimage, Prod.map_fst, Prod.map_snd, hc]
 
 theorem boost_causal_iff {T τ : ℝ} (x : Space) (hτ : 0 < τ)
     (hT : spatialNorm x < T) (hrel : T ^ 2 - dot x x = τ ^ 2) (p q : Spacetime) :

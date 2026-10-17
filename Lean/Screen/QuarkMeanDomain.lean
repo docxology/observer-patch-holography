@@ -1,5 +1,8 @@
-import Mathlib.Topology.Order.IntermediateValue
-import Mathlib.Tactic
+module
+public import Mathlib.Topology.Order.IntermediateValue
+public import Mathlib.Tactic
+
+@[expose] public section
 
 set_option autoImplicit false
 

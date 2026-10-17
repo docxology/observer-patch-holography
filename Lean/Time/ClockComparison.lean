@@ -1,4 +1,7 @@
-import Time.ProperTimeCalibration
+module
+public import Time.ProperTimeCalibration
+
+@[expose] public section
 
 /-!
 # D1: public comparison of clocks at shared events
@@ -257,7 +260,6 @@ theorem affineControlThird_isNondegenerate :
   norm_num [ThirdSharedEvent.IsNondegenerateThirdPoint, affineControlThird,
     affineControlComparison, threeRecordHistoryOfClock, affineThreeTickClock,
     RankedHistory.clock_read]
-  all_goals decide
 
 theorem affineControlThird_isConsistent :
     affineControlThird.IsAffineConsistent := by
@@ -295,7 +297,6 @@ theorem nonAffineControlThird_isNondegenerate :
     nonAffineControlComparison, threeRecordHistoryOfClock,
     cubicThreeTickClock, regradeClock,
     RankedHistory.clock_read]
-  all_goals decide
 
 theorem nonAffineControlThird_isRejected :
     ¬ nonAffineControlThird.IsAffineConsistent := by

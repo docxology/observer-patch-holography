@@ -1,8 +1,11 @@
-import InformationProjection.SourceHistoryPacket
-import QFT.ColimitSelectedStateGNS
-import QFT.TowerAnchoredDiamond
-import EventAlgebra.SchroedingerFrameFlow
-import Mathlib.RingTheory.SimpleRing.Matrix
+module
+public import InformationProjection.SourceHistoryPacket
+public import QFT.ColimitSelectedStateGNS
+public import QFT.TowerAnchoredDiamond
+public import EventAlgebra.SchroedingerFrameFlow
+public import Mathlib.RingTheory.SimpleRing.Matrix
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false
@@ -191,7 +194,7 @@ def sourceHistoryGenerator : HistoryMatrix →ₗ[ℂ] HistoryMatrix :=
     (LinearMap.mulLeft ℂ sourceHistoryHamiltonian -
       LinearMap.mulRight ℂ sourceHistoryHamiltonian)
 
-def sourceHistoryTower : ConsensusTower Unit := {
+abbrev sourceHistoryTower : ConsensusTower Unit := {
   ConsensusTower.constantConsensusTower
       (oneBlockPartition 8) sourceHistoryState with
   generator := fun _ _ => sourceHistoryGenerator
@@ -270,7 +273,7 @@ theorem cyclicUnit_ne_zero : cyclicUnit ≠ 0 := by
 
 theorem stageRepresentation_injective :
     Function.Injective stageRepresentation := by
-  letI : Nontrivial SourceHistoryColimitGNS :=
+  let : Nontrivial SourceHistoryColimitGNS :=
     ⟨⟨cyclicUnit, 0, cyclicUnit_ne_zero⟩⟩
   exact RingHom.injective stageRepresentation.toRingHom
 

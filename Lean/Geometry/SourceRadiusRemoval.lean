@@ -1,5 +1,8 @@
-import Geometry.SourceNetLayeredOrder
-import Geometry.SourceRadiusSelection
+module
+public import Geometry.SourceNetLayeredOrder
+public import Geometry.SourceRadiusSelection
+
+@[expose] public section
 
 /-! Removing every spatial restriction collapses the generated order.
 The interval fraction below is the explicit combinatorial formula derived

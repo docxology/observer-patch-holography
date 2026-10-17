@@ -1,9 +1,12 @@
-import TrichotomyCases
-import PortDualMetricSelection
-import ExteriorSelection
-import Z6Descent
-import QuantumMatterIntegration
-import A5FamilyBand
+module
+public import TrichotomyCases
+public import PortDualMetricSelection
+public import ExteriorSelection
+public import Z6Descent
+public import QuantumMatterIntegration
+public import A5FamilyBand
+
+@[expose] public section
 
 open scoped BigOperators
 

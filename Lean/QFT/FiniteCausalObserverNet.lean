@@ -1,6 +1,9 @@
-import Tower.ConsensusTower
-import EventAlgebra.TwoScalePublicRepair
-import ObserverPatchHolography.Locality.NoSignalling
+module
+public import Tower.ConsensusTower
+public import EventAlgebra.TwoScalePublicRepair
+public import ObserverPatchHolography.Locality.NoSignalling
+
+@[expose] public section
 
 /-!
 # Finite causal observer nets

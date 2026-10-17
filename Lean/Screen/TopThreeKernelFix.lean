@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 /-!
 Kernel-checked S3 ambivalence. Plain `decide` proves this six-element fact

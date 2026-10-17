@@ -1,6 +1,10 @@
-import Mathlib.Util.AssertNoSorry
-import Geometry.GoldenSourceVolumeLimit
-import Geometry.FlatDiamondNormalization
+module
+public import Mathlib.Util.AssertNoSorry
+public import PortGramA5Isometry
+public import Geometry.GoldenSourceVolumeLimit
+public import Geometry.FlatDiamondNormalization
+
+@[expose] public section
 
 /-!
 # Source count-limit axiom audit
@@ -25,9 +29,12 @@ elab "audit_source_axioms " n:ident : command => do
 #guard_msgs in
 audit_source_axioms sorryAx
 
-/-- error: Source count axiom audit rejected [Lean.ofReduceBool, Lean.trustCompiler] -/
+-- The control inherits the native axiom of the reviewed rotation proof.
+private alias nativeDecisionControl := OPH.PortGramA5Isometry.rotationQ_orthogonal
+
+/-- error: Source count axiom audit rejected [_private.PortGramA5Isometry.0.OPH.PortGramA5Isometry.rotationQ_orthogonal._native.native_decide.ax_1_1] -/
 #guard_msgs in
-audit_source_axioms Lean.ofReduceBool
+audit_source_axioms nativeDecisionControl
 
 audit_source_axioms OPH.SourceNetOrderLimit.layer_gap
 

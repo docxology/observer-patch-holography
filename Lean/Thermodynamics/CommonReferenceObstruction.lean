@@ -1,5 +1,8 @@
-import MixingChainRealization
-import GreenKubo
+module
+public import MixingChainRealization
+public import GreenKubo
+
+@[expose] public section
 
 namespace OPH.Thermodynamics
 

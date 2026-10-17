@@ -1,6 +1,9 @@
-import InformationProjection.ReferenceNormalForm
-import InformationProjection.SourceHistoryPacket
-import FiniteConditionalRepair
+module
+public import InformationProjection.ReferenceNormalForm
+public import InformationProjection.SourceHistoryPacket
+public import FiniteConditionalRepair
+
+@[expose] public section
 
 /-!
 # Conditional realization and boundary of the history reference

@@ -1,5 +1,8 @@
-import Geometry.SourceBankLowering
-import Geometry.SourceBankInvariant
+module
+public import Geometry.SourceBankLowering
+public import Geometry.SourceBankInvariant
+
+@[expose] public section
 
 /-!
 # End-to-end native compilation of finite bank programs

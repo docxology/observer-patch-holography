@@ -1,4 +1,7 @@
-import ObserverPatchHolography.YangMillsGap
+module
+public import ObserverPatchHolography.YangMillsGap
+
+@[expose] public section
 
 /-!
 # Yang–Mills finite repair-gap: witnesses and a noncommuting countermodel

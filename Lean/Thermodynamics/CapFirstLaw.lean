@@ -1,4 +1,7 @@
-import FiniteConditionalRepair
+module
+public import FiniteConditionalRepair
+
+@[expose] public section
 
 namespace OPH.Thermodynamics
 
@@ -27,11 +30,13 @@ inequality outright. The identification of the abstract split with the
 physical cap data stays with the energy-clock receipt.
 -/
 
-variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
+variable {Ω : Type*} [Fintype Ω] [instDecidableEqΩ : DecidableEq Ω]
 variable {B : Type*} [DecidableEq B]
 
+include instDecidableEqΩ in
+omit instDecidableEqΩ in
 /-- Relative entropy of a law to itself vanishes. -/
-theorem kl_self (tau : Ω → ℝ) : kl tau tau = 0 := by
+theorem kl_self [_instDecidableEqΩ : DecidableEq Ω] (tau : Ω → ℝ) : kl tau tau = 0 := by
   unfold kl
   apply Finset.sum_eq_zero
   intro x _
@@ -61,9 +66,11 @@ theorem cap_firstLaw_exact (p tau : Ω → ℝ) (hτ : ∀ x, 0 < tau x) :
   have h2 := shannon_ref_eq_modular_energy tau hτ
   linarith
 
+include instDecidableEqΩ in
+omit instDecidableEqΩ in
 /-- Distributing a central split `K = 2π B + Z` of the modular
 Hamiltonian over an expectation. -/
-theorem modular_energy_split (tau Bc Z : Ω → ℝ) (s : Ω → ℝ)
+theorem modular_energy_split [_instDecidableEqΩ : DecidableEq Ω] (tau Bc Z : Ω → ℝ) (s : Ω → ℝ)
     (hsplit : ∀ x, -Real.log (tau x) = 2 * Real.pi * Bc x + Z x) :
     ∑ x, s x * (-Real.log (tau x))
       = 2 * Real.pi * (∑ x, s x * Bc x) + ∑ x, s x * Z x := by
@@ -112,9 +119,9 @@ theorem heatBath_nonneg {π : Ω → ℝ} {b : Ω → B} (hπ : ∀ x, 0 < π x)
     (x y : Ω) : 0 ≤ heatBath π b x y := by
   unfold heatBath
   by_cases h : b y = b x
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact le_of_lt (div_pos (hπ y) (fiberMass_pos hπ x))
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
 
 /-- The pushforward through the repair kernel preserves the mean of
 every fibre-measurable observable: dynamical conservation of protected

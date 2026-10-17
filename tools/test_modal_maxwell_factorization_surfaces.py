@@ -277,7 +277,7 @@ def test_no_frozen_prediction_or_marketing_surface_is_emitted() -> None:
 
 def test_screen_umbrella_imports_the_kernel_checked_module() -> None:
     umbrella = (ROOT / "Lean/Screen/OPHScreen.lean").read_text(encoding="utf-8")
-    import_line = "import ModalMaxwellFactorizationBoundary"
+    import_line = "public import ModalMaxwellFactorizationBoundary"
     assert umbrella.splitlines().count(import_line) == 1
     lakefile = (ROOT / "Lean/lakefile.lean").read_text(encoding="utf-8")
     assert lakefile.count("`ModalMaxwellFactorizationBoundary") == 1

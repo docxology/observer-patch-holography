@@ -1,7 +1,10 @@
-import QFT.ColimitSelectedStateGNS
-import QFT.FiniteTwoSiteIsingField
-import QFT.TowerAnchoredDiamond
-import Mathlib.RingTheory.SimpleRing.Matrix
+module
+public import QFT.ColimitSelectedStateGNS
+public import QFT.FiniteTwoSiteIsingField
+public import QFT.TowerAnchoredDiamond
+public import Mathlib.RingTheory.SimpleRing.Matrix
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false
@@ -65,7 +68,7 @@ def carrierEquiv : IsingIndex ≃ Fin 4 :=
 def stageEquiv : IsingMatrix ≃⋆ₐ[ℂ] StageMatrix :=
   StarAlgEquiv.ofAlgEquiv (Matrix.reindexAlgEquiv ℂ ℂ carrierEquiv)
     (fun M => by
-      simp only [Matrix.reindexAlgEquiv_apply, Matrix.star_eq_conjTranspose]
+      simp only [Matrix.coe_reindexAlgEquiv, Matrix.star_eq_conjTranspose]
       exact reindex_conjTranspose carrierEquiv M)
 
 @[simp]
@@ -123,7 +126,7 @@ def stageGenerator : StageMatrix →ₗ[ℂ] StageMatrix :=
 
 /-- A one-regulator tower whose selected state and generator are the finite
 Ising state and Hamiltonian commutator on the same `M₄(ℂ)` carrier. -/
-def isingTower : ConsensusTower Unit := {
+abbrev isingTower : ConsensusTower Unit := {
   ConsensusTower.constantConsensusTower
       (oneBlockPartition 4) stageGroundState with
   generator := fun _ _ => stageGenerator
@@ -184,7 +187,7 @@ private theorem raw_right_expectation_mem (M : IsingMatrix) :
 /-- The genuine scalar/left/right/top conditional-expectation diamond for
 the two Ising spin slots.  Its left and right algebras jointly generate the
 whole two-qubit algebra. -/
-def rawSlotNet : CPRegionalNet IsingIndex where
+abbrev rawSlotNet : CPRegionalNet IsingIndex where
   Region := TwoSlotRegion
   regionFintype := inferInstance
   regionNonempty := ⟨TwoSlotRegion.bot⟩
@@ -372,8 +375,11 @@ theorem stageLeftPauliXGenerator_not_mem_left :
   apply isingLeftPauliXGenerator_not_mem_left
   have hsource : X = isingLeftPauliXGenerator := by
     apply stageEquiv.injective
-    simpa only [stageLeftPauliXGenerator] using hEq
-  simpa only [rawSlotAlgebra, hsource] using hX
+    change stageEquiv X = stageEquiv isingLeftPauliXGenerator at hEq
+    exact hEq
+  rw [hsource] at hX
+  change isingLeftPauliXGenerator ∈ (slotLeft Spin (α := Spin)).range at hX
+  exact hX
 
 /-! ## The selected-state GNS representation -/
 
@@ -540,7 +546,7 @@ theorem representedHamiltonian_mul_self :
 
 theorem stageRepresentation_injective :
     Function.Injective stageRepresentation := by
-  letI : Nontrivial IsingColimitGNS :=
+  let : Nontrivial IsingColimitGNS :=
     ⟨⟨cyclicUnit, 0, cyclicUnit_ne_zero⟩⟩
   exact RingHom.injective stageRepresentation.toRingHom
 

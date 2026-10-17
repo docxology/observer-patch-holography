@@ -1,4 +1,7 @@
-import Geometry.SourceTemporalObservation
+module
+public import Geometry.SourceTemporalObservation
+
+@[expose] public section
 
 /-!
 # Temporal observation forms of the scalar seam dynamics
@@ -51,7 +54,8 @@ def responses (prep : V →ₗ[ℝ] (P → ℝ)) (es : List (P × P))
   fun slot => (LinearMap.proj (read slot.2)).comp
     ((wordMap (es.take slot.1.val)).comp prep)
 
-theorem responses_run (prep : V →ₗ[ℝ] (P → ℝ)) (es : List (P × P))
+omit [Fintype R] in
+theorem responses_run [_instFintypeR : Fintype R] (prep : V →ₗ[ℝ] (P → ℝ)) (es : List (P × P))
     (read : R → P) (horizon : ℕ) (slot : Fin horizon × R) (x : V) :
     responses prep es read horizon slot x = run (es.take slot.1.val) (prep x) (read slot.2) := by
   simp [responses, wordMap_run]
@@ -80,7 +84,8 @@ def firstRead (prep : V →ₗ[ℝ] (P → ℝ)) (es : List (P × P))
   classical
   exact Nat.find h
 
-theorem firstRead_correct (prep : V →ₗ[ℝ] (P → ℝ)) (es : List (P × P))
+omit [Fintype R] in
+theorem firstRead_correct [_instFintypeR : Fintype R] (prep : V →ₗ[ℝ] (P → ℝ)) (es : List (P × P))
     (read : R → P) (f : V →ₗ[ℝ] ℝ) (h : ∃ k, Observable (responses prep es read k) f) :
     Observable (responses prep es read (firstRead prep es read f h)) f := by
   classical

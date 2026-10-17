@@ -1,6 +1,9 @@
-import Mathlib.LinearAlgebra.BilinearForm.Basic
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Tactic
+module
+public import Mathlib.LinearAlgebra.BilinearForm.Basic
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Exact time-prism coefficient and action-defect algebra

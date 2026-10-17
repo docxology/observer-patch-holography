@@ -1,4 +1,7 @@
-import OphGap.SignedGap
+module
+public import OphGap.SignedGap
+
+@[expose] public section
 
 /-!
 # A certificate checker for the hypotheses of `gram_posDef_of_negative_cycle`, with soundness

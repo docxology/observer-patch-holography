@@ -1,4 +1,7 @@
-import Computation.FixedFederationExecutionExamples
+module
+public import Computation.FixedFederationExecutionExamples
+
+@[expose] public section
 
 /-!
 # Fanout control: the single-consumer hypothesis is load-bearing

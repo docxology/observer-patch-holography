@@ -1,4 +1,7 @@
-import Geometry.SourceTemporalGuard
+module
+public import Geometry.SourceTemporalGuard
+
+@[expose] public section
 
 /-!
 # Complete record grammar and native checkpoint viability

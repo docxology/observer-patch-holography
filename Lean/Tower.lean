@@ -1,15 +1,18 @@
-import Tower.ConsensusTower
-import Tower.PublicWorldQuotient
-import Tower.FixedPointEndpoint
-import Tower.AdaptiveFixedPointEndpoint
-import Tower.CumulativeCapacityEndpoint
-import Tower.FixedFederationEndpoint
-import Tower.FixedFederationExecutionEndpoint
-import Tower.FixedFederationExecutionAudit
-import Tower.FixedFederationFanoutEndpoint
-import Tower.EventGeometryReadout
-import Tower.FullPremiseInhabitant
-import Tower.OperationalObserver
+module
+public import Tower.ConsensusTower
+public import Tower.PublicWorldQuotient
+public import Tower.FixedPointEndpoint
+public import Tower.AdaptiveFixedPointEndpoint
+public import Tower.CumulativeCapacityEndpoint
+public import Tower.FixedFederationEndpoint
+public import Tower.FixedFederationExecutionEndpoint
+public import Tower.FixedFederationExecutionAudit
+public import Tower.FixedFederationFanoutEndpoint
+public import Tower.EventGeometryReadout
+public import Tower.FullPremiseInhabitant
+public import Tower.OperationalObserver
+
+@[expose] public section
 
 /-!
 # OPH construction tower umbrella

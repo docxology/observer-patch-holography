@@ -1,4 +1,7 @@
-import Tower.ConsensusTower
+module
+public import Tower.ConsensusTower
+
+@[expose] public section
 
 /-!
 # Finite public-world quotients

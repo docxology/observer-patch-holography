@@ -1,9 +1,12 @@
-import ObserverPatchHolography
-import ObserverPatchHolography.BridgeEquivalence
-import ObserverPatchHolography.CapacityFixedPoint
-import ObserverPatchHolography.CapacityClosurePrinciple
-import ObserverPatchHolography.SeedPi
-import EventAlgebra
+module
+public import ObserverPatchHolography
+public import ObserverPatchHolography.BridgeEquivalence
+public import ObserverPatchHolography.CapacityFixedPoint
+public import ObserverPatchHolography.CapacityClosurePrinciple
+public import ObserverPatchHolography.SeedPi
+public import EventAlgebra
+
+@[expose] public section
 
 def main : IO Unit := do
   IO.println "ObserverPatchHolography Lean library loaded."

@@ -1,4 +1,7 @@
-import SeamCurrentPhotonLeptonThreshold
+module
+public import SeamCurrentPhotonLeptonThreshold
+
+@[expose] public section
 
 open scoped BigOperators goldenRatio
 
@@ -190,7 +193,7 @@ theorem feature_dist_le
   apply (sq_le_sq₀ (norm_nonneg _)
     (show 0 ≤ euclideanMagnitude (k - p) from norm_nonneg _)).1
   rw [EuclideanSpace.real_norm_sq_eq, euclideanMagnitude_sq]
-  simpa only [Pi.sub_apply, Real.norm_eq_abs, sq_abs] using hsum
+  simpa only [PiLp.sub_apply, Real.norm_eq_abs, sq_abs] using hsum
 
 /-- Global unit Lipschitz bound for the complete nonnegative frequency.
 No Taylor expansion or angular orientation is used. -/
@@ -213,7 +216,7 @@ noncomputable def edge30Frame : PositiveTightFrame (Fin 30) where
   tight_pos := by norm_num
   secondMoment := by
     intro x
-    simpa using unit_seam_second_moment_eq x
+    simpa only [radiusSquared, one_mul] using unit_seam_second_moment_eq x
 
 theorem edge30_cosineSymbol_eq_fz12
     {a : ℝ} (ha : a ≠ 0) (k : Vec3) :

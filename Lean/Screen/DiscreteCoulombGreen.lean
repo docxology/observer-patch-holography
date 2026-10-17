@@ -1,5 +1,9 @@
-import SeamU1HolonomyClassification
-import ObserverPatchHolography.ScalarSeamRepair
+module
+public import Mathlib.Data.Fintype.Defs
+public import SeamU1HolonomyClassification
+public import ObserverPatchHolography.ScalarSeamRepair
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -132,7 +136,8 @@ theorem incidence_product_eq_laplacianEntries :
     ∀ p q : Fin 12,
       (∑ e : Fin 30, incidenceZ e p * incidenceZ e q) =
         laplacianEntriesZ p q := by
-  decide
+  intro p q
+  fin_cases p <;> fin_cases q <;> decide +kernel
 
 set_option maxRecDepth 16384 in
 /-- Exact integer core of the Green identity:
@@ -145,7 +150,8 @@ theorem laplacian_green_product :
 
 /-- The integer Green table is symmetric. -/
 theorem greenNumZ_symm : ∀ p q : Fin 12, greenNumZ p q = greenNumZ q p := by
-  decide
+  intro p q
+  fin_cases p <;> fin_cases q <;> decide +kernel
 
 /-- Every row of the integer Green table sums to zero. -/
 theorem greenNumZ_row_sum :
@@ -195,7 +201,8 @@ set_option maxRecDepth 16384 in
 determined by the hop class of its port pair. -/
 theorem greenNumZ_distance :
     ∀ p q : Fin 12, greenNumZ p q = distGreenNum (tableDistance p q) := by
-  decide
+  intro p q
+  fin_cases p <;> fin_cases q <;> decide +kernel
 
 /-- Hop classes of every port relative to port `0`. -/
 theorem distFromZero :
@@ -296,9 +303,9 @@ theorem coboundary_boundary_adjoint (φ : RationalPortLoad)
   rw [rationalCoboundary_apply, sub_mul, Finset.sum_sub_distrib]
   congr 1
   · simp only [mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ,
-      if_true]
+      ite_true]
   · simp only [mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ,
-      if_true]
+      ite_true]
 
 /-! ## The vertex Laplacian as a composition and as a matrix -/
 
@@ -346,7 +353,7 @@ theorem incidenceQ_sum_apply (e : Fin 30) (φ : RationalPortLoad) :
       φ (seamRight e) - φ (seamLeft e) := by
   unfold incidenceQ
   simp only [sub_mul, Finset.sum_sub_distrib, ite_mul, one_mul, zero_mul,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 /-- The composed Laplacian is multiplication by the incidence-derived
 matrix. -/
@@ -848,9 +855,9 @@ theorem realCoboundary_boundary_adjoint (φ : Fin 12 → ℝ)
   rw [realCoboundary_apply, sub_mul, Finset.sum_sub_distrib]
   congr 1
   · simp only [mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ,
-      if_true]
+      ite_true]
   · simp only [mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ,
-      if_true]
+      ite_true]
 
 theorem realLaplacian_energy_identity (φ : Fin 12 → ℝ) :
     realPortInner φ (realLaplacian φ) =
@@ -956,7 +963,7 @@ theorem incidenceR_sum_apply (e : Fin 30) (φ : Fin 12 → ℝ) :
       φ (seamRight e) - φ (seamLeft e) := by
   unfold incidenceR
   simp only [sub_mul, Finset.sum_sub_distrib, ite_mul, one_mul, zero_mul,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 /-- The real Laplacian is multiplication by the same matrix over `ℝ`. -/
 theorem realLaplacian_eq_mulVec (φ : Fin 12 → ℝ) :

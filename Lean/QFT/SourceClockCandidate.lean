@@ -1,5 +1,8 @@
-import PhysicalCalibrationImport
-import QFT.SourceHistoryThreeSlotLocalGNS
+module
+public import PhysicalCalibrationImport
+public import QFT.SourceHistoryThreeSlotLocalGNS
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false

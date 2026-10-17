@@ -1,7 +1,10 @@
-import SeamCurrentAuxiliaryOscillatorLift
-import SeamCurrentFreePhotonLift
-import CarrierFrequencySpeed
-import DiscreteGauss
+module
+public import SeamCurrentAuxiliaryOscillatorLift
+public import SeamCurrentFreePhotonLift
+public import CarrierFrequencySpeed
+public import DiscreteGauss
+
+@[expose] public section
 
 namespace OPH.LightSignalAdequacySurface
 

@@ -1,5 +1,8 @@
-import CarrierModeOscillators
-import A5PortAction
+module
+public import CarrierModeOscillators
+public import A5PortAction
+
+@[expose] public section
 
 open scoped BigOperators Matrix
 

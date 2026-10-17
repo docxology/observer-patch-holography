@@ -1,10 +1,13 @@
-import Mathlib.Algebra.Star.NonUnitalSubalgebra
-import Mathlib.Algebra.Star.Prod
-import Mathlib.Algebra.Star.StarProjection
-import Mathlib.Algebra.Algebra.Prod
-import Mathlib.Algebra.GroupWithZero.Idempotent
-import Mathlib.Topology.Connected.Clopen
-import Dynamics.StoneConverse
+module
+public import Mathlib.Algebra.Star.NonUnitalSubalgebra
+public import Mathlib.Algebra.Star.Prod
+public import Mathlib.Algebra.Star.StarProjection
+public import Mathlib.Algebra.Algebra.Prod
+public import Mathlib.Algebra.GroupWithZero.Idempotent
+public import Mathlib.Topology.Connected.Clopen
+public import Dynamics.StoneConverse
+
+@[expose] public section
 
 /-!
 # Central-block decomposition and control
@@ -111,18 +114,18 @@ def centralCorner (p : A) (hp : IsCentralStarProjection p) :
     NonUnitalStarSubalgebra ℂ A where
   carrier := {x : A | p * x = x}
   add_mem' := fun {a b} ha hb => by
-    rw [Set.mem_setOf_eq] at ha hb ⊢
+    rw [Set.mem_ofPred_eq] at ha hb ⊢
     rw [mul_add, ha, hb]
   zero_mem' := by
-    rw [Set.mem_setOf_eq, mul_zero]
+    rw [Set.mem_ofPred_eq, mul_zero]
   mul_mem' := fun {a b} ha hb => by
-    rw [Set.mem_setOf_eq] at ha hb ⊢
+    rw [Set.mem_ofPred_eq] at ha hb ⊢
     rw [← mul_assoc, ha]
   smul_mem' := fun c {x} hx => by
-    rw [Set.mem_setOf_eq] at hx ⊢
+    rw [Set.mem_ofPred_eq] at hx ⊢
     rw [mul_smul_comm, hx]
   star_mem' := fun {a} ha => by
-    rw [Set.mem_setOf_eq] at ha ⊢
+    rw [Set.mem_ofPred_eq] at ha ⊢
     have h1 : star a * p = star a := by
       have h2 := congrArg star ha
       rwa [star_mul, hp.isSelfAdjoint.star_eq] at h2

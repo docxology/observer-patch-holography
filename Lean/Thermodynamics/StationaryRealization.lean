@@ -1,4 +1,7 @@
-import FiniteConditionalRepair
+module
+public import FiniteConditionalRepair
+
+@[expose] public section
 
 namespace OPH.Thermodynamics
 

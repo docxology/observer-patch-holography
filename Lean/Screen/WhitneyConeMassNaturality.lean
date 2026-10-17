@@ -1,5 +1,8 @@
-import WhitneyConeMass
-import WhitneyFrameMorphism
+module
+public import WhitneyConeMass
+public import WhitneyFrameMorphism
+
+@[expose] public section
 
 set_option autoImplicit false
 

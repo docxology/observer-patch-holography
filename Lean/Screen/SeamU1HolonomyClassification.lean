@@ -1,5 +1,8 @@
-import DiscreteGauss
-import HolonomyInterference
+module
+public import DiscreteGauss
+public import HolonomyInterference
+
+@[expose] public section
 
 namespace OPH.SeamU1HolonomyClassification
 

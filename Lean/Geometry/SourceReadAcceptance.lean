@@ -1,5 +1,8 @@
-import Geometry.SourceReadSelection
-import Geometry.SourceReusableBus
+module
+public import Geometry.SourceReadSelection
+public import Geometry.SourceReusableBus
+
+@[expose] public section
 
 /-!
 # Publication from observational distinguishability
@@ -113,7 +116,10 @@ theorem run_affine (es : List (ι × ι)) (x : ι → ℝ) (b a : ℝ) :
     have step : pairAverage e.1 e.2 (fun i => b+a*x i) =
         fun i => b+a*pairAverage e.1 e.2 x i := by
       ext i
-      by_cases hi : i = e.1 ∨ i = e.2 <;> simp [pairAverage, hi] <;> ring
+      by_cases hi : i = e.1 ∨ i = e.2
+      · simp [pairAverage, hi]
+        ring
+      · simp [pairAverage, hi]
     simpa only [run, step] using ih (pairAverage e.1 e.2 x)
 
 theorem run_upper_bound (es : List (ι × ι)) (x : ι → ℝ) (A : ℝ)
@@ -146,11 +152,11 @@ theorem mean_gap (x : ι → ℝ) (m : ℝ) (hm : 0 ≤ m)
     (hx : ∀ i, x i = 0 ∨ m ≤ x i) (u v i : ι) :
     pairAverage u v x i = 0 ∨ m/2 ≤ pairAverage u v x i := by
   by_cases hi : i = u ∨ i = v
-  · simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, if_pos hi]
+  · simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, ite_eq_left hi]
     rcases hx u with hu | hu <;> rcases hx v with hv | hv
     · left; rw [hu, hv]; ring
     all_goals right; linarith
-  · simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, if_neg hi]
+  · simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, ite_eq_right hi]
     rcases hx i with h | h
     · exact Or.inl h
     · exact Or.inr (by linarith)
@@ -218,7 +224,7 @@ def boundedThreshold (A E z : ℝ) : Option Bool :=
 theorem positive_identification (A E z : ℝ) (hA : 0 ≤ A) (hE : 0 ≤ E) :
     Identifies (ConePossible A E) z true ↔ E < z ∧ z ≤ A+E := by
   simp only [Identifies, ConePossible, Bool.forall_bool, Bool.false_eq_true,
-    if_false, if_true, imp_false, implies_true, and_true]
+    ite_false, ite_true, imp_false, implies_true, and_true]
   constructor
   · rintro ⟨hz, hn⟩
     have hn' : ¬ z ≤ E := fun h => hn ⟨by linarith [hz.1],h⟩
@@ -229,7 +235,7 @@ theorem positive_identification (A E z : ℝ) (hA : 0 ≤ A) (hE : 0 ≤ E) :
 theorem negative_identification (A E z : ℝ) (hA : 0 ≤ A) (hE : 0 ≤ E) :
     Identifies (ConePossible A E) z false ↔ z < -E ∧ -A-E ≤ z := by
   simp only [Identifies, ConePossible, Bool.forall_bool, Bool.false_eq_true,
-    if_false, if_true, imp_false, Bool.true_eq_false, implies_true, true_and]
+    ite_false, ite_true, imp_false, Bool.true_eq_false, implies_true, true_and]
   constructor
   · rintro ⟨hz, hn⟩
     have hn' : ¬ -E ≤ z := fun h => hn ⟨h,by linarith [hz.2]⟩
@@ -240,19 +246,19 @@ theorem negative_identification (A E z : ℝ) (hA : 0 ≤ A) (hE : 0 ≤ E) :
 theorem bounded_positive_iff (A E z : ℝ) (_hA : 0 ≤ A) (hE : 0 ≤ E) :
     boundedThreshold A E z = some true ↔ E < z ∧ z ≤ A+E := by
   by_cases hb : |z| ≤ A+E
-  · simp only [boundedThreshold, if_pos hb]
+  · simp only [boundedThreshold, ite_eq_left hb]
     have bounds := abs_le.mp hb
     by_cases hp : E < z <;> simp [threshold, hp, bounds.2]
   · have hn : ¬ (E < z ∧ z ≤ A+E) := by
       rintro ⟨hp,hu⟩
       exact hb (abs_le.mpr ⟨by linarith,hu⟩)
-    simp only [boundedThreshold, if_neg hb, reduceCtorEq, false_iff]
+    simp only [boundedThreshold, ite_eq_right hb, reduceCtorEq, false_iff]
     exact hn
 
 theorem bounded_negative_iff (A E z : ℝ) (_hA : 0 ≤ A) (hE : 0 ≤ E) :
     boundedThreshold A E z = some false ↔ z < -E ∧ -A-E ≤ z := by
   by_cases hb : |z| ≤ A+E
-  · simp only [boundedThreshold, if_pos hb]
+  · simp only [boundedThreshold, ite_eq_left hb]
     have bounds := abs_le.mp hb
     have hl : -A-E ≤ z := by linarith [bounds.1]
     by_cases hp : E < z
@@ -262,7 +268,7 @@ theorem bounded_negative_iff (A E z : ℝ) (_hA : 0 ≤ A) (hE : 0 ≤ E) :
   · have hn : ¬ (z < -E ∧ -A-E ≤ z) := by
       rintro ⟨hp,hl⟩
       exact hb (abs_le.mpr ⟨by linarith,by linarith⟩)
-    simp only [boundedThreshold, if_neg hb, reduceCtorEq, false_iff]
+    simp only [boundedThreshold, ite_eq_right hb, reduceCtorEq, false_iff]
     exact hn
 
 /-- The executable interval rule is the maximal sound policy on the declared
@@ -279,7 +285,7 @@ theorem bounded_is_canonical (A E : ℝ) (hA : 0 ≤ A) (hE : 0 ≤ E) (z : ℝ)
 theorem positive_observation_possible (A E a z : ℝ) (ha : 0 ≤ a) (hA : a ≤ A)
     (hz : |z-a| ≤ E) : ConePossible A E true z := by
   have h := abs_le.mp hz
-  simp only [ConePossible, if_true]
+  simp only [ConePossible, ite_true]
   constructor <;> linarith
 
 theorem negative_observation_possible (A E a z : ℝ) (ha : 0 ≤ a) (hA : a ≤ A)
@@ -363,7 +369,8 @@ theorem paired_execution (es : List (ι × ι)) (a : ι → ℝ) :
   induction es generalizing a with
   | nil => rfl
   | cons e es ih =>
-    simpa [paired, execute, step, run, copied, pairAverage] using ih (copied e.1 e.2 a)
+    change execute (paired es) (copied e.1 e.2 a) = run es (copied e.1 e.2 a)
+    exact ih (copied e.1 e.2 a)
 
 theorem paired_native (es : List (ι × ι)) (b : ℝ) (a : ι → ℝ) :
     run (compile (paired es)) (encode b a) = encode b (run es a) := by
@@ -395,7 +402,10 @@ def signed (bit : Bool) (a : ι → ℝ) : ι → ℝ := fun i => if bit then a 
 theorem run_signed (es : List (ι × ι)) (a : ι → ℝ) (bit : Bool) :
     run es (signed bit a) = signed bit (run es a) := by
   cases bit
-  · simpa [signed] using run_affine es a 0 (-1)
+  · funext i
+    change run es (fun i => -a i) i = -(run es a i)
+    have h := congrFun (run_affine es a 0 (-1)) i
+    simpa only [zero_add, neg_one_mul] using h
   · rfl
 
 /-- End-to-end conditional service: all signed implementation errors are
@@ -470,7 +480,7 @@ theorem mean_positive_iff (x : ι → ℝ) (hx : ∀ i, 0 ≤ x i) (u v i : ι) 
     0 < pairAverage u v x i ↔
       if i = u ∨ i = v then 0 < x u ∨ 0 < x v else 0 < x i := by
   by_cases hi : i = u ∨ i = v
-  · simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, if_pos hi]
+  · simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, ite_eq_left hi]
     constructor
     · intro h
       by_contra hn
@@ -493,7 +503,7 @@ theorem prefix_step (x : ℕ → ℝ) (hx : ∀ i, 0 ≤ x i) (frontier move : �
   · subst move
     simp only [advance]
     split_ifs <;> omega
-  · simp only [advance, if_neg he]
+  · simp only [advance, ite_eq_right he]
     split_ifs <;> omega
 
 def progress : ℕ → List ℕ → ℕ

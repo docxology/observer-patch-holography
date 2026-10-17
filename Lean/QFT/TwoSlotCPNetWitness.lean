@@ -1,4 +1,7 @@
-import QFT.CPRestrictionNet
+module
+public import QFT.CPRestrictionNet
+
+@[expose] public section
 
 /-!
 # The two-slot inhabitant of the conditional-expectation net
@@ -95,19 +98,18 @@ def leftSlotExpectation :
     Matrix (α × β) (α × β) ℂ →ₗ[ℂ] Matrix (α × β) (α × β) ℂ where
   toFun M := (Fintype.card β : ℂ)⁻¹ • (ptraceSnd M ⊗ₖ (1 : Matrix β β ℂ))
   map_add' M N := by
-    unfold ptraceSnd
-    rw [← smul_add, ← Matrix.add_kronecker]
-    congr 2
-    ext a a'
-    simp [Finset.sum_add_distrib]
+    ext ⟨a, b⟩ ⟨a', b'⟩
+    change (Fintype.card β : ℂ)⁻¹ * ((∑ x : β, (M (a, x) (a', x) + N (a, x) (a', x))) * (1 : Matrix β β ℂ) b b') =
+      (Fintype.card β : ℂ)⁻¹ * ((∑ x : β, M (a, x) (a', x)) * (1 : Matrix β β ℂ) b b') +
+      (Fintype.card β : ℂ)⁻¹ * ((∑ x : β, N (a, x) (a', x)) * (1 : Matrix β β ℂ) b b')
+    rw [Finset.sum_add_distrib]
+    ring
   map_smul' c M := by
-    unfold ptraceSnd
-    rw [RingHom.id_apply, smul_comm]
-    congr 1
-    rw [← Matrix.smul_kronecker]
-    congr 1
-    ext a a'
-    simp [Finset.mul_sum]
+    ext ⟨a, b⟩ ⟨a', b'⟩
+    change (Fintype.card β : ℂ)⁻¹ * ((∑ x : β, c * M (a, x) (a', x)) * (1 : Matrix β β ℂ) b b') =
+      c * ((Fintype.card β : ℂ)⁻¹ * ((∑ x : β, M (a, x) (a', x)) * (1 : Matrix β β ℂ) b b'))
+    rw [← Finset.mul_sum]
+    ring
 
 omit [DecidableEq β] in
 /-- The right-slot conjugation summand in explicit entry form. -/
@@ -322,7 +324,11 @@ inductive TwoSlotRegion : Type
   | left : TwoSlotRegion
   | right : TwoSlotRegion
   | top : TwoSlotRegion
-deriving DecidableEq, Fintype
+deriving DecidableEq
+
+instance : Fintype TwoSlotRegion where
+  elems := {.bot, .left, .right, .top}
+  complete := by intro x; cases x <;> simp
 
 namespace TwoSlotRegion
 

@@ -1,9 +1,12 @@
-import Geometry.SourceTemporalAcceptanceAxiomAudit
-import Geometry.SourceCheckpointMeaning
-import Geometry.SourceCheckpointPolicy
-import Geometry.SourceCheckpointEntropy
-import Geometry.SourceCheckpointNative
-import Geometry.SourceCheckpointPipeline
+module
+public import Geometry.SourceTemporalAcceptanceAxiomAudit
+public import Geometry.SourceCheckpointMeaning
+public import Geometry.SourceCheckpointPolicy
+public import Geometry.SourceCheckpointEntropy
+public import Geometry.SourceCheckpointNative
+public import Geometry.SourceCheckpointPipeline
+
+@[expose] public section
 
 /-! Transitive standard-axiom gate for finite native checkpoint selection. -/
 

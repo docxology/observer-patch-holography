@@ -1,4 +1,7 @@
-import Geometry.GoldenSourceCountLimit
+module
+public import Geometry.GoldenSourceCountLimit
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -71,7 +74,7 @@ theorem future_null (T L : ℝ) {c : ℝ} (hc : c ≠ 0) (p : Spacetime) :
   have heq : {q | margin c p q = 0} =
       {q : Spacetime | q.1 = p.1 + spatialNorm (q.2 - p.2) / c} := by
     ext q
-    simp only [mem_setOf_eq, margin]
+    simp only [mem_ofPred_eq, margin]
     constructor
     · intro h
       have hh : q.1 - p.1 = spatialNorm (q.2 - p.2) / c :=
@@ -92,7 +95,7 @@ theorem past_null (T L : ℝ) {c : ℝ} (hc : c ≠ 0) (p : Spacetime) :
   have heq : {q | margin c q p = 0} =
       {q : Spacetime | q.1 = p.1 - spatialNorm (p.2 - q.2) / c} := by
     ext q
-    simp only [mem_setOf_eq, margin]
+    simp only [mem_ofPred_eq, margin]
     constructor
     · intro h
       have hh : p.1 - q.1 = spatialNorm (p.2 - q.2) / c :=
@@ -138,7 +141,7 @@ theorem diagonal_null (T L : ℝ) {c : ℝ} (hc : c ≠ 0) :
       {z : Spacetime × Spacetime | z.1 = z.2} = 0 := by
   apply measure_mono_null _ (pair_null T L hc)
   intro z hz
-  simp only [mem_setOf_eq] at hz ⊢
+  simp only [mem_ofPred_eq] at hz ⊢
   simp [hz, margin, spatialNorm]
 
 /-- Fixed causal diamonds satisfy the fixed-set count theorem with no supplied

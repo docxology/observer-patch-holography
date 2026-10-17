@@ -1,4 +1,7 @@
-import Geometry.SourceNetCausalCone
+module
+public import Geometry.SourceNetCausalCone
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -337,7 +340,16 @@ theorem layerZero_card (S : Type*) [Fintype S] :
 theorem mem_layerZero [Fintype S] (e : ℕ × S) :
     e ∈ layerZero S ↔ e.1 = 0 := by
   rcases e with ⟨j, x⟩
-  simp [layerZero, eq_comm]
+  constructor
+  · intro h
+    obtain ⟨a, _, ha⟩ := Finset.mem_map.mp h
+    exact (congrArg Prod.fst ha).symm
+  · intro h
+    apply Finset.mem_map.mpr
+    refine ⟨x, Finset.mem_univ x, ?_⟩
+    change j = 0 at h
+    subst j
+    rfl
 
 theorem layerZero_isAntichain [Fintype S] :
     IsAntichainL step ((layerZero S : Finset (ℕ × S)) : Set (ℕ × S)) := by

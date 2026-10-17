@@ -1,4 +1,7 @@
-import WhitneyFrameMorphism
+module
+public import WhitneyFrameMorphism
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -1,5 +1,8 @@
-import ObservableNormalForms.MechanismVariants
-import ObservableNormalForms.Stochastic
+module
+public import ObservableNormalForms.MechanismVariants
+public import ObservableNormalForms.Stochastic
+
+@[expose] public section
 
 
 /-!
@@ -35,6 +38,7 @@ private def finPiConsEquiv (S : Type u) (n : ℕ) :
   left_inv := fun zq => by simp
   right_inv := fun p => Fin.cons_self_tail p
 
+omit [DecidableEq S] in
 private theorem sum_pi_fin_succ (n : ℕ) (f : (Fin (n + 1) → S) → ℝ) :
     ∑ p : Fin (n + 1) → S, f p =
       ∑ z : S, ∑ q : Fin n → S, f (Fin.cons z q) := by
@@ -70,6 +74,7 @@ theorem firstHitAtMass_zero (K : FiniteMarkovKernel S)
     firstHitAtMass K target 0 x c = if target x ∧ x = c then 1 else 0 := by
   classical
   simp [firstHitAtMass, FirstHitAt, pathEndpoint, FiniteMarkovKernel.pathWeight]
+  exact (ite_eq_ite _ _ _).mpr trivial
 
 theorem firstHitAtMass_succ (K : FiniteMarkovKernel S)
     (target : S → Prop) [DecidablePred target]
@@ -148,12 +153,15 @@ theorem sum_firstHitAtMass (K : FiniteMarkovKernel S)
   · simp [hp]
   · simp [hp]
 
+omit [DecidableEq S] in
 theorem firstHitTotal_zero (K : FiniteMarkovKernel S)
     (target : S → Prop) [DecidablePred target] (x : S) :
     firstHitTotal K target 0 x = if target x then 1 else 0 := by
   classical
   simp [firstHitTotal, FirstHitAt, FiniteMarkovKernel.pathWeight]
+  exact (ite_eq_ite _ _ _).mpr trivial
 
+omit [DecidableEq S] in
 theorem firstHitTotal_succ (K : FiniteMarkovKernel S)
     (target : S → Prop) [DecidablePred target]
     (n : ℕ) (x : S) :
@@ -191,8 +199,8 @@ theorem hitBy_succ_recurrence (K : FiniteMarkovKernel S)
   rw [firstHitTotal_zero]
   by_cases hx : target x
   · simp [hx, firstHitTotal_succ]
-  · rw [if_neg hx, if_neg hx]
-    simp only [firstHitTotal_succ, hx, if_false]
+  · rw [ite_eq_right hx, ite_eq_right hx]
+    simp only [firstHitTotal_succ, hx, ite_false]
     rw [Finset.sum_comm]
     simp only [add_zero]
     apply Finset.sum_congr rfl
@@ -216,7 +224,7 @@ theorem hitBy_le_one (K : FiniteMarkovKernel S)
       rw [hitBy_succ_recurrence]
       by_cases hx : target x
       · simp [hx]
-      · rw [if_neg hx]
+      · rw [ite_eq_right hx]
         calc
           ∑ z : S, K.probability x z * hitBy K target N z ≤
               ∑ z : S, K.probability x z * 1 := by
@@ -273,10 +281,9 @@ theorem hitProbability_bellman (K : FiniteMarkovKernel S)
     ((Filter.tendsto_add_atTop_iff_nat 1).1 ?_)
   simp only [hitBy_succ_recurrence]
   by_cases hx : target x
-  · simpa [hx] using (tendsto_const_nhds :
-      Filter.Tendsto (fun _ : ℕ => (1 : ℝ)) Filter.atTop (nhds 1))
-  · simp only [hx, if_false]
-    exact tendsto_finset_sum Finset.univ fun z _ =>
+  · simp [hx]
+  · simp only [hx, ite_false]
+    exact tendsto_finsetSum Finset.univ fun z _ =>
       Filter.Tendsto.const_mul (K.probability x z)
         (hitBy_tendsto_hitProbability K target z)
 
@@ -320,6 +327,7 @@ def SupportedFinPath (K : FiniteMarkovKernel S) :
   | n + 1, x, p =>
       0 < K.probability x (p 0) ∧ SupportedFinPath K n (p 0) (Fin.tail p)
 
+omit [DecidableEq S] in
 theorem pathWeight_pos_iff_supportedFinPath (K : FiniteMarkovKernel S) :
     ∀ (n : ℕ) (x : S) (p : Fin n → S),
       0 < K.pathWeight n x p ↔ SupportedFinPath K n x p := by
@@ -375,7 +383,7 @@ theorem firstHitAtMass_pos_iff (K : FiniteMarkovKernel S)
     apply Finset.sum_pos' hf
     refine ⟨p, Finset.mem_univ p, ?_⟩
     dsimp [f]
-    rw [if_pos ⟨hfirst, hend⟩]
+    rw [ite_eq_left ⟨hfirst, hend⟩]
     exact (pathWeight_pos_iff_supportedFinPath K n x p).mpr hsupp
 
 theorem cumulativeEndpointMass_pos_iff (K : FiniteMarkovKernel S)
@@ -460,7 +468,7 @@ theorem deficit_bellman (K : FiniteMarkovKernel S)
   rw [deficit, hitProbability_bellman]
   by_cases hx : target x
   · simp [hx]
-  · rw [if_neg hx, if_neg hx]
+  · rw [ite_eq_right hx, ite_eq_right hx]
     unfold deficit
     calc
       1 - ∑ z : S, K.probability x z * hitProbability K target z =
@@ -486,7 +494,7 @@ theorem hitProbability_eq_one_of_supportStep
   have hsum : (∑ z : S, K.probability x z * deficit K target z) = 0 := by
     calc
       _ = deficit K target x := by
-        rw [deficit_bellman K target x, if_neg hstep.1]
+        rw [deficit_bellman K target x, ite_eq_right hstep.1]
       _ = 0 := hdx
   have hterm : K.probability x y * deficit K target y = 0 :=
     (Finset.sum_eq_zero_iff_of_nonneg
@@ -523,7 +531,7 @@ theorem hitBy_eq_zero_on_closed
       simp [firstHitTotal_zero, htarget u hu]
   | succ N ih =>
       intro u hu
-      rw [hitBy_succ_recurrence, if_neg (htarget u hu)]
+      rw [hitBy_succ_recurrence, ite_eq_right (htarget u hu)]
       apply Finset.sum_eq_zero
       intro v _
       by_cases hp : 0 < K.probability u v
@@ -564,6 +572,7 @@ noncomputable def preHitReachableFinset (K : FiniteMarkovKernel S)
   classical
   exact Finset.univ.filter fun u => PreHitReach K target root u
 
+omit [DecidableEq S] in
 theorem mem_preHitReachableFinset (K : FiniteMarkovKernel S)
     (target : S → Prop) (root u : S) :
     u ∈ preHitReachableFinset K target root ↔ PreHitReach K target root u := by
@@ -692,7 +701,7 @@ theorem hitBy_le_nonnegativeBellmanFixedPoint
       rw [hitBy_succ_recurrence, hg.2 x]
       by_cases hx : target x
       · simp [hx]
-      · simp only [hx, if_false]
+      · simp only [hx, ite_false]
         apply Finset.sum_le_sum
         intro z _
         exact mul_le_mul_of_nonneg_left (ih z) (K.probability_nonneg x z)
@@ -712,6 +721,7 @@ theorem hitProbability_least_nonnegative_fixedPoint
   intro x
   exact ciSup_le fun N => hitBy_le_nonnegativeBellmanFixedPoint K target g hg N x
 
+omit [DecidableEq S] in
 theorem constantOne_isNonnegativeBellmanFixedPoint
     (K : FiniteMarkovKernel S)
     (target : S → Prop) [DecidablePred target] :
@@ -865,7 +875,7 @@ private theorem fiberSum_nonneg (d : Q₂) (μ : Q₁ → ℝ)
     (hμ : ∀ c, 0 ≤ μ c) : 0 ≤ F.fiberSum d μ := by
   classical
   exact Finset.sum_nonneg fun c _ => by
-    by_cases hc : F.stateMap c = d <;> simp [fiberSum, hc, hμ c]
+    by_cases hc : F.stateMap c = d <;> simp [hc, hμ c]
 
 private theorem fiberSum_pos_of (d : Q₂) (μ : Q₁ → ℝ)
     (hμ : ∀ c, 0 ≤ μ c) {c : Q₁}
@@ -939,7 +949,7 @@ theorem firstHitAtMass_pushforward {b : O₁} (hb : b ∈ A.protectedSet) :
         simp [hA, hB, fiberSum]
       · have hB : ¬ B.IsTarget (F.behaviorMap b) (F.stateMap x) :=
           fun h => hA (ht.mpr h)
-        simp_rw [hA, hB, if_false]
+        simp_rw [hA, hB, ite_false]
         change B.kernel.apply
             (fun z => firstHitAtMass B.kernel (B.IsTarget (F.behaviorMap b)) n z d)
             (F.stateMap x) = _
@@ -1025,7 +1035,7 @@ theorem hitBy_exact {b : O₁} (hb : b ∈ A.protectedSet) :
         simp [hA, hB]
       · have hB : ¬ B.IsTarget (F.behaviorMap b) (F.stateMap x) :=
           fun h => hA (ht.mpr h)
-        rw [if_neg hA, if_neg hB]
+        rw [ite_eq_right hA, ite_eq_right hB]
         change B.kernel.apply
             (fun z => hitBy B.kernel (B.IsTarget (F.behaviorMap b)) N z)
             (F.stateMap x) = _
@@ -1059,11 +1069,10 @@ theorem endpointHitProbability_pushforward_derived {b : O₁}
       (nhds (F.fiberSum d (fun c => endpointHitProbability A.kernel (A.IsTarget b) x c))) := by
     classical
     unfold fiberSum
-    exact tendsto_finset_sum Finset.univ fun c _ => by
+    exact tendsto_finsetSum Finset.univ fun c _ => by
       by_cases hc : F.stateMap c = d
       · simpa [hc] using cumulativeEndpointMass_tendsto A.kernel (A.IsTarget b) x c
-      · simpa [hc] using (tendsto_const_nhds :
-          Filter.Tendsto (fun _ : ℕ => (0 : ℝ)) Filter.atTop (nhds 0))
+      · simp [hc]
   convert hsum using 1
   funext N
   exact F.cumulativeEndpointMass_pushforward hb N x d
@@ -1423,7 +1432,7 @@ theorem t1_fiber_empty_iff (M : Profile O Q) (b : O) :
   · intro hempty ⟨c, hc, hobs⟩
     have : c ∈ M.fiber b := by
       simp [fiber, (M.target_iff b c), hc, hobs]
-    simpa [hempty] using this
+    exact Finset.notMem_empty c (hempty ▸ this)
   · intro hnone
     apply Finset.eq_empty_iff_forall_notMem.mpr
     intro c hc
@@ -1445,6 +1454,7 @@ theorem t1_no_normal_endpoint_of_empty_fiber (M : Profile O Q)
 
 /-! ## Canonical-law bridges and public T2/T3/T4/T5 -/
 
+omit [DecidableEq Q] [Fintype Q] in
 theorem firstHitAt_target_endpoint (target : Q → Prop) [DecidablePred target] :
     ∀ {n : ℕ} {q : Q} {p : Fin n → Q},
       FirstHitAt target n q p → target (pathEndpoint n q p) := by
@@ -1471,7 +1481,7 @@ theorem hit_eq_sum_endpoint (M : Profile O Q) (b : O) (q : Q) :
       Filter.atTop
       (nhds (∑ c : Q,
         endpointHitProbability M.core.kernel (M.core.IsTarget b) q c)) :=
-    tendsto_finset_sum Finset.univ fun c _ =>
+    tendsto_finsetSum Finset.univ fun c _ =>
       cumulativeEndpointMass_tendsto M.core.kernel (M.core.IsTarget b) q c
   simpa [hitBy] using hsum
 
@@ -1605,7 +1615,7 @@ structure SchedulerLaws (M : Profile O Q) (b : O) : Prop where
       Scheduler.PreHitReach M.SupportStep (M.core.IsTarget b) a q) →
     M.rewrite q r → M.SupportStep q r
 
-def SchedulerLaws.toInterface (M : Profile O Q) {b : O}
+theorem SchedulerLaws.toInterface (M : Profile O Q) {b : O}
     (laws : M.SchedulerLaws b) :
     Scheduler.SchedulerInterface M.SupportStep M.rewrite
       (M.core.IsTarget b) (fun q => q ∈ M.core.initial b) where
@@ -1714,7 +1724,9 @@ theorem t7_realizedBehavior0 (M : Profile O Q) :
     have hobs := M.initial_observe hbP hq
     let p : Fin 0 → Q := fun i => Fin.elim0 i
     refine ⟨M.traceOfPath hq hobs 0 p (by trivial), ?_, ?_⟩
-    · simpa [Admissible0, traceOfPath, hobs] using hb0
+    · change M.core.InL0 (M.observe q)
+      rw [hobs]
+      exact hb0
     · exact hobs
 
 theorem t7_realizedBehavior1 (M : Profile O Q) :
@@ -1736,8 +1748,11 @@ theorem t7_realizedBehavior1 (M : Profile O Q) :
       ⟨q, hq, c, n, p, hfirst, hend, hs⟩
     have hobs := M.initial_observe hbP hq
     refine ⟨M.traceOfPath hq hobs n p hs, ?_, ?_⟩
-    · refine ⟨by simpa [Admissible0, traceOfPath, hobs] using hb1.1, ?_⟩
-      simpa only [traceOfPath, hobs] using hfirst
+    · refine ⟨?_, ?_⟩
+      · change M.core.InL0 (M.observe q)
+        rw [hobs]
+        exact hb1.1
+      · simpa only [traceOfPath, hobs] using hfirst
     · exact hobs
 
 theorem t7_realizedBehavior2 (M : Profile O Q) :
@@ -1981,17 +1996,17 @@ theorem delta3_eq_cut3_diff_cut2 (M : Profile O Q) :
 theorem cut1_eq_cut0_union_delta1 (M : Profile O Q) :
     M.cut1 = M.cut0 ∪ M.delta1 := by
   rw [delta1_eq_cut1_diff_cut0 M]
-  exact (Set.union_diff_cancel (cut0_subset_cut1 M)).symm
+  exact (Set.union_sdiff_cancel (cut0_subset_cut1 M)).symm
 
 theorem cut2_eq_cut1_union_delta2 (M : Profile O Q) :
     M.cut2 = M.cut1 ∪ M.delta2 := by
   rw [delta2_eq_cut2_diff_cut1 M]
-  exact (Set.union_diff_cancel (cut1_subset_cut2 M)).symm
+  exact (Set.union_sdiff_cancel (cut1_subset_cut2 M)).symm
 
 theorem cut3_eq_cut2_union_delta3 (M : Profile O Q) :
     M.cut3 = M.cut2 ∪ M.delta3 := by
   rw [delta3_eq_cut3_diff_cut2 M]
-  exact (Set.union_diff_cancel (cut2_subset_cut3 M)).symm
+  exact (Set.union_sdiff_cancel (cut2_subset_cut3 M)).symm
 
 end Profile
 

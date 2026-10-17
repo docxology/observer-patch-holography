@@ -1,4 +1,7 @@
-import ObserverPatchHolography.ScalarSeamRepair
+module
+public import ObserverPatchHolography.ScalarSeamRepair
+
+@[expose] public section
 
 /-!
 # Linear records protected by seam averaging

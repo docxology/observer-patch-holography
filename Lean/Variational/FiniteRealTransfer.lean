@@ -1,4 +1,7 @@
-import Variational.FiniteHistoryBridge
+module
+public import Variational.FiniteHistoryBridge
+
+@[expose] public section
 
 namespace OPH.Variational
 
@@ -239,7 +242,9 @@ theorem witness_transfer_euler_lagrange :
       (witnessEnrichment.emb witnessEnrichment.g₀ (0 : Fin 2).succ) := by
     have h : HasDerivAt (fun x : ℝ => (x - 0) ^ 2) 2 1 := by
       convert ((hasDerivAt_id (1 : ℝ)).sub_const 0).pow 2 using 1
-      norm_num
+      · funext x
+        rfl
+      · norm_num
     show HasDerivAt (fun x => witnessL (witnessEmb 0 0) x) 2
       (witnessEmb 0 1)
     have h0 : witnessEmb 0 0 = (0 : ℝ) := by simp [witnessEmb]
@@ -254,7 +259,9 @@ theorem witness_transfer_euler_lagrange :
         (1 : Fin 2).castSucc) := by
     have h : HasDerivAt (fun x : ℝ => (2 - x) ^ 2) (-2) 1 := by
       convert ((hasDerivAt_id (1 : ℝ)).const_sub 2).pow 2 using 1
-      norm_num
+      · funext x
+        rfl
+      · norm_num
     show HasDerivAt (fun x => witnessL x (witnessEmb 0 2)) (-2)
       (witnessEmb 0 1)
     have h2 : witnessEmb 0 2 = (2 : ℝ) := by simp [witnessEmb]

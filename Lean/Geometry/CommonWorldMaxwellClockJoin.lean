@@ -1,5 +1,8 @@
-import Geometry.CommonWorldInstrumentJoin
-import CertifiedScaledStepInstrument
+module
+public import Geometry.CommonWorldInstrumentJoin
+public import CertifiedScaledStepInstrument
+
+@[expose] public section
 
 set_option autoImplicit false
 

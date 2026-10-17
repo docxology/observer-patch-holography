@@ -1,5 +1,8 @@
-import SeamCurrentCarrierQuotient
-import A5OrbitRaySeparation
+module
+public import SeamCurrentCarrierQuotient
+public import A5OrbitRaySeparation
+
+@[expose] public section
 
 open scoped BigOperators goldenRatio
 

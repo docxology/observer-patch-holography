@@ -1,6 +1,9 @@
-import Geometry.SourceNetOrderLimit
-import Geometry.SourceCountTransport
-import Geometry.SourceCausalBoundary
+module
+public import Geometry.SourceNetOrderLimit
+public import Geometry.SourceCountTransport
+public import Geometry.SourceCausalBoundary
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -32,7 +35,7 @@ def assignment (n : ℕ) (L : ℝ) : ℝ := 2 * Real.sqrt 3 * L / Nat.fib n
 
 theorem domain_convex (L : ℝ) : Convex ℝ (domain L) := by
   intro x hx y hy a b ha hb hab i
-  simpa only [PiLp.add_apply, PiLp.smul_apply, smul_eq_mul] using
+  simpa only [PiLp.add_apply, PiLp.smul_apply, smul_eq_mul, Set.mem_Ico] using
     (convex_Ico (0 : ℝ) L (hx i) (hy i) ha hb hab)
 
 theorem population_subset {n : ℕ} {L : ℝ} (hL : 0 < L) :
@@ -41,7 +44,7 @@ theorem population_subset {n : ℕ} {L : ℝ} (hL : 0 < L) :
   change 0 ≤ L * orbit (b i).val ∧ L * orbit (b i).val < L
   constructor
   · exact mul_nonneg hL.le (Int.fract_nonneg _)
-  · simpa using mul_lt_mul_of_pos_left (Int.fract_lt_one _) hL
+  · simpa [orbit] using mul_lt_mul_of_pos_left (Int.fract_lt_one _) hL
 
 /-- The proved permutation partition gives a covering by actual source sites. -/
 theorem population_covers {n : ℕ} (hn : 0 < n) {L : ℝ} (hL : 0 < L) :
@@ -111,16 +114,16 @@ theorem generated_eventually_iff {T L c : ℝ} (hL : 0 < L) (hc : 0 < c)
     ∀ᶠ n in atTop, (generated (e n) (f n) ↔ 0 ≤ margin c p q) ∧
       (strictlyGenerated (e n) (f n) ↔ 0 ≤ margin c p q) := by
   have het : Tendsto (fun n => layerTime (radius (n + 2) L) c (placed (e n)).1)
-      atTop (𝓝 p.1) := by simpa only [placed_time] using (continuous_fst.tendsto p).comp he
+      atTop (𝓝 p.1) := by simpa only [placed_time, Function.comp_def] using (continuous_fst.tendsto p).comp he
   have hft : Tendsto (fun n => layerTime (radius (n + 2) L) c (placed (f n)).1)
-      atTop (𝓝 q.1) := by simpa only [placed_time] using (continuous_fst.tendsto q).comp hf
+      atTop (𝓝 q.1) := by simpa only [placed_time, Function.comp_def] using (continuous_fst.tendsto q).comp hf
   have hex : Tendsto (fun n => ((placed (e n)).2 : Carrier)) atTop
       (𝓝 (WithLp.toLp 2 p.2)) := by
-    simpa only [placed_space] using ((PiLp.continuous_toLp 2 _).tendsto p.2).comp
+    simpa only [placed_space, Function.comp_def] using ((PiLp.continuous_toLp 2 _).tendsto p.2).comp
       ((continuous_snd.tendsto p).comp he)
   have hfx : Tendsto (fun n => ((placed (f n)).2 : Carrier)) atTop
       (𝓝 (WithLp.toLp 2 q.2)) := by
-    simpa only [placed_space] using ((PiLp.continuous_toLp 2 _).tendsto q.2).comp
+    simpa only [placed_space, Function.comp_def] using ((PiLp.continuous_toLp 2 _).tendsto q.2).comp
       ((continuous_snd.tendsto q).comp hf)
   have hnorm : ‖(WithLp.toLp 2 q.2 : Carrier) - WithLp.toLp 2 p.2‖ =
       spatialNorm (q.2 - p.2) := rfl

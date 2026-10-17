@@ -1,4 +1,7 @@
-import ObserverPatchHolography.EinsteinBranch.EdgeCenterTiltCocycle
+module
+public import ObserverPatchHolography.EinsteinBranch.EdgeCenterTiltCocycle
+
+@[expose] public section
 
 /-!
 # Cosmology ledger brackets

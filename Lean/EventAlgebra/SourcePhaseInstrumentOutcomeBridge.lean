@@ -1,5 +1,8 @@
-import EventAlgebra.SourcePhaseSelection
-import EventAlgebra.LuedersPhaseInstrument
+module
+public import EventAlgebra.SourcePhaseSelection
+public import EventAlgebra.LuedersPhaseInstrument
+
+@[expose] public section
 
 set_option autoImplicit false
 

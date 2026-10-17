@@ -1,4 +1,7 @@
-import ObserverPatchHolography.Execution.AdaptiveRunStratification
+module
+public import ObserverPatchHolography.Execution.AdaptiveRunStratification
+
+@[expose] public section
 
 /-!
 # Nonvacuity and premise boundaries for adaptive repair

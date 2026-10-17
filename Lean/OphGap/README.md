@@ -14,7 +14,7 @@ the proof's input.
 ## Reproduce the check
 
 The project uses the toolchain named in `Lean/lean-toolchain`
-(`leanprover/lean4:v4.29.1`) and pins Mathlib to `v4.29.1` in
+(`leanprover/lean4:v4.35.0`) and pins Mathlib to `v4.35.0` in
 `Lean/lakefile.lean`. From the repository root, run:
 
 ```sh
@@ -78,3 +78,13 @@ the transport's hypotheses decided by the kernel on the literal data.
   certificates are rejected by the checker rather than silently accepted.
 
 Python now only PRODUCES data files; no step of the argument is justified outside Lean.
+
+## Lean 4.35 generated module preambles
+
+`Lean/tools/module_headers.py` owns the module/import preamble used by
+`gen_orig_data.py` and `gen_slices.py`. The data producers continue to own
+every certificate declaration. The migration inserts `module`, public imports,
+and an exposed public section without changing the frozen declarations.
+The thirteen slice modules reproduce byte for byte through `gen_slices.py`.
+The kernel rechecks the existing literals and all refusal controls on 4.35.
+Historical receipts retain their original source digests.

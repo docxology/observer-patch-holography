@@ -1,5 +1,8 @@
-import QFT.RichFibreWitness
-import QFT.CoverageReceipt
+module
+public import QFT.RichFibreWitness
+public import QFT.CoverageReceipt
+
+@[expose] public section
 
 /-!
 # The rich-fibre regional net: four declared noncommutative regions
@@ -341,14 +344,18 @@ theorem richRelTop_offdiag_owner : ∀ i j : Fin 81,
 /-! ## The region lattice -/
 
 /-- Region labels: bottom, the four windows, top. -/
-inductive RichRegion : Type
+inductive RichRegion where
   | bot
   | r86
   | r88
   | r247
   | r384
   | top
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype RichRegion where
+  elems := {RichRegion.bot, RichRegion.r86, RichRegion.r88, RichRegion.r247, RichRegion.r384, RichRegion.top}
+  complete := by intro x; cases x <;> simp
 
 namespace RichRegion
 
@@ -728,13 +735,13 @@ theorem richBlockPull_mem (o : RichObserver)
   refine ⟨fun i j h0 => ?_, fun i j hi hj => ?_⟩
   · have h0' : richRelObs o i j = false := h0
     simp only [richBlockPull]
-    rw [if_neg (ne_true_of_eq_false' h0')]
+    rw [ite_eq_right (ne_true_of_eq_false' h0')]
   · have hoi : ¬ richNodeOwner i = some o := of_decide_eq_true hi
     have hoj : ¬ richNodeOwner j = some o := of_decide_eq_true hj
     have hri : richRelObs o i i = true := (richObsBlock o).rel_refl i
     have hrj : richRelObs o j j = true := (richObsBlock o).rel_refl j
     simp only [richBlockPull]
-    rw [if_pos hri, if_pos hrj,
+    rw [ite_eq_left hri, ite_eq_left hrj,
       richCollapse_of_not_owner hoi, richCollapse_of_not_owner hoj]
 
 /-- The block restriction fixes every member of the window algebra. -/
@@ -746,7 +753,7 @@ theorem richBlockPull_fixes {o : RichObserver}
   ext i j
   simp only [richBlockPull]
   by_cases hrel : richRelObs o i j = true
-  · rw [if_pos hrel]
+  · rw [ite_eq_left hrel]
     by_cases hij : i = j
     · subst hij
       by_cases ho : richNodeOwner i = some o
@@ -755,7 +762,7 @@ theorem richBlockPull_fixes {o : RichObserver}
         exact (richBlock_offwindow_diag hX ho).symm
     · obtain ⟨hoi, hoj⟩ := richRelObs_offdiag_owner o i j hrel hij
       rw [richCollapse_of_owner hoi, richCollapse_of_owner hoj]
-  · rw [if_neg hrel]
+  · rw [ite_eq_right hrel]
     exact (hX.1 i j (bool_eq_false' hrel)).symm
 
 /-- Entry support of a top member: entries vanish off the top
@@ -785,7 +792,7 @@ noncomputable def richPullback (o : RichObserver) :
     ext i j
     simp only [richBlockPull]
     by_cases hrel : richRelObs o i j = true
-    · rw [if_pos hrel]
+    · rw [ite_eq_left hrel]
       by_cases hij : i = j
       · subst hij
         rw [Matrix.one_apply_eq, Matrix.one_apply_eq]
@@ -794,7 +801,7 @@ noncomputable def richPullback (o : RichObserver) :
     · have hij : i ≠ j := fun he => by
         subst he
         exact hrel ((richObsBlock o).rel_refl i)
-      rw [if_neg hrel, Matrix.one_apply_ne hij])
+      rw [ite_eq_right hrel, Matrix.one_apply_ne hij])
   map_mul' X Y := Subtype.ext (by
     show richBlockPull o (X.1 * Y.1) =
       richBlockPull o X.1 * richBlockPull o Y.1
@@ -808,7 +815,7 @@ noncomputable def richPullback (o : RichObserver) :
         have hL : richBlockPull o (X.1 * Y.1) i j =
             ∑ k, X.1 i k * Y.1 k j := by
           simp only [richBlockPull]
-          rw [if_pos hrel, richCollapse_of_owner hoi,
+          rw [ite_eq_left hrel, richCollapse_of_owner hoi,
             richCollapse_of_owner hoj, Matrix.mul_apply]
         have hR : ∀ k, richBlockPull o X.1 i k * richBlockPull o Y.1 k j =
             X.1 i k * Y.1 k j := by
@@ -818,15 +825,15 @@ noncomputable def richPullback (o : RichObserver) :
               richRelObs_owner_closed o i k hik hoi
             by_cases hkj : richRelObs o k j = true
             · simp only [richBlockPull]
-              rw [if_pos hik, if_pos hkj, richCollapse_of_owner hoi,
+              rw [ite_eq_left hik, ite_eq_left hkj, richCollapse_of_owner hoi,
                 richCollapse_of_owner hok, richCollapse_of_owner hoj]
             · simp only [richBlockPull]
-              rw [if_neg hkj, mul_zero,
+              rw [ite_eq_right hkj, mul_zero,
                 richTop_entry_zero_of_owner Y.2
                   (richRelObs_owner_closed o i k hik hoi)
                   (bool_eq_false' hkj), mul_zero]
           · simp only [richBlockPull]
-            rw [if_neg hik, zero_mul,
+            rw [ite_eq_right hik, zero_mul,
               richTop_entry_zero_of_owner X.2 hoi (bool_eq_false' hik),
               zero_mul]
         rw [hL, Matrix.mul_apply]
@@ -841,7 +848,7 @@ noncomputable def richPullback (o : RichObserver) :
             · exact absurd (richRelTop_zero_singleton m hrel0) hm)
         have hL : richBlockPull o (X.1 * Y.1) i i = X.1 0 0 * Y.1 0 0 := by
           simp only [richBlockPull]
-          rw [if_pos hrel, hσ, Matrix.mul_apply]
+          rw [ite_eq_left hrel, hσ, Matrix.mul_apply]
           refine Finset.sum_eq_single_of_mem 0 (Finset.mem_univ _)
             fun m _ hm => ?_
           rw [h0i m hm, zero_mul]
@@ -856,13 +863,13 @@ noncomputable def richPullback (o : RichObserver) :
                 · exact absurd
                     (richRelObs_not_owner_singleton o i k hoi htrue).symm hk
               simp only [richBlockPull]
-              rw [if_neg (ne_true_of_eq_false' hik), zero_mul])]
+              rw [ite_eq_right (ne_true_of_eq_false' hik), zero_mul])]
           simp only [richBlockPull]
-          rw [if_pos hrel, if_pos hrel, hσ]
+          rw [ite_eq_left hrel, ite_eq_left hrel, hσ]
         exact hL.trans hR.symm
     · have hL : richBlockPull o (X.1 * Y.1) i j = 0 := by
         simp only [richBlockPull]
-        rw [if_neg hrel]
+        rw [ite_eq_right hrel]
       have hR : (richBlockPull o X.1 * richBlockPull o Y.1) i j = 0 := by
         rw [Matrix.mul_apply]
         refine Finset.sum_eq_zero fun k _ => ?_
@@ -870,9 +877,9 @@ noncomputable def richPullback (o : RichObserver) :
         · by_cases hkj : richRelObs o k j = true
           · exact absurd ((richObsBlock o).rel_trans i k j hik hkj) hrel
           · simp only [richBlockPull]
-            rw [if_neg hkj, mul_zero]
+            rw [ite_eq_right hkj, mul_zero]
         · simp only [richBlockPull]
-          rw [if_neg hik, zero_mul]
+          rw [ite_eq_right hik, zero_mul]
       exact hL.trans hR.symm)
   map_zero' := Subtype.ext (by
     show richBlockPull o 0 = 0
@@ -884,8 +891,8 @@ noncomputable def richPullback (o : RichObserver) :
     ext i j
     simp only [richBlockPull, Matrix.add_apply]
     by_cases hrel : richRelObs o i j = true
-    · rw [if_pos hrel, if_pos hrel, if_pos hrel]
-    · rw [if_neg hrel, if_neg hrel, if_neg hrel, add_zero])
+    · rw [ite_eq_left hrel, ite_eq_left hrel, ite_eq_left hrel]
+    · rw [ite_eq_right hrel, ite_eq_right hrel, ite_eq_right hrel, add_zero])
   map_star' X := Subtype.ext (by
     show richBlockPull o (star X.1) = star (richBlockPull o X.1)
     ext i j
@@ -893,8 +900,8 @@ noncomputable def richPullback (o : RichObserver) :
       (richObsBlock o).rel_symm i j
     simp only [richBlockPull, Matrix.star_apply]
     by_cases hrel : richRelObs o i j = true
-    · rw [if_pos hrel, if_pos (hsym.symm.trans hrel)]
-    · rw [if_neg hrel, if_neg fun h => hrel (hsym.trans h), star_zero])
+    · rw [ite_eq_left hrel, ite_eq_left (hsym.symm.trans hrel)]
+    · rw [ite_eq_right hrel, ite_eq_right fun h => hrel (hsym.trans h), star_zero])
   commutes' z := Subtype.ext (by
     show richBlockPull o (algebraMap ℂ (Matrix (Fin 81) (Fin 81) ℂ) z) =
       algebraMap ℂ (Matrix (Fin 81) (Fin 81) ℂ) z
@@ -902,7 +909,7 @@ noncomputable def richPullback (o : RichObserver) :
     ext i j
     simp only [richBlockPull]
     by_cases hrel : richRelObs o i j = true
-    · rw [if_pos hrel]
+    · rw [ite_eq_left hrel]
       by_cases hij : i = j
       · subst hij
         rw [Matrix.diagonal_apply_eq, Matrix.diagonal_apply_eq]
@@ -911,7 +918,7 @@ noncomputable def richPullback (o : RichObserver) :
     · have hij : i ≠ j := fun he => by
         subst he
         exact hrel ((richObsBlock o).rel_refl i)
-      rw [if_neg hrel, Matrix.diagonal_apply_ne _ hij])
+      rw [ite_eq_right hrel, Matrix.diagonal_apply_ne _ hij])
 
 /-- The supplied restriction system: identities on equal regions,
 characters onto the bottom, and block restrictions from the top. -/
@@ -1291,7 +1298,7 @@ theorem richSupportProjector_mem (o : RichObserver) :
       exact Bool.noConfusion (((richObsBlock o).rel_refl i).symm.trans h0)
     exact Matrix.diagonal_apply_ne _ hij
   · simp only [richSupportProjector, Matrix.diagonal_apply_eq]
-    rw [if_neg (of_decide_eq_true hi), if_neg (of_decide_eq_true hj)]
+    rw [ite_eq_right (of_decide_eq_true hi), ite_eq_right (of_decide_eq_true hj)]
 
 /-- The diagonal unit at the base point. -/
 def richAmbientUnit : Matrix (Fin 81) (Fin 81) ℂ :=
@@ -1334,13 +1341,13 @@ theorem richSupportTruncation_mem (o : RichObserver)
   rw [richRegionAlgebra_regionOf]
   refine ⟨fun i j h0 => ?_, fun i j hi hj => ?_⟩
   · simp only [richSupportTruncation]
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨h1, h2⟩
     rw [richRelTop_of_owner o i j h1] at h2
     exact Bool.noConfusion (h0.symm.trans h2)
   · simp only [richSupportTruncation]
-    rw [if_neg fun hc => (of_decide_eq_true hi) hc.1,
-      if_neg fun hc => (of_decide_eq_true hj) hc.1]
+    rw [ite_eq_right fun hc => (of_decide_eq_true hi) hc.1,
+      ite_eq_right fun hc => (of_decide_eq_true hj) hc.1]
 
 /-- Exact decomposition of a top observable into the four window
 truncations and the base-point scalar term. -/
@@ -1694,8 +1701,8 @@ theorem richWindowCover_hasUniqueDescent :
       by_cases hij : (0 : Fin 81) = j
       · subst hij
         exact absurd (richTopBlock.rel_refl 0) (ne_true_of_eq_false' h0)
-      · rw [if_neg hij]
-    · rw [familyGlue_entry_owner F howner, if_neg]
+      · rw [ite_eq_right hij]
+    · rw [familyGlue_entry_owner F howner, ite_eq_right]
       rintro ⟨_hjo, hrel⟩
       have h0' : richRelObs o i j = false := by
         have := richRelTop_of_owner o i j howner
@@ -1708,11 +1715,11 @@ theorem richWindowCover_hasUniqueDescent :
     ext i j
     simp only [richBlockPull]
     by_cases hrel : richRelObs o i j = true
-    · rw [if_pos hrel]
+    · rw [ite_eq_left hrel]
       by_cases hio : richNodeOwner i = some o
       · have hjo := richRelObs_owner_closed o i j hrel hio
         rw [richCollapse_of_owner hio, richCollapse_of_owner hjo,
-          familyGlue_entry_owner F hio, if_pos ⟨hjo, hrel⟩]
+          familyGlue_entry_owner F hio, ite_eq_left ⟨hjo, hrel⟩]
       · have hij := richRelObs_not_owner_singleton o i j hio hrel
         subst hij
         rw [richCollapse_of_not_owner hio]
@@ -1722,7 +1729,7 @@ theorem richWindowCover_hasUniqueDescent :
           simp
         rw [hb, family_scalar_eq F .o86 o]
         exact (richBlock_offwindow_diag (secVal_mem F o) hio).symm
-    · rw [if_neg hrel]
+    · rw [ite_eq_right hrel]
       exact ((secVal_mem F o).1 i j (bool_eq_false' hrel)).symm
   have hGlob : richWindowCover.Globalizes F ⟨familyGlue F, hGmem⟩ := by
     intro U hU
@@ -1765,14 +1772,14 @@ theorem richWindowCover_hasUniqueDescent :
         have hri : richRelObs .o86 0 0 = true :=
           (richObsBlock .o86).rel_refl 0
         simp only [richBlockPull]
-        rw [if_pos hri, richCollapse_of_not_owner (by
+        rw [ite_eq_left hri, richCollapse_of_not_owner (by
           rw [howner0]
           simp)]
       have h := congrFun (congrFun (hYrestrict .o86) (0 : Fin 81))
         (0 : Fin 81)
       rw [hb, ← h, hcalc]
     · have hb : familyGlue F (0 : Fin 81) j = 0 := by
-        rw [familyGlue_entry_base F howner0, if_neg hij]
+        rw [familyGlue_entry_base F howner0, ite_eq_right hij]
       rw [hb]
       refine hYmem.1 0 j ?_
       show richRelTop 0 j = false
@@ -1782,15 +1789,15 @@ theorem richWindowCover_hasUniqueDescent :
   · by_cases hcond : richNodeOwner j = some o ∧ richRelObs o i j = true
     · obtain ⟨hjo, hrel⟩ := hcond
       have hb : familyGlue F i j = secVal F o i j := by
-        rw [familyGlue_entry_owner F howner, if_pos ⟨hjo, hrel⟩]
+        rw [familyGlue_entry_owner F howner, ite_eq_left ⟨hjo, hrel⟩]
       have hcalc : richBlockPull o Y i j = Y i j := by
         simp only [richBlockPull]
-        rw [if_pos hrel, richCollapse_of_owner howner,
+        rw [ite_eq_left hrel, richCollapse_of_owner howner,
           richCollapse_of_owner hjo]
       have h := congrFun (congrFun (hYrestrict o) i) j
       rw [hb, ← h, hcalc]
     · have hb : familyGlue F i j = 0 := by
-        rw [familyGlue_entry_owner F howner, if_neg hcond]
+        rw [familyGlue_entry_owner F howner, ite_eq_right hcond]
       rw [hb]
       refine hYmem.1 i j ?_
       show richRelTop i j = false

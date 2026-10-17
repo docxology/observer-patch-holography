@@ -1,8 +1,11 @@
-import Variational.LegendreBridge
-import Variational.RealizedHistoryLegendreNoGo
-import Variational.StationarySaddleCoverage
-import Variational.SourceToHamiltonianComposed
-import InformationProjection.LogTransitionAction
+module
+public import Variational.LegendreBridge
+public import Variational.RealizedHistoryLegendreNoGo
+public import Variational.StationarySaddleCoverage
+public import Variational.SourceToHamiltonianComposed
+public import InformationProjection.LogTransitionAction
+
+@[expose] public section
 
 namespace OPH.Variational
 

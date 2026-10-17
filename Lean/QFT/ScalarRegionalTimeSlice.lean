@@ -1,5 +1,8 @@
-import Mathlib.LinearAlgebra.Basis.VectorSpace
-import Mathlib.Tactic
+module
+public import Mathlib.LinearAlgebra.Basis.VectorSpace
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Regional reconstruction for a canonical scalar split

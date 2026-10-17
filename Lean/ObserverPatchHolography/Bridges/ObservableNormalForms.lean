@@ -1,5 +1,8 @@
-import ObserverPatchHolography.Primitives
-import ObservableNormalForms.ObserverConfluence
+module
+public import ObserverPatchHolography.Primitives
+public import ObservableNormalForms.ObserverConfluence
+
+@[expose] public section
 
 /-!
 # Bridge to observation-determined normal forms

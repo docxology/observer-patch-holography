@@ -1,5 +1,8 @@
-import Tower.EventGeometryReadout
-import QFT.ObserverEventWorld
+module
+public import Tower.EventGeometryReadout
+public import QFT.ObserverEventWorld
+
+@[expose] public section
 
 /-!
 # The source-link square between all-quotient readouts and one selected world
@@ -500,13 +503,13 @@ theorem witnessEventWorld_designated_geometry_ne_zero :
 theorem demoGeometryValueEncode_world :
     demoGeometryValueEncode witnessEventWorld.geometryRead = 1 := by
   unfold demoGeometryValueEncode
-  exact if_neg witnessEventWorld_designated_geometry_ne_zero
+  exact ite_eq_right witnessEventWorld_designated_geometry_ne_zero
 
 /-- The value encoding sends the constant zero readout to `0`. -/
 theorem demoGeometryValueEncode_zero :
     demoGeometryValueEncode (fun _ _ => 0) = 0 := by
   unfold demoGeometryValueEncode
-  exact if_pos rfl
+  exact ite_eq_left rfl
 
 /-- The demo square with a nonconstant geometry encoding: demo branch,
 demo fragment, demo observer readout, the packet-probing event encoding,

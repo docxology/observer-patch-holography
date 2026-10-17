@@ -1,5 +1,8 @@
-import Geometry.SpatialReadbackSoldering
-import Geometry.InverseSquareShellLaw
+module
+public import Geometry.SpatialReadbackSoldering
+public import Geometry.InverseSquareShellLaw
+
+@[expose] public section
 
 /-!
 # The inverse-square shell law transported to declared rest fibers

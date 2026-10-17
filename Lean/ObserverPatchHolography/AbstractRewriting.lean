@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Abstract Rewriting: Newman's Lemma and Fixed-Point Corollary
@@ -162,6 +165,6 @@ theorem fixedPt_zero_potential
     (hrepair : ∀ x, Φ x > 0 → T x ≠ x)
     (w : X) (hfp : IsFixedPt T w) :
     Φ w = 0 := by
-      exact le_antisymm ( le_of_not_gt fun h => hrepair w h hfp ) ( zero_le _ )
+      exact le_antisymm ( le_of_not_gt fun h => hrepair w h hfp ) zero_le
 
 end OPH.AbstractRewriting

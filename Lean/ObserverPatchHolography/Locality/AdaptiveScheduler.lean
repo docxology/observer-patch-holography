@@ -1,4 +1,7 @@
-import ObserverPatchHolography.Locality.DependencyCone
+module
+public import ObserverPatchHolography.Locality.DependencyCone
+
+@[expose] public section
 
 namespace OPH.Locality
 
@@ -60,7 +63,7 @@ variable {C : OPHCarrier}
 
 /-- An adaptive scheduler: the next firing site is a function of the step
 index and the current records, rather than a letter of a fixed word. -/
-def AdaptiveScheduler (C : OPHCarrier) : Type :=
+abbrev AdaptiveScheduler (C : OPHCarrier) : Type :=
   ℕ → Records C → Site C
 
 /-- The scheduler consults only the region `R`: its choice at every step is
@@ -202,7 +205,7 @@ namespace TwoCell
 
 /-- Two cells, one self-loop overlap at the probe cell `false` demanding
 the probe record `true`; the remote cell `true` is edge-free. -/
-def twoCellCarrier : OPHCarrier where
+abbrev twoCellCarrier : OPHCarrier where
   Patch := Bool
   State := fun _ => Bool
   Edge := Unit
@@ -217,9 +220,9 @@ def twoCellCarrier : OPHCarrier where
   dist_eq_zero := by
     intro _ a b
     by_cases h : a = b
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact ⟨fun _ => h, fun _ => rfl⟩
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact ⟨fun h1 => absurd h1 one_ne_zero, fun h2 => absurd h2 h⟩
 
 /-- The probe's closed neighborhood is the probe alone: the self-loop has
@@ -227,7 +230,7 @@ both endpoints there. -/
 theorem closedNbhd_probe :
     closedNbhd (C := twoCellCarrier) false = {false} := by
   ext j
-  simp only [closedNbhd, Set.mem_setOf_eq]
+  simp only [closedNbhd, Set.mem_ofPred_eq]
   constructor
   · rintro (rfl | ⟨e, _, h | h⟩)
     · rfl

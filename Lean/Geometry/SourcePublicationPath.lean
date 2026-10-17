@@ -1,4 +1,7 @@
-import Geometry.SourceCheckpointPipeline
+module
+public import Geometry.SourceCheckpointPipeline
+
+@[expose] public section
 
 /-! Native algebra underlying the four-port eventual-publication control.
 The all-word invariant and its almost-sure consequence are proved analytically

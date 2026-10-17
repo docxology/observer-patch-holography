@@ -1,5 +1,8 @@
-import Mathlib
-import ObserverPatchHolography.CollarClause
+module
+public import Mathlib
+public import ObserverPatchHolography.CollarClause
+
+@[expose] public section
 
 /-!
 # Issue #544, operator layer: the collar clause made expressible and proved
@@ -269,7 +272,9 @@ def diagonalSubring : Subring CollarM where
     · rw [hk, hb i j hij, mul_zero]
     · rw [ha i k hk.symm, zero_mul]
 
-theorem uu_diagonal : ∀ i j : Fin 2 × Fin 2, i ≠ j → uu i j = 0 := by decide
+theorem uu_diagonal : ∀ i j : Fin 2 × Fin 2, i ≠ j → uu i j = 0 := by
+  intro i j
+  fin_cases i <;> fin_cases j <;> decide +kernel
 
 theorem uu_comm_XX : uu * XX = XX * uu := by decide
 
@@ -741,9 +746,9 @@ private theorem cast_mul_uu_00 (a : ℤ) :
     ((a : CollarM) * uu) ((0 : Fin 2), (0 : Fin 2)) ((0 : Fin 2), (0 : Fin 2)) = a := by
   rw [Matrix.mul_apply]
   rw [Finset.sum_eq_single ((0 : Fin 2), (0 : Fin 2))]
-  · rw [Matrix.intCast_apply, if_pos rfl, Int.cast_id, uu_entry_00, mul_one]
+  · rw [Matrix.intCast_apply, ite_eq_left rfl, Int.cast_id, uu_entry_00, mul_one]
   · intro k _ hk
-    rw [Matrix.intCast_apply, if_neg fun h => hk h.symm, Int.cast_zero, zero_mul]
+    rw [Matrix.intCast_apply, ite_eq_right fun h => hk h.symm, Int.cast_zero, zero_mul]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -875,7 +880,7 @@ theorem IsEquivariantChannel.maps_invariant {Φ : CollarM →+ CollarM}
   rw [← hΦ.2 m, hm]
 
 /-- One matrix unit of the collar block, indexed by a pair of block positions. -/
-private def eUnit (I J : Fin 2 × Fin 2) : CollarM := Matrix.single I J 1
+def eUnit (I J : Fin 2 × Fin 2) : CollarM := Matrix.single I J 1
 
 /-- The eight even matrix units, indexed by pairs of equal parity: the integer
     basis of the invariant sector.  The numeral counts those units and bears no
@@ -902,9 +907,9 @@ theorem evenMatrixUnits_subset_invariant : ∀ e ∈ evenMatrixUnits, e ∈ Inva
 private theorem cast_mul_apply (c : ℤ) (M : CollarM) (i j : Fin 2 × Fin 2) :
     ((c : CollarM) * M) i j = c * M i j := by
   rw [Matrix.mul_apply, Finset.sum_eq_single i]
-  · rw [Matrix.intCast_apply, if_pos rfl, Int.cast_id]
+  · rw [Matrix.intCast_apply, ite_eq_left rfl, Int.cast_id]
   · intro k _ hk
-    rw [Matrix.intCast_apply, if_neg fun h => hk h.symm, Int.cast_zero, zero_mul]
+    rw [Matrix.intCast_apply, ite_eq_right fun h => hk h.symm, Int.cast_zero, zero_mul]
   · intro h
     exact absurd (Finset.mem_univ _) h
 

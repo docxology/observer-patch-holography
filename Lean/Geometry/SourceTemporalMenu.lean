@@ -1,5 +1,8 @@
-import Geometry.SourceTemporalObservation
-import Mathlib.Data.Fin.VecNotation
+module
+public import Geometry.SourceTemporalObservation
+public import Mathlib.Data.Fin.VecNotation
+
+@[expose] public section
 
 /-!
 # Essential direct reads and the aggregate-read boundary
@@ -22,7 +25,8 @@ def coordinate (j : N) : (N → ℝ) →ₗ[ℝ] ℝ := LinearMap.proj j
 
 def meaning (c : N → ℝ) : (N → ℝ) →ₗ[ℝ] ℝ := ∑ j, c j • coordinate j
 
-theorem meaning_apply (c x : N → ℝ) : meaning c x = ∑ j, c j*x j := by
+omit [DecidableEq N] in
+theorem meaning_apply [_instDecidableEqN : DecidableEq N] (c x : N → ℝ) : meaning c x = ∑ j, c j*x j := by
   simp [meaning,coordinate]
 
 theorem meaning_single (c : N → ℝ) (j : N) : meaning c (Pi.single j 1) = c j := by
@@ -37,10 +41,11 @@ observation interface, independently of a desired metric-neighbour menu. -/
 def availableMenu {I : Type*} [Fintype I]
     (L : I → (N → ℝ) →ₗ[ℝ] ℝ) : Set N := {j | Observable L (coordinate j)}
 
-theorem availableMenu_iff_kernel {I : Type*} [Fintype I]
+omit [Fintype N] [DecidableEq N] in
+theorem availableMenu_iff_kernel [_instFintypeN : Fintype N] [_instDecidableEqN : DecidableEq N] {I : Type*} [Fintype I]
     (L : I → (N → ℝ) →ₗ[ℝ] ℝ) (j : N) :
     j ∈ availableMenu L ↔ ∀ z, (∀ i, L i z = 0) → z j = 0 := by
-  rw [availableMenu,Set.mem_setOf_eq,observable_iff_kernel]
+  rw [availableMenu,Set.mem_ofPred_eq,observable_iff_kernel]
   constructor
   · intro h z hz
     exact h ((Submodule.mem_iInf _).mpr hz)
@@ -72,9 +77,10 @@ theorem direct_observable_iff (S : Finset N) (c : N → ℝ) :
       change x j = y j at he
       rw [he]
 
+omit [DecidableEq N] in
 /-- A fixed additive unit does not alter which initial records are required
 for a specified one-plus-sum meaning. -/
-theorem affine_agreement_iff (c : N → ℝ) (b : ℝ) (x y : N → ℝ) :
+theorem affine_agreement_iff [_instDecidableEqN : DecidableEq N] (c : N → ℝ) (b : ℝ) (x y : N → ℝ) :
     b+meaning c x = b+meaning c y ↔ meaning c x = meaning c y := by simp
 
 def sumRead : Fin 1 → (Fin 2 → ℝ) →ₗ[ℝ] ℝ := fun _ => meaning (fun _ => 1)

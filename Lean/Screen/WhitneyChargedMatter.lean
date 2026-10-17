@@ -1,5 +1,8 @@
-import Mathlib.Analysis.Complex.Trigonometric
-import Mathlib.Tactic
+module
+public import Mathlib.Analysis.Complex.Trigonometric
+public import Mathlib.Tactic
+
+@[expose] public section
 
 set_option autoImplicit false
 open scoped BigOperators

@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -510,8 +513,8 @@ theorem generator_walsh (hsum : ∀ l, w l false + w l true = 1)
         = if l ∈ S then c l • walsh w S else 0 := by
     intro l
     by_cases hl : l ∈ S
-    · rw [if_pos hl, condExp_walsh_of_mem hl, sub_zero]
-    · rw [if_neg hl, condExp_walsh_of_notMem hl (hsum l), sub_self, smul_zero]
+    · rw [ite_eq_left hl, condExp_walsh_of_mem hl, sub_zero]
+    · rw [ite_eq_right hl, condExp_walsh_of_notMem hl (hsum l), sub_self, smul_zero]
   calc
     ∑ l, c l • (walsh w S - condExp w l (walsh w S))
         = ∑ l, (if l ∈ S then c l • walsh w S else 0) :=
@@ -547,7 +550,7 @@ theorem pairFactor_of_notMem_notMem {S T : Finset (Fin n)} {l : Fin n}
     pairFactor w S T l = 1 := by
   unfold pairFactor
   rw [Fintype.sum_bool]
-  simp only [if_neg hS, if_neg hT]
+  simp only [ite_eq_right hS, ite_eq_right hT]
   linarith
 
 theorem pairFactor_of_mem_notMem {S T : Finset (Fin n)} {l : Fin n}
@@ -555,7 +558,7 @@ theorem pairFactor_of_mem_notMem {S T : Finset (Fin n)} {l : Fin n}
     pairFactor w S T l = 0 := by
   unfold pairFactor
   rw [Fintype.sum_bool]
-  simp only [if_pos hS, if_neg hT, fiberSign_true, fiberSign_false]
+  simp only [ite_eq_left hS, ite_eq_right hT, fiberSign_true, fiberSign_false]
   ring
 
 theorem pairFactor_of_notMem_mem {S T : Finset (Fin n)} {l : Fin n}
@@ -563,7 +566,7 @@ theorem pairFactor_of_notMem_mem {S T : Finset (Fin n)} {l : Fin n}
     pairFactor w S T l = 0 := by
   unfold pairFactor
   rw [Fintype.sum_bool]
-  simp only [if_neg hS, if_pos hT, fiberSign_true, fiberSign_false]
+  simp only [ite_eq_right hS, ite_eq_left hT, fiberSign_true, fiberSign_false]
   ring
 
 theorem pairFactor_of_mem_mem {S T : Finset (Fin n)} {l : Fin n}
@@ -571,7 +574,7 @@ theorem pairFactor_of_mem_mem {S T : Finset (Fin n)} {l : Fin n}
     pairFactor w S T l = w l false * w l true := by
   unfold pairFactor
   rw [Fintype.sum_bool]
-  simp only [if_pos hS, if_pos hT, fiberSign_true, fiberSign_false]
+  simp only [ite_eq_left hS, ite_eq_left hT, fiberSign_true, fiberSign_false]
   linear_combination (w l false * w l true) * hsum
 
 /-- Orthogonality of distinct Walsh functions in the product pairing.  No
@@ -603,8 +606,8 @@ theorem statePairing_walsh_self (hsum : ∀ l, w l false + w l true = 1)
         = ∏ l, (if l ∈ S then w l false * w l true else 1) := by
           refine Finset.prod_congr rfl fun l _ => ?_
           by_cases hl : l ∈ S
-          · rw [if_pos hl, pairFactor_of_mem_mem hl hl (hsum l)]
-          · rw [if_neg hl, pairFactor_of_notMem_notMem hl hl (hsum l)]
+          · rw [ite_eq_left hl, pairFactor_of_mem_mem hl hl (hsum l)]
+          · rw [ite_eq_right hl, pairFactor_of_notMem_notMem hl hl (hsum l)]
     _ = ∏ l ∈ S, (w l false * w l true) := by
           rw [Finset.prod_ite_mem, Finset.univ_inter]
 

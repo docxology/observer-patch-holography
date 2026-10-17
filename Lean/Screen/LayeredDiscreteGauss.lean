@@ -1,4 +1,7 @@
-import RegionalContinuity
+module
+public import RegionalContinuity
+
+@[expose] public section
 
 open scoped BigOperators
 
@@ -380,7 +383,7 @@ end LayeredFluxData
 source at layer zero realizes every declared premise at depth one with
 coefficient one, so the depth-bounded premise set is satisfiable with a
 nonzero coefficient and the shell theorems are not vacuous. -/
-def chainWitness : LayeredFluxData (Fin 3) (Fin 2) where
+abbrev chainWitness : LayeredFluxData (Fin 3) (Fin 2) where
   left := ![0, 1]
   right := ![1, 2]
   layer := ![0, 1, 2]
@@ -418,11 +421,8 @@ def chainWitness : LayeredFluxData (Fin 3) (Fin 2) where
 
 /-- The witness carries unit load. -/
 theorem chainWitness_charge : chainWitness.charge = 1 := by
-  simp only [LayeredFluxData.charge, chainWitness, regionLoad, layerBall,
-    Finset.sum_filter, Fin.sum_univ_three, Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_two,
-    Matrix.tail_cons]
-  norm_num
+  norm_num [LayeredFluxData.charge, chainWitness, regionLoad, layerBall,
+    Finset.sum_filter, Fin.sum_univ_succ]
 
 /-! ## Bridges to the committed twelve-port receipts
 

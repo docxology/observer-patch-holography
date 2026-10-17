@@ -1,6 +1,9 @@
-import ObserverPatchHolography.Locality.DependencyCone
-import ObserverPatchHolography.Locality.NoSignalling
-import ObserverPatchHolography.Locality.AdaptiveScheduler
+module
+public import ObserverPatchHolography.Locality.DependencyCone
+public import ObserverPatchHolography.Locality.NoSignalling
+public import ObserverPatchHolography.Locality.AdaptiveScheduler
+
+@[expose] public section
 
 /-!
 # Locality umbrella root

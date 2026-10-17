@@ -1,4 +1,7 @@
-import Geometry.SourceNativeShuttle
+module
+public import Geometry.SourceNativeShuttle
+
+@[expose] public section
 
 /-!
 # Composition of native words with explicit comparison errors

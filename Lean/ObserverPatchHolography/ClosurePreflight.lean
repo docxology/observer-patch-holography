@@ -1,5 +1,8 @@
-import Mathlib
-import ObserverPatchHolography.CapacityClosurePrinciple
+module
+public import Mathlib
+public import ObserverPatchHolography.CapacityClosurePrinciple
+
+@[expose] public section
 
 /-!
 # Source-only closure preflight lemmas

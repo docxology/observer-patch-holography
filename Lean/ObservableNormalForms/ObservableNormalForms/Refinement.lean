@@ -1,4 +1,7 @@
-import ObservableNormalForms.Stability
+module
+public import ObservableNormalForms.Stability
+
+@[expose] public section
 
 /-!
 # Naturality and refinement certificates

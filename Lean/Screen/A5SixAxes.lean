@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 namespace OPH.A5SixAxes
 
@@ -678,10 +681,10 @@ theorem sum_indicator_apply (S : List (Equiv.Perm (Fin 6))) (u : Fin 6 → ℚ)
             intro j
             by_cases hj : g⁻¹ i = j
             · subst hj
-              rw [if_pos ⟨h, Equiv.apply_symm_apply g i⟩, if_pos rfl, one_mul]
+              rw [ite_eq_left ⟨h, Equiv.apply_symm_apply g i⟩, ite_eq_left rfl, one_mul]
             · have hne : g j ≠ i := fun he =>
                 hj (by rw [← he]; exact Equiv.symm_apply_apply g j)
-              rw [if_neg fun hc => hne hc.2, if_neg hj, zero_mul]
+              rw [ite_eq_right fun hc => hne hc.2, ite_eq_right hj, zero_mul]
           rw [Finset.sum_congr rfl fun j _ => hcond j, Finset.sum_ite_eq]
           simp [h]
           rfl
@@ -695,14 +698,14 @@ theorem avg_apply {u : Fin 6 → ℚ} (hsum : ∑ j : Fin 6, u j = 0) (k i : Fin
   rw [avg, sum_indicator_apply]
   simp only [count_fibers k i]
   by_cases h : i = k
-  · simp only [h, if_true]
+  · simp only [h, ite_true]
     have : ∀ j : Fin 6,
         (((if j = 0 then 10 else 0 : ℕ)) : ℚ) * u j =
           if j = 0 then 10 * u j else 0 := by
       intro j; by_cases hj : j = 0 <;> simp [hj]
     rw [Finset.sum_congr rfl fun j _ => this j, Finset.sum_ite_eq']
     simp
-  · simp only [h, if_false]
+  · simp only [h, ite_false]
     have : ∀ j : Fin 6,
         (((if j = 0 then 0 else 2 : ℕ)) : ℚ) * u j =
           2 * u j - (if j = 0 then 2 * u j else 0) := by

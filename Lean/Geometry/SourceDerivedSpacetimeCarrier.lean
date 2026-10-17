@@ -1,6 +1,9 @@
-import Geometry.EventPopulationChartInterface
-import PrimitivePortFrameQuotient
-import ObserverPatchHolography.Provenance.CausalInterval
+module
+public import Geometry.EventPopulationChartInterface
+public import PrimitivePortFrameQuotient
+public import ObserverPatchHolography.Provenance.CausalInterval
+
+@[expose] public section
 
 /-!
 # Source-derived finite 1+3 carrier and canonical-height causal placement

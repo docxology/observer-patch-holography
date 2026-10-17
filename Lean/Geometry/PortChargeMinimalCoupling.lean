@@ -1,4 +1,7 @@
-import Geometry.ChargeFixedInteraction
+module
+public import Geometry.ChargeFixedInteraction
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -195,7 +198,7 @@ theorem hopIndicator_forward (e₀ : Fin 30) :
   by_cases he : e = e₀
   · subst he
     simp
-  · rw [if_neg he]
+  · rw [ite_eq_right he]
     split_ifs with h1 h2
     · exact absurd (seam_table_injective (Prod.ext h1.1 h1.2)) he
     · rw [← h2.1, ← h2.2] at hlt₀
@@ -212,7 +215,7 @@ theorem hopIndicator_backward (e₀ : Fin 30) :
   by_cases he : e = e₀
   · subst he
     simp [hlt.ne']
-  · rw [if_neg he]
+  · rw [ite_eq_right he]
     split_ifs with h1 h2
     · rw [← h1.1, ← h1.2] at hlt₀
       exact absurd hlt (lt_asymm hlt₀)
@@ -279,7 +282,7 @@ theorem hoppingLoad_apply (q : ℝ) (γ : HoppingPath) (n : ℕ) (p : Fin 12) :
 /-- Total load `q` at every step: the hopping charge is a monopole. -/
 theorem hoppingLoad_total (q : ℝ) (γ : HoppingPath) (n : ℕ) :
     (∑ p : Fin 12, hoppingLoad q γ n p) = q := by
-  simp only [hoppingLoad_apply, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [hoppingLoad_apply, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 /-- A resting step induces no current. -/
 theorem hoppingCurrent_rest (q h : ℝ) (γ : HoppingPath) (n : ℕ)
@@ -512,7 +515,7 @@ theorem portInner_hoppingLoad (χ : Fin 12 → ℝ) (q : ℝ) (γ : HoppingPath)
     realPortInner χ (hoppingLoad q γ n) = q * χ (γ.port n) := by
   unfold realPortInner
   simp only [hoppingLoad_apply, mul_ite, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   ring
 
 /-- **Gauge change of the minimal coupling.**  The interaction moves by
@@ -548,7 +551,7 @@ theorem interactionA_gauge_invariant (q h : ℝ) (hh : h ≠ 0) (N : ℕ)
 theorem seamInner_single (x : Fin 30 → ℝ) (e₀ : Fin 30) (c : ℝ) :
     realSeamInner x (fun e ↦ if e = e₀ then c else 0) = c * x e₀ := by
   unfold realSeamInner
-  simp only [mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   ring
 
 /-- **Field energy balance at a hop.**  At `h ≠ 0`, along the scaled Ampere evolution
@@ -628,9 +631,9 @@ theorem crossingPath_one (e : Fin 30) : (crossingPath e).port 1 = seamRight e :=
 theorem crossingPath_load_difference (q : ℝ) (e : Fin 30) (p : Fin 12) :
     (hoppingLoad q (crossingPath e) 1 - hoppingLoad q (crossingPath e) 0) p =
       q * (portIndicator (seamRight e) p - portIndicator (seamLeft e) p) := by
-  simp only [Pi.sub_apply, hoppingLoad_apply, crossingPath_zero, crossingPath_one,
-    portIndicator]
-  split_ifs <;> ring
+  by_cases hr : p = seamRight e <;> by_cases hl : p = seamLeft e <;>
+    simp_all [Pi.sub_apply, hoppingLoad_apply, crossingPath_zero, crossingPath_one,
+      portIndicator]
 
 /-- **Endpoint bridge.**  At both endpoints of seam `e`, the E-paired
 induced load of the seam-crossing worldline equals `-(κ / h) (12 - 4φ)`
@@ -646,9 +649,9 @@ theorem bridge_endpoints (κ h : ℝ) (e : Fin 30) (p : Fin 12)
     crossingPath_load_difference]
   unfold portIndicator
   rcases hp with rfl | rfl
-  · rw [crossingFactor_left, if_neg hlt.ne, if_pos rfl]
+  · rw [crossingFactor_left, ite_eq_right hlt.ne, ite_eq_left rfl]
     ring
-  · rw [crossingFactor_right, if_pos rfl, if_neg hlt.ne']
+  · rw [crossingFactor_right, ite_eq_left rfl, ite_eq_right hlt.ne']
     ring
 
 /-- At the charge-fixed normalization the E-paired load equals the step
@@ -675,7 +678,7 @@ theorem bridge_iff_charge_fixed (κ h q : ℝ) (hh : h ≠ 0) (e : Fin 30) :
   unfold PortChargeIdentification
   rw [crossingPath_load_difference]
   unfold portIndicator
-  rw [if_pos rfl, if_neg hlt.ne']
+  rw [ite_eq_left rfl, ite_eq_right hlt.ne']
   simp
 
 theorem ray_dot_seamVector_ten_zero :

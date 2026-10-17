@@ -1,6 +1,9 @@
-import Mathlib
-import A5PortAction
-import PortFrameGram
+module
+public import Mathlib
+public import A5PortAction
+public import PortFrameGram
+
+@[expose] public section
 
 namespace OPH.A5FamilyBand
 

@@ -7,8 +7,8 @@ and other modules in this artifact.
 
 The standalone project is pinned by:
 
-- `lean-toolchain`: Lean `v4.29.1`
-- `lakefile.lean`: Mathlib `v4.29.1`
+- `lean-toolchain`: Lean `v4.35.0`
+- `lakefile.lean`: Mathlib `v4.35.0`
 - `lake-manifest.json`: pinned, checksummed dependency revisions
 - `ObservableNormalForms.lean`: library root
 

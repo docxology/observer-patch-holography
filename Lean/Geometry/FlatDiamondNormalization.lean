@@ -1,6 +1,9 @@
-import Geometry.FlatDiamondPairIntegral
-import Geometry.GoldenSourcePairLimit
-import Mathlib.MeasureTheory.Measure.WithDensity
+module
+public import Geometry.FlatDiamondPairIntegral
+public import Geometry.GoldenSourcePairLimit
+public import Mathlib.MeasureTheory.Measure.WithDensity
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -51,7 +54,7 @@ theorem margin_speed (c : ℝ) (p q : Spacetime) :
 theorem diamond_speed (c : ℝ) (p q : Spacetime) :
     diamond c p q = speed c ⁻¹' diamond 1 (speed c p) (speed c q) := by
   ext z
-  simp only [diamond, future, past, mem_inter_iff, mem_setOf_eq, mem_preimage, margin_speed]
+  simp only [diamond, future, past, mem_inter_iff, mem_ofPred_eq, mem_preimage, margin_speed]
 
 /-- The geometric pair-volume identity holds at every supplied positive speed. -/
 theorem closedPairs_eq_volume_sq {c : ℝ} (hc : 0 < c) (p q : Spacetime)
@@ -118,7 +121,7 @@ theorem strictPair_volume_eq_closed (T L : ℝ) {c : ℝ} (hc : c ≠ 0) (p q : 
     ⟨le_of_lt, fun h => lt_of_le_of_ne h hz.symm⟩
   apply propext
   change (z ∈ pairRegion c p q ↔ z ∈ closedPairs c p q)
-  simp only [pairRegion, closedPairs, mem_setOf_eq, hm]
+  simp only [pairRegion, closedPairs, mem_ofPred_eq, hm]
 
 /-- The actual generated inclusive interval counts converge to the full
 Alexandrov volume when the limiting diamond fits in the supplied window. -/

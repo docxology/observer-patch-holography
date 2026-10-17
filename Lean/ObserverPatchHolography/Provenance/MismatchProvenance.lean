@@ -1,4 +1,7 @@
-import ObserverPatchHolography.Provenance.SemanticEventProvenance
+module
+public import ObserverPatchHolography.Provenance.SemanticEventProvenance
+
+@[expose] public section
 
 /-!
 # Mismatch provenance over versioned semantic commits

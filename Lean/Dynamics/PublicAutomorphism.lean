@@ -1,5 +1,8 @@
-import Dynamics.PublicMarkov
-import Mathlib.Topology.LocallyConstant.Basic
+module
+public import Dynamics.PublicMarkov
+public import Mathlib.Topology.LocallyConstant.Basic
+
+@[expose] public section
 
 /-!
 # Automorphisms of a finite public record algebra
@@ -81,7 +84,7 @@ theorem existsUnique_recordBasis_image_eq_one
       rcases starAutomorphism_recordBasis_eq_zero_or_one F x y with hy | hy
       · exact hy
       · exact False.elim (hnone ⟨y, hy⟩)
-    have : (0 : ℂ) = 1 := by simpa [hzero] using hsum
+    have : (0 : ℂ) = 1 := by simp [hzero] at hsum
     exact zero_ne_one this
   obtain ⟨y, hy⟩ := hexists
   refine ⟨y, hy, ?_⟩
@@ -93,7 +96,7 @@ theorem existsUnique_recordBasis_image_eq_one
   have hpoint := congrFun horth x
   simp only [Pi.mul_apply, Pi.zero_apply] at hpoint
   rw [hy, hz] at hpoint
-  simpa using hpoint
+  simp at hpoint
 
 /-- The input label selected at an output label by a public star
 automorphism. -/
@@ -121,7 +124,7 @@ theorem starAutomorphism_recordBasis_apply
   by_cases h : y = publicLabelMap F x
   · subst y
     simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     rcases starAutomorphism_recordBasis_eq_zero_or_one F x y with hy | hy
     · exact hy
     · exact False.elim (h (eq_publicLabelMap_of_recordBasis_image_eq_one F x y hy))
@@ -157,7 +160,7 @@ theorem publicLabelMap_injective
       _ = f (publicLabelMap F z) := by rw [hxz]
       _ = F f z := (starAutomorphism_apply_eq F f z).symm
       _ = recordBasis x z := congrFun hf z
-  simpa [recordBasis, hxne, Ne.symm hxne] using hvalues
+  simp [recordBasis, Ne.symm hxne] at hvalues
 
 /-- The permutation of public labels classified by a star automorphism. -/
 noncomputable def publicLabelPerm
@@ -188,7 +191,7 @@ theorem publicStarAutomorphism_labelPermutation_unique
   have h := (hσ (recordBasis (σ x)) x).symm.trans
     (hτ (recordBasis (σ x)) x)
   have : (1 : ℂ) = 0 := by
-    simpa [recordBasis, hne, Ne.symm hne] using h
+    simp [recordBasis, Ne.symm hne] at h
   exact one_ne_zero this
 
 /-! ## Arbitrary continuous public automorphism flows -/
@@ -199,7 +202,7 @@ one function and evaluating at one label. -/
 structure ContinuousPublicStarFlow (ι : Type u) [Fintype ι]
     [DecidableEq ι] where
   toAut : ℝ → ((ι → ℂ) ≃⋆ₐ[ℂ] (ι → ℂ))
-  map_zero : toAut 0 = StarAlgEquiv.refl
+  map_zero : toAut 0 = (StarAlgEquiv.refl ℂ (ι → ℂ))
   map_add : ∀ s t f, toAut (s + t) f = toAut s (toAut t f)
   continuous_apply : ∀ f x, Continuous fun t => toAut t f x
 
@@ -261,7 +264,7 @@ theorem publicLabelMap_eq
 star-algebra automorphisms is the identity. -/
 theorem toAut_eq_refl
     (A : ContinuousPublicStarFlow ι) (t : ℝ) :
-    A.toAut t = StarAlgEquiv.refl := by
+    A.toAut t = (StarAlgEquiv.refl ℂ (ι → ℂ)) := by
   ext f x
   rw [starAutomorphism_apply_eq, A.publicLabelMap_eq]
   rfl

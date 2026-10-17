@@ -104,8 +104,11 @@ def main() -> None:
         raise ValueError("DISTINCT_EFFECT_VALUE_UNIVERSE_MISMATCH")
 
     lines = [
-        "import QFT.SourcePhaseLiftBridge",
-        "import EventAlgebra.SourcePhaseSelectionInput",
+        "module",
+        "public import QFT.SourcePhaseLiftBridge",
+        "public import EventAlgebra.SourcePhaseSelectionInput",
+        "",
+        "@[expose] public section",
         "",
         "set_option autoImplicit false",
         "",
@@ -120,7 +123,11 @@ def main() -> None:
         "inductive EffectValue where",
         "  | positive",
         "  | negative",
-        "  deriving DecidableEq, Fintype, Repr",
+        "  deriving DecidableEq, Repr",
+        "",
+        "instance : Fintype EffectValue where",
+        "  elems := {EffectValue.positive, EffectValue.negative}",
+        "  complete := by intro x; cases x <;> simp",
         "",
         "def stateMatrix : PhaseState → Matrix (Fin 2) (Fin 2) ℂ",
     ]

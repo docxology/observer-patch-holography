@@ -1,4 +1,7 @@
-import InformationProjection.SourceHistoryPacket
+module
+public import InformationProjection.SourceHistoryPacket
+
+@[expose] public section
 
 namespace OPH.InformationProjection
 

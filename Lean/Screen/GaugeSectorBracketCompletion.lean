@@ -1,5 +1,8 @@
-import AssembledActionComposition
-import OrientedFaceInvariantMetric
+module
+public import AssembledActionComposition
+public import OrientedFaceInvariantMetric
+
+@[expose] public section
 
 /-!
 # Gauge-sector completion of the assembled action at the committed bracket level (V3, issue #735, OL-G9)

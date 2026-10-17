@@ -1,5 +1,8 @@
-import QFT.TowerAnchoredDiamond
-import QFT.SourceCorrelationCapstone
+module
+public import QFT.TowerAnchoredDiamond
+public import QFT.SourceCorrelationCapstone
+
+@[expose] public section
 
 /-!
 # The structural-net adequacy surface
@@ -507,7 +510,7 @@ def slotSwap :
   StarAlgEquiv.ofAlgEquiv
     (Matrix.reindexAlgEquiv ℂ ℂ (Equiv.prodComm (Fin 13) (Fin 13)))
     (fun M => by
-      simp only [Matrix.reindexAlgEquiv_apply, Matrix.star_eq_conjTranspose]
+      simp only [Matrix.coe_reindexAlgEquiv, Matrix.star_eq_conjTranspose]
       exact reindex_conjTranspose _ M)
 
 theorem slotSwap_apply (M : Matrix PairIndex247 PairIndex247 ℂ)
@@ -555,8 +558,7 @@ regional algebra of the support-disjoint diamond onto the regional
 algebra of the swapped region. -/
 theorem slotSwap_map_localAlgebra (U : TwoSlotRegion) :
     StarSubalgebra.map
-        (slotSwap : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-          Matrix PairIndex247 PairIndex247 ℂ)
+        (slotSwap).toStarAlgHom
         (twoSlotAlgebra247 U) =
       twoSlotAlgebra247 U.swap := by
   cases U
@@ -565,14 +567,12 @@ theorem slotSwap_map_localAlgebra (U : TwoSlotRegion) :
     · rintro x ⟨y, hy, rfl⟩
       obtain ⟨c, rfl⟩ := StarSubalgebra.mem_bot.mp hy
       exact ⟨c, (AlgHomClass.commutes
-        (slotSwap : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-          Matrix PairIndex247 PairIndex247 ℂ) c).symm⟩
+        (slotSwap).toStarAlgHom c).symm⟩
     · intro x hx
       obtain ⟨c, rfl⟩ := StarSubalgebra.mem_bot.mp hx
       exact ⟨algebraMap ℂ _ c, ⟨c, rfl⟩,
         AlgHomClass.commutes
-          (slotSwap : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-            Matrix PairIndex247 PairIndex247 ℂ) c⟩
+          (slotSwap).toStarAlgHom c⟩
   · -- left: the left factor maps onto the right factor.
     apply le_antisymm
     · rintro x ⟨y, ⟨A, rfl⟩, rfl⟩
@@ -599,8 +599,7 @@ theorem slotSwap_map_localAlgebra (U : TwoSlotRegion) :
       exact slotSwap_kronecker 1 A
   · -- top: a star-algebra equivalence is surjective.
     show StarSubalgebra.map
-        (slotSwap : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-          Matrix PairIndex247 PairIndex247 ℂ) ⊤ = ⊤
+        (slotSwap).toStarAlgHom ⊤ = ⊤
     rw [← StarAlgHom.range_eq_map_top, StarSubalgebra.eq_top_iff]
     intro x
     exact ⟨slotSwap.symm x, slotSwap.apply_symm_apply x⟩
@@ -683,8 +682,7 @@ state (`slotSwap_correlationState_ne`). -/
 theorem supportDisjoint_swap_covariance :
     (∀ U : TwoSlotRegion,
       StarSubalgebra.map
-          (slotSwap : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-            Matrix PairIndex247 PairIndex247 ℂ)
+          (slotSwap).toStarAlgHom
           (twoSlotAlgebra247 U) =
         twoSlotAlgebra247 U.swap) ∧
     (∀ (U : TwoSlotRegion) (M : Matrix PairIndex247 PairIndex247 ℂ),

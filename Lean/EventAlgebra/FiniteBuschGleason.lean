@@ -1,6 +1,9 @@
-import EventAlgebra.Basic
-import EventAlgebra.StateExpectation
-import EventAlgebra.FiniteEffectClosureBoundary
+module
+public import EventAlgebra.Basic
+public import EventAlgebra.StateExpectation
+public import EventAlgebra.FiniteEffectClosureBoundary
+
+@[expose] public section
 
 /-!
 # The finite Busch--Gleason representation theorem
@@ -632,7 +635,7 @@ theorem hermShift_posSemidef {H : Matrix (Fin d) (Fin d) ℂ}
     (hH : H.IsHermitian) :
     (H + hermShift H • (1 : Matrix (Fin d) (Fin d) ℂ)).PosSemidef := by
   have h := exists_add_smul_one_posSemidef hH
-  rw [hermShift, dif_pos h]
+  rw [hermShift, dite_eq_left h]
   exact h.choose_spec
 
 /-- The extension of an effect valuation to Hermitian observables: shift
@@ -860,8 +863,8 @@ theorem isHermitian_eq_sum {H : Matrix (Fin d) (Fin d) ℂ}
     smul_eq_mul]
   simp only [mul_add, mul_sub, mul_ite, mul_one, mul_zero, ite_and,
     Finset.sum_add_distrib, Finset.sum_sub_distrib, Finset.sum_ite_irrel,
-    Finset.sum_const_zero, Finset.sum_ite_eq, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.sum_const_zero, Finset.sum_ite_eq',
+    Finset.mem_univ, ite_true]
   rw [hre, him]
   conv_lhs => rw [← Complex.re_add_im (H p q)]
   push_cast

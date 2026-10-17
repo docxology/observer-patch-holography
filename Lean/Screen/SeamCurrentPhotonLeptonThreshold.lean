@@ -1,4 +1,7 @@
-import SeamCurrentFreePhotonLift
+module
+public import SeamCurrentFreePhotonLift
+
+@[expose] public section
 
 namespace OPH.SeamCurrentPhotonLeptonThreshold
 

@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Ranked attempt capacity
@@ -98,7 +101,7 @@ theorem boundedWaste_exists_quiescent_by_rank
   induction d using Nat.strong_induction_on generalizing x sigma with
   | h d ih =>
       by_cases hquiet : Quiescent S x
-      · exact ⟨0, Nat.zero_le _, by simpa using hquiet⟩
+      · exact ⟨0, Nat.zero_le _, by simpa [run] using hquiet⟩
       · obtain ⟨offset, hoffset, hchange⟩ := hbounded 0 x hquiet
         simp at hchange
         let y : X := run S (offset + 1) sigma x

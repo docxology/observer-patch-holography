@@ -1,9 +1,12 @@
-import FiniteConditionalRepair
-import FirstLawIdentity
-import FluctuationTheorems
-import StationaryRealization
-import CapFirstLaw
-import LowTemperatureControl
+module
+public import FiniteConditionalRepair
+public import FirstLawIdentity
+public import FluctuationTheorems
+public import StationaryRealization
+public import CapFirstLaw
+public import LowTemperatureControl
+
+@[expose] public section
 
 set_option autoImplicit false
 

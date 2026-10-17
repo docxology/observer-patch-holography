@@ -1,5 +1,8 @@
-import Dynamics.ProtectedCharge
-import RegionalContinuity
+module
+public import Dynamics.ProtectedCharge
+public import RegionalContinuity
+
+@[expose] public section
 
 namespace OPH.Dynamics
 

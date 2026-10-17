@@ -1,4 +1,7 @@
-import WhitneyConeMass
+module
+public import WhitneyConeMass
+
+@[expose] public section
 
 set_option autoImplicit false
 

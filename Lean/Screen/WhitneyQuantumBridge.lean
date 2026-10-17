@@ -1,8 +1,11 @@
-import Mathlib.Algebra.MvPolynomial.PDeriv
-import Mathlib.Data.Complex.Basic
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.LinearAlgebra.BilinearForm.Basic
-import Mathlib.Tactic
+module
+public import Mathlib.Algebra.MvPolynomial.PDeriv
+public import Mathlib.Basic.Complex.Basic
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.LinearAlgebra.BilinearForm.Basic
+public import Mathlib.Tactic
+
+@[expose] public section
 
 set_option autoImplicit false
 

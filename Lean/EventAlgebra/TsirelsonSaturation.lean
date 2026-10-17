@@ -1,8 +1,11 @@
-import EventAlgebra.ExpectationBound
-import EventAlgebra.SlotLocalitySurface
-import EventAlgebra.Robertson
-import Dynamics.ChoiCPTP
-import QFT.SourceCorrelationCapstone
+module
+public import EventAlgebra.ExpectationBound
+public import EventAlgebra.SlotLocalitySurface
+public import EventAlgebra.Robertson
+public import Dynamics.ChoiCPTP
+public import QFT.SourceCorrelationCapstone
+
+@[expose] public section
 
 set_option autoImplicit false
 

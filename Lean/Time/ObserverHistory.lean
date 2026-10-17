@@ -1,4 +1,7 @@
-import Time.TimeOrderLedger
+module
+public import Time.TimeOrderLedger
+
+@[expose] public section
 
 /-!
 # D1: finite ranked observer histories

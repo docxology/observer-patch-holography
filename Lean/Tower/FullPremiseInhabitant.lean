@@ -1,4 +1,7 @@
-import Tower.FixedPointEndpoint
+module
+public import Tower.FixedPointEndpoint
+
+@[expose] public section
 
 /-!
 # A full-premise inhabitant for the A4 endpoint packet
@@ -57,9 +60,13 @@ representatives. -/
   readback := Prod.fst
 
 /-- Two labelled repair moves, one per public flag. -/
-inductive BranchMove
+inductive BranchMove where
   | fixLeft | fixRight
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype BranchMove where
+  elems := {BranchMove.fixLeft, BranchMove.fixRight}
+  complete := by intro x; cases x <;> simp
 
 /-- Each move sets its own flag to `true`, keeps the other flag, and
 transports the hidden bit unchanged. -/

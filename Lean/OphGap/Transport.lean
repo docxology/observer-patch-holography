@@ -1,4 +1,7 @@
-import OphGap.Checker
+module
+public import OphGap.Checker
+
+@[expose] public section
 
 /-!
 # Transport: from the BFS-relabelled certificate back to the ORIGINAL graph
@@ -349,9 +352,9 @@ theorem origD_injective {n : Nat} {nodes : List Nat} {origEs es : List Edge}
   let fx : Nat → ℝ := fun a => if h : a ∈ nodes then x ⟨a, h⟩ else 0
   have hfy : ∀ a (ha : a ∈ nodes), fy (new a) = x ⟨a, ha⟩ := by
     intro a ha
-    simp only [fy, dif_pos (hlt a ha)]
+    simp only [fy, dite_eq_left (hlt a ha)]
     exact hy ⟨a, ha⟩
-  have hfx : ∀ a (ha : a ∈ nodes), fx a = x ⟨a, ha⟩ := fun a ha => by simp only [fx, dif_pos ha]
+  have hfx : ∀ a (ha : a ∈ nodes), fx a = x ⟨a, ha⟩ := fun a ha => by simp only [fx, dite_eq_left ha]
   -- the original quadratic form vanishes at x
   have hrow : ∀ e : Fin origEs.length,
       term fx (origEs.get e) = (origD nodes origEs hends *ᵥ x) e ^ 2 := by
@@ -394,9 +397,9 @@ theorem origD_injective {n : Nat} {nodes : List Nat} {origEs es : List Edge}
     have hm := edgesOk_mem hok _ (List.get_mem es e)
     rw [signedDerivative_mulVec_apply _ _ _ (loop_free n es hok)]
     have h1 : fy (es.get e).2.1 = y (tgtOf n es hok e) := by
-      simp only [fy, tgtOf, dif_pos hm.2.1]
+      simp only [fy, tgtOf, dite_eq_left hm.2.1]
     have h2 : fy (es.get e).1 = y (srcOf n es hok e) := by
-      simp only [fy, srcOf, dif_pos hm.1]
+      simp only [fy, srcOf, dite_eq_left hm.1]
     simp only [term] at hall
     rw [σOf, ← h1, ← h2, Pi.zero_apply]
     exact (pow_eq_zero_iff two_ne_zero).mp hall

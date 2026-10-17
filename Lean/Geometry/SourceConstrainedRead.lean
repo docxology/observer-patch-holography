@@ -1,5 +1,8 @@
-import Geometry.SourceConstrainedSelection
-import Geometry.SourceReadSelection
+module
+public import Geometry.SourceConstrainedSelection
+public import Geometry.SourceReadSelection
+
+@[expose] public section
 
 /-!
 # Constrained A3 schedule to native read bridge

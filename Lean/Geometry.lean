@@ -1,75 +1,78 @@
-import Geometry.SourcePassiveMemoryAxiomAudit
-import Geometry.SourceRecordProtection
-import Geometry.SourceSeamPathTomography
-import Geometry.SourceFeedbackTransport
-import Geometry.SourceEncodedMemoryAxiomAudit
-import Geometry.SourceReusableBusAxiomAudit
-import Geometry.SourceNativeUpdatesAxiomAudit
-import Geometry.SourceReadSelectionAxiomAudit
-import Geometry.SourceReadRouting
-import Geometry.SourceRoutingRefinementAxiomAudit
-import Geometry.SourceReadAcceptanceAxiomAudit
-import Geometry.SourceAccumulatorAxiomAudit
-import Geometry.SourceNativeProgramsAxiomAudit
-import Geometry.SourceTemporalAcceptanceAxiomAudit
-import Geometry.SourceCheckpointAxiomAudit
-import Geometry.SourcePublicationAxiomAudit
-import Geometry.SourceOperationReadsAxiomAudit
-import Geometry.SourcePopulationQuadrature
-import Geometry.GoldenSourceAssignment
-import Geometry.GoldenSourceCountLimit
-import Geometry.SourceCountLimitAxiomAudit
-import Geometry.GoldenSourceCausalLimit
-import Geometry.GoldenSourcePairLimit
-import Geometry.GoldenSourceVolumeLimit
-import Geometry.FlatDiamondNormalization
-import Geometry.SourceNetCausalCone
-import Geometry.SourceNetLayeredOrder
-import Geometry.SourceNetConformalRecordDensity
-import Geometry.OrderingFractionFourDimensional
-import Geometry.CanonicalLorentzModule
-import Geometry.CelestialNullCone
-import Geometry.ObserverFrameHyperboloid
-import Geometry.ObserverRestSpace
-import Geometry.EinsteinTensorBridge
-import Geometry.LorentzOverlapCocycle
-import Geometry.EventGermDisplacement
-import Geometry.CelestialSoldering
-import Geometry.EventFrameSoldering
-import Geometry.SpatialReadbackSoldering
-import Geometry.InverseSquareShellLaw
-import Geometry.MassShellKinematics
-import Geometry.InternalClockRestFrequency
-import Geometry.FreeEvolutionPersistence
-import Geometry.CausalOrderComposition
-import Geometry.EventPopulationChartInterface
-import Geometry.SourceDerivedSpacetimeCarrier
-import Geometry.RefiningLatticeCausalCone
-import Geometry.MetricKernelEnergy
-import Geometry.SourceOrderFrameCompatibilityPacket
-import Geometry.SourceOrderEinsteinComposition
-import Geometry.CommonWorldKinematicsWitness
-import Geometry.RestFiberShellTransport
-import Geometry.CommonWorldIslandBridge
-import Geometry.EinsteinBranchInhabitant
-import Geometry.CommonWorldInstrumentJoin
-import Geometry.CommonWorldMaxwellClockJoin
-import Geometry.IntegerKCombInvariance
-import Geometry.CommonWorldJointAction
-import Geometry.ScreenCarrierMapCandidate
-import Geometry.CarrierDynamicsCompatibility
-import Geometry.ChargeFixedInteraction
-import Geometry.InternalEnergyInertia
-import Geometry.CompositeMomentumCovariance
-import Geometry.PortChargeMinimalCoupling
-import Geometry.ProperTimeInternalAction
-import Geometry.WorldlineHopTransport
-import Geometry.TransportedChargeForceLaw
-import Geometry.SeamStepSpeedLimit
-import Geometry.SourceClockRateAlongWorldlines
-import Geometry.ProperLengthClockedChain
-import Geometry.TimelikeClassForceLaw
-import Geometry.CrossingReadAreaLaw
+module
+public import Geometry.SourcePassiveMemoryAxiomAudit
+public import Geometry.SourceRecordProtection
+public import Geometry.SourceSeamPathTomography
+public import Geometry.SourceFeedbackTransport
+public import Geometry.SourceEncodedMemoryAxiomAudit
+public import Geometry.SourceReusableBusAxiomAudit
+public import Geometry.SourceNativeUpdatesAxiomAudit
+public import Geometry.SourceReadSelectionAxiomAudit
+public import Geometry.SourceReadRouting
+public import Geometry.SourceRoutingRefinementAxiomAudit
+public import Geometry.SourceReadAcceptanceAxiomAudit
+public import Geometry.SourceAccumulatorAxiomAudit
+public import Geometry.SourceNativeProgramsAxiomAudit
+public import Geometry.SourceTemporalAcceptanceAxiomAudit
+public import Geometry.SourceCheckpointAxiomAudit
+public import Geometry.SourcePublicationAxiomAudit
+public import Geometry.SourceOperationReadsAxiomAudit
+public import Geometry.SourcePopulationQuadrature
+public import Geometry.GoldenSourceAssignment
+public import Geometry.GoldenSourceCountLimit
+public import Geometry.SourceCountLimitAxiomAudit
+public import Geometry.GoldenSourceCausalLimit
+public import Geometry.GoldenSourcePairLimit
+public import Geometry.GoldenSourceVolumeLimit
+public import Geometry.FlatDiamondNormalization
+public import Geometry.SourceNetCausalCone
+public import Geometry.SourceNetLayeredOrder
+public import Geometry.SourceNetConformalRecordDensity
+public import Geometry.OrderingFractionFourDimensional
+public import Geometry.CanonicalLorentzModule
+public import Geometry.CelestialNullCone
+public import Geometry.ObserverFrameHyperboloid
+public import Geometry.ObserverRestSpace
+public import Geometry.EinsteinTensorBridge
+public import Geometry.LorentzOverlapCocycle
+public import Geometry.EventGermDisplacement
+public import Geometry.CelestialSoldering
+public import Geometry.EventFrameSoldering
+public import Geometry.SpatialReadbackSoldering
+public import Geometry.InverseSquareShellLaw
+public import Geometry.MassShellKinematics
+public import Geometry.InternalClockRestFrequency
+public import Geometry.FreeEvolutionPersistence
+public import Geometry.CausalOrderComposition
+public import Geometry.EventPopulationChartInterface
+public import Geometry.SourceDerivedSpacetimeCarrier
+public import Geometry.RefiningLatticeCausalCone
+public import Geometry.MetricKernelEnergy
+public import Geometry.SourceOrderFrameCompatibilityPacket
+public import Geometry.SourceOrderEinsteinComposition
+public import Geometry.CommonWorldKinematicsWitness
+public import Geometry.RestFiberShellTransport
+public import Geometry.CommonWorldIslandBridge
+public import Geometry.EinsteinBranchInhabitant
+public import Geometry.CommonWorldInstrumentJoin
+public import Geometry.CommonWorldMaxwellClockJoin
+public import Geometry.IntegerKCombInvariance
+public import Geometry.CommonWorldJointAction
+public import Geometry.ScreenCarrierMapCandidate
+public import Geometry.CarrierDynamicsCompatibility
+public import Geometry.ChargeFixedInteraction
+public import Geometry.InternalEnergyInertia
+public import Geometry.CompositeMomentumCovariance
+public import Geometry.PortChargeMinimalCoupling
+public import Geometry.ProperTimeInternalAction
+public import Geometry.WorldlineHopTransport
+public import Geometry.TransportedChargeForceLaw
+public import Geometry.SeamStepSpeedLimit
+public import Geometry.SourceClockRateAlongWorldlines
+public import Geometry.ProperLengthClockedChain
+public import Geometry.TimelikeClassForceLaw
+public import Geometry.CrossingReadAreaLaw
+
+@[expose] public section
 
 /-!
 # OPH construction geometry umbrella

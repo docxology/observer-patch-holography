@@ -1,6 +1,9 @@
-import Mathlib
-import PrimitivePortTranslationBridge
-import PortFrameGram
+module
+public import Mathlib
+public import PrimitivePortTranslationBridge
+public import PortFrameGram
+
+@[expose] public section
 
 open scoped BigOperators goldenRatio
 
@@ -260,8 +263,9 @@ theorem integerFrame_denseRange : DenseRange integerFrame := by
     exact htwo.comp goldenLine_denseRange (by fun_prop)
   have hproduct : DenseRange
       (fun p : Fin 3 → ℤ × ℤ ↦ fun d ↦ 2 * goldenLine (p d)) := by
-    simpa only [Pi.map_apply] using
-      (DenseRange.piMap (fun _ : Fin 3 ↦ hscaled))
+    convert (DenseRange.piMap (fun _ : Fin 3 ↦ hscaled)) using 1
+    funext p d
+    rfl
   apply hproduct.mono
   rintro _ ⟨p, rfl⟩
   exact ⟨denseIntegerControl p, integerFrame_denseIntegerControl p⟩
@@ -348,8 +352,7 @@ theorem pointEuclideanFrame_denseRange : DenseRange pointEuclideanFrame := by
     change rawRadius⁻¹ • (rawRadius • y) = y
     rw [← mul_smul]
     simp [rawRadius_ne_zero]
-  simpa only [pointEuclideanFrame, Function.comp_apply] using
-    hscale.denseRange.comp hbase (by fun_prop)
+  exact hscale.denseRange.comp hbase (by fun_prop)
 
 /-- Euclidean three-space is an abstract completion of the operational integer
 adapter equipped with its source-Gram metric. -/

@@ -1,5 +1,8 @@
-import QFT.JointInstance
-import Tower.FixedPointEndpoint
+module
+public import QFT.JointInstance
+public import Tower.FixedPointEndpoint
+
+@[expose] public section
 
 /-!
 # The A4 public-endpoint bridge at the joint instance
@@ -613,7 +616,7 @@ section HiddenBitBridge
 two-patch pair and one hidden bit.  The physical quotient forgets the
 hidden bit; mismatch, repair data, normal form, and boundary all live on
 the public pair; the coarse maps are the identity. -/
-def hiddenBitTower : BareConsensusTower ℕ where
+abbrev hiddenBitTower : BareConsensusTower ℕ where
   State := fun _ => (Bool × Bool) × Bool
   stateFinite := fun _ => inferInstance
   Quot := fun _ => Bool × Bool

@@ -1,7 +1,10 @@
-import Geometry.SourceCausalBoundary
-import Mathlib.MeasureTheory.Measure.Lebesgue.VolumeOfBalls
-import Mathlib.MeasureTheory.Integral.Prod
-import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+module
+public import Geometry.SourceCausalBoundary
+public import Mathlib.MeasureTheory.Measure.Lebesgue.VolumeOfBalls
+public import Mathlib.MeasureTheory.Integral.Prod
+public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -33,7 +36,7 @@ theorem coordinateBall_volume (x : Space) (r : ℝ) :
   have heq : coordinateBall x r = WithLp.toLp 2 ⁻¹'
       Metric.closedBall (WithLp.toLp 2 x : EuclideanSpace ℝ (Fin 3)) r := by
     ext y
-    simp only [coordinateBall, mem_setOf_eq, mem_preimage, Metric.mem_closedBall, dist_eq_norm]
+    simp only [coordinateBall, mem_ofPred_eq, mem_preimage, Metric.mem_closedBall, dist_eq_norm]
     rfl
   rw [heq, (PiLp.volume_preserving_toLp (Fin 3)).measure_preimage
     measurableSet_closedBall.nullMeasurableSet, EuclideanSpace.volume_closedBall_fin_three]
@@ -89,7 +92,7 @@ theorem vertical_section {c : ℝ} (hc : 0 ≤ c) (T t : ℝ) (x : Space) :
     (fun y : Space => (t, y)) ⁻¹' diamond c (0, x) (T, x) =
       coordinateBall x (c * min t (T - t)) := by
   ext y
-  simp only [mem_preimage, diamond, mem_inter_iff, future, past, mem_setOf_eq,
+  simp only [mem_preimage, diamond, mem_inter_iff, future, past, mem_ofPred_eq,
     margin, sub_zero, coordinateBall, spatialNorm_sub_comm x y]
   rw [mul_min_of_nonneg _ _ hc, le_min_iff]
   exact and_congr sub_nonneg sub_nonneg
@@ -140,9 +143,9 @@ theorem vertical_diamond_volume {T L c : ℝ} (hT : 0 ≤ T) (hc : 0 ≤ c)
     (spaceTimeVolume T L).real (diamond c (0, x) (T, x)) =
       Real.pi * c ^ 3 * T ^ 4 / 24 := by
   classical
-  letI : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
-  letI : IsFiniteMeasure (volume.restrict (cube L)) := cube_measure_finite L
-  letI : IsFiniteMeasure (volume.restrict (Ico 0 T)) :=
+  let : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
+  let : IsFiniteMeasure (volume.restrict (cube L)) := cube_measure_finite L
+  let : IsFiniteMeasure (volume.restrict (Ico 0 T)) :=
     isFiniteMeasure_restrict.mpr (by simp [Real.volume_Ico])
   have hD := diamond_measurable c (0, x) (T, x)
   have hi : Integrable ((diamond c (0, x) (T, x)).indicator (1 : Spacetime → ℝ))
@@ -198,7 +201,7 @@ theorem coordinate_future_null {c : ℝ} (hc : c ≠ 0) (p : Spacetime) :
   have heq (x : Space) : (fun t : ℝ => (t, x)) ⁻¹' {q | margin c p q = 0} =
       {p.1 + spatialNorm (x - p.2) / c} := by
     ext t
-    simp only [mem_preimage, mem_setOf_eq, margin, mem_singleton_iff]
+    simp only [mem_preimage, mem_ofPred_eq, margin, mem_singleton_iff]
     constructor
     · intro h
       have hh : t - p.1 = spatialNorm (x - p.2) / c :=
@@ -211,7 +214,7 @@ theorem coordinate_future_null {c : ℝ} (hc : c ≠ 0) (p : Spacetime) :
 
 theorem spatialNorm_sub_triangle (x y z : Space) :
     spatialNorm (z - x) ≤ spatialNorm (z - y) + spatialNorm (y - x) := by
-  simpa only [dist_eq_norm] using
+  simpa only [dist_eq_norm, spatialNorm, WithLp.toLp_sub] using
     dist_triangle (WithLp.toLp 2 z : EuclideanSpace ℝ (Fin 3)) (WithLp.toLp 2 y) (WithLp.toLp 2 x)
 
 theorem causal_trans {c : ℝ} {p q r : Spacetime}
@@ -248,7 +251,7 @@ theorem full_vertical_diamond_volume {T c : ℝ} (hT : 0 ≤ T) (hc : 0 < c) (x 
     coordinateVolume.real (diamond c (0, x) (T, x)) = Real.pi * c ^ 3 * T ^ 4 / 24 := by
   classical
   have hD := diamond_measurable c (0, x) (T, x)
-  letI : IsFiniteMeasure (coordinateVolume.restrict (diamond c (0, x) (T, x))) :=
+  let : IsFiniteMeasure (coordinateVolume.restrict (diamond c (0, x) (T, x))) :=
     isFiniteMeasure_restrict.mpr (vertical_diamond_finite hc x)
   have hi : Integrable ((diamond c (0, x) (T, x)).indicator (1 : Spacetime → ℝ))
       coordinateVolume := by

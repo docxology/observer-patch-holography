@@ -1,5 +1,8 @@
-import EventAlgebra.PublicRecordAlgebra
-import Mathlib.Analysis.InnerProductSpace.TensorProduct
+module
+public import EventAlgebra.PublicRecordAlgebra
+public import Mathlib.Analysis.InnerProductSpace.TensorProduct
+
+@[expose] public section
 
 /-!
 # Sharp no-cloning and the no-broadcasting adapter boundary

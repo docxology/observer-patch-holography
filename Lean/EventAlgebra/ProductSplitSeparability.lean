@@ -1,4 +1,7 @@
-import EventAlgebra.SourceReachabilityDelimitation
+module
+public import EventAlgebra.SourceReachabilityDelimitation
+
+@[expose] public section
 
 set_option autoImplicit false
 

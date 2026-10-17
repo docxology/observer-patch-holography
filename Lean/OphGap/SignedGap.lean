@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Signed-incidence Gram matrix: kinetic identity, spectral bridge, balance-to-injectivity
@@ -37,7 +40,7 @@ theorem signedDerivative_mulVec_apply {V E : Type} [Fintype V] [DecidableEq V]
       · subst h2; simp [h1]
       · simp [h1, h2]
   simp only [mulVec, dotProduct, h, Finset.sum_add_distrib, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   ring
 
 /-- `x ⬝ (Dᵀ D x) = (D x) ⬝ (D x)` for any rectangular real matrix. -/
@@ -90,11 +93,12 @@ theorem triangle_posDef : triangleL.PosDef := by
   rw [posDef_iff_dotProduct_mulVec]
   refine ⟨?_, ?_⟩
   · ext i j
-    fin_cases i <;> fin_cases j <;> simp [triangleL, conjTranspose]
+    change triangleL j i = triangleL i j
+    fin_cases i <;> fin_cases j <;> rfl
   · intro x hx
     rw [star_trivial, triangle_quadratic_form]
     by_contra hle
-    push_neg at hle
+    push Not at hle
     apply hx
     have h01 := sq_nonneg (x 0 + x 1)
     have h02 := sq_nonneg (x 0 + x 2)

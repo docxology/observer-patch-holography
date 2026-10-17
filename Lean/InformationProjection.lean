@@ -1,10 +1,13 @@
-import InformationProjection.PathGibbs
-import InformationProjection.GlobalObjective
-import InformationProjection.HistoryLaw
-import InformationProjection.SourceHistoryPacket
-import InformationProjection.LogTransitionAction
-import InformationProjection.ReferenceNormalForm
-import InformationProjection.SourceReferenceSelection
+module
+public import InformationProjection.PathGibbs
+public import InformationProjection.GlobalObjective
+public import InformationProjection.HistoryLaw
+public import InformationProjection.SourceHistoryPacket
+public import InformationProjection.LogTransitionAction
+public import InformationProjection.ReferenceNormalForm
+public import InformationProjection.SourceReferenceSelection
+
+@[expose] public section
 
 /-!
 # Information-projection umbrella root

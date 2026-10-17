@@ -1,5 +1,8 @@
-import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
-import Mathlib.Tactic
+module
+public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+public import Mathlib.Tactic
+
+@[expose] public section
 
 set_option autoImplicit false
 

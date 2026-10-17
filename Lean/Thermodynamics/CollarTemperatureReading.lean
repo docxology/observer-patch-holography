@@ -1,6 +1,9 @@
-import GibbsReferenceEnergyIdentification
-import ObserverPatchHolography.CollarModularT2
-import QFT.StructuralInheritance
+module
+public import GibbsReferenceEnergyIdentification
+public import ObserverPatchHolography.CollarModularT2
+public import QFT.StructuralInheritance
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -257,7 +260,6 @@ theorem collar_modular_hamiltonian_split (lam : Fin 2 → ℝ) (H : Sector → �
     (fun p => eigval lam p / β) H hβ (collar_beta_free lam hβ).symm h
   refine ⟨-(β * c), fun p => ?_⟩
   have := hc p
-  simp only at this
   rw [this]
   field_simp
   ring
@@ -284,7 +286,7 @@ theorem modularEnergy_self_eq_shannon (p : Ω → ℝ) (hp : ∀ x, 0 < p x) :
   unfold modularEnergy shannon klTerm
   rw [← Finset.sum_neg_distrib]
   refine Finset.sum_congr rfl fun x _ => ?_
-  rw [if_neg (hp x).ne', div_one]
+  rw [ite_eq_right (hp x).ne', div_one]
   ring
 
 /-- The collar reference's ledger against itself is its Shannon entropy. -/

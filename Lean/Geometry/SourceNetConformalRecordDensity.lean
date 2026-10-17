@@ -1,10 +1,14 @@
-import Geometry.SourceNetLayeredOrder
-import Time.SourceCountClock
-import Mathlib.Algebra.BigOperators.Ring.Finset
-import Mathlib.Algebra.Order.BigOperators.Group.Finset
-import Mathlib.Analysis.Calculus.Deriv.Inv
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Tactic
+module
+public import Mathlib.Analysis.Calculus.Deriv.Mul
+public import Geometry.SourceNetLayeredOrder
+public import Time.SourceCountClock
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+public import Mathlib.Algebra.Order.BigOperators.Group.Finset
+public import Mathlib.Analysis.Calculus.Deriv.Inv
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Tactic
+
+@[expose] public section
 
 set_option autoImplicit false
 

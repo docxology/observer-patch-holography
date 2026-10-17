@@ -1,4 +1,7 @@
-import Variational.SourceToHamiltonianComposed
+module
+public import Variational.SourceToHamiltonianComposed
+
+@[expose] public section
 
 namespace OPH.Variational
 
@@ -77,19 +80,19 @@ noncomputable def symVel (x p : ℝ) : ℝ := x + p / (2 * Real.log 2)
 
 theorem symKernel_apply_00 : symKernel 0 0 = 2 / 3 := by
   unfold symKernel
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem symKernel_apply_01 : symKernel 0 1 = 1 / 3 := by
   unfold symKernel
-  rw [if_neg (by decide)]
+  rw [ite_eq_right (by decide)]
 
 theorem symKernel_apply_10 : symKernel 1 0 = 1 / 3 := by
   unfold symKernel
-  rw [if_neg (by decide)]
+  rw [ite_eq_right (by decide)]
 
 theorem symKernel_apply_11 : symKernel 1 1 = 2 / 3 := by
   unfold symKernel
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 /-- The declared kernel is strictly positive. -/
 theorem symKernel_pos (i j : Fin 2) : 0 < symKernel i j := by
@@ -222,7 +225,7 @@ theorem constZero_global_mode (M : ℕ) (t : Fin (M + 1) → Fin 2) :
     exact symKernel_apply_00
   rw [heq]
   unfold pathTransitionWeight
-  exact Finset.prod_le_prod (fun i _ => le_of_lt (symKernel_pos _ _))
+  exact Finset.prod_le_prod₀ (fun i _ => le_of_lt (symKernel_pos _ _))
     (fun i _ => symKernel_le _ _)
 
 /-- The translation Noether momentum of the embedded constant-0 history

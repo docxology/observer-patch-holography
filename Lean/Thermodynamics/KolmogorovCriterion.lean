@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Finite rate reconstruction on the reversible layer (Kolmogorov cycle criterion)
@@ -280,7 +283,7 @@ theorem all_three_fail :
         ¬ DetailedBalanceExists qEx (⊤ : SimpleGraph (Fin 3)) := by
   have htfae := kolmogorov_criterion qEx (⊤ : SimpleGraph (Fin 3)) connected_top qEx_pos
   have hc := cycleCondition_fails
-  exact ⟨hc, fun hp => hc ((htfae.out 1 0).mp hp), fun hd => hc ((htfae.out 2 0).mp hd)⟩
+  exact ⟨hc, fun hp => hc ((htfae.out 2 1).mp hp), fun hd => hc ((htfae.out 3 1).mp hd)⟩
 
 end Witness
 

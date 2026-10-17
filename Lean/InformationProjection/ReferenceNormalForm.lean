@@ -1,4 +1,7 @@
-import InformationProjection.LogTransitionAction
+module
+public import InformationProjection.LogTransitionAction
+
+@[expose] public section
 
 /-!
 # The step-uniform reference as a gauge normal form

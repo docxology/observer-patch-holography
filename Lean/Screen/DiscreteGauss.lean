@@ -1,4 +1,7 @@
-import RegionalContinuity
+module
+public import RegionalContinuity
+
+@[expose] public section
 
 namespace OPH.DiscreteGauss
 

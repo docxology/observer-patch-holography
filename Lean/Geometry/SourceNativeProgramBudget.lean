@@ -1,4 +1,7 @@
-import Geometry.SourceNativeStoredProgram
+module
+public import Geometry.SourceNativeStoredProgram
+
+@[expose] public section
 
 /-!
 # Finite precision and stationary evaluation

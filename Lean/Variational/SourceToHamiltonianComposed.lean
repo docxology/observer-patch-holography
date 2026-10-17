@@ -1,7 +1,10 @@
-import Variational.LegendreBridge
-import Variational.RealizedHistoryLegendreNoGo
-import Variational.StationarySaddleCoverage
-import InformationProjection.LogTransitionAction
+module
+public import Variational.LegendreBridge
+public import Variational.RealizedHistoryLegendreNoGo
+public import Variational.StationarySaddleCoverage
+public import InformationProjection.LogTransitionAction
+
+@[expose] public section
 
 namespace OPH.Variational
 
@@ -390,9 +393,9 @@ theorem polyTwoPoint_hasFDerivAt (α β γ δ ε ζ : ℝ) (p : ℝ × ℝ) :
         + ζ • (p.2 • ContinuousLinearMap.snd ℝ ℝ ℝ
             + p.2 • ContinuousLinearMap.snd ℝ ℝ ℝ) := by
     refine ContinuousLinearMap.ext fun v => ?_
-    simp only [ContinuousLinearMap.add_apply,
-      ContinuousLinearMap.smul_apply, ContinuousLinearMap.coe_fst',
-      ContinuousLinearMap.coe_snd', ContinuousLinearMap.zero_apply,
+    simp only [add_apply,
+      smul_apply, ContinuousLinearMap.coe_fst',
+      ContinuousLinearMap.coe_snd', zero_apply,
       smul_eq_mul]
     ring
   rw [hD]

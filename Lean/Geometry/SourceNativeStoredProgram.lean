@@ -1,4 +1,7 @@
-import Geometry.SourceNativeCore
+module
+public import Geometry.SourceNativeCore
+
+@[expose] public section
 
 /-!
 # Composable stored computation using scalar means
@@ -108,7 +111,7 @@ theorem publication {initial : State} {w : Word} {R : ℝ}
   have hn := noisy_correct h x E δ noisy hw hx he
   have hplus := hn (receiver,false)
   have hminus := hn (receiver,true)
-  simp only [encode, Bool.false_eq_true, if_false, if_true] at hplus hminus
+  simp only [encode, Bool.false_eq_true, ite_false, ite_true] at hplus hminus
   have hp' := (abs_add_le (p-noisyRun noisy x (receiver,false))
     (noisyRun noisy x (receiver,false)-(b+a receiver))).trans (add_le_add hp hplus)
   have hm' := (abs_add_le (m-noisyRun noisy x (receiver,true))

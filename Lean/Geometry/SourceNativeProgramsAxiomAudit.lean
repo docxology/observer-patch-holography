@@ -1,7 +1,10 @@
-import Geometry.SourceAccumulatorAxiomAudit
-import Geometry.SourceNativeProgramBudget
-import Geometry.SourceBankExecution
-import Geometry.SourceBankControl
+module
+public import Geometry.SourceAccumulatorAxiomAudit
+public import Geometry.SourceNativeProgramBudget
+public import Geometry.SourceBankExecution
+public import Geometry.SourceBankControl
+
+@[expose] public section
 
 /-! Transitive standard-axiom gate for every native stored-program theorem. -/
 audit_reusable_bus_axioms OPH.SourceNativeShuttle.step_bounded

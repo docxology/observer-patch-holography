@@ -1,12 +1,15 @@
-import Mathlib.LinearAlgebra.Matrix.DotProduct
-import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.LinearAlgebra.Dimension.Free
-import Mathlib.Algebra.GroupWithZero.Pi
-import Mathlib.Algebra.Star.Pi
-import Mathlib.Algebra.BigOperators.Pi
-import Mathlib.Algebra.BigOperators.Fin
-import Mathlib.Data.List.OfFn
-import Dynamics.CenterSpectral
+module
+public import Mathlib.LinearAlgebra.Matrix.DotProduct
+public import Mathlib.LinearAlgebra.Matrix.Trace
+public import Mathlib.LinearAlgebra.Dimension.Free
+public import Mathlib.Algebra.GroupWithZero.Pi
+public import Mathlib.Algebra.Star.Pi
+public import Mathlib.Algebra.BigOperators.Pi
+public import Mathlib.Algebra.BigOperators.Fin
+public import Mathlib.Data.List.OfFn
+public import Dynamics.CenterSpectral
+
+@[expose] public section
 
 /-!
 # Star Wedderburn classification and the finite-block Stone converse
@@ -357,7 +360,7 @@ theorem IsMinimalProjectionIn.selfAdjoint_corner_smul
     (hph : p * h = h) (hhp : h * p = h) :
     ∃ c : ℂ, h = c • p := by
   classical
-  haveI : Nonempty n := nonempty_of_matrix_ne_zero hp.ne_zero
+  have : Nonempty n := nonempty_of_matrix_ne_zero hp.ne_zero
   have hcommph : p * h = h * p := by rw [hph, hhp]
   set T := spectralSupport hsa.isHermitian with hT
   set π : ℂ → Matrix n n ℂ := spectralProjection hsa.isHermitian with hπ
@@ -715,7 +718,7 @@ theorem central_unit_mem_connectingIdeal {e p : Matrix n n ℂ}
     (hp0 : p ≠ 0) (hpe : p * e = p) :
     e ∈ connectingIdeal S p := by
   classical
-  haveI : Nonempty n := nonempty_of_matrix_ne_zero hp0
+  have : Nonempty n := nonempty_of_matrix_ne_zero hp0
   set J := connectingIdeal S p with hJdef
   -- a trace-positive self-adjoint combination of an ideal basis
   set bJ := Module.finBasis ℂ ↥J with hbJ
@@ -750,13 +753,13 @@ theorem central_unit_mem_connectingIdeal {e p : Matrix n n ℂ}
       intro b hb
       by_cases hba : b = a
       · subst hba
-        rw [if_pos rfl, (isIdempotentElem_spectralProjection _
+        rw [ite_eq_left rfl, (isIdempotentElem_spectralProjection _
           (hFsub hb)).eq]
-      · rw [if_neg hba]
+      · rw [ite_eq_right hba]
         exact spectralProjection_mul_of_ne _ (hFsub ha) (hFsub hb)
           (fun h1 => hba h1.symm)
     rw [Finset.sum_congr rfl hterm, Finset.sum_ite_eq' F a (fun b => π b),
-      if_pos ha]
+      ite_eq_left ha]
   have hug : h * g = u := by
     rw [hrec, Finset.sum_mul]
     have hterm : ∀ a ∈ T, (a • π a) * g =
@@ -768,9 +771,9 @@ theorem central_unit_mem_connectingIdeal {e p : Matrix n n ℂ}
         intro b hb
         by_cases hba : b = a
         · subst hba
-          rw [if_pos rfl, smul_mul_smul_comm,
+          rw [ite_eq_left rfl, smul_mul_smul_comm,
             (isIdempotentElem_spectralProjection _ (hFsub hb)).eq]
-        · rw [if_neg hba, smul_mul_smul_comm,
+        · rw [ite_eq_right hba, smul_mul_smul_comm,
             spectralProjection_mul_of_ne _ ha (hFsub hb)
               (fun h1 => hba h1.symm), smul_zero]
       rw [Finset.sum_congr rfl hterm2,
@@ -780,9 +783,9 @@ theorem central_unit_mem_connectingIdeal {e p : Matrix n n ℂ}
         have hnot : (0 : ℂ) ∉ F := by
           intro hmem
           exact hFne 0 hmem rfl
-        rw [if_neg hnot, if_neg (by simp)]
+        rw [ite_eq_right hnot, ite_eq_right (by simp)]
       · have hmem : a ∈ F := Finset.mem_filter.mpr ⟨ha, ha0⟩
-        rw [if_pos hmem, if_pos ha0, mul_inv_cancel₀ ha0, one_smul]
+        rw [ite_eq_left hmem, ite_eq_left ha0, mul_inv_cancel₀ ha0, one_smul]
     rw [Finset.sum_congr rfl hterm, ← Finset.sum_filter]
   have hgS : g ∈ S := sum_mem fun a _ =>
     SMulMemClass.smul_mem _ (aeval_mem_of_mem hhS _)
@@ -1049,11 +1052,11 @@ theorem minimalCentralCorner_starEquiv_matrix
     intro i j a b
     by_cases hja : j = a
     · subst hja
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       calc w i * star (w j) * (w j * star (w b))
           = w i * (star (w j) * w j) * star (w b) := by noncomm_ring
         _ = w i * star (w b) := by rw [hwsq j, hwP i]
-    · rw [if_neg hja]
+    · rw [ite_eq_right hja]
       have h1 : star (w j) * w a = 0 := by
         calc star (w j) * w a
             = (star (w j) * P j) * (P a * w a) := by rw [hstarwP, hPw]
@@ -1066,10 +1069,10 @@ theorem minimalCentralCorner_starEquiv_matrix
     intro a i j
     by_cases hai : a = i
     · subst hai
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       show P a * (w a * star (w j)) = w a * star (w j)
       rw [← mul_assoc, hPw]
-    · rw [if_neg hai]
+    · rw [ite_eq_right hai]
       show P a * (w i * star (w j)) = 0
       have h1 : P a * w i = 0 := by
         rw [← hPw i, ← mul_assoc, hPorth a i hai, zero_mul]
@@ -1078,10 +1081,10 @@ theorem minimalCentralCorner_starEquiv_matrix
     intro i j b
     by_cases hbj : b = j
     · subst hbj
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       show (w i * star (w b)) * P b = w i * star (w b)
       rw [mul_assoc, hstarwP]
-    · rw [if_neg hbj]
+    · rw [ite_eq_right hbj]
       show (w i * star (w j)) * P b = 0
       have h1 : star (w j) * P b = 0 := by
         rw [← hstarwP j, mul_assoc, hPorth j b (fun h2 => hbj h2.symm),
@@ -1090,7 +1093,7 @@ theorem minimalCentralCorner_starEquiv_matrix
   have hEne : ∀ i j, E i j ≠ 0 := by
     intro i j h0
     have h1 : E i j * E j i = P i := by
-      rw [hEmul, if_pos rfl, hEdiag]
+      rw [hEmul, ite_eq_left rfl, hEdiag]
     rw [h0, zero_mul] at h1
     exact (hPmin i).ne_zero h1.symm
   have heE : ∀ i j, e * E i j = E i j := by
@@ -1169,14 +1172,14 @@ theorem minimalCentralCorner_starEquiv_matrix
           if j = a then ∑ b, (M i j * N a b) • E i b else 0 := by
         intro a
         by_cases hja : j = a
-        · rw [if_pos hja]
+        · rw [ite_eq_left hja]
           refine Finset.sum_congr rfl fun b _ => ?_
-          rw [hEmul, if_pos hja]
-        · rw [if_neg hja]
+          rw [hEmul, ite_eq_left hja]
+        · rw [ite_eq_right hja]
           refine Finset.sum_eq_zero fun b _ => ?_
-          rw [hEmul, if_neg hja, smul_zero]
+          rw [hEmul, ite_eq_right hja, smul_zero]
       rw [Finset.sum_congr rfl fun a _ => h1 a, Finset.sum_ite_eq,
-        if_pos (Finset.mem_univ j)]
+        ite_eq_left (Finset.mem_univ j)]
     rw [Finset.sum_congr rfl fun j _ => hcollapse j, Finset.sum_comm]
     refine Finset.sum_congr rfl fun b _ => ?_
     rw [← Finset.sum_smul, Matrix.mul_apply]
@@ -1211,10 +1214,10 @@ theorem minimalCentralCorner_starEquiv_matrix
       intro i j
       by_cases hai : a = i
       · by_cases hbj : b = j
-        · rw [if_pos hai, if_pos hbj, hPE, if_pos hai, hEP, if_pos hbj]
-        · rw [if_pos hai, if_neg hbj, hPE, if_pos hai, hEP, if_neg hbj,
+        · rw [ite_eq_left hai, ite_eq_left hbj, hPE, ite_eq_left hai, hEP, ite_eq_left hbj]
+        · rw [ite_eq_left hai, ite_eq_right hbj, hPE, ite_eq_left hai, hEP, ite_eq_right hbj,
             smul_zero]
-      · rw [if_neg hai, hPE, if_neg hai, zero_mul, smul_zero]
+      · rw [ite_eq_right hai, hPE, ite_eq_right hai, zero_mul, smul_zero]
     rw [Finset.sum_congr rfl fun i _ =>
       Finset.sum_congr rfl fun j _ => hterm i j]
     have hinner : ∀ i, (∑ j, if a = i then
@@ -1222,13 +1225,13 @@ theorem minimalCentralCorner_starEquiv_matrix
         if a = i then M i b • E i b else 0 := by
       intro i
       by_cases hai : a = i
-      · rw [if_pos hai]
-        rw [Finset.sum_congr rfl fun j _ => if_pos hai,
-          Finset.sum_ite_eq, if_pos (Finset.mem_univ b)]
-      · rw [if_neg hai]
-        exact Finset.sum_eq_zero fun j _ => if_neg hai
+      · rw [ite_eq_left hai]
+        rw [Finset.sum_congr rfl fun j _ => ite_eq_left hai,
+          Finset.sum_ite_eq, ite_eq_left (Finset.mem_univ b)]
+      · rw [ite_eq_right hai]
+        exact Finset.sum_eq_zero fun j _ => ite_eq_right hai
     rw [Finset.sum_congr rfl fun i _ => hinner i, Finset.sum_ite_eq,
-      if_pos (Finset.mem_univ a)]
+      ite_eq_left (Finset.mem_univ a)]
   -- the bundled non-unital star homomorphism
   let Φ : Matrix (Fin l.length) (Fin l.length) ℂ →⋆ₙₐ[ℂ] ↥corner :=
     { toFun := fun M => ⟨∑ i, ∑ j, M i j • E i j, hmemΦ M⟩
@@ -1306,7 +1309,7 @@ theorem IsMinimalCentralProjectionIn.corner_center_scalar
     (hcomm : ∀ x ∈ relativeCorner S he.toIsCentralProjectionIn,
       z * x = x * z) :
     ∃ c : ℂ, z = c • e := by
-  haveI : Nonempty n := nonempty_of_matrix_ne_zero he.ne_zero
+  have : Nonempty n := nonempty_of_matrix_ne_zero he.ne_zero
   obtain ⟨hzS, hez⟩ := hz
   have hze : z * e = z :=
     mul_unit_of_mem_relativeCorner he.toIsCentralProjectionIn ⟨hzS, hez⟩
@@ -1445,14 +1448,14 @@ theorem starSubalgebra_starEquiv_pi_matrix
           intro j
           by_cases hji : j = i
           · subst hji
-            rw [if_pos rfl]
+            rw [ite_eq_left rfl]
             exact (y j).2.2
-          · rw [if_neg hji, ← (y j).2.2, ← mul_assoc,
+          · rw [ite_eq_right hji, ← (y j).2.2, ← mul_assoc,
               hEorth i j (fun h1 => hji h1.symm), zero_mul]
         rw [Finset.sum_congr rfl fun j _ => hterm j,
           Finset.sum_ite_eq' Finset.univ i
             (fun j => ((y j : Matrix n n ℂ))),
-          if_pos (Finset.mem_univ i)])
+          ite_eq_left (Finset.mem_univ i)])
       map_mul' := fun x y => funext fun i => Subtype.ext (by
         show E i * ((x : Matrix n n ℂ) * (y : Matrix n n ℂ)) =
           (E i * (x : Matrix n n ℂ)) * (E i * (y : Matrix n n ℂ))
@@ -1521,8 +1524,8 @@ theorem piBlockProjection_mul_self (j : J) :
   show (if i = j then (1 : Matrix (n i) (n i) ℂ) else 0) *
       (if i = j then 1 else 0) = if i = j then 1 else 0
   by_cases h : i = j
-  · rw [if_pos h, one_mul]
-  · rw [if_neg h, zero_mul]
+  · rw [ite_eq_left h, one_mul]
+  · rw [ite_eq_right h, zero_mul]
 
 omit [Fintype J] in
 theorem piBlockProjection_central (j : J) (x : PiBlockAlgebra n) :
@@ -1531,8 +1534,8 @@ theorem piBlockProjection_central (j : J) (x : PiBlockAlgebra n) :
   show (if i = j then (1 : Matrix (n i) (n i) ℂ) else 0) * x i =
     x i * (if i = j then 1 else 0)
   by_cases h : i = j
-  · rw [if_pos h, one_mul, mul_one]
-  · rw [if_neg h, zero_mul, mul_zero]
+  · rw [ite_eq_left h, one_mul, mul_one]
+  · rw [ite_eq_right h, zero_mul, mul_zero]
 
 /-- Every central idempotent of the finite direct sum of full matrix
 blocks is the indicator of a set of blocks: each component is central in
@@ -1570,10 +1573,10 @@ theorem piBlock_central_idempotent_indicator [∀ j, Nonempty (n j)]
   rcases hcases i with h0 | h1
   · have hnot : i ∉ Finset.univ.filter fun i' => c i' = 1 := by
       simp [Finset.mem_filter, h0]
-    rw [piBlockIndicator_apply, if_neg hnot, ← hc i, h0, map_zero]
+    rw [piBlockIndicator_apply, ite_eq_right hnot, ← hc i, h0, map_zero]
   · have hmem : i ∈ Finset.univ.filter fun i' => c i' = 1 := by
       simp [Finset.mem_filter, h1]
-    rw [piBlockIndicator_apply, if_pos hmem, ← hc i, h1, map_one]
+    rw [piBlockIndicator_apply, ite_eq_left hmem, ← hc i, h1, map_one]
 
 /-- A star automorphism of the finite direct sum carries each block
 projection to an indicator of blocks. -/
@@ -1607,11 +1610,11 @@ private theorem continuous_finiteRange_apply_eq {X : Type w}
   have hcompl : (f ⁻¹' {f 0})ᶜ = f ⁻¹' (F \ {f 0}) := by
     ext s
     simp only [Set.mem_compl_iff, Set.mem_preimage, Set.mem_singleton_iff,
-      Set.mem_diff]
+      Set.mem_sdiff]
     exact ⟨fun hne => ⟨hmem s, hne⟩, fun hs => hs.2⟩
   have hopen : IsOpen (f ⁻¹' {f 0}) := by
     have hcl : IsClosed (f ⁻¹' (F \ {f 0})) :=
-      ((hF.subset Set.diff_subset).isClosed).preimage hf
+      ((hF.subset Set.sdiff_subset).isClosed).preimage hf
     rw [← hcompl] at hcl
     exact isClosed_compl_iff.mp hcl
   obtain hempty | huniv := isClopen_iff.mp ⟨hclosed, hopen⟩
@@ -1651,8 +1654,8 @@ theorem mul_piBlockProjection_eq_single (y : PiBlockAlgebra n) (j : J) :
   rw [Pi.mul_apply, piBlockProjection_apply]
   by_cases h : i = j
   · subst h
-    rw [if_pos rfl, mul_one, Pi.single_eq_same]
-  · rw [if_neg h, mul_zero, Pi.single_eq_of_ne h]
+    rw [ite_eq_left rfl, mul_one, Pi.single_eq_same]
+  · rw [ite_eq_right h, mul_zero, Pi.single_eq_of_ne h]
 
 omit [Fintype J] in
 theorem single_mul_piBlockProjection (j : J) (x : Matrix (n j) (n j) ℂ) :
@@ -1767,16 +1770,16 @@ theorem piBlockStoneConverse_of_continuous [∀ j, Nonempty (n j)]
     intro i
     by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have h := hconj i t (x i)
       rw [piBlockRestriction_apply] at h
       exact h
-    · rw [if_neg hij, apply_single_of_fixes (α t) i (hfix i t) (x i)]
+    · rw [ite_eq_right hij, apply_single_of_fixes (α t) i (hfix i t) (x i)]
       exact Pi.single_eq_of_ne (fun h => hij h.symm) _
   rw [Finset.sum_congr rfl fun i _ => hterm i,
     Finset.sum_ite_eq' Finset.univ j
       (fun _ => stonePropagator (Ham j) t * x j * stonePropagator (Ham j) (-t)),
-    if_pos (Finset.mem_univ j)]
+    ite_eq_left (Finset.mem_univ j)]
 
 end PiBlockControl
 
@@ -1966,7 +1969,7 @@ theorem starWedderburn_stone_closure (S : StarSubalgebra ℂ (Matrix N N ℂ)) :
   obtain ⟨k, d, hd, hequiv⟩ := starSubalgebra_starEquiv_pi_matrix S
   refine ⟨k, d, hd, hequiv, ?_⟩
   intro α hzero hgroup hcont
-  haveI : ∀ i, Nonempty (Fin (d i)) := fun i => Fin.pos_iff_nonempty.mp (hd i)
+  have : ∀ i, Nonempty (Fin (d i)) := fun i => Fin.pos_iff_nonempty.mp (hd i)
   exact piBlockStoneConverse_of_continuous α hzero hgroup hcont
 
 /-- Full composed form of the closure: a pointwise-continuous
@@ -1995,7 +1998,7 @@ theorem starSubalgebraStoneConverse_of_continuous
   classical
   obtain ⟨k, d, hd, hΦne⟩ := starSubalgebra_starEquiv_pi_matrix S
   obtain ⟨Φ⟩ := hΦne
-  haveI : ∀ i, Nonempty (Fin (d i)) := fun i =>
+  have : ∀ i, Nonempty (Fin (d i)) := fun i =>
     Fin.pos_iff_nonempty.mp (hd i)
   set β : ℝ → (((i : Fin k) → Matrix (Fin (d i)) (Fin (d i)) ℂ) ≃⋆ₐ[ℂ]
       ((i : Fin k) → Matrix (Fin (d i)) (Fin (d i)) ℂ)) :=

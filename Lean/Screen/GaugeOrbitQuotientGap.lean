@@ -1,4 +1,7 @@
-import KogutSusskindFiberRateComparison
+module
+public import KogutSusskindFiberRateComparison
+
+@[expose] public section
 
 set_option autoImplicit false
 

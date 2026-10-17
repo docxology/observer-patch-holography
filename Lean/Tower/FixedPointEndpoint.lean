@@ -1,5 +1,8 @@
-import Tower.PublicWorldQuotient
-import ObserverPatchHolography.Primitives
+module
+public import Tower.PublicWorldQuotient
+public import ObserverPatchHolography.Primitives
+
+@[expose] public section
 
 /-!
 # Finite fixed-point endpoints for labelled repair
@@ -418,7 +421,7 @@ theorem local_terminating (seed : OPH.Records C) :
 depend only on `obsMap`.  Thus the labelled local system satisfies the exact
 quotient-compatibility packet rather than congruence of the composite
 choice-selected `OPH.Repair`. -/
-noncomputable def localQuotientCompatible (seed : OPH.Records C) :
+theorem localQuotientCompatible (seed : OPH.Records C) :
     QuotientCompatible (presentation C seed) (localSystem C seed) where
   repair_respects_public := by
     intro i x y hxy
@@ -566,10 +569,11 @@ theorem lr_completeFor (seed : OPH.Records C) :
   exact (OPH.normalForm_iff_all_quiescent lr H1 H2 H3 x).symm.trans
     (OPH.completeness lr H1 H2 H3 x)
 
+omit H1 H2 H3 in
 /-- An arbitrary H1--H3 local repair needs an additional explicit gauge
 packet before it can act on quotient classes.  H1--H3 alone prove descent of
 the mismatch measure and semantic completeness, not quotient congruence. -/
-noncomputable def lrQuotientCompatible (seed : OPH.Records C)
+theorem lrQuotientCompatible (seed : OPH.Records C)
     (Hgauge : ∀ (i : C.Patch) (x y : OPH.Records C),
       OPH.gaugeEquiv C x y →
         OPH.gaugeEquiv C (lr i x) (lr i y))
@@ -663,11 +667,19 @@ open FiniteRepairSystem
 
 inductive ForkConfig
   | start | left | right
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype ForkConfig where
+  elems := {ForkConfig.start, ForkConfig.left, ForkConfig.right}
+  complete := by intro x; cases x <;> simp
 
 inductive ForkMove
   | chooseLeft | chooseRight
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype ForkMove where
+  elems := {ForkMove.chooseLeft, ForkMove.chooseRight}
+  complete := by intro x; cases x <;> simp
 
 /-- The two terminal fork branches have different public signatures. -/
 def forkReadback : ForkConfig → Bool
@@ -698,7 +710,7 @@ theorem fork_measure_desc {x y : ForkConfig}
     (h : step forkPresentation forkSystem x y) :
     forkMeasure y < forkMeasure x := by
   obtain ⟨m, rfl, hne⟩ := h
-  cases m <;> cases x <;> simp_all [forkSystem, forkRepair, forkMeasure]
+  cases m <;> cases x <;> simp_all [forkSystem, forkRepair, forkMeasure] <;> contradiction
 
 /-- The fork is terminating. -/
 theorem fork_terminating :
@@ -762,7 +774,7 @@ theorem settle_measure_desc {x y : Bool}
     settleMeasure y < settleMeasure x := by
   obtain ⟨m, rfl, hne⟩ := h
   cases m
-  cases x <;> simp_all [settleSystem, settleRepair, settleMeasure]
+  cases x ; simp_all [settleSystem, settleRepair, settleMeasure] ; contradiction
 
 theorem settle_terminating :
     OPH.AbstractRewriting.Terminating (step settlePresentation settleSystem) :=
@@ -839,7 +851,7 @@ theorem representative_measure_desc {x y : Bool × Bool}
   cases m
   rcases x with ⟨a, b⟩
   cases a <;> cases b <;>
-    simp_all [representativeSystem, representativeRepair, representativeMeasure]
+    simp_all [representativeSystem, representativeRepair, representativeMeasure] <;> contradiction
 
 theorem representative_terminating :
     OPH.AbstractRewriting.Terminating
@@ -978,7 +990,7 @@ theorem primitive_step_eq_acceptedStep :
 
 /-- Existing OPH single-move congruence and firing congruence make the
 tower-attached local system quotient-compatible. -/
-noncomputable def primitiveLocalQuotientCompatible :
+theorem primitiveLocalQuotientCompatible :
     QuotientCompatible (primitivePresentation T r C A)
       (primitiveLocalSystem T r C A) where
   repair_respects_public := by
@@ -1059,7 +1071,7 @@ regulator presentation. -/
 
 /-- Explicit quotient packet for a caller-supplied local repair family at the
 tower regulator. -/
-noncomputable def primitiveLRQuotientCompatible
+theorem primitiveLRQuotientCompatible
     (lr : C.Patch → OPH.Records C → OPH.Records C)
     (Hgauge : ∀ (i : C.Patch) (x y : OPH.Records C),
       OPH.gaugeEquiv C x y → OPH.gaugeEquiv C (lr i x) (lr i y))

@@ -1,7 +1,10 @@
-import EventAlgebra.ProductSplitSeparability
-import EventAlgebra.SchroedingerFrameFlow
-import Mathlib.Analysis.CStarAlgebra.Matrix
-import Mathlib.Analysis.InnerProductSpace.Positive
+module
+public import EventAlgebra.ProductSplitSeparability
+public import EventAlgebra.SchroedingerFrameFlow
+public import Mathlib.Analysis.CStarAlgebra.Matrix
+public import Mathlib.Analysis.InnerProductSpace.Positive
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false

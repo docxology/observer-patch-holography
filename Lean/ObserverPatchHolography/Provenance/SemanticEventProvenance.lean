@@ -1,6 +1,9 @@
-import Mathlib.Logic.Relation
-import Mathlib.Data.Finset.Basic
-import Time.TimeOrderLedger
+module
+public import Mathlib.Logic.Relation
+public import Mathlib.Data.Finset.Basic
+public import Time.TimeOrderLedger
+
+@[expose] public section
 
 /-!
 # Source-derived semantic event provenance

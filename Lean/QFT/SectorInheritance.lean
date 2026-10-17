@@ -1,9 +1,12 @@
-import Mathlib.Analysis.CStarAlgebra.Matrix
-import Mathlib.Analysis.InnerProductSpace.Adjoint
-import QFT.StructuralInheritance
-import Dynamics.PrivateInner
-import EventAlgebra.Superselection
-import Tower.OperationalObserver
+module
+public import Mathlib.Analysis.CStarAlgebra.Matrix
+public import Mathlib.Analysis.InnerProductSpace.Adjoint
+public import QFT.StructuralInheritance
+public import Dynamics.PrivateInner
+public import EventAlgebra.Superselection
+public import Tower.OperationalObserver
+
+@[expose] public section
 
 /-!
 # The E4 structural-inheritance matrix: the DHR / superselection-sector row
@@ -133,7 +136,7 @@ local `maxHeartbeats` override is used. -/
 theorem matrixStarAlgAutomorphism_inner {n : Type*} [Fintype n] [DecidableEq n]
     (F : Matrix n n ℂ ≃⋆ₐ[ℂ] Matrix n n ℂ) :
     ∃ u ∈ unitary (Matrix n n ℂ), ∀ x, F x = u * x * star u := by
-  have e : Matrix n n ℂ ≃⋆ₐ[ℂ] (EuclideanSpace ℂ n →L[ℂ] EuclideanSpace ℂ n) :=
+  let e : Matrix n n ℂ ≃⋆ₐ[ℂ] (EuclideanSpace ℂ n →L[ℂ] EuclideanSpace ℂ n) :=
     Matrix.toEuclideanCLM
   obtain ⟨U, hU⟩ :=
     OPH.Dynamics.finitePrivateStarAutomorphism_inner ((e.symm.trans F).trans e)
@@ -142,17 +145,25 @@ theorem matrixStarAlgAutomorphism_inner {n : Type*} [Fintype n] [DecidableEq n]
         (Unitary.linearIsometryEquiv.symm U) := by
     rw [hU]
     exact (Unitary.conjStarAlgAut_symm_unitaryLinearIsometryEquiv U).symm
+  have hstar (a : EuclideanSpace ℂ n →L[ℂ] EuclideanSpace ℂ n) :
+      e.symm (star a) = star (e.symm a) :=
+    map_star (R := EuclideanSpace ℂ n →L[ℂ] EuclideanSpace ℂ n)
+      (S := Matrix n n ℂ) e.symm a
+  have hmul (a b : EuclideanSpace ℂ n →L[ℂ] EuclideanSpace ℂ n) :
+      e.symm (a * b) = e.symm a * e.symm b :=
+    map_mul (M := EuclideanSpace ℂ n →L[ℂ] EuclideanSpace ℂ n)
+      (N := Matrix n n ℂ) e.symm a b
   have hv1 := (Unitary.mem_iff.mp (Unitary.linearIsometryEquiv.symm U).2).1
   have hv2 := (Unitary.mem_iff.mp (Unitary.linearIsometryEquiv.symm U).2).2
   refine ⟨e.symm ↑(Unitary.linearIsometryEquiv.symm U),
     Unitary.mem_iff.mpr ⟨?_, ?_⟩, fun x => ?_⟩
-  · rw [← map_star, ← map_mul, hv1, map_one]
-  · rw [← map_star, ← map_mul, hv2, map_one]
+  · rw [← hstar, ← hmul, hv1, map_one]
+  · rw [← hstar, ← hmul, hv2, map_one]
   · have hx : F x = e.symm (((e.symm.trans F).trans e) (e x)) := by
       rw [StarAlgEquiv.trans_apply, StarAlgEquiv.trans_apply,
         StarAlgEquiv.symm_apply_apply, StarAlgEquiv.symm_apply_apply]
-    rw [hx, hconj, Unitary.conjStarAlgAut_apply, map_mul, map_mul,
-      StarAlgEquiv.symm_apply_apply, map_star]
+    rw [hx, hconj, Unitary.conjStarAlgAut_apply, hmul, hmul,
+      StarAlgEquiv.symm_apply_apply, hstar]
 
 /-- The transported engine restated on the witness tower's private
 block, the carrier named by the E4 issue (definitionally

@@ -1,5 +1,8 @@
-import Mathlib
-import ObserverPatchHolography.ScalarSeamRepair
+module
+public import Mathlib
+public import ObserverPatchHolography.ScalarSeamRepair
+
+@[expose] public section
 
 namespace OPH.LabeledEventReadout
 

@@ -1,6 +1,9 @@
-import QFT.ObserverEventTower
-import ObserverPatchHolography.Provenance.CausalInterval
-import ObserverPatchHolography.Provenance.HistoryCausalInvariance
+module
+public import QFT.ObserverEventTower
+public import ObserverPatchHolography.Provenance.CausalInterval
+public import ObserverPatchHolography.Provenance.HistoryCausalInvariance
+
+@[expose] public section
 
 /-!
 # Source-derived event precedence for observer event worlds
@@ -147,7 +150,7 @@ theorem generatedPrecedenceAdapterOfExecution_precedes
     (generatedPrecedenceAdapterOfExecution W q specs hfresh hnodup
       hcomplete labeled recordLabel hconsistent).eventOrder.precedes e f ↔
       Relation.TransGen (execAuthenticatedParents q specs) e f := by
-  letI : DecidableEq sig.Event := Classical.decEq sig.Event
+  let : DecidableEq sig.Event := Classical.decEq sig.Event
   change
     (semanticEventLogOfExecution q specs hfresh hnodup hcomplete).GeneratedBefore
         e f ↔ _

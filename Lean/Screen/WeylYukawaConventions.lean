@@ -1,4 +1,7 @@
-import ExteriorSelection
+module
+public import ExteriorSelection
+
+@[expose] public section
 
 /-!
 # Charge conjugation in the Weyl census and Yukawa action

@@ -9,7 +9,7 @@ with **Proposition 4.2** as the primary target.
 This project is an active Lean 4 / Mathlib formalisation and proof-audit
 surface for the OPH consensus layer. Contents:
 
-- Lake project with pinned `leanprover/lean4:v4.29.1` and Mathlib `v4.29.1`.
+- Lake project with pinned `leanprover/lean4:v4.35.0` and Mathlib `v4.35.0`.
 - An abstract-rewriting skeleton (Newman's lemma, normal-form uniqueness,
   descent termination, fixed-point zero-potential corollary) in
   `ObserverPatchHolography/AbstractRewriting.lean`.

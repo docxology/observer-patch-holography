@@ -1,5 +1,8 @@
-import SMStructureAdequacySurface
-import MatterGrammarIndexBridge
+module
+public import SMStructureAdequacySurface
+public import MatterGrammarIndexBridge
+
+@[expose] public section
 
 /-!
 # The composed electroweak-breaking/Yukawa inhabitant (V3, issue #735)

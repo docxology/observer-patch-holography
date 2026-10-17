@@ -1,5 +1,8 @@
-import Geometry.EventFrameSoldering
-import PrimitivePortFrameQuotient
+module
+public import Geometry.EventFrameSoldering
+public import PrimitivePortFrameQuotient
+
+@[expose] public section
 
 /-!
 # C2: local spatial readback in an observer rest space

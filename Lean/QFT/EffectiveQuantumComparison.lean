@@ -1,9 +1,12 @@
-import Mathlib.Analysis.Calculus.MeanValue
-import Mathlib.Analysis.Calculus.Deriv.Prod
-import Mathlib.Analysis.InnerProductSpace.Adjoint
-import Mathlib.Analysis.Complex.RealDeriv
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
-import Mathlib.Tactic
+module
+public import Mathlib.Analysis.Calculus.MeanValue
+public import Mathlib.Analysis.Calculus.Deriv.Prod
+public import Mathlib.Analysis.InnerProductSpace.Adjoint
+public import Mathlib.Analysis.Complex.RealDeriv
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Effective quantum comparison estimates and a leakage control
@@ -140,7 +143,8 @@ theorem interaction_picture_error
       ‖(U t).symm (J (v t)) - J (v 0)‖ := by
     rw [← (U t).symm.norm_map (J (v t) - U t (J (v 0))), map_sub]
     simp
-  simpa [hzero, hnorm, div_eq_mul_inv, mul_assoc] using h
+  have href : (LinearIsometryEquiv.refl ℂ E).symm (J (v 0)) = J (v 0) := rfl
+  simpa [hzero, hnorm, div_eq_mul_inv, mul_assoc, href] using h
 
 /-- A bounded detector applied to the full residual comparison has the
 same constant-one probability bound. The reference norm is preserved

@@ -1,4 +1,7 @@
-import PortFrameGram
+module
+public import PortFrameGram
+
+@[expose] public section
 
 open scoped BigOperators
 

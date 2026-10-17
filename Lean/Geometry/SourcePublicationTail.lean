@@ -1,4 +1,7 @@
-import Geometry.SourcePublicationMass
+module
+public import Geometry.SourcePublicationMass
+
+@[expose] public section
 
 /-! Quantitative approximation of the eventual-publication potential.
 The block hypothesis is explicit; connected native completion and a uniform

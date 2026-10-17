@@ -1,5 +1,8 @@
-import ScaledMaxwellStability
-import Geometry.WorldlineHopTransport
+module
+public import ScaledMaxwellStability
+public import Geometry.WorldlineHopTransport
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -683,7 +686,7 @@ theorem pairCurrent_seam_zero : pairCurrent (1 / 2) 0 0 = -2 := by
 /-- **The sourced inhabitant.**  The committed `ScaledMaxwellBundle` at
 `h = 1/2`, `Λ = 6` with the neutral pair as its sources and the
 Coulomb-started sourced history as its field history. -/
-def neutralPairBundle : ScaledMaxwellBundle where
+abbrev neutralPairBundle : ScaledMaxwellBundle where
   h := 1 / 2
   Λ := 6
   h_pos := by norm_num

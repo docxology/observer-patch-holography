@@ -1,5 +1,8 @@
-import Geometry.InternalEnergyInertia
-import FourLawAdequacySurface
+module
+public import Geometry.InternalEnergyInertia
+public import FourLawAdequacySurface
+
+@[expose] public section
 
 set_option autoImplicit false
 

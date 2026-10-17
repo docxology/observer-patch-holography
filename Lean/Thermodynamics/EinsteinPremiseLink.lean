@@ -1,5 +1,8 @@
-import CapFirstLaw
-import ObserverPatchHolography.EinsteinBranch.Entropy
+module
+public import CapFirstLaw
+public import ObserverPatchHolography.EinsteinBranch.Entropy
+
+@[expose] public section
 
 namespace OPH.Thermodynamics
 

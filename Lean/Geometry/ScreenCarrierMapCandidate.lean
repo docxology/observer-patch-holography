@@ -1,9 +1,12 @@
-import PortFrameGram
-import SeamCurrentCarrierQuotient
-import LocalFaceMaxwellAction
-import A5PortAction
-import DiscreteRefinement
-import Geometry.CanonicalLorentzModule
+module
+public import PortFrameGram
+public import SeamCurrentCarrierQuotient
+public import LocalFaceMaxwellAction
+public import A5PortAction
+public import DiscreteRefinement
+public import Geometry.CanonicalLorentzModule
+
+@[expose] public section
 
 set_option autoImplicit false
 

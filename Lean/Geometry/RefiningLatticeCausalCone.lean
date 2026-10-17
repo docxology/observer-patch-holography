@@ -1,6 +1,9 @@
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.Algebra.Order.Floor.Ring
-import Mathlib.Tactic
+module
+public import Mathlib.Analysis.InnerProductSpace.PiL2
+public import Mathlib.Algebra.Order.Floor.Ring
+public import Mathlib.Tactic
+
+@[expose] public section
 
 set_option autoImplicit false
 

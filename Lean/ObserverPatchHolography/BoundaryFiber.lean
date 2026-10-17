@@ -1,6 +1,9 @@
-import Mathlib
-import ObserverPatchHolography.Primitives
-import ObservableNormalForms.ObserverConfluence
+module
+public import Mathlib
+public import ObserverPatchHolography.Primitives
+public import ObservableNormalForms.ObserverConfluence
+
+@[expose] public section
 
 /-!
 # The declared boundary map `B_OPH` and its injectivity modulo gauge (issue #304)
@@ -114,7 +117,7 @@ variable (T : TreePacketNet)
     per non-root vertex `i`, interface alphabet `A`, both projections reading
     the packet component only (the hidden labels `K i` are invisible to every
     interface), unit weights, discrete edge metric. -/
-def carrier : OPHCarrier where
+abbrev carrier : OPHCarrier where
   Patch := T.V
   State := fun i => T.A × T.K i
   Edge := {i : T.V // i ≠ T.root}
@@ -129,8 +132,8 @@ def carrier : OPHCarrier where
   dist_eq_zero := by
     intro _ a b
     by_cases h : a = b
-    · rw [if_pos h]; exact ⟨fun _ => h, fun _ => rfl⟩
-    · rw [if_neg h]; exact ⟨fun h1 => absurd h1 one_ne_zero, fun h2 => absurd h2 h⟩
+    · rw [ite_eq_left h]; exact ⟨fun _ => h, fun _ => rfl⟩
+    · rw [ite_eq_right h]; exact ⟨fun h1 => absurd h1 one_ne_zero, fun h2 => absurd h2 h⟩
 
 /-- **The declared physical boundary/sector map `B_OPH`**: the root-packet
     readback `x ↦ (x root).1`. This is the "root-packet map" entry of the
@@ -239,7 +242,7 @@ theorem treeStep_completeFor :
     ObservableNormalForms.CompleteFor T.treeStep
       {x : Records T.carrier | Consistent T.carrier x} := by
   intro x
-  rw [Set.mem_setOf_eq, consistent_iff_edgeConsistent]
+  rw [Set.mem_ofPred_eq, consistent_iff_edgeConsistent]
   constructor
   · intro hnf e
     obtain ⟨i, hne⟩ := e
@@ -284,9 +287,12 @@ injective modulo gauge but genuinely not injective on records, and a readback
 that misses the protected packet fails to identify. -/
 
 /-- The four vertices of the exported instance. -/
-inductive FourV : Type
-  | r | a | b | c
-  deriving DecidableEq, Fintype
+inductive FourV where  | r | a | b | c
+  deriving DecidableEq
+
+instance : Fintype FourV where
+  elems := {FourV.r, FourV.a, FourV.b, FourV.c}
+  complete := by intro x; cases x <;> simp
 
 /-- The exported four-vertex net: root `r`, edges `r–a`, `a–b`, `a–c`,
     packets `ℤ₃` (as `Fin 3`), hidden labels `ℤ₂` (as `Fin 2`). -/

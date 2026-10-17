@@ -1,4 +1,7 @@
-import SeamCurrentDirichletGenerator
+module
+public import SeamCurrentDirichletGenerator
+
+@[expose] public section
 
 open scoped BigOperators
 

@@ -1,4 +1,7 @@
-import Mathlib.InformationTheory.KullbackLeibler.KLFun
+module
+public import Mathlib.InformationTheory.KullbackLeibler.KLFun
+
+@[expose] public section
 
 /-!
 # Unique information projection onto a checkpoint face

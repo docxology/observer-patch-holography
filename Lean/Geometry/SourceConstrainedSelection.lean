@@ -1,5 +1,8 @@
-import Mathlib.InformationTheory.KullbackLeibler.KLFun
-import Mathlib.Analysis.SpecialFunctions.Log.NegMulLog
+module
+public import Mathlib.InformationTheory.KullbackLeibler.KLFun
+public import Mathlib.Analysis.SpecialFunctions.Log.NegMulLog
+
+@[expose] public section
 
 /-!
 # Support of constrained finite information projections
@@ -67,7 +70,7 @@ theorem potential_mixture_gap (weight cost p q : A → ℝ)
         rw [Real.log_mul (ne_of_gt ht) (ne_of_gt hqi)]
         ring_nf
         exact le_rfl
-      · simp only [if_neg hj, add_zero]
+      · simp only [ite_eq_right hj, add_zero]
         have h := mul_le_mul_of_nonneg_left
           (entropyTerm_mixture_le (cost j) (p j) (q j) t (hp j) (hq j) ht.le ht1) (hw j)
         change weight j * entropyTerm (cost j) ((1-t)*p j+t*q j) ≤ _
@@ -100,8 +103,8 @@ theorem potential_minimizer_support (K : Set (A → ℝ))
     ((potential weight cost p-potential weight cost q)/(weight i*q i))
   have hslope := (lt_div_iff₀ hc).mp hlog
   have hmem : mixture t p q ∈ K := by
-    simpa [mixture, Pi.add_apply, Pi.smul_apply, smul_eq_mul] using
-      hK hp hq (sub_nonneg.mpr ht1.le) ht.le (by ring)
+    convert hK hp hq (sub_nonneg.mpr ht1.le) ht.le (by ring) using 1
+    congr 1
   have hbound := potential_mixture_gap weight cost p q (fun j => (hw j).le)
     (hKnonneg p hp) (hKnonneg q hq) i hz hqi t ht ht1.le
   have hminimal := hmin (mixture t p q) hmem

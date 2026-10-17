@@ -1,4 +1,7 @@
-import ObserverPatchHolography.EinsteinBranch.DarkSector
+module
+public import ObserverPatchHolography.EinsteinBranch.DarkSector
+
+@[expose] public section
 
 /-!
 # Collar-scale saturation for the dark-sector screening interface

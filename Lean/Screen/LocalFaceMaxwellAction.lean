@@ -1,5 +1,8 @@
-import PositionSpaceMaxwellAction
-import ObserverPatchHolography.CoreAxioms
+module
+public import PositionSpaceMaxwellAction
+public import ObserverPatchHolography.CoreAxioms
+
+@[expose] public section
 
 set_option autoImplicit false
 

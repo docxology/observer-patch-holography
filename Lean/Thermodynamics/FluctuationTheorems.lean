@@ -1,5 +1,8 @@
-import FiniteConditionalRepair
-import CapFirstLaw
+module
+public import FiniteConditionalRepair
+public import CapFirstLaw
+
+@[expose] public section
 
 namespace OPH.Thermodynamics
 
@@ -40,7 +43,7 @@ repair kernel satisfies every hypothesis through the theorems of
 `FiniteConditionalRepair`.
 -/
 
-variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
+variable {Ω : Type*} [Fintype Ω] [instDecidableEqΩ : DecidableEq Ω]
 variable {B : Type*} [DecidableEq B]
 
 /-- Fluctuating entropy production of one kernel step from `p` (state
@@ -95,13 +98,15 @@ theorem integral_fluctuation (pi p : Ω → ℝ) (K : Ω → Ω → ℝ)
     _ = ∑ x, p x := push_total p K hK1
     _ = 1 := hp1
 
+include instDecidableEqΩ in
+omit instDecidableEqΩ in
 /-- **Pointwise detailed fluctuation relation (Crooks form).** For a
 kernel in detailed balance with the positive reference law, the
 forward step weight equals the reversed step weight amplified by the
 exponential of the entropy production:
 `p x K x y = exp (sigmaEP) (push p K) y K y x`, at every pair of
 states. -/
-theorem crooks_pointwise (pi p : Ω → ℝ) (K : Ω → Ω → ℝ)
+theorem crooks_pointwise [_instDecidableEqΩ : DecidableEq Ω] (pi p : Ω → ℝ) (K : Ω → Ω → ℝ)
     (hπ : ∀ x, 0 < pi x) (hp : ∀ x, 0 < p x)
     (hq : ∀ y, 0 < push p K y)
     (hdb : ∀ x y, pi x * K x y = pi y * K y x) (x y : Ω) :
@@ -138,11 +143,13 @@ theorem crooks_level_set (pi p : Ω → ℝ) (K : Ω → Ω → ℝ)
   have hs := (Finset.mem_filter.mp hz).2
   rw [crooks_pointwise pi p K hπ hp hq hdb z.1 z.2, hs]
 
+include instDecidableEqΩ in
+omit instDecidableEqΩ in
 /-- The mean entropy production of one step is exactly the certified
 relative-entropy descent: `⟨sigmaEP⟩ = D(p ‖ π) - D(push p K ‖ π)`.
 The transition-side second law is this identity combined with the
 descent theorem. -/
-theorem sigma_mean_eq_kl_descent (pi p : Ω → ℝ) (K : Ω → Ω → ℝ)
+theorem sigma_mean_eq_kl_descent [_instDecidableEqΩ : DecidableEq Ω] (pi p : Ω → ℝ) (K : Ω → Ω → ℝ)
     (hp : ∀ x, 0 < p x)
     (hK1 : ∀ x, ∑ y, K x y = 1)
     (hq : ∀ y, 0 < push p K y) :

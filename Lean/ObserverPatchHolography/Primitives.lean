@@ -1,5 +1,8 @@
-import Mathlib
-import ObserverPatchHolography.AbstractRewriting
+module
+public import Mathlib
+public import ObserverPatchHolography.AbstractRewriting
+
+@[expose] public section
 
 /-!
 # OPH Primitives : concrete carrier model (admission-free)
@@ -144,11 +147,11 @@ variable (C : OPHCarrier)
 
 /-- *Reality* Def 1.1: the global state space `Σ := ∏_{i∈V} S_i` : an
     assignment of a local state to every patch. (`Paradise` macro `\Records`.) -/
-def Records : Type := (i : C.Patch) → C.State i
+abbrev Records : Type := (i : C.Patch) → C.State i
 
 /-- *Paradise* line 311: the type of declared observable overlap data : the
     per-edge exposed projection-pair family. (`Paradise` macro `\Obs`.) -/
-def Obs : Type := (e : C.Edge) → C.Iface e × C.Iface e
+abbrev Obs : Type := (e : C.Edge) → C.Iface e × C.Iface e
 
 /-- The declared observable overlap data of a record: on every edge, the
     pair of interface projections it exposes,
@@ -159,7 +162,7 @@ def obsMap (x : Records C) : Obs C :=
 
 /-- *Reality* repair-site index: a local accepted repair step fires at a
     patch. A faithful, non-vacuous index type. -/
-def Site : Type := C.Patch
+abbrev Site : Type := C.Patch
 
 /-! ### The repair kernel
 
@@ -320,12 +323,12 @@ noncomputable def localRepair : Site C → Records C → Records C := fun i x =>
 theorem localRepair_of_fire (i : Site C) (x : Records C)
     (h : LocalTrigger i x ∧ LocallySolvable i x) :
     localRepair C i x = Function.update x i (Classical.choose h.2) :=
-  dif_pos h
+  dite_eq_left h
 
 theorem localRepair_of_quiescent (i : Site C) (x : Records C)
     (h : ¬ (LocalTrigger i x ∧ LocallySolvable i x)) :
     localRepair C i x = x :=
-  dif_neg h
+  dite_eq_right h
 
 /-- `H1` for the constructed move: firing at `i` changes patch `i` only. -/
 theorem localRepair_apply_of_ne (i : Site C) (x : Records C)
@@ -432,13 +435,13 @@ theorem Repair_of_fire (x : Records C)
     (h : ∃ i : Site C, localRepair C i x ≠ x) :
     Repair C x = Repair C (localRepair C (Classical.choose h) x) := by
   conv_lhs => rw [Repair]
-  exact dif_pos h
+  exact dite_eq_left h
 
 theorem Repair_of_normal (x : Records C)
     (h : ¬ ∃ i : Site C, localRepair C i x ≠ x) :
     Repair C x = x := by
   conv_lhs => rw [Repair]
-  exact dif_neg h
+  exact dite_eq_right h
 
 /-- One accepted asynchronous repair step: some site's local move changes
     the record. This is the relation the generic abstract-rewriting
@@ -477,8 +480,8 @@ theorem consistent_iff_edgeConsistent (x : Records C) :
   -- `AddCommMonoid + PartialOrder + AddLeftMono` (all held by `ℝ≥0`) and takes
   -- the pointwise `0 ≤ ·` proof explicitly, so it avoids the `Subsingleton
   -- (AddUnits ·)` instance search that the bare `Finset.sum_eq_zero_iff`
-  -- relies on. (`zero_le _` is the canonical `0 ≤ x` on `ℝ≥0`.)
-  rw [Finset.sum_eq_zero_iff_of_nonneg (fun i _ => zero_le _)]
+  -- relies on. (`zero_le` is the canonical `0 ≤ x` on `ℝ≥0`.)
+  rw [Finset.sum_eq_zero_iff_of_nonneg (fun i _ => zero_le)]
   constructor
   · intro h e
     have he := h e (Finset.mem_univ e)
@@ -586,7 +589,7 @@ exists. This is the explicit anti-degeneracy witness (no `sorry`,
 
 /-- A concrete carrier: two patches `Bool`, one edge `()`, interface `Bool`,
     identity projections, unit weight, and the discrete `{0,1}` distance. -/
-def demoCarrier : OPHCarrier where
+abbrev demoCarrier : OPHCarrier where
   Patch := Bool
   State := fun _ => Bool
   Edge := Unit
@@ -601,8 +604,8 @@ def demoCarrier : OPHCarrier where
   dist_eq_zero := by
     intro _ a b
     by_cases h : a = b
-    · rw [if_pos h]; exact ⟨fun _ => h, fun _ => rfl⟩
-    · rw [if_neg h]; exact ⟨fun h1 => absurd h1 one_ne_zero, fun h2 => absurd h2 h⟩
+    · rw [ite_eq_left h]; exact ⟨fun _ => h, fun _ => rfl⟩
+    · rw [ite_eq_right h]; exact ⟨fun h1 => absurd h1 one_ne_zero, fun h2 => absurd h2 h⟩
 
 /-- The observation map of `demoCarrier` is non-constant: the all-`false`
     record and the identity record expose different declared overlap data on
@@ -707,7 +710,7 @@ theorem lyapunovDescent_holds : LyapunovDescent C := by
     by_cases hinc : C.src e = i ∨ C.tgt e = i
     · have hcons := localRepair_repairs C i x hfire e hinc
       rw [(edgeConsistentAt_iff_dist e _).1 hcons, mul_zero]
-      exact zero_le _
+      exact zero_le
     · have hs : C.src e ≠ i := fun hh => hinc (Or.inl hh)
       have ht : C.tgt e ≠ i := fun hh => hinc (Or.inr hh)
       rw [localRepair_apply_of_ne C i x _ hs, localRepair_apply_of_ne C i x _ ht]
@@ -889,9 +892,16 @@ variable
 -- four; the extra hypotheses are harmless and keep call sites uniform.)
 include lr H1 H2 H3
 
+omit lr H1 H2 H3 in
 /-- A non-incident edge keeps both its endpoint states, hence its broken-ness,
     when site `i` fires (immediate from `H1`). -/
 theorem brokenSet_eq_of_not_incident
+    (lr : C.Patch → Records C → Records C)
+    (H1 : ∀ (i : C.Patch) (x : Records C) (j : C.Patch), j ≠ i → (lr i x) j = x j)
+    (_H2 : ∀ (i : C.Patch) (x : Records C), lr i x ≠ x ↔
+      ∃ e : C.Edge, (C.src e = i ∨ C.tgt e = i) ∧ ¬ edgeConsistentAt e x)
+    (_H3 : ∀ (i : C.Patch) (x : Records C), lr i x ≠ x →
+      ∀ e : C.Edge, (C.src e = i ∨ C.tgt e = i) → edgeConsistentAt e (lr i x))
     {i : C.Patch} {x : Records C} {e : C.Edge}
     (hs : C.src e ≠ i) (ht : C.tgt e ≠ i) :
     (e ∈ brokenSet (lr i x) ↔ e ∈ brokenSet x) := by
@@ -941,10 +951,18 @@ theorem termination :
     fun {_ _} hxy => mismatchCount_lt lr H1 H2 H3 hxy
   Subrelation.wf H <| InvImage.wf _ wellFounded_lt
 
+omit lr H1 H2 H3 in
 /-- Local characterisation behind completeness: site `i` is quiescent
     (`lr i x = x`) iff every edge incident to `i` is consistent
     (`H2`, contrapositive). -/
-theorem lr_fixed_iff_incident_consistent (i : C.Patch) (x : Records C) :
+theorem lr_fixed_iff_incident_consistent
+    (lr : C.Patch → Records C → Records C)
+    (_H1 : ∀ (i : C.Patch) (x : Records C) (j : C.Patch), j ≠ i → (lr i x) j = x j)
+    (H2 : ∀ (i : C.Patch) (x : Records C), lr i x ≠ x ↔
+      ∃ e : C.Edge, (C.src e = i ∨ C.tgt e = i) ∧ ¬ edgeConsistentAt e x)
+    (_H3 : ∀ (i : C.Patch) (x : Records C), lr i x ≠ x →
+      ∀ e : C.Edge, (C.src e = i ∨ C.tgt e = i) → edgeConsistentAt e (lr i x))
+    (i : C.Patch) (x : Records C) :
     lr i x = x ↔ ∀ e : C.Edge, (C.src e = i ∨ C.tgt e = i) → edgeConsistentAt e x := by
   constructor
   · intro hfix e hinc
@@ -955,9 +973,17 @@ theorem lr_fixed_iff_incident_consistent (i : C.Patch) (x : Records C) :
     obtain ⟨e, hinc, hcon⟩ := (H2 i x).mp hfire
     exact hcon (hall e hinc)
 
+omit lr H1 H2 H3 in
 /-- A record is a normal form iff *no* site fires (`lr i x = x` for all `i`).
     Unfolds `acceptedStepLR`/`NormalFormLR`. -/
-theorem normalForm_iff_all_quiescent (x : Records C) :
+theorem normalForm_iff_all_quiescent
+    (lr : C.Patch → Records C → Records C)
+    (_H1 : ∀ (i : C.Patch) (x : Records C) (j : C.Patch), j ≠ i → (lr i x) j = x j)
+    (_H2 : ∀ (i : C.Patch) (x : Records C), lr i x ≠ x ↔
+      ∃ e : C.Edge, (C.src e = i ∨ C.tgt e = i) ∧ ¬ edgeConsistentAt e x)
+    (_H3 : ∀ (i : C.Patch) (x : Records C), lr i x ≠ x →
+      ∀ e : C.Edge, (C.src e = i ∨ C.tgt e = i) → edgeConsistentAt e (lr i x))
+    (x : Records C) :
     NormalFormLR lr x ↔ ∀ i : C.Patch, lr i x = x := by
   constructor
   · intro hnf i
@@ -990,9 +1016,18 @@ variable {β : Type} (B : Records C → β)
   (HB : ∀ (i : C.Patch) (x : Records C), B (lr i x) = B x)
   (Hfib : ∀ x y : Records C, B x = B y → Consistent C x → Consistent C y → gaugeEquiv C x y)
 
-include HB in
+omit lr H1 H2 H3 B HB in
 /-- The boundary map is invariant along an entire accepted-repair reduction. -/
-theorem boundary_preserved_reduction {a b : Records C}
+theorem boundary_preserved_reduction
+    (lr : C.Patch → Records C → Records C)
+    (_H1 : ∀ (i : C.Patch) (x : Records C) (j : C.Patch), j ≠ i → (lr i x) j = x j)
+    (_H2 : ∀ (i : C.Patch) (x : Records C), lr i x ≠ x ↔
+      ∃ e : C.Edge, (C.src e = i ∨ C.tgt e = i) ∧ ¬ edgeConsistentAt e x)
+    (_H3 : ∀ (i : C.Patch) (x : Records C), lr i x ≠ x →
+      ∀ e : C.Edge, (C.src e = i ∨ C.tgt e = i) → edgeConsistentAt e (lr i x))
+    (B : Records C → β)
+    (HB : ∀ (i : C.Patch) (x : Records C), B (lr i x) = B x)
+    {a b : Records C}
     (h : ReflTransGen (acceptedStepLR lr) a b) : B b = B a := by
   induction h with
   | refl => rfl

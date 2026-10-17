@@ -1,5 +1,8 @@
-import Computation.FixedFederationExecutionExamples
-import ObserverPatchHolography.Execution.RankedAttemptCapacity
+module
+public import Computation.FixedFederationExecutionExamples
+public import ObserverPatchHolography.Execution.RankedAttemptCapacity
+
+@[expose] public section
 
 /-!
 # Fixed-federation execution endpoints

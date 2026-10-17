@@ -1,4 +1,7 @@
-import OrientedFaceBracketSelector
+module
+public import OrientedFaceBracketSelector
+
+@[expose] public section
 
 /-!
 # Carrier-induced invariant-metric phase diagram for the face discriminator

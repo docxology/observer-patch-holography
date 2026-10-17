@@ -1,4 +1,7 @@
-import Geometry.CommonWorldMaxwellClockJoin
+module
+public import Geometry.CommonWorldMaxwellClockJoin
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -329,8 +332,8 @@ theorem clockStationary_consecutive {N : ℕ} {x : ℕ → Herm2}
       lorentzB ((x (j + 1) - x j) - (x (j + 1 + 1) - x (j + 1))) w = 0 := by
     intro w
     let η : ℕ → Herm2 := fun m => if m = j + 1 then w else 0
-    have h0 : η 0 = 0 := if_neg (by omega)
-    have hN1 : η (N + 1) = 0 := if_neg (by omega)
+    have h0 : η 0 = 0 := ite_eq_right (by omega)
+    have hN1 : η (N + 1) = 0 := ite_eq_right (by omega)
     have hfv := clockStationary_firstVariation_zero hs h0 hN1
     rw [clockFirstVariation_interior N x η h0 hN1] at hfv
     have hterm : ∀ k ∈ Finset.range N,
@@ -342,14 +345,14 @@ theorem clockStationary_consecutive {N : ℕ} {x : ℕ → Herm2}
       intro k _
       by_cases hkj : k = j
       · subst hkj
-        rw [if_pos rfl]
-        have hv : η (k + 1) = w := if_pos rfl
+        rw [ite_eq_left rfl]
+        have hv : η (k + 1) = w := ite_eq_left rfl
         rw [hv]
-      · rw [if_neg hkj]
-        have hv : η (k + 1) = 0 := if_neg (by omega)
+      · rw [ite_eq_right hkj]
+        have hv : η (k + 1) = 0 := ite_eq_right (by omega)
         rw [hv, lorentzB_zero_right, mul_zero]
     rw [Finset.sum_congr rfl hterm, Finset.sum_ite_eq',
-      if_pos (Finset.mem_range.mpr hj)] at hfv
+      ite_eq_left (Finset.mem_range.mpr hj)] at hfv
     linarith
   have hD : (x (j + 1) - x j) - (x (j + 1 + 1) - x (j + 1)) = 0 :=
     lorentzB_nondegenerate key

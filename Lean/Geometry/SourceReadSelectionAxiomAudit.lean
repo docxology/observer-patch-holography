@@ -1,7 +1,10 @@
-import Geometry.SourceReusableBusAxiomAudit
-import Geometry.SourceReadSelection
-import Geometry.SourceConstrainedRead
-import Geometry.SourceSelectionControls
+module
+public import Geometry.SourceReusableBusAxiomAudit
+public import Geometry.SourceReadSelection
+public import Geometry.SourceConstrainedRead
+public import Geometry.SourceSelectionControls
+
+@[expose] public section
 
 /-! Reuse the transitive standard-axiom gate, including its sorry/compiler
 negative controls. The complete imported trust chain is pinned by the receipt. -/

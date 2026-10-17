@@ -1,7 +1,11 @@
-import Mathlib.Util.AssertNoSorry
-import Geometry.SourceRoutingStorage
-import Geometry.SourceRoutingBudget
-import Geometry.SourceRoutingHierarchy
+module
+public import Mathlib.Util.AssertNoSorry
+public import PortGramA5Isometry
+public import Geometry.SourceRoutingStorage
+public import Geometry.SourceRoutingBudget
+public import Geometry.SourceRoutingHierarchy
+
+@[expose] public section
 
 /-! Transitive axiom audit for every theorem in the M1 routing refinement.
 Only the standard Lean axioms are allowed. Kernel `decide` is permitted;
@@ -21,9 +25,12 @@ elab "audit_routing_axioms " n:ident : command => do
 #guard_msgs in
 audit_routing_axioms sorryAx
 
-/-- error: Routing refinement axiom audit rejected [Lean.ofReduceBool, Lean.trustCompiler] -/
+-- The control inherits the native axiom of the reviewed rotation proof.
+private alias nativeDecisionControl := OPH.PortGramA5Isometry.rotationQ_orthogonal
+
+/-- error: Routing refinement axiom audit rejected [_private.PortGramA5Isometry.0.OPH.PortGramA5Isometry.rotationQ_orthogonal._native.native_decide.ax_1_1] -/
 #guard_msgs in
-audit_routing_axioms Lean.ofReduceBool
+audit_routing_axioms nativeDecisionControl
 
 audit_routing_axioms OPH.SourceRoutingStorage.live_slot_injective
 audit_routing_axioms OPH.SourceRoutingStorage.slot_owner

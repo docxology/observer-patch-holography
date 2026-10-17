@@ -1,5 +1,8 @@
-import Mathlib
-import A5Commutant
+module
+public import Mathlib
+public import A5Commutant
+
+@[expose] public section
 
 open scoped BigOperators
 
@@ -636,7 +639,7 @@ theorem comparison_not_in_span : ¬ InSpan (castM eZ) := by
   have v1 : castM eZ 0 1 = 1 := by unfold castM eZ; norm_num
   have v2 : castM eZ 0 2 = 0 := by
     unfold castM eZ
-    rw [if_neg (by decide : ¬ ((0 : Fin 12) = 0 ∧ (2 : Fin 12) = 1))]
+    rw [ite_eq_right (by decide : ¬ ((0 : Fin 12) = 0 ∧ (2 : Fin 12) = 1))]
     norm_num
   rw [v1] at h1
   rw [v2] at h2

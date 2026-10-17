@@ -1,4 +1,7 @@
-import Geometry.GoldenSourceCountLimit
+module
+public import Geometry.GoldenSourceCountLimit
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -78,7 +81,7 @@ theorem selected_count_tendsto {ι : ℕ → Type*} [∀ n, Fintype (ι n)]
   have heq (n : ℕ) : ∫ x, selected (C n) (P n) x ∂μ =
       ∑ i, μ.real (C n i) * (if P n i then (1 : ℝ) else 0) := by
     unfold selected
-    rw [integral_finset_sum]
+    rw [integral_finsetSum]
     · apply Finset.sum_congr rfl
       intro i hi
       rw [integral_indicator (hC n i), setIntegral_const]
@@ -157,7 +160,7 @@ theorem event_selected_count_tendsto {T L : ℝ} (hT : 0 ≤ T) (hL : 0 < L)
       ∀ i, x ∈ eventCell (n + 2) T L (δ n) i → (P n i ↔ x ∈ A)) :
     Tendsto (fun n => (δ n * (L ^ 3 / (Nat.fib (n + 2) : ℝ) ^ 3)) *
         (count (P n) : ℝ)) atTop (𝓝 ((spaceTimeVolume T L).real A)) := by
-  letI : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
+  let : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
   let U (n : ℕ) : ℝ := ∑ i,
     (δ n * (L ^ 3 / (Nat.fib (n + 2) : ℝ) ^ 3)) * (if P n i then (1 : ℝ) else 0)
   let W (n : ℕ) : ℝ := ∑ i, (spaceTimeVolume T L).real (eventCell (n + 2) T L (δ n) i) *
@@ -202,7 +205,7 @@ theorem pairCell_ae_cover {n : ℕ} (hn : 0 < n) {T L δ : ℝ}
     (hL : 0 < L) (hδ : 0 < δ) :
     ∀ᵐ x ∂(spaceTimeVolume T L).prod (spaceTimeVolume T L), ∃ i,
       x ∈ pairCell n T L δ i := by
-  letI : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
+  let : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
   filter_upwards [Measure.quasiMeasurePreserving_fst.ae (eventCell_ae_cover hn hL hδ),
     Measure.quasiMeasurePreserving_snd.ae (eventCell_ae_cover hn hL hδ)] with x hx hy
   obtain ⟨i, hi⟩ := hx
@@ -219,7 +222,7 @@ theorem pair_selected_weight_error {n : ℕ} (hn : 0 < n) {T L δ : ℝ}
       ∑ i, ((spaceTimeVolume T L).prod (spaceTimeVolume T L)).real
         (pairCell n T L δ i) * (if P i then (1 : ℝ) else 0)| ≤
       L ^ 6 * δ * (2 * T + δ) := by
-  letI : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
+  let : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
   let w : ℝ := δ * (L ^ 3 / (Nat.fib n : ℝ) ^ 3)
   let v (i : timeIndex T δ × (Fin 3 → Fin (Nat.fib n))) : ℝ :=
     (spaceTimeVolume T L).real (eventCell n T L δ i)
@@ -260,7 +263,7 @@ theorem pair_selected_count_tendsto {T L : ℝ} (hT : 0 ≤ T) (hL : 0 < L)
     Tendsto (fun n => (δ n * (L ^ 3 / (Nat.fib (n + 2) : ℝ) ^ 3)) ^ 2 *
         (count (P n) : ℝ)) atTop
       (𝓝 (((spaceTimeVolume T L).prod (spaceTimeVolume T L)).real A)) := by
-  letI : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
+  let : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
   let μ := (spaceTimeVolume T L).prod (spaceTimeVolume T L)
   let U (n : ℕ) : ℝ := ∑ i,
     (δ n * (L ^ 3 / (Nat.fib (n + 2) : ℝ) ^ 3)) ^ 2 * (if P n i then (1 : ℝ) else 0)

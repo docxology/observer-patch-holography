@@ -1,4 +1,7 @@
-import Geometry.SourceBusScaling
+module
+public import Geometry.SourceBusScaling
+
+@[expose] public section
 
 /-!
 # Native transfer into a reusable record
@@ -30,7 +33,7 @@ theorem step_bounded (op : Instruction ℕ) (A : ℝ) (a : ℕ → ℝ)
     by_cases hi : i = s ∨ i = t
     · have hs := abs_le.mp (ha s)
       have ht := abs_le.mp (ha t)
-      simp only [step, copied, if_pos hi]
+      simp only [step, copied, ite_eq_left hi]
       apply abs_le.mpr
       constructor <;> linarith
     · simpa [step, copied, hi] using ha i

@@ -1,5 +1,8 @@
-import PoissonizedRepair
-import Mathlib.Analysis.SpecialFunctions.Exponential
+module
+public import PoissonizedRepair
+public import Mathlib.Analysis.SpecialFunctions.Exponential
+
+@[expose] public section
 
 /-!
 # Exponential of an idempotent repair generator
@@ -40,7 +43,7 @@ theorem normedSpace_exp_smul_idempotent
     simp
   have hsummable :
       Summable (fun n : ℕ => (((n + 1).factorial⁻¹ : ℝ) * a ^ (n + 1))) := by
-    simpa [mul_comm] using hfull.comp_injective
+    simpa [mul_comm, Function.comp_def, Nat.succ_eq_add_one] using hfull.comp_injective
       (fun _ _ h => Nat.succ.inj h)
   rw [← hscalar, ← hsummable.tsum_smul_const P]
   apply tsum_congr

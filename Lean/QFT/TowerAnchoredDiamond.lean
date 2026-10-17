@@ -1,5 +1,8 @@
-import QFT.TwoSlotCPNetWitness
-import Tower.ConsensusTower
+module
+public import QFT.TwoSlotCPNetWitness
+public import Tower.ConsensusTower
+
+@[expose] public section
 
 /-!
 # The two-slot diamond anchored over a consensus-tower stage
@@ -59,7 +62,7 @@ def ambientEquiv :
     Matrix PairIndex PairIndex ℂ ≃⋆ₐ[ℂ] Matrix (Fin 182) (Fin 182) ℂ :=
   StarAlgEquiv.ofAlgEquiv (Matrix.reindexAlgEquiv ℂ ℂ pairFin)
     (fun M => by
-      simp only [Matrix.reindexAlgEquiv_apply, Matrix.star_eq_conjTranspose]
+      simp only [Matrix.coe_reindexAlgEquiv, Matrix.star_eq_conjTranspose]
       exact reindex_conjTranspose pairFin M)
 
 theorem ambientEquiv_apply (M : Matrix PairIndex PairIndex ℂ) :
@@ -112,7 +115,7 @@ def CPRegionalNet.transport (N : CPRegionalNet γ)
   disjoint := N.disjoint
   disjoint_symm := N.disjoint_symm
   disjoint_irrefl := N.disjoint_irrefl
-  localAlgebra U := StarSubalgebra.map (Φ : Matrix γ γ ℂ →⋆ₐ[ℂ] Matrix δ δ ℂ) (N.localAlgebra U)
+  localAlgebra U := StarSubalgebra.map Φ.toStarAlgHom (N.localAlgebra U)
   isotony hUV := StarSubalgebra.map_mono (N.isotony hUV)
   locality hUV X hX Y hY := by
     obtain ⟨X0, hX0, rfl⟩ := hX
@@ -146,9 +149,9 @@ def CPRegionalNet.transport (N : CPRegionalNet γ)
   generating := N.generating
   coverage := by
     have himg : (⋃ U ∈ N.generating,
-        ((StarSubalgebra.map (Φ : Matrix γ γ ℂ →⋆ₐ[ℂ] Matrix δ δ ℂ)
+        ((StarSubalgebra.map Φ.toStarAlgHom
           (N.localAlgebra U)) : Set (Matrix δ δ ℂ))) =
-        (Φ : Matrix γ γ ℂ →⋆ₐ[ℂ] Matrix δ δ ℂ) '' (⋃ U ∈ N.generating,
+        Φ.toStarAlgHom '' (⋃ U ∈ N.generating,
           (N.localAlgebra U : Set (Matrix γ γ ℂ))) := by
       rw [Set.image_iUnion₂]
       rfl
@@ -171,8 +174,8 @@ theorem chk86_orthogonal {v w : Fin 4} (hvw : v ≠ w) :
     · have hw : ¬ obs86.tbl s 1 = (w : ℕ) := by
         intro hw
         exact hvw (Fin.ext (by omega))
-      rw [if_pos hv, if_neg hw, mul_zero]
-    · rw [if_neg hv, zero_mul]
+      rw [ite_eq_left hv, ite_eq_right hw, mul_zero]
+    · rw [ite_eq_right hv, zero_mul]
   rw [hzero, Matrix.diagonal_zero]
 
 /-- The reindexed lifted checkpoint partition of observer 86: four
@@ -260,7 +263,7 @@ theorem anchoredCheckpointPartition_proper (v : Fin 4) :
       Matrix.zero_apply] at hentry
     rw [Matrix.one_apply_eq] at hentry
     unfold chk86 at hentry
-    rw [Matrix.diagonal_apply_eq, if_pos hs, one_mul] at hentry
+    rw [Matrix.diagonal_apply_eq, ite_eq_left hs, one_mul] at hentry
     exact one_ne_zero hentry
   · intro h
     have hentry := congrFun (congrFun h (pairFin (s', 0))) (pairFin (s', 0))
@@ -269,7 +272,7 @@ theorem anchoredCheckpointPartition_proper (v : Fin 4) :
       Equiv.symm_apply_apply, Matrix.kroneckerMap_apply] at hentry
     rw [Matrix.one_apply_eq, Matrix.one_apply_eq] at hentry
     unfold chk86 at hentry
-    rw [Matrix.diagonal_apply_eq, if_neg hs', zero_mul] at hentry
+    rw [Matrix.diagonal_apply_eq, ite_eq_right hs', zero_mul] at hentry
     exact zero_ne_one hentry
 
 /-- The anchored left region is a proper subalgebra of the tower

@@ -1,9 +1,12 @@
-import Mathlib.Algebra.Group.Action.Pointwise.Set.Basic
-import Mathlib.Data.Set.Card
-import Mathlib.Data.ZMod.QuotientGroup
-import Mathlib.GroupTheory.GroupAction.Quotient
-import Mathlib.GroupTheory.SpecificGroups.Alternating
-import Mathlib.GroupTheory.Perm.Fin
+module
+public import Mathlib.Algebra.Group.Action.Pointwise.Set.Basic
+public import Mathlib.Data.Set.Card
+public import Mathlib.Data.ZMod.QuotientGroup
+public import Mathlib.GroupTheory.GroupAction.Quotient
+public import Mathlib.GroupTheory.SpecificGroups.Alternating
+public import Mathlib.GroupTheory.Perm.Fin
+
+@[expose] public section
 
 /-!
 # The icosahedral anti-bridge: no A5-invariant 8+3+1 split of 12

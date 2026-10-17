@@ -1,4 +1,7 @@
-import EventAlgebra.PartitionPinching
+module
+public import EventAlgebra.PartitionPinching
+
+@[expose] public section
 
 namespace EventAlgebra
 

@@ -1,6 +1,9 @@
-import WhitneyQuantumBridge
-import Mathlib.Analysis.InnerProductSpace.Spectrum
-import Mathlib.LinearAlgebra.BilinearForm.Properties
+module
+public import WhitneyQuantumBridge
+public import Mathlib.Analysis.InnerProductSpace.Spectrum
+public import Mathlib.LinearAlgebra.BilinearForm.Properties
+
+@[expose] public section
 
 set_option autoImplicit false
 

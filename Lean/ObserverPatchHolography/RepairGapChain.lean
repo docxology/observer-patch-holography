@@ -1,3 +1,6 @@
+module
+
+@[expose] public section
 /-
   RepairGapChain.lean: the OPH → Yang–Mills CONDITIONAL CHAIN, machine-checked.
 

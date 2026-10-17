@@ -1,4 +1,7 @@
-import QFT.SourceHistoryThreeSlotLocalGNS
+module
+public import QFT.SourceHistoryThreeSlotLocalGNS
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false
@@ -110,10 +113,10 @@ def cellIndicator (S : Finset (Fin 3)) (g h : Fin 8) : ℚ :=
   if agreesOn S g h then 1 else 0
 
 theorem cellIndicator_of_agrees {S : Finset (Fin 3)} {g h : Fin 8}
-    (hgh : agreesOn S g h) : cellIndicator S g h = 1 := if_pos hgh
+    (hgh : agreesOn S g h) : cellIndicator S g h = 1 := ite_eq_left hgh
 
 theorem cellIndicator_of_not_agrees {S : Finset (Fin 3)} {g h : Fin 8}
-    (hgh : ¬ agreesOn S g h) : cellIndicator S g h = 0 := if_neg hgh
+    (hgh : ¬ agreesOn S g h) : cellIndicator S g h = 0 := ite_eq_right hgh
 
 theorem cellIndicator_nonneg (S : Finset (Fin 3)) (g h : Fin 8) :
     0 ≤ cellIndicator S g h := by
@@ -632,13 +635,13 @@ theorem expectation_single (a b : Fin 8) (z : ℂ) :
   rw [Matrix.trace_mul_single, op_smul_eq_mul]
   by_cases hba : b = a
   · subst hba
-    rw [if_pos rfl, sourceHistoryDensity_eq_windowCount]
-  · rw [if_neg hba, sourceHistoryDensity,
+    rw [ite_eq_left rfl, sourceHistoryDensity_eq_windowCount]
+  · rw [ite_eq_right hba, sourceHistoryDensity,
       Matrix.diagonal_apply_ne _ hba, zero_mul]
 
 /-- The `(0,1)` pair embedding on the exact source carrier. -/
 def pair01 : Matrix (Spin × Spin) (Spin × Spin) ℂ →⋆ₐ[ℂ] HistoryMatrix :=
-  (historyStageEquiv : ThreeSlotMatrix →⋆ₐ[ℂ] HistoryMatrix).comp
+  historyStageEquiv.toStarAlgHom.comp
     (slotLeft Spin (α := Spin × Spin))
 
 theorem slot0_eq_pair01 (A : SpinMatrix) :

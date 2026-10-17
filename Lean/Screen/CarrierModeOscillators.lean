@@ -1,6 +1,9 @@
-import ScaledMaxwellStability
-import QFT.SourceRecurrenceClock
-import Geometry.CommonWorldMaxwellClockJoin
+module
+public import ScaledMaxwellStability
+public import QFT.SourceRecurrenceClock
+public import Geometry.CommonWorldMaxwellClockJoin
+
+@[expose] public section
 
 set_option autoImplicit false
 

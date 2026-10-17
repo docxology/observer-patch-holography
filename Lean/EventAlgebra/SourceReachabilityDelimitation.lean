@@ -1,5 +1,8 @@
-import EventAlgebra.TsirelsonSaturation
-import QFT.CarrierJoinTransport
+module
+public import EventAlgebra.TsirelsonSaturation
+public import QFT.CarrierJoinTransport
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxRecDepth 65536
@@ -477,7 +480,7 @@ inductive Carrier : Type
   deriving DecidableEq
 
 /-- The index type of each enumerated carrier. -/
-def Carrier.Index : Carrier → Type
+abbrev Carrier.Index : Carrier → Type
   | .hinge13 => Fin 13
   | .hinge14 => Fin 14
   | .pair247 => PairIndex247

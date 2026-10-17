@@ -1,4 +1,7 @@
-import Geometry.EventGermDisplacement
+module
+public import Geometry.EventGermDisplacement
+
+@[expose] public section
 
 /-!
 # C2: celestial soldering of future-null event displacements

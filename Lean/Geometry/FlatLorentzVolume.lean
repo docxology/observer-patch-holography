@@ -1,7 +1,10 @@
-import Geometry.FlatDiamondVolume
-import Mathlib.LinearAlgebra.Matrix.ToLinearEquiv
-import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
-import Mathlib.MeasureTheory.Group.Prod
+module
+public import Geometry.FlatDiamondVolume
+public import Mathlib.LinearAlgebra.Matrix.ToLinearEquiv
+public import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
+public import Mathlib.MeasureTheory.Group.Prod
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -205,7 +208,7 @@ theorem diamond_boost_preimage {T τ : ℝ} (x : Space) (hτ : 0 < τ)
   have h₁ := boost_future_iff x hτ hT hrel z
   have h₂ := boost_future_iff x hτ hT hrel ((T, x) - z)
   rw [boost_sub, boost_tip x hτ.ne' hTτ hrel] at h₂
-  simpa only [diamond, future, past, mem_preimage, mem_inter_iff, mem_setOf_eq, margin,
+  simpa only [diamond, future, past, mem_preimage, mem_inter_iff, mem_ofPred_eq, margin,
     one_mul, Prod.fst_zero, Prod.snd_zero, sub_zero, Prod.fst_sub, Prod.snd_sub,
     sub_nonneg] using (h₁.and h₂).symm
 
@@ -237,7 +240,7 @@ theorem tilted_diamond_volume_of_causal {T : ℝ} (x : Space) (hT : spatialNorm 
   · have hsub : diamond 1 0 (T, x) ⊆ {z | margin 1 0 z = 0} := by
       intro z hz
       have h₁ : 0 ≤ z.1 - spatialNorm z.2 := by
-        simpa only [future, mem_setOf_eq, margin, one_mul, Prod.fst_zero, Prod.snd_zero, sub_zero] using hz.1
+        simpa only [future, mem_ofPred_eq, margin, one_mul, Prod.fst_zero, Prod.snd_zero, sub_zero] using hz.1
       have h₂ : 0 ≤ T - z.1 - spatialNorm (x - z.2) := by
         have hh : 0 ≤ 1 * (T - z.1) - spatialNorm (x - z.2) := hz.2
         simpa only [one_mul] using hh
@@ -259,14 +262,16 @@ theorem diamond_translate_preimage (c : ℝ) (p q : Spacetime) :
   have h₁ := margin_translate c p z p
   have h₂ := margin_translate c z q p
   simp only [sub_self] at h₁
-  simp only [diamond, future, past, mem_inter_iff, mem_preimage, mem_setOf_eq, h₁, h₂]
+  simp only [diamond, future, past, mem_inter_iff, mem_preimage, mem_ofPred_eq, h₁, h₂]
 
 theorem coordinate_sub_preserving (p : Spacetime) :
     MeasurePreserving (fun z => z - p) coordinateVolume coordinateVolume := by
-  simpa only [coordinateVolume, Prod.map_def, sub_eq_add_neg, Prod.fst_add,
-    Prod.snd_add, Prod.fst_neg, Prod.snd_neg] using
-    (measurePreserving_add_right (volume : Measure ℝ) (-p.1)).prod
-      (measurePreserving_add_right (volume : Measure Space) (-p.2))
+  convert (measurePreserving_add_right (volume : Measure ℝ) (-p.1)).prod
+      (measurePreserving_add_right (volume : Measure Space) (-p.2)) using 1
+  · funext z
+    rfl
+  · rfl
+  · rfl
 
 /-- Translated, possibly null, actual causal diamonds in coordinate volume. -/
 theorem causal_diamond_volume (p q : Spacetime)

@@ -1,5 +1,8 @@
-import Mathlib.CategoryTheory.Functor.Basic
-import QFT.ObserverAccessCut
+module
+public import Mathlib.CategoryTheory.Functor.Basic
+public import QFT.ObserverAccessCut
+
+@[expose] public section
 
 /-!
 # The E3 admissible event-region category and its covariant observable functor
@@ -287,7 +290,7 @@ noncomputable def supportCompress (V : Finset (Fin 2))
 theorem supportCompress_mem (V : Finset (Fin 2))
     (X : Matrix (Fin 2) (Fin 2) ℂ) :
     supportCompress V X ∈ supportDiagonalAlgebra V :=
-  ⟨_, rfl, fun i hi j hj => by rw [if_neg hi, if_neg hj]⟩
+  ⟨_, rfl, fun i hi j hj => by rw [ite_eq_right hi, ite_eq_right hj]⟩
 
 /-- Compression at an ambient region fixes every member of a smaller
 support-graded algebra. -/
@@ -301,8 +304,8 @@ theorem supportCompress_eq_self {U V : Finset (Fin 2)}
   · subst hij
     rw [supportCompress, Matrix.diagonal_apply_eq]
     by_cases hiV : i ∈ V
-    · rw [if_pos hiV]
-    · rw [if_neg hiV, Matrix.diagonal_apply_eq, Matrix.diagonal_apply_eq]
+    · rw [ite_eq_left hiV]
+    · rw [ite_eq_right hiV, Matrix.diagonal_apply_eq, Matrix.diagonal_apply_eq]
       exact hf (offSite V)
         (fun h => offSite_not_mem V i hiV (hUV h)) i (fun h => hiV (hUV h))
   · rw [supportCompress, Matrix.diagonal_apply_ne _ hij,
@@ -321,8 +324,8 @@ theorem supportCompress_eq_self_of_nonempty {U : Finset (Fin 2)}
   · subst hij
     rw [supportCompress, Matrix.diagonal_apply_eq]
     by_cases hi : i ∈ U
-    · rw [if_pos hi]
-    · rw [if_neg hi, ← eq_offSite_of_nonempty U i hU hi]
+    · rw [ite_eq_left hi]
+    · rw [ite_eq_right hi, ← eq_offSite_of_nonempty U i hU hi]
   · rw [supportCompress, Matrix.diagonal_apply_ne _ hij,
       Matrix.diagonal_apply_ne _ hij]
 
@@ -1665,7 +1668,6 @@ noncomputable def collapsingTower : ConsensusTower Bool where
     cases r <;> cases s <;> cases t <;>
       first
         | rfl
-        | exact Subsingleton.elim _ _
         | exact absurd hrs (by decide)
         | exact absurd hst (by decide)
   record_order_natural := fun _ o => o.elim
@@ -1748,8 +1750,8 @@ theorem algebraRefine_injective_of_observer (T : ConsensusTower ι)
   · intro X Y _
     ext i j
     exact absurd i.2 (by omega)
-  · haveI : Nonempty (Fin (T.dim r)) := ⟨⟨0, hr⟩⟩
-    haveI : Nontrivial (ConsensusTower.PrivateAlgebra T s) := by
+  · have : Nonempty (Fin (T.dim r)) := ⟨⟨0, hr⟩⟩
+    have : Nontrivial (ConsensusTower.PrivateAlgebra T s) := by
       refine ⟨0, 1, fun h => ?_⟩
       have := congrFun (congrFun h ⟨0, hs⟩) ⟨0, hs⟩
       simp at this

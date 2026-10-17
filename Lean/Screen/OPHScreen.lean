@@ -1,67 +1,70 @@
-import Compact12
-import S2DesignSignature
-import TopThreeKernelFix
-import UnitSplit12
-import Z6Exact
-import A2HolonomyBridge
-import HolonomyInterference
-import A5PrimitivePortPrediction
-import A5OrbitRaySeparation
-import DiscreteRefinement
-import LabeledEventReadout
-import BaryonDimensionSix
-import BipoSHInverseBoundary
-import BipoSHFrameInvariant
-import VolumeReadoutBridge
-import PrimitivePortTranslationBridge
-import PrimitivePortScaleBoundary
-import PrimitivePortMetricAttachment
-import PrimitivePortOperatorSelectionBoundary
-import KineticFamilyCancellation
-import ElectroweakPoleScaleQuotient
-import PrimitivePortDualMeasure
-import PrimitiveHopSelection
-import PrimitivePortFrameQuotient
-import PortGramRepairBand
-import PortGramRepairCovariance
-import PortGramA5Isometry
-import RepairWordCarrierReadout
-import SeamCurrentCarrierQuotient
-import RegionalContinuity
-import DiscreteGauss
-import SeamCurrentEdge30Moment
-import SeamCurrentEdge30Remainder
-import SeamCurrentHomogeneousAction
-import SeamCurrentDirichletGenerator
-import SeamCurrentAuxiliaryOscillatorLift
-import SeamCurrentFreePhotonLift
-import ModalMaxwellFactorizationBoundary
-import SeamCurrentPhysicalMetricAttachment
-import SeamCurrentPhotonLeptonThreshold
-import CarrierFrequencySpeed
-import SeamMaxwellContinuum
-import NeutralPairCoupledAction
-import NeutralPairJointStationaryWitness
-import CurlStoneClockBridge
-import SourceActionTime
-import WhitneyNormalModeConstruction
-import WhitneyConeModes
-import WhitneyFrameNaturality
-import WhitneyFrameMorphism
-import WhitneyConeNaturality
-import WhitneyConeMass
-import WhitneyConeMassNaturality
-import WhitneyMassPremiseInstance
-import WhitneyRotationWitness
-import GaugeKineticInvariantForms
-import OrientedFaceBracketSelector
-import ExteriorComponentBridge
-import QuantumMatterIntegration
-import B10EdgeCenterAction
-import B10QuantumLimitations
-import PSL2F5SixAxesBridge
-import GoldenSectorPSL2F5Representations
-import SL2F5PortCover
+module
+public import Compact12
+public import S2DesignSignature
+public import TopThreeKernelFix
+public import UnitSplit12
+public import Z6Exact
+public import A2HolonomyBridge
+public import HolonomyInterference
+public import A5PrimitivePortPrediction
+public import A5OrbitRaySeparation
+public import DiscreteRefinement
+public import LabeledEventReadout
+public import BaryonDimensionSix
+public import BipoSHInverseBoundary
+public import BipoSHFrameInvariant
+public import VolumeReadoutBridge
+public import PrimitivePortTranslationBridge
+public import PrimitivePortScaleBoundary
+public import PrimitivePortMetricAttachment
+public import PrimitivePortOperatorSelectionBoundary
+public import KineticFamilyCancellation
+public import ElectroweakPoleScaleQuotient
+public import PrimitivePortDualMeasure
+public import PrimitiveHopSelection
+public import PrimitivePortFrameQuotient
+public import PortGramRepairBand
+public import PortGramRepairCovariance
+public import PortGramA5Isometry
+public import RepairWordCarrierReadout
+public import SeamCurrentCarrierQuotient
+public import RegionalContinuity
+public import DiscreteGauss
+public import SeamCurrentEdge30Moment
+public import SeamCurrentEdge30Remainder
+public import SeamCurrentHomogeneousAction
+public import SeamCurrentDirichletGenerator
+public import SeamCurrentAuxiliaryOscillatorLift
+public import SeamCurrentFreePhotonLift
+public import ModalMaxwellFactorizationBoundary
+public import SeamCurrentPhysicalMetricAttachment
+public import SeamCurrentPhotonLeptonThreshold
+public import CarrierFrequencySpeed
+public import SeamMaxwellContinuum
+public import NeutralPairCoupledAction
+public import NeutralPairJointStationaryWitness
+public import CurlStoneClockBridge
+public import SourceActionTime
+public import WhitneyNormalModeConstruction
+public import WhitneyConeModes
+public import WhitneyFrameNaturality
+public import WhitneyFrameMorphism
+public import WhitneyConeNaturality
+public import WhitneyConeMass
+public import WhitneyConeMassNaturality
+public import WhitneyMassPremiseInstance
+public import WhitneyRotationWitness
+public import GaugeKineticInvariantForms
+public import OrientedFaceBracketSelector
+public import ExteriorComponentBridge
+public import QuantumMatterIntegration
+public import B10EdgeCenterAction
+public import B10QuantumLimitations
+public import PSL2F5SixAxesBridge
+public import GoldenSectorPSL2F5Representations
+public import SL2F5PortCover
+
+@[expose] public section
 
 /-!
 # OPH screen arithmetic umbrella

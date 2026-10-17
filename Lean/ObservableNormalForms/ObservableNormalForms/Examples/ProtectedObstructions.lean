@@ -1,6 +1,9 @@
-import ObservableNormalForms.ProtectedObstructions
-import ObservableNormalForms.ObserverConfluence
-import ObservableNormalForms.Examples.AmdA2A5Conditional
+module
+public import ObservableNormalForms.ProtectedObstructions
+public import ObservableNormalForms.ObserverConfluence
+public import ObservableNormalForms.Examples.AmdA2A5Conditional
+
+@[expose] public section
 
 /-!
 # Protected-obstruction finite fixtures
@@ -111,14 +114,14 @@ theorem unreachable_hitProbability_zero :
 
 theorem m1_firstHitAtMass_one :
     ObservableNormalForms.ProtectedObstructions.firstHitAtMass swap2 targetLast2 1 (0 : Two) (1 : Two) = 1 := by
-  rw [ObservableNormalForms.ProtectedObstructions.firstHitAtMass_succ, if_neg]
+  rw [ObservableNormalForms.ProtectedObstructions.firstHitAtMass_succ, ite_eq_right]
   · norm_num [swap2, ObservableNormalForms.ProtectedObstructions.firstHitAtMass_zero, targetLast2,
       Fin.sum_univ_succ]
   · simp [targetLast2]
 
 theorem m1_hitBy_one :
     ObservableNormalForms.ProtectedObstructions.hitBy swap2 targetLast2 1 (0 : Two) = 1 := by
-  rw [ObservableNormalForms.ProtectedObstructions.hitBy_succ_recurrence, if_neg]
+  rw [ObservableNormalForms.ProtectedObstructions.hitBy_succ_recurrence, ite_eq_right]
   · norm_num [swap2, ObservableNormalForms.ProtectedObstructions.hitBy_zero, targetLast2, Fin.sum_univ_succ]
   · simp [targetLast2]
 
@@ -133,7 +136,7 @@ theorem m1_hitProbability_one :
 
 theorem m2_target_mass_half :
     ObservableNormalForms.ProtectedObstructions.firstHitAtMass branch3 targetOne3 1 (0 : Three) (1 : Three) = 1 / 2 := by
-  rw [ObservableNormalForms.ProtectedObstructions.firstHitAtMass_succ, if_neg]
+  rw [ObservableNormalForms.ProtectedObstructions.firstHitAtMass_succ, ite_eq_right]
   · norm_num [branch3, ObservableNormalForms.ProtectedObstructions.firstHitAtMass_zero, targetOne3,
       Fin.sum_univ_succ]
   · simp [targetOne3]
@@ -182,22 +185,22 @@ theorem m2_not_almostSure :
 theorem m3_endpoint_one_half :
     ObservableNormalForms.ProtectedObstructions.firstHitAtMass branch3 targetEndpoints3 1
       (0 : Three) (1 : Three) = 1 / 2 := by
-  rw [ObservableNormalForms.ProtectedObstructions.firstHitAtMass_succ, if_neg]
+  rw [ObservableNormalForms.ProtectedObstructions.firstHitAtMass_succ, ite_eq_right]
   · norm_num [branch3, ObservableNormalForms.ProtectedObstructions.firstHitAtMass_zero, targetEndpoints3,
-      Fin.sum_univ_succ] <;> decide
+      Fin.sum_univ_succ]
   · simp [targetEndpoints3]
 
 theorem m3_endpoint_two_half :
     ObservableNormalForms.ProtectedObstructions.firstHitAtMass branch3 targetEndpoints3 1
       (0 : Three) (2 : Three) = 1 / 2 := by
-  rw [ObservableNormalForms.ProtectedObstructions.firstHitAtMass_succ, if_neg]
+  rw [ObservableNormalForms.ProtectedObstructions.firstHitAtMass_succ, ite_eq_right]
   · norm_num [branch3, ObservableNormalForms.ProtectedObstructions.firstHitAtMass_zero, targetEndpoints3,
-      Fin.sum_univ_succ] <;> decide
+      Fin.sum_univ_succ]
   · simp [targetEndpoints3]
 
 theorem m3_hitBy_one :
     ObservableNormalForms.ProtectedObstructions.hitBy branch3 targetEndpoints3 1 (0 : Three) = 1 := by
-  rw [ObservableNormalForms.ProtectedObstructions.hitBy_succ_recurrence, if_neg]
+  rw [ObservableNormalForms.ProtectedObstructions.hitBy_succ_recurrence, ite_eq_right]
   · norm_num [branch3, ObservableNormalForms.ProtectedObstructions.hitBy_zero, targetEndpoints3,
       Fin.sum_univ_succ]
   · simp [targetEndpoints3]
@@ -263,7 +266,7 @@ theorem fixture_kernel_lumping (a : Three) (g : Two → ℝ) :
     (∑ a' : Three, branch3.probability a a' * g (fixtureStateMap a')) =
       ∑ b' : Two, quotient2.probability (fixtureStateMap a) b' * g b' := by
   fin_cases a <;>
-    simp [branch3, quotient2, fixtureStateMap, Fin.sum_univ_succ] <;> ring
+    simp [branch3, quotient2, fixtureStateMap, Fin.sum_univ_succ]; ring
 
 theorem fixture_fiber_nonempty (b : Two) :
     ∃ a : Three, fixtureStateMap a = b :=
@@ -283,7 +286,7 @@ def silentA (a a' : Three) : Prop := fixtureStateMap a = fixtureStateMap a'
 theorem fixture_protected_reflect (u : Unit) :
     protectedA u ↔ protectedB u := by simp [protectedA, protectedB]
 
-theorem fixture_protected_coverage (u : Unit) (hu : protectedB u) :
+theorem fixture_protected_coverage (u : Unit) (_hu : protectedB u) :
     ∃ u' : Unit, protectedA u' := by
   exact ⟨(), by simp [protectedA]⟩
 
@@ -311,7 +314,7 @@ theorem fixture_source_endpoint_push :
       ObservableNormalForms.ProtectedObstructions.firstHitAtMass branch3 targetEndpoints3 1 0 1 +
       ObservableNormalForms.ProtectedObstructions.firstHitAtMass branch3 targetEndpoints3 1 0 2 := by
   rw [m3_endpoint_one_half, m3_endpoint_two_half]
-  rw [ObservableNormalForms.ProtectedObstructions.firstHitAtMass_succ, if_neg]
+  rw [ObservableNormalForms.ProtectedObstructions.firstHitAtMass_succ, ite_eq_right]
   · norm_num [quotient2, ObservableNormalForms.ProtectedObstructions.firstHitAtMass_zero, targetLast2,
       Fin.sum_univ_succ]
   · simp [targetLast2]
@@ -323,10 +326,18 @@ end ObservableNormalForms.ProtectedObstructions.NamedFixtures
 namespace ObservableNormalForms.ProtectedObstructions.NonidentityExactness.Fixture
 
 inductive SourceState where | s0 | s1 | t
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype SourceState where
+  elems := {.s0, .s1, .t}
+  complete := by intro state; cases state <;> simp
 
 inductive TargetState where | s | t
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype TargetState where
+  elems := {.s, .t}
+  complete := by intro state; cases state <;> simp
 
 def stateMap : SourceState → TargetState
   | .s0 | .s1 => .s
@@ -437,7 +448,7 @@ noncomputable section
 
 abbrev State := Bool × Bool
 
-private def eqSetoid (alpha : Type*) : Setoid alpha where
+def eqSetoid (alpha : Type*) : Setoid alpha where
   r := Eq
   iseqv := ⟨fun _ => rfl, fun h => h.symm, fun h g => h.trans g⟩
 
@@ -496,7 +507,7 @@ def profileA : Profile Bool State where
   rewrite := rewriteA
   rewrite_observe := by
     intro q r h
-    simpa [rewriteA, observe, h.2]
+    simp [observe, h.2]
   normal_iff_consistent := by
     rintro ⟨b, d⟩
     cases b <;> cases d <;>
@@ -520,7 +531,7 @@ def profileB : Profile Bool State where
   rewrite := rewriteB
   rewrite_observe := by
     intro q r h
-    simpa [rewriteB, observe, h.2]
+    simp [observe, h.2]
   normal_iff_consistent := by
     rintro ⟨b, d⟩
     cases b <;> cases d <;>
@@ -538,7 +549,7 @@ theorem profileA_source_hit_zero (b : Bool) :
   · intro q hq r hr
     have hre : r = q := by
       by_contra hne
-      simp [Profile.SupportStep, profileA, coreA, identityKernel, hne] at hr
+      simp [profileA, coreA, identityKernel, hne] at hr
     simpa [hre] using hq
   · simp
 
@@ -546,7 +557,7 @@ theorem profileA_cut0 : profileA.cut0 = ∅ := by
   ext b
   cases b <;> simp [Profile.cut0, Profile.layer0, profileA, coreA,
     FixedBehaviorModel.InL0, FixedBehaviorModel.FiberNonempty,
-    FixedBehaviorModel.IsTarget, consistentA, observe]
+    FixedBehaviorModel.IsTarget]
 
 theorem profileA_cut1 : profileA.cut1 = Set.univ := by
   apply Set.eq_univ_of_forall
@@ -562,7 +573,7 @@ theorem profileB_cut0 : profileB.cut0 = {false} := by
   ext b
   cases b <;> simp [Profile.cut0, Profile.layer0, profileB, coreB,
     FixedBehaviorModel.InL0, FixedBehaviorModel.FiberNonempty,
-    FixedBehaviorModel.IsTarget, consistentB, observe]
+    FixedBehaviorModel.IsTarget]
 
 private def hitPath : Fin 1 → State := fun _ => (true, true)
 
@@ -573,7 +584,7 @@ theorem profileB_true_positive : profileB.core.Positive true := by
   apply (profileB.endpoint_pos_iff_path (true, false) true (true, true)).mpr
   exact ⟨1, hitPath, by
       simp [FirstHitAt, hitPath, profileB, coreB, FixedBehaviorModel.IsTarget,
-        consistentB, observe], by simp [pathEndpoint, hitPath], by
+        ], by simp [pathEndpoint, hitPath], by
       simp [SupportedFinPath, hitPath, profileB, coreB, progressKernel,
         destinationB]⟩
 
@@ -584,7 +595,6 @@ theorem profileB_cut1 : profileB.cut1 = {false} := by
       FixedBehaviorModel.InL1, FixedBehaviorModel.InL0,
       FixedBehaviorModel.FiberNonempty, FixedBehaviorModel.IsTarget]
   · simp only [Set.mem_singleton_iff, Bool.true_eq_false]
-    change true ∈ profileB.cut1 ↔ False
     constructor
     · intro h
       have hL0 : profileB.core.InL0 true := by
@@ -641,22 +651,22 @@ def family : VariantFamily Bool Bool State where
 
 theorem row0_false : family.cutAt 0 false = ∅ := by
   rw [VariantFamily.cutAt_zero]
-  simpa [family, VariantFamily.profile, CommonProfileData.toProfile, dataA]
+  simpa [family, VariantFamily.profile, CommonProfileData.toProfile, dataA, profileA, coreA]
     using profileA_cut0
 
 theorem row0_true : family.cutAt 0 true = {false} := by
   rw [VariantFamily.cutAt_zero]
-  simpa [family, VariantFamily.profile, CommonProfileData.toProfile, dataB]
+  simpa [family, VariantFamily.profile, CommonProfileData.toProfile, dataB, profileB, coreB]
     using profileB_cut0
 
 theorem row1_false : family.cutAt 1 false = Set.univ := by
   rw [VariantFamily.cutAt_one]
-  simpa [family, VariantFamily.profile, CommonProfileData.toProfile, dataA]
+  simpa [family, VariantFamily.profile, CommonProfileData.toProfile, dataA, profileA, coreA]
     using profileA_cut1
 
 theorem row1_true : family.cutAt 1 true = {false} := by
   rw [VariantFamily.cutAt_one]
-  simpa [family, VariantFamily.profile, CommonProfileData.toProfile, dataB]
+  simpa [family, VariantFamily.profile, CommonProfileData.toProfile, dataB, profileB, coreB]
     using profileB_cut1
 
 /-- The actual T7 row 0 strictly prefers `false` to `true`. -/
@@ -681,7 +691,7 @@ theorem strict_reverse : BehaviorLT (family.cutAt 1) true false := by
     have ht : true ∈ family.cutAt 1 false := by rw [row1_false]; simp
     have := h ht
     rw [row1_true] at this
-    simpa using this
+    simp at this
 
 theorem not_profileLE_false_true : ¬ family.LE false true := by
   intro h
@@ -706,7 +716,7 @@ open ObservableNormalForms.ProtectedObstructions.NonidentityExactness
 
 noncomputable section
 
-private def m0EqSetoid (alpha : Type*) : Setoid alpha where
+def m0EqSetoid (alpha : Type*) : Setoid alpha where
   r := Eq
   iseqv := ⟨fun _ => rfl, fun h => h.symm, fun h g => h.trans g⟩
 
@@ -784,7 +794,7 @@ open ObservableNormalForms.ProtectedObstructions.NonidentityExactness
 
 noncomputable section
 
-private def twoBitEqSetoid (alpha : Type*) : Setoid alpha where
+def twoBitEqSetoid (alpha : Type*) : Setoid alpha where
   r := Eq
   iseqv := ⟨fun _ => rfl, fun h => h.symm, fun h g => h.trans g⟩
 
@@ -844,7 +854,7 @@ def fineProfile : Profile Bool TwoBitRepair.State where
   rewrite_observe := TwoBitRepair.step_observationPreserving
   normal_iff_consistent := TwoBitRepair.step_completeFor_consistent
 
-def fineScheduler (b : Bool) : fineProfile.SchedulerLaws b where
+theorem fineScheduler (b : Bool) : fineProfile.SchedulerLaws b where
   supportSound := by
     intro q r hreach hsupport
     rcases q with ⟨bq, dq⟩
@@ -880,14 +890,14 @@ theorem fine_hit_one (b : Bool) :
   rw [hitProbability_bellman]
   have hs : ¬ fineCore.IsTarget b (b, true) := by
     simp [fineCore, fineTarget, FineTargetPred, FixedBehaviorModel.IsTarget]
-  rw [if_neg hs]
+  rw [ite_eq_right hs]
   change kernel.apply
     (fun z => hitProbability kernel (fineCore.IsTarget b) z) (b, true) = 1
   rw [kernel_apply]
   rw [hitProbability_bellman]
   have ht : fineCore.IsTarget b (b, false) := by
     simp [fineCore, fineTarget, FineTargetPred, FixedBehaviorModel.IsTarget]
-  rw [if_pos ht]
+  rw [ite_eq_left ht]
 
 theorem fine_in_layer2 (b : Bool) : b ∈ fineProfile.layer2 := by
   change fineCore.InL2 b
@@ -908,11 +918,13 @@ theorem fine_layer2_eq_layer3 : fineProfile.layer2 = fineProfile.layer3 := by
   apply fineProfile.t5_observableDetermination_collapse
   intro b c d hc hd
   have hc' : c.2 = false ∧ c.1 = b := by
-    simpa [fineProfile, fineCore, fineTarget, FineTargetPred,
-      FixedBehaviorModel.IsTarget] using hc
+    simp only [fineProfile, fineCore, fineTarget, FineTargetPred,
+      FixedBehaviorModel.IsTarget] at hc
+    exact @of_decide_eq_true _ _ hc
   have hd' : d.2 = false ∧ d.1 = b := by
-    simpa [fineProfile, fineCore, fineTarget, FineTargetPred,
-      FixedBehaviorModel.IsTarget] using hd
+    simp only [fineProfile, fineCore, fineTarget, FineTargetPred,
+      FixedBehaviorModel.IsTarget] at hd
+    exact @of_decide_eq_true _ _ hd
   change c = d
   apply Prod.ext
   · exact hc'.2.trans hd'.2.symm
@@ -961,7 +973,8 @@ def coarseProfile : Profile Unit TwoBitRepair.State where
   target_iff := by
     intro b q
     cases b
-    simp [coarseCore, coarseTarget, CoarseTargetPred, FixedBehaviorModel.IsTarget,
+    cases q with
+    | mk q1 q2 => cases q2 <;> simp [coarseCore, coarseTarget, CoarseTargetPred, FixedBehaviorModel.IsTarget,
       TwoBitRepair.consistent, TwoBitRepair.coarseObserve]
   initial_observe := by
     intro b q hb hq
@@ -973,7 +986,7 @@ def coarseProfile : Profile Unit TwoBitRepair.State where
     rfl
   normal_iff_consistent := TwoBitRepair.step_completeFor_consistent
 
-def coarseScheduler : coarseProfile.SchedulerLaws () where
+theorem coarseScheduler : coarseProfile.SchedulerLaws () where
   supportSound := by
     intro q r hreach hsupport
     rcases q with ⟨bq, dq⟩
@@ -1004,14 +1017,14 @@ theorem coarse_hit_one (b : Bool) :
   rw [hitProbability_bellman]
   have hs : ¬ coarseCore.IsTarget () (b, true) := by
     simp [coarseCore, coarseTarget, CoarseTargetPred, FixedBehaviorModel.IsTarget]
-  rw [if_neg hs]
+  rw [ite_eq_right hs]
   change kernel.apply
     (fun z => hitProbability kernel (coarseCore.IsTarget ()) z) (b, true) = 1
   rw [kernel_apply]
   rw [hitProbability_bellman]
   have ht : coarseCore.IsTarget () (b, false) := by
     simp [coarseCore, coarseTarget, CoarseTargetPred, FixedBehaviorModel.IsTarget]
-  rw [if_pos ht]
+  rw [ite_eq_left ht]
 
 theorem coarse_in_layer2 : () ∈ coarseProfile.layer2 := by
   change coarseCore.InL2 ()
@@ -1064,7 +1077,7 @@ open ObservableNormalForms.ProtectedObstructions.NonidentityExactness
 
 noncomputable section
 
-private def c4EqSetoid (alpha : Type*) : Setoid alpha where
+def c4EqSetoid (alpha : Type*) : Setoid alpha where
   r := Eq
   iseqv := ⟨fun _ => rfl, fun h => h.symm, fun h g => h.trans g⟩
 
@@ -1240,7 +1253,7 @@ open ObservableNormalForms.ProtectedObstructions.PublicAdapter
 
 noncomputable section
 
-private def equalitySetoid (alpha : Type*) : Setoid alpha where
+def equalitySetoid (alpha : Type*) : Setoid alpha where
   r := Eq
   iseqv := ⟨fun _ => rfl, fun h => h.symm, fun h g => h.trans g⟩
 
@@ -1347,19 +1360,19 @@ def m3Profile : Profile Unit Three where
 
 theorem m2_support_sound (x y : Three) :
     0 < branch3.probability x y → m2Rewrite x y ∨ x = y := by
-  fin_cases x <;> fin_cases y <;> norm_num [branch3, m2Rewrite] <;> decide
+  fin_cases x <;> fin_cases y <;> norm_num [branch3, m2Rewrite]
 
 theorem m2_rewrite_complete (x y : Three) :
     m2Rewrite x y → 0 < branch3.probability x y := by
-  fin_cases x <;> fin_cases y <;> norm_num [branch3, m2Rewrite] <;> decide
+  fin_cases x <;> fin_cases y <;> norm_num [branch3, m2Rewrite]
 
 theorem m3_support_sound (x y : Three) :
     0 < branch3.probability x y → m3Rewrite x y ∨ x = y := by
-  fin_cases x <;> fin_cases y <;> norm_num [branch3, m3Rewrite] <;> decide
+  fin_cases x <;> fin_cases y <;> norm_num [branch3, m3Rewrite]
 
 theorem m3_rewrite_complete (x y : Three) :
     m3Rewrite x y → 0 < branch3.probability x y := by
-  fin_cases x <;> fin_cases y <;> norm_num [branch3, m3Rewrite] <;> decide
+  fin_cases x <;> fin_cases y <;> norm_num [branch3, m3Rewrite]
 
 theorem source_self_loop_zero : branch3.probability (0 : Three) 0 = 0 := by
   norm_num [branch3]
@@ -1368,7 +1381,7 @@ theorem source_equality_does_not_imply_support :
     (0 : Three) = 0 ∧ ¬ 0 < branch3.probability (0 : Three) 0 := by
   exact ⟨rfl, by norm_num [branch3]⟩
 
-def m2SchedulerLaws : m2Profile.SchedulerLaws () where
+theorem m2SchedulerLaws : m2Profile.SchedulerLaws () where
   supportSound := by
     intro x y reached hxy
     change 0 < branch3.probability x y at hxy
@@ -1380,7 +1393,7 @@ def m2SchedulerLaws : m2Profile.SchedulerLaws () where
     change 0 < branch3.probability x y
     exact m2_rewrite_complete x y hxy
 
-def m3SchedulerLaws : m3Profile.SchedulerLaws () where
+theorem m3SchedulerLaws : m3Profile.SchedulerLaws () where
   supportSound := by
     intro x y reached hxy
     change 0 < branch3.probability x y at hxy
@@ -1392,7 +1405,7 @@ def m3SchedulerLaws : m3Profile.SchedulerLaws () where
     change 0 < branch3.probability x y
     exact m3_rewrite_complete x y hxy
 
-def m2FirstHit :
+theorem m2FirstHit :
     Scheduler.FirstHitPath m2Profile.SupportStep
       (m2Core.IsTarget ()) (0 : Three) (1 : Three) := by
   apply Scheduler.FirstHitPath.step
@@ -1403,7 +1416,7 @@ def m2FirstHit :
     exact m2_rewrite_complete 0 1 (by simp [m2Rewrite])
   · exact Scheduler.FirstHitPath.done ((m2_isTarget_iff 1).mpr (by decide))
 
-def m3FirstHitRight :
+theorem m3FirstHitRight :
     Scheduler.FirstHitPath m3Profile.SupportStep
       (m3Core.IsTarget ()) (0 : Three) (2 : Three) := by
   apply Scheduler.FirstHitPath.step
@@ -1444,7 +1457,7 @@ theorem m3_t6_both_directions :
 theorem m2_firstHit_half :
     firstHitAtMass branch3 (m2Core.IsTarget ()) 1
       (0 : Three) (1 : Three) = 1 / 2 := by
-  rw [firstHitAtMass_succ, if_neg]
+  rw [firstHitAtMass_succ, ite_eq_right]
   · norm_num [branch3, firstHitAtMass_zero, m2Core,
       targetOne3Bool, FixedBehaviorModel.IsTarget, Fin.sum_univ_succ]
   · decide
@@ -1473,24 +1486,24 @@ def m2TrapCore : ReachableClosedTrap branch3 (m2Core.IsTarget ()) (0 : Three) wh
 theorem m3_firstHit_one_half :
     firstHitAtMass branch3 (m3Core.IsTarget ()) 1
       (0 : Three) (1 : Three) = 1 / 2 := by
-  rw [firstHitAtMass_succ, if_neg]
+  rw [firstHitAtMass_succ, ite_eq_right]
   · norm_num [branch3, firstHitAtMass_zero, m3Core,
       targetEndpoints3Bool, FixedBehaviorModel.IsTarget,
-      Fin.sum_univ_succ] <;> decide
+      Fin.sum_univ_succ]
   · decide
 
 theorem m3_firstHit_two_half :
     firstHitAtMass branch3 (m3Core.IsTarget ()) 1
       (0 : Three) (2 : Three) = 1 / 2 := by
-  rw [firstHitAtMass_succ, if_neg]
+  rw [firstHitAtMass_succ, ite_eq_right]
   · norm_num [branch3, firstHitAtMass_zero, m3Core,
       targetEndpoints3Bool, FixedBehaviorModel.IsTarget,
-      Fin.sum_univ_succ] <;> decide
+      Fin.sum_univ_succ]
   · decide
 
 theorem m3_hitBy_one :
     hitBy branch3 (m3Core.IsTarget ()) 1 (0 : Three) = 1 := by
-  rw [hitBy_succ_recurrence, if_neg]
+  rw [hitBy_succ_recurrence, ite_eq_right]
   · norm_num [branch3, hitBy_zero, m3Core, targetEndpoints3Bool,
       FixedBehaviorModel.IsTarget, Fin.sum_univ_succ]
   · decide

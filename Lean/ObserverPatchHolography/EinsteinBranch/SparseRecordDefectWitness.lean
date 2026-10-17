@@ -1,4 +1,7 @@
-import ObserverPatchHolography.EinsteinBranch.DarkSector
+module
+public import ObserverPatchHolography.EinsteinBranch.DarkSector
+
+@[expose] public section
 
 /-!
 # Sparse-record defect witness for the dark-sector screening interface
@@ -85,7 +88,7 @@ def sourceCorrelateWeight (a d : Fin 2) : ℝ := if a = d then 1 / 2 else 0
 
 /-- Perfect correlation: off-diagonal pairs carry no mass. -/
 theorem sourceCorrelateWeight_eq_zero_of_ne (a d : Fin 2) (h : a ≠ d) :
-    sourceCorrelateWeight a d = 0 := if_neg h
+    sourceCorrelateWeight a d = 0 := ite_eq_right h
 
 /-- The source marginal of the correlate law is uniform. -/
 theorem sourceCorrelateWeight_marginal (a : Fin 2) :
@@ -118,8 +121,8 @@ theorem recordWeight_nonneg (p : ℝ) (hp0 : 0 ≤ p) (hp1 : p ≤ 1)
   | some b =>
       show 0 ≤ if a = b then p / 2 else 0
       by_cases h : a = b
-      · rw [if_pos h]; linarith
-      · rw [if_neg h]
+      · rw [ite_eq_left h]; linarith
+      · rw [ite_eq_right h]
 
 /-- The source marginal of the record law is uniform at every density. -/
 theorem recordWeight_marginal (p : ℝ) (a : Fin 2) :

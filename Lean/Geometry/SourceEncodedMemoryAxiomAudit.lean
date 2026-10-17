@@ -1,5 +1,9 @@
-import Mathlib.Util.AssertNoSorry
-import Geometry.SourceEncodedMemory
+module
+public import Mathlib.Util.AssertNoSorry
+public import PortGramA5Isometry
+public import Geometry.SourceEncodedMemory
+
+@[expose] public section
 
 /-! Every theorem is audited transitively, including proof dependencies. -/
 open Lean Elab Command in
@@ -16,9 +20,12 @@ elab "audit_encoded_axioms " n:ident : command => do
 #guard_msgs in
  audit_encoded_axioms sorryAx
 
-/-- error: Encoded memory axiom audit rejected [Lean.ofReduceBool, Lean.trustCompiler] -/
+-- The control inherits the native axiom of the reviewed rotation proof.
+private alias nativeDecisionControl := OPH.PortGramA5Isometry.rotationQ_orthogonal
+
+/-- error: Encoded memory axiom audit rejected [_private.PortGramA5Isometry.0.OPH.PortGramA5Isometry.rotationQ_orthogonal._native.native_decide.ax_1_1] -/
 #guard_msgs in
- audit_encoded_axioms Lean.ofReduceBool
+ audit_encoded_axioms nativeDecisionControl
 
 audit_encoded_axioms OPH.SourceEncodedMemory.run_append
 audit_encoded_axioms OPH.SourceEncodedMemory.run_nonnegative

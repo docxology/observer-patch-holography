@@ -1,6 +1,9 @@
-import MixingChainRealization
-import LowTemperatureControl
-import InformationProjection.GlobalObjective
+module
+public import MixingChainRealization
+public import LowTemperatureControl
+public import InformationProjection.GlobalObjective
+
+@[expose] public section
 
 namespace OPH.Thermodynamics
 
@@ -279,22 +282,22 @@ theorem bindingKernel_eq_ident :
   rw [binding_fiberMass x]
   by_cases hxy : y = x
   · subst hxy
-    rw [if_pos rfl, if_pos rfl,
+    rw [ite_eq_left rfl, ite_eq_left rfl,
       div_self (ne_of_gt (bindingReference_pos y))]
-  · rw [if_neg (fun h => hxy (protectedRecordLabel_separating x y h)),
-      if_neg hxy]
+  · rw [ite_eq_right (fun h => hxy (protectedRecordLabel_separating x y h)),
+      ite_eq_right hxy]
 
 theorem bindingKernel_apply_0_0 : bindingKernel 0 0 = 1 := by
-  rw [bindingKernel_eq_ident, if_pos rfl]
+  rw [bindingKernel_eq_ident, ite_eq_left rfl]
 
 theorem bindingKernel_apply_0_1 : bindingKernel 0 1 = 0 := by
-  rw [bindingKernel_eq_ident, if_neg (by decide : ¬ (1 : Fin 2) = 0)]
+  rw [bindingKernel_eq_ident, ite_eq_right (by decide : ¬ (1 : Fin 2) = 0)]
 
 theorem bindingKernel_apply_1_0 : bindingKernel 1 0 = 0 := by
-  rw [bindingKernel_eq_ident, if_neg (by decide : ¬ (0 : Fin 2) = 1)]
+  rw [bindingKernel_eq_ident, ite_eq_right (by decide : ¬ (0 : Fin 2) = 1)]
 
 theorem bindingKernel_apply_1_1 : bindingKernel 1 1 = 1 := by
-  rw [bindingKernel_eq_ident, if_pos rfl]
+  rw [bindingKernel_eq_ident, ite_eq_left rfl]
 
 /-- **Domination failure.**  The realized transition chain is
 unabsorbed by the degenerate resampling kernel: the kernel vanishes off
@@ -585,7 +588,7 @@ theorem bindingTower_uniform_bound (beta : ℝ) (r : ℕ) :
     offMinMass bindingEnergy beta
       ≤ 2 * Real.exp (-beta * Real.log (54356 / 7155)) := by
   have h := bindingTower.uniform_bound beta r
-  simpa using h
+  simpa [bindingTower] using h
 
 /-- Uniform concentration of the constant bound family.  This is a formal
 control on one repeated finite object, not a continuum third-law receipt. -/

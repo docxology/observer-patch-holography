@@ -1,5 +1,8 @@
-import ObserverPatchHolography.RepairWordSchedule
-import Geometry.SourceEncodedMemory
+module
+public import ObserverPatchHolography.RepairWordSchedule
+public import Geometry.SourceEncodedMemory
+
+@[expose] public section
 
 /-!
 # Finite-word selection and remote-read obstruction
@@ -107,7 +110,7 @@ theorem mean_outside_eq (source : ι → Prop) (e : ι × ι)
       · exact hi
       · exact fun hs => hi (he.mp hs)
     have hv : ¬ source e.2 := fun hs => hu (he.mpr hs)
-    simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, if_pos h]
+    simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, ite_eq_left h]
     rw [hxy e.1 hu, hxy e.2 hv]
   · simpa [pairAverage, h] using hxy i hi
 

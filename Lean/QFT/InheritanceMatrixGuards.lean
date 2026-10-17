@@ -1,5 +1,8 @@
-import Mathlib
-import QFT.InheritanceMatrix
+module
+public import Mathlib
+public import QFT.InheritanceMatrix
+
+@[expose] public section
 
 /-!
 # Stale-absence guards for the E4 status matrix

@@ -1,4 +1,7 @@
-import Computation.FixedFederationCounterexamples
+module
+public import Computation.FixedFederationCounterexamples
+
+@[expose] public section
 
 /-!
 # Fixed-federation execution classification

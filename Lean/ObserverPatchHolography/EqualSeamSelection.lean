@@ -1,6 +1,9 @@
-import Mathlib
-import ObserverPatchHolography.CoreAxioms
-import ObserverPatchHolography.ScalarSeamRepair
+module
+public import Mathlib
+public import ObserverPatchHolography.CoreAxioms
+public import ObserverPatchHolography.ScalarSeamRepair
+
+@[expose] public section
 
 namespace ObserverPatchHolography.EqualSeamSelection
 

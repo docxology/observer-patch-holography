@@ -1,6 +1,9 @@
-import Mathlib.Analysis.Normed.Operator.ContinuousAlgEquiv
-import Mathlib.Analysis.SpecialFunctions.Exponential
-import Mathlib.Analysis.Calculus.Deriv.Mul
+module
+public import Mathlib.Analysis.Normed.Operator.ContinuousAlgEquiv
+public import Mathlib.Analysis.SpecialFunctions.Exponential
+public import Mathlib.Analysis.Calculus.Deriv.Mul
+
+@[expose] public section
 
 /-!
 # Finite private dynamics on a full matrix block
@@ -54,12 +57,14 @@ theorem hasDerivAt_innerExponentialFlow
   have hright := hasDerivAt_exp_smul_const (-A) t
   have hprod := hleft.mul hright
   convert hprod using 1
-  have hcommLeft :
-      Commute (NormedSpace.exp (t • A)) A :=
-    ((Commute.refl A).smul_left t).exp_left
-  simp only [innerExponentialFlow]
-  rw [hcommLeft.eq]
-  noncomm_ring
+  · funext u
+    rfl
+  · have hcommLeft :
+        Commute (NormedSpace.exp (t • A)) A :=
+      ((Commute.refl A).smul_left t).exp_left
+    simp only [innerExponentialFlow]
+    rw [hcommLeft.eq]
+    noncomm_ring
 
 omit [FiniteDimensional ℂ H] in
 /-- The Hamiltonian specialization of the commutator derivative.  In the
@@ -90,12 +95,14 @@ theorem hasDerivAt_realInnerExponentialFlow
   have hright := hasDerivAt_exp_smul_const (-A) t
   have hprod := hleft.mul hright
   convert hprod using 1
-  have hcommLeft :
-      Commute (NormedSpace.exp (t • A)) A :=
-    ((Commute.refl A).smul_left t).exp_left
-  simp only [realInnerExponentialFlow]
-  rw [hcommLeft.eq]
-  noncomm_ring
+  · funext u
+    rfl
+  · have hcommLeft :
+        Commute (NormedSpace.exp (t • A)) A :=
+      ((Commute.refl A).smul_left t).exp_left
+    simp only [realInnerExponentialFlow]
+    rw [hcommLeft.eq]
+    noncomm_ring
 
 omit [FiniteDimensional ℂ H] in
 /-- The von Neumann equation on a real parameter, with no physical-clock claim. -/

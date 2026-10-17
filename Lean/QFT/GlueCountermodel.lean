@@ -1,4 +1,7 @@
-import QFT.ObserverAccessCut
+module
+public import QFT.ObserverAccessCut
+
+@[expose] public section
 
 /-!
 # The accessible-glue countermodel
@@ -329,12 +332,16 @@ noncomputable def glueTopToU2 :
 
 /-- Region labels: a scalar bottom region, the two incomparable cover
 regions, and the diagonal top region. -/
-inductive GlueRegion : Type
+inductive GlueRegion where
   | bot
   | u1
   | u2
   | top
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype GlueRegion where
+  elems := {GlueRegion.bot, GlueRegion.u1, GlueRegion.u2, GlueRegion.top}
+  complete := by intro x; cases x <;> simp
 
 namespace GlueRegion
 
@@ -430,7 +437,7 @@ noncomputable def glueTower : ConsensusTower Unit :=
 and three-block middle regions, and the diagonal top, with the asymmetric
 entry-pick restrictions.  The declared disjointness relation is empty and
 the repair maps are the identity. -/
-noncomputable def glueNet : FiniteCausalObserverNet glueTower where
+noncomputable abbrev glueNet : FiniteCausalObserverNet glueTower where
   Region := fun _ => GlueRegion
   regionFintype := fun _ => inferInstance
   regionNonempty := fun _ => ⟨GlueRegion.bot⟩

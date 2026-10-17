@@ -1,5 +1,8 @@
-import Mathlib
-import A5OPH
+module
+public import Mathlib
+public import A5OPH
+
+@[expose] public section
 
 namespace OPH.TrichotomyCases
 

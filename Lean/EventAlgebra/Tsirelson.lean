@@ -1,4 +1,7 @@
-import EventAlgebra.Basic
+module
+public import EventAlgebra.Basic
+
+@[expose] public section
 
 /-!
 # The Tsirelson bound
@@ -226,7 +229,7 @@ theorem matrix_tsirelson_bound {n : ℕ} [NeZero n]
     (h₀₀ : a₀ * b₀ = b₀ * a₀) (h₀₁ : a₀ * b₁ = b₁ * a₀)
     (h₁₀ : a₁ * b₀ = b₀ * a₁) (h₁₁ : a₁ * b₁ = b₁ * a₁) :
     ‖a₀ * b₀ + a₀ * b₁ + a₁ * b₀ - a₁ * b₁‖ ≤ 2 * Real.sqrt 2 := by
-  haveI : Nontrivial (Matrix (Fin n) (Fin n) ℂ) := by
+  have : Nontrivial (Matrix (Fin n) (Fin n) ℂ) := by
     refine ⟨0, 1, fun h => ?_⟩
     have h00 := Matrix.ext_iff.mpr h ⟨0, Nat.pos_of_ne_zero (NeZero.ne n)⟩
       ⟨0, Nat.pos_of_ne_zero (NeZero.ne n)⟩

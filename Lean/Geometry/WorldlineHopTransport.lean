@@ -1,4 +1,7 @@
-import Geometry.PortChargeMinimalCoupling
+module
+public import Geometry.PortChargeMinimalCoupling
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -418,9 +421,9 @@ theorem transport_load_endpoints (κ h τ : ℝ) (w : SeamStepWorldline) (n : �
     rw [stepVector_forward, hoppingLoad_difference_forward 1 w n e' hstep]
     unfold portIndicator
     rcases hp with rfl | rfl
-    · rw [crossingFactor_left, if_neg hlt.ne, if_pos rfl]
+    · rw [crossingFactor_left, ite_eq_right hlt.ne, ite_eq_left rfl]
       ring
-    · rw [crossingFactor_right, if_pos rfl, if_neg hlt.ne']
+    · rw [crossingFactor_right, ite_eq_left rfl, ite_eq_right hlt.ne']
       ring
   · rw [hstep] at hs
     have he : e' = e := by simpa [steppedSeam] using hs
@@ -429,9 +432,9 @@ theorem transport_load_endpoints (κ h τ : ℝ) (w : SeamStepWorldline) (n : �
     unfold crossingFactor portIndicator
     rw [spatialDot_neg_right]
     rcases hp with rfl | rfl
-    · rw [ray_seamVector_left, if_neg hlt.ne, if_pos rfl, seamCrossingConst_eq]
+    · rw [ray_seamVector_left, ite_eq_right hlt.ne, ite_eq_left rfl, seamCrossingConst_eq]
       ring
-    · rw [ray_seamVector_right, if_pos rfl, if_neg hlt.ne', seamCrossingConst_eq]
+    · rw [ray_seamVector_right, ite_eq_left rfl, ite_eq_right hlt.ne', seamCrossingConst_eq]
       ring
 
 /-- At a rest step the induced load and the hopping step difference both

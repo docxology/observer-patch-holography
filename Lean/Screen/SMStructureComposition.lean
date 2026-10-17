@@ -1,4 +1,7 @@
-import SMStructureAdequacySurface
+module
+public import SMStructureAdequacySurface
+
+@[expose] public section
 
 open scoped BigOperators
 

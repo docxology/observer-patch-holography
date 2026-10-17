@@ -1,5 +1,8 @@
-import WeylYukawaConventions
-import Mathlib.Tactic.NoncommRing
+module
+public import WeylYukawaConventions
+public import Mathlib.Tactic.NoncommRing
+
+@[expose] public section
 
 /-!
 # Local gauge jet identities

@@ -1,5 +1,8 @@
-import Geometry.SourceTemporalNative
-import Geometry.SourceTemporalMenu
+module
+public import Geometry.SourceTemporalNative
+public import Geometry.SourceTemporalMenu
+
+@[expose] public section
 
 /-!
 # Permanent loss before the first discriminating observation

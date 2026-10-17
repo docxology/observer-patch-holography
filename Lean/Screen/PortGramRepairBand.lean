@@ -1,6 +1,9 @@
-import Mathlib
-import PortFrameGram
-import A5FamilyBand
+module
+public import Mathlib
+public import PortFrameGram
+public import A5FamilyBand
+
+@[expose] public section
 
 namespace OPH.PortGramRepairBand
 

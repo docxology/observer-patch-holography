@@ -1,5 +1,8 @@
-import EventAlgebra.Robertson
-import Mathlib.Tactic.Module
+module
+public import EventAlgebra.Robertson
+public import Mathlib.Tactic.Module
+
+@[expose] public section
 
 /-!
 # Pauli minimal-coupling square: the exact algebraic origin of gyromagnetic ratio two
@@ -226,8 +229,7 @@ theorem pauli_commutationHypothesis :
           Matrix.sub_apply, Matrix.smul_apply,
           Matrix.sum_apply, Fin.sum_univ_three, eps,
           smul_eq_mul] <;>
-        try ring_nf <;>
-        try norm_num [Complex.I_sq]
+        (try ring_nf; try norm_num [Complex.I_sq])
 
 /-- The single typed antecedent bundle: a carrier triple, a field triple, a
 coupling scalar, and the declared commutation hypothesis tying them. -/

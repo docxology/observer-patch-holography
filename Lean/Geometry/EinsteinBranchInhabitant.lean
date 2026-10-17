@@ -1,6 +1,9 @@
-import ObserverPatchHolography.EinsteinBranch.RegisterSurface
-import HorizonThermalitySurface
-import QFT.InhabitedTowerRow
+module
+public import ObserverPatchHolography.EinsteinBranch.RegisterSurface
+public import HorizonThermalitySurface
+public import QFT.InhabitedTowerRow
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -158,7 +161,7 @@ theorem torusStress_symm (p : TorusPoint) (i j : Fin 4) :
   by_cases h : i = j
   · subst h
     rfl
-  · rw [if_neg h, if_neg (Ne.symm h)]
+  · rw [ite_eq_right h, ite_eq_right (Ne.symm h)]
 
 theorem fin4_succ_ne_self (i : Fin 4) : i + 1 ≠ i := by
   revert i
@@ -647,13 +650,13 @@ theorem torusStress_nonconstant :
     torusStress (Pi.single 1 1) 0 0 ≠ torusStress torusBase 0 0 := by
   have h1 : torusStress (Pi.single 1 1) 0 0 = 1 := by
     unfold torusStress
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have h : ((Pi.single (1 : Fin 4) (1 : ZMod 2) : TorusPoint) (0 + 1)).val = 1 := by
       decide
     rw [h, Nat.cast_one]
   have h0 : torusStress torusBase 0 0 = 0 := by
     unfold torusStress torusBase
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have h : ((0 : TorusPoint) (0 + 1)).val = 0 := by decide
     rw [h, Nat.cast_zero]
   rw [h1, h0]

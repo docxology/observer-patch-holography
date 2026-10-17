@@ -1,5 +1,8 @@
-import QFT.ObserverAccessCut
-import Geometry.EventFrameSoldering
+module
+public import QFT.ObserverAccessCut
+public import Geometry.EventFrameSoldering
+
+@[expose] public section
 
 /-!
 # Observer quantum-event worlds over the C2 soldering interface

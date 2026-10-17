@@ -1,7 +1,10 @@
-import Geometry.ProperTimeInternalAction
-import Geometry.WorldlineHopTransport
-import Geometry.CommonWorldMaxwellClockJoin
-import QFT.SourceRecurrenceClock
+module
+public import Geometry.ProperTimeInternalAction
+public import Geometry.WorldlineHopTransport
+public import Geometry.CommonWorldMaxwellClockJoin
+public import QFT.SourceRecurrenceClock
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -234,7 +237,7 @@ theorem crossingCount_add_restCount (σ : ℕ → SeamStep) (M : ℕ) :
   | succ M ih =>
     simp only [crossingCount, restCount]
     by_cases h : σ M = .rest <;>
-      simp only [h, ne_eq, not_true_eq_false, not_false_eq_true, if_true, if_false] <;> omega
+      simp only [h, ne_eq, not_true_eq_false, not_false_eq_true, ite_true, ite_false] <;> omega
 
 theorem crossingCount_block_additive (σ : ℕ → SeamStep) (n m : ℕ) :
     crossingCount σ (n + m) = crossingCount σ n + crossingCount (fun j => σ (n + j)) m := by
@@ -287,12 +290,12 @@ theorem properLength_generated_counts (τ : ℝ) (hτ : 0 ≤ τ) (w : SeamStepW
     simp only [crossingCount, restCount]
     by_cases h : w.steps M = .rest
     · rw [h]
-      simp only [stepNormSq, sub_zero, Real.sqrt_sq hτ, ne_eq, not_true_eq_false, if_false,
-        if_true]
+      simp only [stepNormSq, sub_zero, Real.sqrt_sq hτ, ne_eq, not_true_eq_false, ite_false,
+        ite_true]
       push_cast
       ring
     · rw [stepNormSq_of_ne_rest _ h]
-      simp only [ne_eq, h, not_false_eq_true, if_true, if_false]
+      simp only [ne_eq, h, not_false_eq_true, ite_true, ite_false]
       push_cast
       ring
 
@@ -594,7 +597,7 @@ theorem crossingCount_uniform_block (e : Fin 30) (k p : ℕ) :
   | zero =>
     intro _
     simp only [crossingCount, ne_eq, uniformSteps_ne_rest_iff, Nat.add_zero,
-      Nat.mul_mod_right, if_true]
+      Nat.mul_mod_right, ite_true]
   | succ j ih =>
     intro hj
     simp only [crossingCount] at ih ⊢
@@ -602,7 +605,7 @@ theorem crossingCount_uniform_block (e : Fin 30) (k p : ℕ) :
     have h : ¬ ((k + 1) * p + (j + 1)) % (k + 1) = 0 := by
       rw [Nat.mul_add_mod, Nat.mod_eq_of_lt (by omega)]
       omega
-    simp only [ne_eq, uniformSteps_ne_rest_iff, h, if_false]
+    simp only [ne_eq, uniformSteps_ne_rest_iff, h, ite_false]
 
 /-- **Crossing count of the uniform worldline**: `p` crossings over `p`
 periods of `k + 1` steps. -/

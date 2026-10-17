@@ -1,4 +1,7 @@
-import Geometry.SourceBankCompiler
+module
+public import Geometry.SourceBankCompiler
+
+@[expose] public section
 
 /-!
 # An inhabited finite bus for every finite bank program

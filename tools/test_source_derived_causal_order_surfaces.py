@@ -183,13 +183,13 @@ def test_lean_package_and_umbrellas_are_wired() -> None:
 
     root_umbrella = _text("Lean/ObserverPatchHolography.lean")
     assert root_umbrella.splitlines().count(
-        "import ObserverPatchHolography.Provenance.FiniteCausetCoverCompiler"
+        "public import ObserverPatchHolography.Provenance.FiniteCausetCoverCompiler"
     ) == 1
 
     umbrella = _text("Lean/Geometry.lean")
-    assert umbrella.count("import Geometry.SourceDerivedSpacetimeCarrier") == 1
-    assert umbrella.count("import Geometry.SourceOrderFrameCompatibilityPacket") == 1
-    assert umbrella.count("import Geometry.SourceOrderEinsteinComposition") == 1
+    assert umbrella.count("public import Geometry.SourceDerivedSpacetimeCarrier") == 1
+    assert umbrella.count("public import Geometry.SourceOrderFrameCompatibilityPacket") == 1
+    assert umbrella.count("public import Geometry.SourceOrderEinsteinComposition") == 1
 
 
 def test_registry_carries_the_finite_carrier_and_conditional_continuum() -> None:

@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 namespace OPH.Locality
 
@@ -59,15 +62,15 @@ theorem sndMarginal_pushJoint_liftFst [DecidableEq β]
         = if b = z.2 then p z else 0 := by
     intro z
     by_cases hb : b = z.2
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       calc ∑ a', p z * (if b = z.2 then K z.1 a' else 0)
           = ∑ a', p z * K z.1 a' :=
-            Finset.sum_congr rfl fun a' _ => by rw [if_pos hb]
+            Finset.sum_congr rfl fun a' _ => by rw [ite_eq_left hb]
         _ = p z := by rw [← Finset.mul_sum, hK1 z.1, mul_one]
-    · rw [if_neg hb]
+    · rw [ite_eq_right hb]
       apply Finset.sum_eq_zero
       intro a' _
-      rw [if_neg hb, mul_zero]
+      rw [ite_eq_right hb, mul_zero]
   calc ∑ z : α × β, ∑ a', p z * (if b = z.2 then K z.1 a' else 0)
       = ∑ z : α × β, (if b = z.2 then p z else 0) :=
         Finset.sum_congr rfl fun z _ => hz z

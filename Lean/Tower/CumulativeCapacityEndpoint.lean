@@ -1,6 +1,9 @@
-import Tower.AdaptiveFixedPointEndpoint
-import ObserverPatchHolography.Execution.CumulativeAttemptCapacity
-import ObserverPatchHolography.Execution.RankedAttemptCapacity
+module
+public import Tower.AdaptiveFixedPointEndpoint
+public import ObserverPatchHolography.Execution.CumulativeAttemptCapacity
+public import ObserverPatchHolography.Execution.RankedAttemptCapacity
+
+@[expose] public section
 
 /-!
 # Capacity-bounded adaptive public endpoints

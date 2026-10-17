@@ -1,6 +1,9 @@
-import Geometry.MassShellKinematics
-import QFT.FiniteCausalObserverNet
-import QFT.RichFibreRegionalNet
+module
+public import Geometry.MassShellKinematics
+public import QFT.FiniteCausalObserverNet
+public import QFT.RichFibreRegionalNet
+
+@[expose] public section
 
 /-!
 # OL-A3: causal-order composition of committed finite nets with the declared Lorentz cone
@@ -153,7 +156,7 @@ theorem causalLE_refl (v : Herm2) : causalLE v v := by
 
 theorem causalLE_trans {u v w : Herm2}
     (h1 : causalLE u v) (h2 : causalLE v w) : causalLE u w := by
-  simpa [sub_add_sub_cancel] using h2.add h1
+  simpa [causalLE, sub_add_sub_cancel] using h2.add h1
 
 /-- A future-causal vector with vanishing scalar coordinate is zero. -/
 theorem futureCausal_eq_zero_of_time_eq_zero {v : Herm2}
@@ -389,9 +392,9 @@ theorem richDisj_spacelike (U V : RichRegion) (h : RichRegion.disj U V) :
   cases U <;> cases V <;>
     first
       | exact absurd h (by decide)
-      | simp [IsSpacelikeSep, richVertex, lorentzQ, spatialNormSq,
+      | norm_num [IsSpacelikeSep, richVertex, lorentzQ, spatialNormSq,
           Fin.sum_univ_three, Prod.mk_sub_mk, Pi.sub_apply,
-          Pi.single_apply] <;> norm_num
+          Pi.single_apply]
 
 /-- The cone embedding of the committed rich-fibre region lattice. -/
 def richFibreConeEmbedding : ConeEmbedding RichRegion.le RichRegion.disj where

@@ -1,4 +1,7 @@
-import WhitneyFrameNaturality
+module
+public import WhitneyFrameNaturality
+
+@[expose] public section
 
 set_option autoImplicit false
 

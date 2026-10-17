@@ -1,5 +1,8 @@
-import EventAlgebra.Tsirelson
-import QFT.JointSlotFactorisation
+module
+public import EventAlgebra.Tsirelson
+public import QFT.JointSlotFactorisation
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -157,7 +160,7 @@ theorem slot_locality_receipts {da db : ℕ} [NeZero da] [NeZero db]
       ((∑ i, slotLeft (Fin db) (S.kraus i) * M *
           (slotLeft (Fin db) (S.kraus i))ᴴ) * slotRight (Fin da) B).trace =
         (M * slotRight (Fin da) B).trace) := by
-  haveI : Nontrivial (Matrix (Fin da × Fin db) (Fin da × Fin db) ℂ) := by
+  have : Nontrivial (Matrix (Fin da × Fin db) (Fin da × Fin db) ℂ) := by
     have h0a : 0 < da := Nat.pos_of_ne_zero (NeZero.ne da)
     have h0b : 0 < db := Nat.pos_of_ne_zero (NeZero.ne db)
     refine ⟨0, 1, fun h => ?_⟩

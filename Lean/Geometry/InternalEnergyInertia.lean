@@ -1,7 +1,10 @@
-import Geometry.CommonWorldJointAction
-import CapFirstLaw
-import PhysicalCalibrationImport
-import Variational.RealizedHistoryLegendreNoGo
+module
+public import Geometry.CommonWorldJointAction
+public import CapFirstLaw
+public import PhysicalCalibrationImport
+public import Variational.RealizedHistoryLegendreNoGo
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -310,8 +313,8 @@ theorem compositeStationary_eom {m E : ℝ} {N : ℕ} {F x : ℕ → Herm2}
   have key : ∀ w : Herm2, lorentzB (eomResidual m E F x j) w = 0 := by
     intro w
     let η : ℕ → Herm2 := fun n => if n = j + 1 then w else 0
-    have h0 : η 0 = 0 := if_neg (by omega)
-    have hN1 : η (N + 1) = 0 := if_neg (by omega)
+    have h0 : η 0 = 0 := ite_eq_right (by omega)
+    have hN1 : η (N + 1) = 0 := ite_eq_right (by omega)
     have hfv := compositeStationary_firstVariation_zero hs h0 hN1
     rw [compositeFirstVariation_interior m E N F x η h0 hN1] at hfv
     have hterm : ∀ k ∈ Finset.range N,
@@ -320,14 +323,14 @@ theorem compositeStationary_eom {m E : ℝ} {N : ℕ} {F x : ℕ → Herm2}
       intro k _
       by_cases hkj : k = j
       · subst hkj
-        rw [if_pos rfl]
-        have hv : η (k + 1) = w := if_pos rfl
+        rw [ite_eq_left rfl]
+        have hv : η (k + 1) = w := ite_eq_left rfl
         rw [hv]
-      · rw [if_neg hkj]
-        have hv : η (k + 1) = 0 := if_neg (by omega)
+      · rw [ite_eq_right hkj]
+        have hv : η (k + 1) = 0 := ite_eq_right (by omega)
         rw [hv, lorentzB_zero_right, mul_zero]
     rw [Finset.sum_congr rfl hterm, Finset.sum_ite_eq',
-      if_pos (Finset.mem_range.mpr hj)] at hfv
+      ite_eq_left (Finset.mem_range.mpr hj)] at hfv
     linarith
   have hD := lorentzB_nondegenerate key
   unfold eomResidual at hD

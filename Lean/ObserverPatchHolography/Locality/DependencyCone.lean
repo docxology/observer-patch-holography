@@ -1,4 +1,7 @@
-import ObserverPatchHolography.Primitives
+module
+public import ObserverPatchHolography.Primitives
+
+@[expose] public section
 
 namespace OPH.Locality
 

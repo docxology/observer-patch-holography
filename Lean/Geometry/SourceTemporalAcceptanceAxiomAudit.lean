@@ -1,14 +1,17 @@
-import Geometry.SourceReadSelectionAxiomAudit
-import Geometry.SourceTemporalObservation
-import Geometry.SourceTemporalNative
-import Geometry.SourceTemporalMenu
-import Geometry.SourceTemporalEssential
-import Geometry.SourceTemporalTomography
-import Geometry.SourceTemporalConnected
-import Geometry.SourceTemporalGuard
-import Geometry.SourceTemporalAttempts
-import Geometry.SourceTemporalSelection
-import Geometry.SourceTemporalErasure
+module
+public import Geometry.SourceReadSelectionAxiomAudit
+public import Geometry.SourceTemporalObservation
+public import Geometry.SourceTemporalNative
+public import Geometry.SourceTemporalMenu
+public import Geometry.SourceTemporalEssential
+public import Geometry.SourceTemporalTomography
+public import Geometry.SourceTemporalConnected
+public import Geometry.SourceTemporalGuard
+public import Geometry.SourceTemporalAttempts
+public import Geometry.SourceTemporalSelection
+public import Geometry.SourceTemporalErasure
+
+@[expose] public section
 
 /-! Transitive standard-axiom gate for temporal acceptance and native completion. -/
 

@@ -1,4 +1,7 @@
-import Variational.EnrichmentCharacterization
+module
+public import Variational.EnrichmentCharacterization
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -418,10 +421,10 @@ theorem velocityPoly_boostNull_highCoeff_vanish (n : ℕ) (c : ℕ → ℝ)
     with hP
   have heval : ∀ y : ℝ, P.eval y = velocityPoly n c y := by
     intro y
-    simp [hP, Polynomial.eval_finset_sum, velocityPoly]
+    simp [hP, Polynomial.eval_finsetSum, velocityPoly]
   have hcoeff : ∀ i, i ≤ n → P.coeff i = c i := by
     intro i hi
-    rw [hP, Polynomial.finset_sum_coeff]
+    rw [hP, Polynomial.finsetSum_coeff]
     simp only [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow,
       mul_ite, mul_one, mul_zero]
     rw [Finset.sum_ite_eq (Finset.range (n + 1)) i c]
@@ -1039,13 +1042,13 @@ theorem corner_clause_load_bearing :
       unfold twoSlotIncrement
       ring
     rw [hfun]
-    have h := ((((hasDerivAt_id (1 : ℝ)).mul (hasDerivAt_id 1)).const_mul
-      (modeExtremalCurvature / 2)).sub
+    have h := ((((hasDerivAt_id (1 : ℝ)).fun_mul (hasDerivAt_id 1)).const_mul
+      (modeExtremalCurvature / 2)).fun_sub
         ((hasDerivAt_id (1 : ℝ)).const_mul
           (modeExtremalCurvature / 2))).add_const 1
     convert h using 1
-    simp only [id_eq]
-    ring
+    all_goals (try simp only [id_eq])
+    all_goals ring
   · have hforced :=
       (modeExtremal_forced modeExtremalCurvature).mpr rfl
     simp only [chainCurvedD2] at hforced

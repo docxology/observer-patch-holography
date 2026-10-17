@@ -1,4 +1,7 @@
-import QFT.ConvexAffinityBridge
+module
+public import QFT.ConvexAffinityBridge
+
+@[expose] public section
 
 /-!
 # Gauge irreducibility and the Born weight of the invariant state

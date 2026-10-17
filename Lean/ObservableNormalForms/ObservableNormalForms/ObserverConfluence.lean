@@ -1,4 +1,7 @@
-import ObservableNormalForms.Exact
+module
+public import ObservableNormalForms.Exact
+
+@[expose] public section
 
 /-!
 # Observation-relative endpoint uniqueness
@@ -127,7 +130,7 @@ theorem boundary_identifies_consistent :
   intro c d hc hd hobs
   rcases c with ⟨bc, dc⟩
   rcases d with ⟨bd, dd⟩
-  simp only [consistent, Set.mem_setOf_eq] at hc hd
+  simp only [consistent, Set.mem_ofPred_eq] at hc hd
   simp only [observe] at hobs
   subst dc
   subst dd

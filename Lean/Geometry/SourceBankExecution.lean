@@ -1,5 +1,8 @@
-import Geometry.SourceBankBusWitness
-import Geometry.SourceBankPrecision
+module
+public import Geometry.SourceBankBusWitness
+public import Geometry.SourceBankPrecision
+
+@[expose] public section
 
 /-!
 # Finite noisy publication for every bank program on the declared bus

@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 namespace OPH.Thermodynamics
 
@@ -45,7 +48,7 @@ inequality for it; the Python certificate carries the explicit
 counterexample.
 -/
 
-variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
+variable {Ω : Type*} [Fintype Ω] [instDecidableEqΩ : DecidableEq Ω]
 variable {B : Type*} [DecidableEq B]
 
 /-- One term of finite relative entropy, with the `0 log 0 = 0`
@@ -88,9 +91,11 @@ theorem klTerm_ge {q p : ℝ} (hq : 0 ≤ q) (hp : 0 ≤ p)
     field_simp
   nlinarith [hmul, hexp]
 
+include instDecidableEqΩ in
+omit instDecidableEqΩ in
 /-- Relative entropy is nonnegative whenever the two vectors share their
 total mass and the reference dominates. -/
-theorem kl_nonneg (q p : Ω → ℝ) (hq : ∀ x, 0 ≤ q x) (hp : ∀ x, 0 ≤ p x)
+theorem kl_nonneg [_instDecidableEqΩ : DecidableEq Ω] (q p : Ω → ℝ) (hq : ∀ x, 0 ≤ q x) (hp : ∀ x, 0 ≤ p x)
     (habs : ∀ x, p x = 0 → q x = 0)
     (hsum : ∑ x, q x = ∑ x, p x) : 0 ≤ kl q p := by
   have hterm : ∀ x ∈ Finset.univ, q x - p x ≤ klTerm (q x) (p x) :=
@@ -237,8 +242,10 @@ theorem kl_push_le (p q : Ω → ℝ) (K : Ω → Ω → ℝ)
         Finset.sum_le_sum fun y _ => hstep y
     _ = kl p q := hsum
 
+include instDecidableEqΩ in
+omit instDecidableEqΩ in
 /-- The pushforward preserves total mass. -/
-theorem push_total (p : Ω → ℝ) (K : Ω → Ω → ℝ)
+theorem push_total [_instDecidableEqΩ : DecidableEq Ω] (p : Ω → ℝ) (K : Ω → Ω → ℝ)
     (hK1 : ∀ x, ∑ y, K x y = 1) :
     ∑ y, push p K y = ∑ x, p x := by
   unfold push
@@ -251,8 +258,10 @@ section Mixture
 
 variable {C : Type*} [Fintype C]
 
+include instDecidableEqΩ in
+omit instDecidableEqΩ in
 /-- An affine mixture of row-normalized kernels remains row-normalized. -/
-theorem mixture_row_sum (a : C → ℝ) (K : C → Ω → Ω → ℝ)
+theorem mixture_row_sum [_instDecidableEqΩ : DecidableEq Ω] (a : C → ℝ) (K : C → Ω → Ω → ℝ)
     (ha1 : ∑ c, a c = 1) (hK1 : ∀ c x, ∑ y, K c x y = 1) (x : Ω) :
     ∑ y, (∑ c, a c * K c x y) = 1 := by
   rw [Finset.sum_comm]
@@ -278,10 +287,12 @@ theorem mixture_stochastic (a : C → ℝ) (K : C → Ω → Ω → ℝ)
   · intro x
     exact mixture_row_sum a K ha1 hK1 x
 
+include instDecidableEqΩ in
+omit instDecidableEqΩ in
 /-- An affine mixture whose weights sum to one preserves a stationary
 reference shared by every component.  Together with `mixture_stochastic`,
 nonnegative normalized weights give the random-scan stochastic receipt. -/
-theorem mixture_stationary (π : Ω → ℝ) (a : C → ℝ) (K : C → Ω → Ω → ℝ)
+theorem mixture_stationary [_instDecidableEqΩ : DecidableEq Ω] (π : Ω → ℝ) (a : C → ℝ) (K : C → Ω → Ω → ℝ)
     (ha1 : ∑ c, a c = 1)
     (hstat : ∀ c y, push π (K c) y = π y) (y : Ω) :
     push π (fun x z => ∑ c, a c * K c x z) y = π y := by
@@ -327,14 +338,18 @@ noncomputable def heatBath (x y : Ω) : ℝ :=
 
 variable {π b}
 
-theorem fiberMass_pos (hπ : ∀ x, 0 < π x) (x : Ω) :
+include instDecidableEqΩ in
+omit instDecidableEqΩ in
+theorem fiberMass_pos [_instDecidableEqΩ : DecidableEq Ω] (hπ : ∀ x, 0 < π x) (x : Ω) :
     0 < fiberMass π b x := by
   unfold fiberMass
   apply Finset.sum_pos'
   · exact fun y _ => le_of_lt (hπ y)
   · exact ⟨x, Finset.mem_filter.mpr ⟨Finset.mem_univ x, rfl⟩, hπ x⟩
 
-theorem fiberMass_congr {x x' : Ω} (h : b x = b x') :
+include instDecidableEqΩ in
+omit instDecidableEqΩ in
+theorem fiberMass_congr [_instDecidableEqΩ : DecidableEq Ω] {x x' : Ω} (h : b x = b x') :
     fiberMass π b x = fiberMass π b x' := by
   unfold fiberMass
   congr 1
@@ -362,11 +377,11 @@ theorem heatBath_idempotent (hπ : ∀ x, 0 < π x) (x y : Ω) :
       intro z
       by_cases hz : b z = b x
       · have hyz : b y = b z := hz ▸ hxy
-        simp only [hz, hyz, if_true]
+        simp only [hz, hyz, ite_true]
         rw [fiberMass_congr hz]
       · simp [hz]
     rw [Finset.sum_congr rfl fun z _ => this z, Finset.sum_ite,
-      Finset.sum_const_zero, add_zero, if_pos hxy]
+      Finset.sum_const_zero, add_zero, ite_eq_left hxy]
     rw [← Finset.sum_mul, ← Finset.sum_div]
     have hMdef : (∑ i with b i = b x, π i) = fiberMass π b x := rfl
     rw [hMdef, div_self (ne_of_gt (fiberMass_pos hπ x)), one_mul]
@@ -378,16 +393,16 @@ theorem heatBath_idempotent (hπ : ∀ x, 0 < π x) (x y : Ω) :
         simp [this]
       · simp [hz]
     rw [Finset.sum_congr rfl fun z _ => this z, Finset.sum_const_zero,
-      if_neg hxy]
+      ite_eq_right hxy]
 
 /-- Detailed balance with respect to the reference law. -/
 theorem heatBath_detailedBalance (x y : Ω) :
     π x * heatBath π b x y = π y * heatBath π b y x := by
   unfold heatBath
   by_cases h : b y = b x
-  · rw [if_pos h, if_pos h.symm, fiberMass_congr h.symm]
+  · rw [ite_eq_left h, ite_eq_left h.symm, fiberMass_congr h.symm]
     ring
-  · rw [if_neg h, if_neg (fun h' => h h'.symm)]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h h'.symm)]
     ring
 
 /-- Stationarity: the reference law is invariant under the repair
@@ -440,7 +455,7 @@ theorem heatBath_row_optimal (hπ : ∀ x, 0 < π x) (x : Ω)
     by_cases hy : b y = b x
     · by_cases hsy : s y = 0
       · simp [hsy]
-      rw [klTerm_of_pos hsy, if_pos hy, klTerm_of_pos hsy]
+      rw [klTerm_of_pos hsy, ite_eq_left hy, klTerm_of_pos hsy]
       have hπy := hπ y
       have hspos : 0 < s y := lt_of_le_of_ne (hs0 y) (Ne.symm hsy)
       have : s y / (π y / fiberMass π b x)
@@ -453,14 +468,14 @@ theorem heatBath_row_optimal (hπ : ∀ x, 0 < π x) (x : Ω)
   have hrowsupp : ∀ y, b y ≠ b x → heatBath π b x y = 0 := by
     intro y hy
     unfold heatBath
-    rw [if_neg hy]
+    rw [ite_eq_right hy]
   have hrow0 : ∀ y, 0 ≤ heatBath π b x y := by
     intro y
     unfold heatBath
     by_cases h : b y = b x
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact le_of_lt (div_pos (hπ y) hM)
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
   have h1 := hdecomp (heatBath π b x) hrow0 hrowsupp
   have h2 := hdecomp r hr0 hsupp
   rw [heatBath_row_sum hπ x] at h1
@@ -482,7 +497,7 @@ theorem heatBath_row_optimal (hπ : ∀ x, 0 < π x) (x : Ω)
         by_contra hb
         exact hry (hsupp y hb)
       unfold heatBath at hy
-      rw [if_pos hbY] at hy
+      rw [ite_eq_left hbY] at hy
       have : 0 < π y / fiberMass π b x := div_pos (hπ y) hM
       exact absurd hy (ne_of_gt this)
     · rw [hr1]
@@ -500,9 +515,9 @@ theorem heatBath_secondLaw (hπ : ∀ x, 0 < π x)
     (fun x y => by
       unfold heatBath
       by_cases h : b y = b x
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         exact le_of_lt (div_pos (hπ y) (fiberMass_pos hπ x))
-      · rw [if_neg h])
+      · rw [ite_eq_right h])
     (heatBath_row_sum hπ)
   have hstat : push π (heatBath π b) = π := by
     funext y
@@ -513,11 +528,13 @@ end ConditionalRepair
 
 section GibbsProjection
 
+include instDecidableEqΩ in
+omit instDecidableEqΩ in
 /-- **Information-projection Pythagorean identity.** If `log τ` differs
 from `log σ` by a linear combination of constraint observables plus a
 constant, and `ρ` and `τ` share the constrained moments, then
 `D(ρ ‖ σ) = D(ρ ‖ τ) + D(τ ‖ σ)`. -/
-theorem gibbs_pythagorean {A : Type*} [Fintype A]
+theorem gibbs_pythagorean [_instDecidableEqΩ : DecidableEq Ω] {A : Type*} [Fintype A]
     (ρ τ σ : Ω → ℝ) (Q : A → Ω → ℝ) (lam : A → ℝ) (logZ : ℝ)
     (hρ0 : ∀ x, 0 ≤ ρ x) (hτ : ∀ x, 0 < τ x) (hσ : ∀ x, 0 < σ x)
     (hρ1 : ∑ x, ρ x = 1) (hτ1 : ∑ x, τ x = 1)
@@ -612,9 +629,11 @@ noncomputable def gibbsWeight (beta : ℝ) (x : Ω) : ℝ :=
 noncomputable def partitionZ (beta : ℝ) : ℝ :=
   ∑ x, gibbsWeight E beta x
 
-theorem partitionZ_pos (beta : ℝ) [Nonempty Ω] :
+include instDecidableEqΩ in
+omit instDecidableEqΩ in
+theorem partitionZ_pos [_instDecidableEqΩ : DecidableEq Ω] (beta : ℝ) [Nonempty Ω] :
     0 < partitionZ E beta :=
-  Finset.sum_pos (fun x _ => Real.exp_pos _) Finset.univ_nonempty
+  Finset.sum_pos (fun _x _ => Real.exp_pos _) Finset.univ_nonempty
 
 /-- Excited-state Gibbs mass above a spectral gap. -/
 noncomputable def excitedMass (beta E0 : ℝ) : ℝ :=
@@ -625,7 +644,7 @@ noncomputable def excitedMass (beta E0 : ℝ) : ℝ :=
 ground degeneracy `g₀`, and gap `Δ > 0`, the excited Gibbs mass obeys
 `q_β ≤ (d - g₀)/g₀ · exp (-β Δ)`. -/
 theorem excitedMass_le [Nonempty Ω] (beta E0 Δ : ℝ)
-    (hβ : 0 ≤ beta) (hΔ : 0 < Δ)
+    (hβ : 0 ≤ beta) (_hΔ : 0 < Δ)
     (hground : ∀ x, E x = E0 ∨ E0 + Δ ≤ E x)
     (hnonempty : (Finset.univ.filter (fun x => E x = E0)).Nonempty) :
     excitedMass E beta E0
@@ -781,9 +800,11 @@ section Clausius
 noncomputable def shannon (p : Ω → ℝ) : ℝ :=
   -∑ x, klTerm (p x) 1
 
+include instDecidableEqΩ in
+omit instDecidableEqΩ in
 /-- Relative entropy to a faithful reference splits into modular energy
 minus entropy: `D(p ‖ τ) = ⟨K⟩_p - S(p)` with `K = -log τ`. -/
-theorem kl_eq_energy_sub_shannon (p tau : Ω → ℝ)
+theorem kl_eq_energy_sub_shannon [_instDecidableEqΩ : DecidableEq Ω] (p tau : Ω → ℝ)
     (hτ : ∀ x, 0 < tau x) :
     kl p tau = (∑ x, p x * (-Real.log (tau x))) - shannon p := by
   unfold kl shannon
@@ -794,7 +815,7 @@ theorem kl_eq_energy_sub_shannon (p tau : Ω → ℝ)
   · simp [hp]
   rw [klTerm_of_pos hp, klTerm_of_pos hp]
   rw [Real.log_div hp (ne_of_gt (hτ x))]
-  simp [Real.log_one]
+  simp []
   ring
 
 /-- **Modular Clausius inequality.** Under any stochastic kernel that
@@ -867,16 +888,16 @@ theorem heatBath_preserves_pos (hπ : ∀ x, 0 < π x)
   have hterm : 0 < p y * heatBath π b y y := by
     apply mul_pos (hp y)
     unfold heatBath
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact div_pos (hπ y) (fiberMass_pos hπ y)
   have hnonneg : ∀ x ∈ Finset.univ, 0 ≤ p x * heatBath π b x y := by
     intro x _
     apply mul_nonneg (le_of_lt (hp x))
     unfold heatBath
     by_cases h : b y = b x
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact le_of_lt (div_pos (hπ y) (fiberMass_pos hπ x))
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
   exact Finset.sum_pos' hnonneg ⟨y, Finset.mem_univ y, hterm⟩
 
 end Unattainability
@@ -1005,8 +1026,8 @@ theorem push_heatBath_eq (p : Ω → ℝ) (y : Ω) :
         = if b x = b y then p x * (π y / fiberMass π b y) else 0 := by
     intro x
     by_cases h : b y = b x
-    · rw [if_pos h, if_pos h.symm, fiberMass_congr h.symm]
-    · rw [if_neg h, if_neg fun h' => h h'.symm, mul_zero]
+    · rw [ite_eq_left h, ite_eq_left h.symm, fiberMass_congr h.symm]
+    · rw [ite_eq_right h, ite_eq_right fun h' => h h'.symm, mul_zero]
   rw [Finset.sum_congr rfl fun x _ => hstep x, Finset.sum_ite,
     Finset.sum_const_zero, add_zero, ← Finset.sum_mul]
   have hM : (∑ x ∈ Finset.univ.filter (fun x => b x = b y), p x)

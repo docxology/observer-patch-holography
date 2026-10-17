@@ -1,6 +1,9 @@
-import Mathlib
-import A5SixAxes
-import A5PortSixAxesBridge
+module
+public import Mathlib
+public import A5SixAxes
+public import A5PortSixAxesBridge
+
+@[expose] public section
 
 /-!
 # The canonical `SL(2, F5)` cover and the committed port action
@@ -78,8 +81,7 @@ def projectivizationEquiv {V W : Type*} [AddCommGroup V] [Module F5 V]
 /-- The explicit coordinate identification from the vector presentation to
 the usual affine-line-plus-infinity presentation. -/
 def p1EquivOnePoint : P1F5 ≃ OnePoint F5 :=
-  (projectivizationEquiv (LinearEquiv.finTwoArrow F5 F5)).trans
-    (OnePoint.equivProjectivization F5).symm
+  (OnePoint.equivProjectivization F5).symm
 
 /-- Put the five affine `ZMod 5` coordinates first and infinity at index `5`. -/
 def onePointEquivSix : OnePoint F5 ≃ Fin 6 :=
@@ -106,25 +108,13 @@ theorem onePointEquivSix_infinity :
 @[simp]
 theorem p1EquivOnePoint_affine (z : F5) :
     p1EquivOnePoint (Projectivization.mk F5 ![z, 1] (by simp)) = z := by
-  change (OnePoint.equivProjectivization F5).symm
-      (Projectivization.map
-        (LinearEquiv.finTwoArrow F5 F5).toLinearMap
-        (LinearEquiv.finTwoArrow F5 F5).injective
-        (Projectivization.mk F5 ![z, 1] (by simp))) = z
-  rw [Projectivization.map_mk]
-  simp
+  simp [p1EquivOnePoint]
 
 @[simp]
 theorem p1EquivOnePoint_infinity :
     p1EquivOnePoint (Projectivization.mk F5 ![1, 0] (by simp)) =
       (OnePoint.infty : OnePoint F5) := by
-  change (OnePoint.equivProjectivization F5).symm
-      (Projectivization.map
-        (LinearEquiv.finTwoArrow F5 F5).toLinearMap
-        (LinearEquiv.finTwoArrow F5 F5).injective
-        (Projectivization.mk F5 ![1, 0] (by simp))) = OnePoint.infty
-  rw [Projectivization.map_mk]
-  simp
+  simp [p1EquivOnePoint]
 
 @[simp]
 theorem p1EquivSix_affine (z : F5) :
@@ -169,7 +159,7 @@ closed exhaustive check over the 120 determinant-one matrices, not an order
 comparison. -/
 theorem slToSix_ker : slToSix.ker = Subgroup.center SL2F5 := by
   ext A
-  exact (by decide : ∀ A : SL2F5,
+  exact (by decide +kernel : ∀ A : SL2F5,
     A ∈ slToSix.ker ↔ A ∈ Subgroup.center SL2F5) A
 
 /-- Faithful coordinate transport does not alter the kernel. -/
@@ -215,10 +205,10 @@ def sLift : SL2F5 :=
   ⟨!![0, -1; 1, 0], by decide⟩
 
 theorem tLift_action : slToSix tLift = OPH.A5SixAxes.t := by
-  decide
+  decide +kernel
 
 theorem sLift_action : slToSix sLift = OPH.A5SixAxes.s := by
-  decide
+  decide +kernel
 
 /-! ## Descent to `PSL(2, F5)` -/
 
@@ -283,7 +273,7 @@ set_option maxRecDepth 16384 in
 /-- Every determinant-one matrix acts by one of the committed sixty rows. -/
 theorem slToSix_mem_L60 :
     ∀ A : SL2F5, slToSix A ∈ OPH.A5SixAxes.L60 := by
-  decide
+  decide +kernel
 
 set_option maxHeartbeats 8000000 in
 set_option maxRecDepth 16384 in
@@ -292,7 +282,7 @@ existential witnesses are found by a closed exhaustive check, so this is a
 concrete image theorem rather than a comparison of group orders. -/
 theorem every_L60_row_has_sl_preimage :
     ∀ i : Fin 60, ∃ A : SL2F5, slToSix A = OPH.A5SixAxes.el i := by
-  decide
+  decide +kernel
 
 /-- The image of the abstract projective group is exactly the committed
 sixty-row subgroup. -/

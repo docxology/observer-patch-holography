@@ -1,5 +1,8 @@
-import Geometry.InternalEnergyInertia
-import Geometry.ChargeFixedInteraction
+module
+public import Geometry.InternalEnergyInertia
+public import Geometry.ChargeFixedInteraction
+
+@[expose] public section
 
 /-!
 # Frame covariance selects the slope of internal energy in the composite

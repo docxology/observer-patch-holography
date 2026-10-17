@@ -1,5 +1,8 @@
-import QFT.ConjugationGauge
-import RepairCurrentOrientation
+module
+public import QFT.ConjugationGauge
+public import RepairCurrentOrientation
+
+@[expose] public section
 
 /-!
 # A post-hoc count-oriented phase convention and conditional Born capstone

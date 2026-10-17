@@ -1,4 +1,7 @@
-import EventAlgebra.OperationalPhaseInstrument
+module
+public import EventAlgebra.OperationalPhaseInstrument
+
+@[expose] public section
 
 set_option autoImplicit false
 

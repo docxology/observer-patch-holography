@@ -1,5 +1,9 @@
-import Mathlib.Algebra.FreeAbelianGroup.Finsupp
-import Mathlib.GroupTheory.Subgroup.Centralizer
+module
+public import Mathlib.Algebra.FreeAbelianGroup.Finsupp
+public import Mathlib.GroupTheory.Subgroup.Centralizer
+
+@[expose] public section
+open scoped IsMulCommutative
 
 namespace ObserverPatchHolography.A2EndpointCommutator
 
@@ -197,8 +201,10 @@ theorem exists_freeAbelian_word_factorization
         Additive.ofMul (generatorInClosure g i)) ∧
       ∀ word,
         Additive.toMul (φ (exponentVector word)) = evalWord g word := by
-  letI : CommGroup (generatedSubgroup g) :=
-    Subgroup.closureCommGroupOfComm (range_commutes h)
+  let : IsMulCommutative (generatedSubgroup g) :=
+    Subgroup.isMulCommutative_closure (by
+      intro x hx y hy _
+      exact range_commutes h x hx y hy)
   let φ : FreeAbelianGroup Axis →+ Additive (generatedSubgroup g) :=
     FreeAbelianGroup.lift fun i => Additive.ofMul (generatorInClosure g i)
   refine ⟨φ, ?_, ?_⟩
@@ -227,7 +233,6 @@ theorem exists_freeAbelian_word_factorization
               (generatorInClosure g i)⁻¹ * evalWord g word
             rw [map_add, map_neg, toMul_add, toMul_neg,
               hφi, toMul_ofMul, ih]
-            rfl
 
 /-- Under the fifteen commutators, equal exponent vectors imply equal word
 actions.  This is the exact sense in which the ordered words factor through
@@ -266,8 +271,10 @@ theorem freeAbelian_factorization_unique
     (hψ : ∀ i, ψ (FreeAbelianGroup.of i) =
       Additive.ofMul (generatorInClosure g i)) :
     φ = ψ := by
-  letI : CommGroup (generatedSubgroup g) :=
-    Subgroup.closureCommGroupOfComm (range_commutes h)
+  let : IsMulCommutative (generatedSubgroup g) :=
+    Subgroup.isMulCommutative_closure (by
+      intro x hx y hy _
+      exact range_commutes h x hx y hy)
   exact FreeAbelianGroup.lift_ext φ ψ fun i => (hφ i).trans (hψ i).symm
 
 /-- Fifteen all-state interpreted endpoint diamonds turn six descended

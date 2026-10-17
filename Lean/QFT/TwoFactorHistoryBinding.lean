@@ -1,4 +1,7 @@
-import QFT.HistoryActionBinding
+module
+public import QFT.HistoryActionBinding
+
+@[expose] public section
 
 /-!
 # Two-factor Gibbs/history binding and relative-coupling identifiability

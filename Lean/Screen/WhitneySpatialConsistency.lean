@@ -1,6 +1,9 @@
-import Mathlib.Algebra.BigOperators.Ring.Finset
-import Mathlib.Data.Complex.Basic
-import Mathlib.Tactic
+module
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+public import Mathlib.Basic.Complex.Basic
+public import Mathlib.Tactic
+
+@[expose] public section
 
 set_option autoImplicit false
 open scoped BigOperators

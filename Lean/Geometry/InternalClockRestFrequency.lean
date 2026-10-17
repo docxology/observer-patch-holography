@@ -1,4 +1,7 @@
-import Geometry.MassShellKinematics
+module
+public import Geometry.MassShellKinematics
+
+@[expose] public section
 
 /-!
 # C1: internal clock and rest frequency on the declared Lorentz module
@@ -200,7 +203,6 @@ theorem exp_neg_I_mul_real_eq_one_iff (a : ℝ) :
           (n : ℂ) * (2 * (Real.pi : ℂ)) * (Complex.I * Complex.I) by ring,
         Complex.I_mul_I]
       ring
-    simp only at hmul
     rw [hleft, hright] at hmul
     have hreal : a = -((n : ℝ) * (2 * Real.pi)) := by
       exact_mod_cast hmul

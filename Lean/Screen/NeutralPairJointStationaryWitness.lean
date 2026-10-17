@@ -1,4 +1,7 @@
-import NeutralPairCoupledAction
+module
+public import NeutralPairCoupledAction
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -118,7 +121,7 @@ theorem joint_pair_load (n : ℕ) (hn : n < 2) (p : Fin 12) :
       change (crossingPath 29).port 1 = 11
       exact crossingPath_one 29
     rw [hPos, hNeg]
-    fin_cases p <;> norm_num [pairCharge, jointLoadZ] <;> decide
+    fin_cases p <;> norm_num [pairCharge, jointLoadZ]
 
 theorem joint_pair_current (e : Fin 30) :
     neutralPairCurrent 1 (1 / 2) (crossingWorldline 0) (crossingWorldline 29) 0 e =
@@ -300,7 +303,7 @@ theorem positive_variation_mid_cases
     (v : ClosedTwoStepVariation (crossingWorldline 0) 0) :
     v.mid = 0 ∨ v.mid = 1 ∨ v.mid = 2 ∨ v.mid = 3 := by
   apply seam_zero_two_hop_mids
-  · simpa [ClosedTwoStepVariation.mid] using
+  · simpa [ClosedTwoStepVariation.mid, SeamStepWorldline.port_zero, crossingWorldline, seamLeft] using
       hop_of_admissible ((crossingWorldline 0).port 0) v.s' v.adm1
   · have h := hop_of_admissible v.mid v.s'' v.adm2
     have hend : stepTarget v.mid v.s'' = 1 := by
@@ -316,7 +319,7 @@ theorem negative_variation_mid_cases
     (v : ClosedTwoStepVariation (crossingWorldline 29) 0) :
     v.mid = 10 ∨ v.mid = 11 ∨ v.mid = 8 ∨ v.mid = 9 := by
   apply seam_29_two_hop_mids
-  · simpa [ClosedTwoStepVariation.mid, crossingWorldline, seamLeft] using
+  · simpa [ClosedTwoStepVariation.mid, SeamStepWorldline.port_zero, crossingWorldline, seamLeft] using
       hop_of_admissible ((crossingWorldline 29).port 0) v.s' v.adm1
   · have h := hop_of_admissible v.mid v.s'' v.adm2
     have hend : stepTarget v.mid v.s'' = 11 := by

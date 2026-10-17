@@ -1,4 +1,7 @@
-import EventAlgebra.PartitionAverage
+module
+public import EventAlgebra.PartitionAverage
+
+@[expose] public section
 
 /-!
 # The public record algebra of a projective partition

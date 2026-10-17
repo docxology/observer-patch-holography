@@ -1,4 +1,7 @@
-import GoldenSectorCharacters
+module
+public import GoldenSectorCharacters
+
+@[expose] public section
 
 open scoped BigOperators Matrix
 
@@ -284,7 +287,8 @@ theorem plus_BA : ∀ c a : Fin 3,
 set_option maxRecDepth 16384 in
 theorem plus_AB : ∀ i j : Fin 20,
     (∑ a : Fin 3, zmul (colsZ goldenPlusZ i a) (BPlus a j)) = goldenPlusZ i j := by
-  decide
+  intro i j
+  fin_cases i <;> fin_cases j <;> decide +kernel
 
 theorem plus_M_spec : ∀ b q : Fin 3 × Fin 3,
     tableM goldenPlusZ BPlus b q = zint 20 (MPlus b q) := by
@@ -301,7 +305,8 @@ theorem minus_BA : ∀ c a : Fin 3,
 set_option maxRecDepth 16384 in
 theorem minus_AB : ∀ i j : Fin 20,
     (∑ a : Fin 3, zmul (colsZ goldenMinusZ i a) (BMinus a j)) = goldenMinusZ i j := by
-  decide
+  intro i j
+  fin_cases i <;> fin_cases j <;> decide +kernel
 
 theorem minus_M_spec : ∀ b q : Fin 3 × Fin 3,
     tableM goldenMinusZ BMinus b q = zint 20 (MMinus b q) := by
@@ -316,7 +321,11 @@ plus certificate. -/
 theorem conj_certificates :
     (∀ c k, BMinus c k = zconj (BPlus c k)) ∧ (∀ b q, MMinusRows b q = zconj (MPlusRows b q)) ∧
     (∀ b q, NMinusRows b q = zconj (NPlusRows b q)) ∧ eMinus = zconj ePlus := by
-  decide
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · intro c k; fin_cases c <;> fin_cases k <;> decide +kernel
+  · intro b q; fin_cases b <;> fin_cases q <;> decide +kernel
+  · intro b q; fin_cases b <;> fin_cases q <;> decide +kernel
+  · decide +kernel
 
 /-- The `λ₊` certificate. -/
 def plusCert : GoldenCert where
@@ -423,7 +432,7 @@ theorem gR_mul_AR (C : GoldenCert) (p : List Nat) (hp : p ∈ perms) :
   ext i a
   simp only [Matrix.mul_apply, gR, AR, castZ_apply, faceActZ, Matrix.of_apply]
   simp only [Int.cast_ite, Int.cast_zero, ite_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ,
-    if_true, faceSign_eq_one p hp, Int.cast_one, one_mul]
+    ite_true, faceSign_eq_one p hp, Int.cast_one, one_mul]
 
 /-- The transported action table of a listed position row. -/
 def gt (C : GoldenCert) (b : Fin 3 × Fin 3) : Matrix (Fin 3) (Fin 3) ℝ :=
@@ -573,7 +582,7 @@ theorem eq_sum_gt (C : GoldenCert) (Y : Matrix (Fin 3) (Fin 3) ℝ) :
     refine Finset.sum_congr rfl fun q _ ↦ Finset.sum_congr rfl fun b _ ↦ ?_
     ring
   rw [h]
-  simp only [NR_mul_M, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [NR_mul_M, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   rw [mul_div_assoc, div_self (eR_ne C), mul_one]
 
 /-- **(3)** The nine transported tables span all `3 × 3` real matrices. -/

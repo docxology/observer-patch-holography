@@ -1,4 +1,7 @@
-import Geometry.SourceTemporalConnected
+module
+public import Geometry.SourceTemporalConnected
+
+@[expose] public section
 
 /-!
 # A maximal preservation guard with a universal completing word
@@ -73,9 +76,10 @@ def linearCheckpoint {V : Type*} [AddCommGroup V] [Module ℝ V] {m : ℕ}
   state := state
   record x := List.ofFn (fun i => L i x)
 
+omit [DecidableEq P] in
 /-- Exact matrix implementation of the abstract guard on a linear domain.
 The test is computed from response maps, without realized source values. -/
-theorem linear_protected_iff {V : Type*} [AddCommGroup V] [Module ℝ V] {m : ℕ}
+theorem linear_protected_iff [_instDecidableEqP : DecidableEq P] {V : Type*} [AddCommGroup V] [Module ℝ V] {m : ℕ}
     (L : Fin m → V →ₗ[ℝ] ℝ) (state : V →ₗ[ℝ] (P → ℝ)) :
     Protected (linearCheckpoint L state) ↔
       ∀ z, (∀ i, L i z = 0) → state z = 0 → z = 0 := by
@@ -126,7 +130,7 @@ theorem guardedRun_complete_word (root : P) (c : Checkpoint X P) (es : List (P �
   | nil => rfl
   | cons e es ih =>
     have hp := complete_first_protected root c e es h
-    simpa only [guardedRun,guard,if_pos hp,run] using ih (advance root c e) h
+    simpa only [guardedRun,guard,ite_eq_left hp,run] using ih (advance root c e) h
 
 def TraceAgrees (root : P) : List (P × P) → (P → ℝ) → (P → ℝ) → Prop
   | [], x, y => x root = y root
@@ -182,9 +186,9 @@ theorem guard_preserves (root : P) (c : Checkpoint X P) (e : P × P)
     Protected (guard root c e) ∧ HasRoot root (guard root c e) := by
   classical
   by_cases h : Protected (advance root c e)
-  · simp only [guard,if_pos h]
+  · simp only [guard,ite_eq_left h]
     exact ⟨h,advance_has_root root c e⟩
-  · simpa only [guard,if_neg h] using And.intro hp hr
+  · simpa only [guard,ite_eq_right h] using And.intro hp hr
 
 theorem guardedRun_preserves (root : P) (es : List (P × P)) (c : Checkpoint X P)
     (hp : Protected c) (hr : HasRoot root c) :
@@ -210,9 +214,9 @@ theorem guardedRun_record_extends (root : P) (es : List (P × P)) (c : Checkpoin
   | cons e es ih =>
     have he := ih (guard root c e) h
     by_cases hp : Protected (advance root c e)
-    · simp only [guard,if_pos hp] at he
+    · simp only [guard,ite_eq_left hp] at he
       exact (List.cons.inj he).2
-    · simpa only [guard,if_neg hp] using he
+    · simpa only [guard,ite_eq_right hp] using he
 
 /-- An occurrence of the completing word inside arbitrary proposal noise
 forces complete receiver information. No failed prefix is discarded. -/

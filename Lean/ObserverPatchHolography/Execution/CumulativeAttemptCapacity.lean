@@ -1,5 +1,8 @@
-import ObserverPatchHolography.Execution.AdaptiveRunStratification
-import ObserverPatchHolography.Execution.RankedAttemptCapacity
+module
+public import ObserverPatchHolography.Execution.AdaptiveRunStratification
+public import ObserverPatchHolography.Execution.RankedAttemptCapacity
+
+@[expose] public section
 
 /-!
 # Cumulative attempt capacity for canonical adaptive repair

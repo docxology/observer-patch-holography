@@ -1,4 +1,7 @@
-import Geometry.SourceBankCompiler
+module
+public import Geometry.SourceBankCompiler
+
+@[expose] public section
 
 /-!
 # Finite precision exists for the compiled word

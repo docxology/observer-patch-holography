@@ -1,4 +1,7 @@
-import CarrierEvolutionFlow
+module
+public import CarrierEvolutionFlow
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -755,8 +758,8 @@ theorem modeCoordinate_eq_zero_iff (h lam : ℝ) (hh : h ≠ 0) (h0 : 0 < h ^ 2 
     simp at hre him
     have hu : (conjugatorInv h lam).mulVec x = 0 := by
       ext i; fin_cases i
-      · exact hre
-      · exact him
+      · simpa only [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Pi.zero_apply, Fin.mk_zero] using hre
+      · simpa only [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Pi.zero_apply, Fin.mk_one] using him
     have : x = (conjugator h lam * conjugatorInv h lam).mulVec x := by
       rw [conjugator_mul_inv h lam hh h0 h4, Matrix.one_mulVec]
     rw [this, ← Matrix.mulVec_mulVec, hu, Matrix.mulVec_zero]

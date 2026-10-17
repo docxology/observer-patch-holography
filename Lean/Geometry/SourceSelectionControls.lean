@@ -1,6 +1,9 @@
-import Geometry.SourceConstrainedSelection
-import Mathlib.Data.Fin.VecNotation
-import Mathlib.Tactic
+module
+public import Geometry.SourceConstrainedSelection
+public import Mathlib.Data.Fin.VecNotation
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Exact constrained and observer-cover controls

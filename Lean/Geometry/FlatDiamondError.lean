@@ -1,5 +1,8 @@
-import Geometry.FlatDiamondVolume
-import Geometry.SourcePopulationQuadrature
+module
+public import Geometry.FlatDiamondVolume
+public import Geometry.SourcePopulationQuadrature
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -70,7 +73,7 @@ theorem interval_first_moment {a b : ℝ} (hab : a ≤ b) :
 theorem left_cell_error (F : ℝ → ℝ) (hF : Continuous F) {a b K : ℝ} (hab : a ≤ b)
     (hlip : ∀ t ∈ Icc a b, |F a - F t| ≤ K * |a - t|) :
     |(b - a) * F a - ∫ t in a..b, F t| ≤ K * (b - a) ^ 2 / 2 := by
-  letI : IsFiniteMeasure (volume.restrict (Icc a b)) :=
+  let : IsFiniteMeasure (volume.restrict (Icc a b)) :=
     isFiniteMeasure_restrict.mpr (by simp [Real.volume_Icc])
   have hh := cell_local_first_moment (volume.restrict (Icc a b)) F a K
     (hF.integrableOn_Icc) ((continuous_const.dist continuous_id).integrableOn_Icc)

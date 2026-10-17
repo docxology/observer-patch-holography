@@ -1,5 +1,8 @@
-import FiniteConditionalRepair
-import CapFirstLaw
+module
+public import FiniteConditionalRepair
+public import CapFirstLaw
+
+@[expose] public section
 
 namespace OPH.InformationProjection
 
@@ -331,7 +334,7 @@ omit [DecidableEq Ω] in
 theorem heatBath_off_fiber {π : Ω → ℝ} {b : Ω → B} {x y : Ω}
     (h : b y ≠ b x) : heatBath π b x y = 0 := by
   unfold heatBath
-  rw [if_neg h]
+  rw [ite_eq_right h]
 
 /-- For a strictly positive reference, the repair kernel vanishes
 exactly off the fibre. -/
@@ -341,7 +344,7 @@ theorem heatBath_eq_zero_iff {π : Ω → ℝ} {b : Ω → B}
   constructor
   · intro h hb
     unfold heatBath at h
-    rw [if_pos hb] at h
+    rw [ite_eq_left hb] at h
     exact absurd h
       (ne_of_gt (div_pos (hπ y) (fiberMass_pos hπ x)))
   · exact fun h => heatBath_off_fiber h
@@ -386,15 +389,15 @@ noncomputable def witnessControlRef : Fin 3 → ℝ :=
 
 theorem witnessRef_apply_0 : witnessRef 0 = 1 / 2 := by
   unfold witnessRef
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem witnessRef_apply_1 : witnessRef 1 = 1 / 4 := by
   unfold witnessRef
-  rw [if_neg (by decide : ¬ (1 : Fin 3) = 0)]
+  rw [ite_eq_right (by decide : ¬ (1 : Fin 3) = 0)]
 
 theorem witnessRef_apply_2 : witnessRef 2 = 1 / 4 := by
   unfold witnessRef
-  rw [if_neg (by decide : ¬ (2 : Fin 3) = 0)]
+  rw [ite_eq_right (by decide : ¬ (2 : Fin 3) = 0)]
 
 theorem witnessRef_pos : ∀ x, 0 < witnessRef x := by
   intro x
@@ -408,7 +411,7 @@ theorem witnessRef_sum : ∑ x, witnessRef x = 1 := by
 
 theorem witnessDisplaced_apply_0 : witnessDisplaced 0 = 1 / 4 := by
   unfold witnessDisplaced
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem witnessDisplaced_nonneg : ∀ x, 0 ≤ witnessDisplaced x := by
   intro x
@@ -418,22 +421,22 @@ theorem witnessDisplaced_nonneg : ∀ x, 0 ≤ witnessDisplaced x := by
 theorem witnessDisplaced_sum : ∑ x, witnessDisplaced x = 1 := by
   rw [Fin.sum_univ_three]
   unfold witnessDisplaced
-  rw [if_pos rfl, if_neg (by decide : ¬ (1 : Fin 3) = 0),
-    if_neg (by decide : ¬ (2 : Fin 3) = 0)]
+  rw [ite_eq_left rfl, ite_eq_right (by decide : ¬ (1 : Fin 3) = 0),
+    ite_eq_right (by decide : ¬ (2 : Fin 3) = 0)]
   norm_num
 
 theorem witnessControlRef_apply_0 : witnessControlRef 0 = 1 / 4 := by
   unfold witnessControlRef
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem witnessControlRef_apply_1 : witnessControlRef 1 = 1 / 2 := by
   unfold witnessControlRef
-  rw [if_neg (by decide : ¬ (1 : Fin 3) = 0), if_pos rfl]
+  rw [ite_eq_right (by decide : ¬ (1 : Fin 3) = 0), ite_eq_left rfl]
 
 theorem witnessControlRef_apply_2 : witnessControlRef 2 = 1 / 4 := by
   unfold witnessControlRef
-  rw [if_neg (by decide : ¬ (2 : Fin 3) = 0),
-    if_neg (by decide : ¬ (2 : Fin 3) = 1)]
+  rw [ite_eq_right (by decide : ¬ (2 : Fin 3) = 0),
+    ite_eq_right (by decide : ¬ (2 : Fin 3) = 1)]
 
 theorem witnessControlRef_pos : ∀ x, 0 < witnessControlRef x := by
   intro x
@@ -450,9 +453,9 @@ theorem witness_fiberMass_1 :
     fiberMass witnessRef witnessField 1 = 1 / 2 := by
   unfold fiberMass
   rw [Finset.sum_filter, Fin.sum_univ_three]
-  rw [if_neg (by decide : ¬ witnessField 0 = witnessField 1),
-    if_pos (rfl : witnessField 1 = witnessField 1),
-    if_pos (by decide : witnessField 2 = witnessField 1)]
+  rw [ite_eq_right (by decide : ¬ witnessField 0 = witnessField 1),
+    ite_eq_left (rfl : witnessField 1 = witnessField 1),
+    ite_eq_left (by decide : witnessField 2 = witnessField 1)]
   rw [witnessRef_apply_1, witnessRef_apply_2]
   norm_num
 
@@ -460,7 +463,7 @@ theorem witness_fiberMass_1 :
 theorem witness_kernel_1_2 :
     heatBath witnessRef witnessField 1 2 = 1 / 2 := by
   unfold heatBath
-  rw [if_pos (by decide : witnessField 2 = witnessField 1),
+  rw [ite_eq_left (by decide : witnessField 2 = witnessField 1),
     witness_fiberMass_1, witnessRef_apply_2]
   norm_num
 
@@ -469,9 +472,9 @@ theorem control_fiberMass_1 :
     fiberMass witnessControlRef witnessField 1 = 3 / 4 := by
   unfold fiberMass
   rw [Finset.sum_filter, Fin.sum_univ_three]
-  rw [if_neg (by decide : ¬ witnessField 0 = witnessField 1),
-    if_pos (rfl : witnessField 1 = witnessField 1),
-    if_pos (by decide : witnessField 2 = witnessField 1)]
+  rw [ite_eq_right (by decide : ¬ witnessField 0 = witnessField 1),
+    ite_eq_left (rfl : witnessField 1 = witnessField 1),
+    ite_eq_left (by decide : witnessField 2 = witnessField 1)]
   rw [witnessControlRef_apply_1, witnessControlRef_apply_2]
   norm_num
 
@@ -479,7 +482,7 @@ theorem control_fiberMass_1 :
 theorem control_kernel_1_2 :
     heatBath witnessControlRef witnessField 1 2 = 1 / 3 := by
   unfold heatBath
-  rw [if_pos (by decide : witnessField 2 = witnessField 1),
+  rw [ite_eq_left (by decide : witnessField 2 = witnessField 1),
     control_fiberMass_1, witnessControlRef_apply_2]
   norm_num
 

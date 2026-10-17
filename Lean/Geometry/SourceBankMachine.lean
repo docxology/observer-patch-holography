@@ -1,4 +1,7 @@
-import Geometry.SourceNativeProgramBudget
+module
+public import Geometry.SourceNativeProgramBudget
+
+@[expose] public section
 
 /-!
 # A bank compiler with derived logical outputs
@@ -117,7 +120,7 @@ theorem site_output (ss : List ℕ) (target : ℕ) (rd : ℕ → ℕ) (wd : ℕ)
 theorem site_frame (ss : List ℕ) (target : ℕ) (rd : ℕ → ℕ) (wd : ℕ)
     (v : Values) (i : ℕ) (hi : i ≠ 0 ∧ i ≠ 1 ∧ i ≠ 3 ∧ i ≠ target) :
     values (site ss target rd wd) v i = v i := by
-  simp only [site, values_append, values, valueStep, if_neg hi.2.2.2]
+  simp only [site, values_append, values, valueStep, ite_eq_right hi.2.2.2]
   rw [requests_frame ss rd _ i ⟨hi.1,hi.2.1,hi.2.2.1⟩]
   simp [hi.1, hi.2.1]
 

@@ -1,4 +1,7 @@
-import Geometry.SourceAccumulatorProgram
+module
+public import Geometry.SourceAccumulatorProgram
+
+@[expose] public section
 
 /-!
 # Bounded integer decoder for native accumulation

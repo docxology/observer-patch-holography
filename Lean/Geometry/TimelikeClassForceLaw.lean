@@ -1,5 +1,8 @@
-import Geometry.TransportedChargeForceLaw
-import Geometry.SeamStepSpeedLimit
+module
+public import Geometry.TransportedChargeForceLaw
+public import Geometry.SeamStepSpeedLimit
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -284,13 +287,13 @@ theorem clockAction_shifted_variation (τ : ℝ) (w : SeamStepWorldline) {j : �
     intro n
     by_cases hn : n = j
     · subst hn
-      rw [if_pos rfl, v.worldline_steps, replaceOne_at]
+      rw [ite_eq_left rfl, v.worldline_steps, replaceOne_at]
       unfold oneStepClockDifference
       ring
-    · rw [if_neg hn, v.worldline_steps, replaceOne_other _ _ _ _ hn]
+    · rw [ite_eq_right hn, v.worldline_steps, replaceOne_other _ _ _ _ hn]
       ring
   rw [Finset.sum_congr rfl fun n _ ↦ hpt n, Finset.sum_ite_eq',
-    if_pos (Finset.mem_range.mpr hj)]
+    ite_eq_left (Finset.mem_range.mpr hj)]
 
 theorem interactionA_shifted_variation (q h : ℝ) (hh : h ≠ 0) (N : ℕ)
     (A : ℕ → Fin 30 → ℝ) (φ : ℕ → Fin 12 → ℝ) (w : SeamStepWorldline) {j : ℕ}

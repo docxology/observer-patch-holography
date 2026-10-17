@@ -1,4 +1,7 @@
-import Variational.ModeExtremalEnrichment
+module
+public import Variational.ModeExtremalEnrichment
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -498,10 +501,10 @@ theorem chainCubic_corner (μ ν : ℝ) (i j : Fin 2) :
 theorem cubicIncrement_hasDerivAt (μ ν y : ℝ) :
     HasDerivAt (cubicIncrement μ ν) (cubicIncrementDeriv μ ν y) y := by
   unfold cubicIncrement cubicIncrementDeriv
-  convert (((hasDerivAt_id y).mul ((hasDerivAt_id y).sub_const 1)).mul
+  convert (((hasDerivAt_id y).fun_mul ((hasDerivAt_id y).sub_const 1)).fun_mul
     (((hasDerivAt_id y).const_mul μ).add_const ν)) using 1
-  simp only [id_eq, Pi.mul_apply]
-  ring
+  all_goals (try simp only [id_eq])
+  all_goals ring
 
 /-- The uncurried derivative packet of the cubic-enriched Lagrangian:
 the committed bilinear packet plus the cubic velocity-slot
@@ -528,9 +531,9 @@ theorem chainCubic_hasFDerivAt (μ ν : ℝ) (p : ℝ × ℝ) :
         = cubicIncrementDeriv μ ν p.2
             • ContinuousLinearMap.snd ℝ ℝ ℝ := by
       refine ContinuousLinearMap.ext fun v => ?_
-      simp only [ContinuousLinearMap.coe_comp', Function.comp_apply,
+      simp only [ContinuousLinearMap.coe_comp, Function.comp_apply,
         ContinuousLinearMap.toSpanSingleton_apply,
-        ContinuousLinearMap.coe_snd', ContinuousLinearMap.smul_apply,
+        ContinuousLinearMap.coe_snd', smul_apply,
         smul_eq_mul]
       ring
     rwa [hclm] at h2
@@ -548,8 +551,8 @@ theorem chainCubic_hasFDerivAt (μ ν : ℝ) (p : ℝ × ℝ) :
         + cubicIncrementDeriv μ ν p.2
             • ContinuousLinearMap.snd ℝ ℝ ℝ := by
     refine ContinuousLinearMap.ext fun v => ?_
-    simp only [ContinuousLinearMap.add_apply,
-      ContinuousLinearMap.smul_apply, ContinuousLinearMap.coe_fst',
+    simp only [add_apply,
+      smul_apply, ContinuousLinearMap.coe_fst',
       ContinuousLinearMap.coe_snd', smul_eq_mul, chainCubicD2,
       chainCurvedD2]
     ring
@@ -755,18 +758,18 @@ theorem chainQuartic_corner (lam : ℝ) (i j : Fin 2) :
 /-- Exact first derivative of the quartic increment. -/
 theorem quarticIncrement_hasDerivAt (lam y : ℝ) :
     HasDerivAt (quarticIncrement lam) (quarticIncrementDeriv lam y) y := by
-  have h := ((((hasDerivAt_id y).pow 4).const_mul lam).sub
-    (((hasDerivAt_id y).pow 3).const_mul (2 * lam))).add
-      (((hasDerivAt_id y).pow 2).const_mul lam)
+  have h := ((((hasDerivAt_id y).fun_pow 4).const_mul lam).fun_sub
+    (((hasDerivAt_id y).fun_pow 3).const_mul (2 * lam))).fun_add
+      (((hasDerivAt_id y).fun_pow 2).const_mul lam)
   have hfun : quarticIncrement lam
       = fun t : ℝ => lam * t ^ 4 - (2 * lam) * t ^ 3 + lam * t ^ 2 := by
     funext t
     unfold quarticIncrement
-    ring
+    all_goals ring
   have hval : quarticIncrementDeriv lam y
       = 4 * lam * y ^ 3 - 6 * lam * y ^ 2 + 2 * lam * y := by
     unfold quarticIncrementDeriv
-    ring
+    all_goals ring
   rw [hfun, hval]
   convert h using 1
   all_goals (try simp only [id_eq])
@@ -777,8 +780,8 @@ theorem quarticIncrementDeriv_hasDerivAt (lam y : ℝ) :
     HasDerivAt (quarticIncrementDeriv lam)
       (quarticIncrementSecondDeriv lam y) y := by
   unfold quarticIncrementDeriv quarticIncrementSecondDeriv
-  convert ((((((hasDerivAt_id y).pow 3).const_mul 4).sub
-    (((hasDerivAt_id y).pow 2).const_mul 6)).add
+  convert ((((((hasDerivAt_id y).fun_pow 3).const_mul 4).fun_sub
+    (((hasDerivAt_id y).fun_pow 2).const_mul 6)).fun_add
       ((hasDerivAt_id y).const_mul 2)).const_mul lam) using 1
   all_goals simp only [id_eq]
   all_goals ring
@@ -790,9 +793,9 @@ theorem chainQuartic_momentum (lam x y : ℝ) :
   have hbase :=
     chainCurvedLagrangian_momentum modeExtremalCurvature x y
   have hquartic := quarticIncrement_hasDerivAt lam y
-  have h := hbase.add hquartic
+  have h := hbase.fun_add hquartic
   simpa only [chainQuarticLagrangian, chainQuarticD2,
-    MomentumRelation] using h
+    MomentumRelation, chainCurvedD2] using h
 
 /-- The uncurried derivative packet of the quartic continuation. -/
 theorem chainQuartic_hasFDerivAt (lam : ℝ) (p : ℝ × ℝ) :
@@ -813,9 +816,9 @@ theorem chainQuartic_hasFDerivAt (lam : ℝ) (p : ℝ × ℝ) :
         = quarticIncrementDeriv lam p.2
             • ContinuousLinearMap.snd ℝ ℝ ℝ := by
       refine ContinuousLinearMap.ext fun v => ?_
-      simp only [ContinuousLinearMap.coe_comp', Function.comp_apply,
+      simp only [ContinuousLinearMap.coe_comp, Function.comp_apply,
         ContinuousLinearMap.toSpanSingleton_apply,
-        ContinuousLinearMap.coe_snd', ContinuousLinearMap.smul_apply,
+        ContinuousLinearMap.coe_snd', smul_apply,
         smul_eq_mul]
       ring
     rwa [hclm] at h2
@@ -836,8 +839,8 @@ theorem chainQuartic_hasFDerivAt (lam : ℝ) (p : ℝ × ℝ) :
         + quarticIncrementDeriv lam p.2
             • ContinuousLinearMap.snd ℝ ℝ ℝ := by
     refine ContinuousLinearMap.ext fun v => ?_
-    simp only [ContinuousLinearMap.add_apply,
-      ContinuousLinearMap.smul_apply, ContinuousLinearMap.coe_fst',
+    simp only [add_apply,
+      smul_apply, ContinuousLinearMap.coe_fst',
       ContinuousLinearMap.coe_snd', smul_eq_mul, chainQuarticD2]
     ring
   rw [hfun, hD]
@@ -913,12 +916,15 @@ theorem chainQuarticD2_hasDerivAt (lam x y : ℝ) :
       (chainCurvedD2 modeExtremalCurvature x)
       modeExtremalCurvature y := by
     unfold chainCurvedD2
-    convert ((hasDerivAt_const y (chainFiberSlope x)).add
+    convert ((hasDerivAt_const y (chainFiberSlope x)).fun_add
       ((hasDerivAt_id y).const_mul modeExtremalCurvature)).sub_const
         (modeExtremalCurvature / 2) using 1
+    all_goals (try simp only [id_eq])
     all_goals ring_nf
   have hquartic := quarticIncrementDeriv_hasDerivAt lam y
-  simpa only [chainQuarticD2] using hbase.add hquartic
+  convert hbase.fun_add hquartic using 1
+  · funext t
+    exact rfl
 
 /-- For `0 < lam < a*`, the momentum map is strictly increasing. -/
 theorem chainQuarticD2_strictMono (lam : ℝ)

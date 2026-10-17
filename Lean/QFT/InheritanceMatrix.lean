@@ -1,7 +1,10 @@
-import QFT.SectorInheritance
-import QFT.PathTimeSliceInterface
-import QFT.TripleCarrierJoin
-import LocalFaceMaxwellAction
+module
+public import QFT.SectorInheritance
+public import QFT.PathTimeSliceInterface
+public import QFT.TripleCarrierJoin
+public import LocalFaceMaxwellAction
+
+@[expose] public section
 
 /-!
 # The E4 structural-inheritance status matrix
@@ -354,7 +357,7 @@ stochastic public semigroups are not evaluated.  Cites
 itself citing B3's `ContinuousPublicStarFlow.toAut_eq_refl`. -/
 theorem e4Row5_public_refutation_anchor {κ : Type*} [Fintype κ]
     [DecidableEq κ] (A : OPH.Dynamics.ContinuousPublicStarFlow κ) (t : ℝ) :
-    A.toAut t = StarAlgEquiv.refl :=
+    A.toAut t = StarAlgEquiv.refl ℂ (κ → ℂ) :=
   publicRecord_no_thermal_flow A t
 
 end OPH.QFT

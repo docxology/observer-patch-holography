@@ -1,4 +1,7 @@
-import ObserverPatchHolography.CollarStates
+module
+public import ObserverPatchHolography.CollarStates
+
+@[expose] public section
 
 /-!
 # T2 modular-route receipts: the recast does not derive the collar clause

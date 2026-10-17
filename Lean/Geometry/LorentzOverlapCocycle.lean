@@ -1,4 +1,7 @@
-import Geometry.ObserverRestSpace
+module
+public import Geometry.ObserverRestSpace
+
+@[expose] public section
 
 /-!
 # C2: oriented Lorentz and affine-overlap cocycles

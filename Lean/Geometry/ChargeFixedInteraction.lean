@@ -1,7 +1,10 @@
-import Geometry.CarrierDynamicsCompatibility
-import Geometry.CommonWorldJointAction
-import Geometry.MassShellKinematics
-import Geometry.FreeEvolutionPersistence
+module
+public import Geometry.CarrierDynamicsCompatibility
+public import Geometry.CommonWorldJointAction
+public import Geometry.MassShellKinematics
+public import Geometry.FreeEvolutionPersistence
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -953,8 +956,8 @@ theorem worldline_stationary_iff (κ h m : ℝ) (N : ℕ) (A : ℕ → Fin 30 �
     apply lorentzB_nondegenerate
     intro w
     let η : ℕ → Herm2 := fun n ↦ if n = k + 1 then w else 0
-    have h0 : η 0 = 0 := if_neg (by omega)
-    have hN1 : η (N + 1) = 0 := if_neg (by omega)
+    have h0 : η 0 = 0 := ite_eq_right (by omega)
+    have hN1 : η (N + 1) = 0 := ite_eq_right (by omega)
     have hexp := totalAction_worldline_expansion κ h m N A φ ρ J x η h0 hN1
     rw [hs η h0 hN1] at hexp
     have hsum : (∑ j ∈ Finset.range N,
@@ -966,14 +969,14 @@ theorem worldline_stationary_iff (κ h m : ℝ) (N : ℕ) (A : ℕ → Fin 30 �
       intro j _
       by_cases hjk : j = k
       · subst hjk
-        rw [if_pos rfl]
-        have hv : η (j + 1) = w := if_pos rfl
+        rw [ite_eq_left rfl]
+        have hv : η (j + 1) = w := ite_eq_left rfl
         rw [hv]
-      · rw [if_neg hjk]
-        have hv : η (j + 1) = 0 := if_neg (by omega)
+      · rw [ite_eq_right hjk]
+        have hv : η (j + 1) = 0 := ite_eq_right (by omega)
         rw [hv, lorentzB_zero_right]
     rw [Finset.sum_congr rfl hterm, Finset.sum_ite_eq',
-      if_pos (Finset.mem_range.mpr hk)] at hsum
+      ite_eq_left (Finset.mem_range.mpr hk)] at hsum
     exact hsum
   · intro hr η h0 hN
     rw [totalAction_worldline_expansion κ h m N A φ ρ J x η h0 hN]

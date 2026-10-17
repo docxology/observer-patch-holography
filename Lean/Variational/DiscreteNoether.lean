@@ -1,4 +1,7 @@
-import Variational.DiscreteEulerLagrange
+module
+public import Variational.DiscreteEulerLagrange
+
+@[expose] public section
 
 namespace OPH.Variational
 
@@ -55,13 +58,13 @@ theorem infinitesimal_invariance
       (((d₁ x y) • (ContinuousLinearMap.fst ℝ ℝ ℝ)
         + (d₂ x y) • (ContinuousLinearMap.snd ℝ ℝ ℝ))
           ((ξ x, ξ y) : ℝ × ℝ)) 0 := by
-    simpa [Function.comp, Function.uncurry] using hcomp0
+    simpa [Function.comp_def, Function.uncurry] using hcomp0
   have happ : ((d₁ x y) • (ContinuousLinearMap.fst ℝ ℝ ℝ)
       + (d₂ x y) • (ContinuousLinearMap.snd ℝ ℝ ℝ))
         ((ξ x, ξ y) : ℝ × ℝ)
       = d₁ x y * ξ x + d₂ x y * ξ y := by
-    simp [ContinuousLinearMap.add_apply,
-      ContinuousLinearMap.smul_apply, ContinuousLinearMap.coe_fst',
+    simp [add_apply,
+      smul_apply, ContinuousLinearMap.coe_fst',
       ContinuousLinearMap.coe_snd', smul_eq_mul]
   have hconstfun : (fun s => L (T s x) (T s y))
       = fun _ => L x y := funext fun s => hinv s x y
@@ -121,10 +124,10 @@ theorem noether_conserved
         ((0, 1) : ℝ × ℝ) (γ k.succ) :=
       (hasDerivAt_const _ _).prodMk (hasDerivAt_id _)
     have := hL'.comp_hasDerivAt (γ k.succ) hg
-    simpa [ContinuousLinearMap.add_apply,
-      ContinuousLinearMap.smul_apply, ContinuousLinearMap.coe_fst',
+    simpa [add_apply,
+      smul_apply, ContinuousLinearMap.coe_fst',
       ContinuousLinearMap.coe_snd', smul_eq_mul,
-      Function.uncurry] using this
+      Function.comp_def, Function.uncurry] using this
   have hd₁ : HasDerivAt (fun x => L x (γ m.succ))
       (d₁ (γ m.castSucc) (γ m.succ)) (γ m.castSucc) := by
     have hL' := hL (γ m.castSucc, γ m.succ)
@@ -132,10 +135,10 @@ theorem noether_conserved
         ((1, 0) : ℝ × ℝ) (γ m.castSucc) :=
       (hasDerivAt_id _).prodMk (hasDerivAt_const _ _)
     have := hL'.comp_hasDerivAt (γ m.castSucc) hg
-    simpa [ContinuousLinearMap.add_apply,
-      ContinuousLinearMap.smul_apply, ContinuousLinearMap.coe_fst',
+    simpa [add_apply,
+      smul_apply, ContinuousLinearMap.coe_fst',
       ContinuousLinearMap.coe_snd', smul_eq_mul,
-      Function.uncurry] using this
+      Function.comp_def, Function.uncurry] using this
   have hEL := stationary_localAction_discreteEulerLagrange
     L γ hkm _ _ hd₂ hd₁ hmin
   have hinf := infinitesimal_invariance L T ξ d₁ d₂ hT0 hTd hL hinv

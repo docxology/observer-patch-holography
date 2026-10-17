@@ -1,6 +1,9 @@
-import Geometry.SourceOrderFrameCompatibilityPacket
-import Geometry.EinsteinTensorBridge
-import ObserverPatchHolography.EinsteinBranch.Composition
+module
+public import Geometry.SourceOrderFrameCompatibilityPacket
+public import Geometry.EinsteinTensorBridge
+public import ObserverPatchHolography.EinsteinBranch.Composition
+
+@[expose] public section
 
 /-!
 # Source-order to conditional Einstein-form composition

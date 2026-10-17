@@ -1,5 +1,8 @@
-import Geometry.SourceNativeProgramError
-import Geometry.SourceAccumulatorDecoder
+module
+public import Geometry.SourceNativeProgramError
+public import Geometry.SourceAccumulatorDecoder
+
+@[expose] public section
 
 /-!
 # Reusable arithmetic core with a flexible input polarity

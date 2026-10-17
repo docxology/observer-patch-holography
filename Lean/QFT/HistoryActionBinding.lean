@@ -1,7 +1,10 @@
-import InformationProjection.LogTransitionAction
-import Mathlib.Data.ZMod.Basic
-import Mathlib.Data.Real.Sqrt
-import Mathlib.Data.Fin.VecNotation
+module
+public import InformationProjection.LogTransitionAction
+public import Mathlib.Data.ZMod.Basic
+public import Mathlib.Analysis.Real.Sqrt
+public import Mathlib.Data.Fin.VecNotation
+
+@[expose] public section
 
 /-!
 # The history-action binding (E9 sector 2, issue #716)
@@ -509,20 +512,20 @@ noncomputable def dependentKernel : ZMod 2 → ZMod 2 → ℝ :=
 
 theorem dependentKernel_apply_00 : dependentKernel 0 0 = 1 / 3 := by
   unfold dependentKernel
-  rw [if_pos rfl, if_pos rfl]
+  rw [ite_eq_left rfl, ite_eq_left rfl]
 
 theorem dependentKernel_apply_01 : dependentKernel 0 1 = 2 / 3 := by
   unfold dependentKernel
-  rw [if_pos rfl, if_neg (by decide : ¬(1 : ZMod 2) = 0)]
+  rw [ite_eq_left rfl, ite_eq_right (by decide : ¬(1 : ZMod 2) = 0)]
 
 theorem dependentKernel_apply_10 : dependentKernel 1 0 = 1 / 4 := by
   unfold dependentKernel
-  rw [if_neg (by decide : ¬(1 : ZMod 2) = 0), if_pos rfl]
+  rw [ite_eq_right (by decide : ¬(1 : ZMod 2) = 0), ite_eq_left rfl]
 
 theorem dependentKernel_apply_11 : dependentKernel 1 1 = 3 / 4 := by
   unfold dependentKernel
-  rw [if_neg (by decide : ¬(1 : ZMod 2) = 0),
-    if_neg (by decide : ¬(1 : ZMod 2) = 0)]
+  rw [ite_eq_right (by decide : ¬(1 : ZMod 2) = 0),
+    ite_eq_right (by decide : ¬(1 : ZMod 2) = 0)]
 
 theorem zmod2_cases (x : ZMod 2) : x = 0 ∨ x = 1 := by
   revert x

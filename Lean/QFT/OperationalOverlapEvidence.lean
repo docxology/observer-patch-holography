@@ -1,5 +1,8 @@
-import QFT.ObserverEventWorld
-import Tower.OperationalObserver
+module
+public import QFT.ObserverEventWorld
+public import Tower.OperationalObserver
+
+@[expose] public section
 
 /-!
 # Cross-observer readable evidence at one finite access cut
@@ -271,11 +274,15 @@ section OverlapWitness
 
 /-- Three region labels: two distinct observer regions and their proper
 bottom meet. -/
-inductive OperationalOverlapRegion : Type
+inductive OperationalOverlapRegion where
   | bot
   | left
   | right
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype OperationalOverlapRegion where
+  elems := {OperationalOverlapRegion.bot, OperationalOverlapRegion.left, OperationalOverlapRegion.right}
+  complete := by intro x; cases x <;> simp
 
 namespace OperationalOverlapRegion
 

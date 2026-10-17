@@ -1,5 +1,8 @@
-import EventAlgebra.LuedersPhaseInstrument
-import EventAlgebra.OperationalAdditivityBoundary
+module
+public import EventAlgebra.LuedersPhaseInstrument
+public import EventAlgebra.OperationalAdditivityBoundary
+
+@[expose] public section
 
 set_option autoImplicit false
 

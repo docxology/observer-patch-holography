@@ -1,4 +1,7 @@
-import Time.ObserverHistory
+module
+public import Time.ObserverHistory
+
+@[expose] public section
 
 /-!
 # D1: affine clock comparison algebra

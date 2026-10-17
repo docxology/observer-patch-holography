@@ -1,4 +1,7 @@
-import EventAlgebra.OperationalPhaseAttainment
+module
+public import EventAlgebra.OperationalPhaseAttainment
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -89,7 +89,13 @@ def render(packet: dict[str, Any], packet_hash: str) -> str:
     state_ctors = "\n".join(f"  | {state_ctor(row['id'])}" for row in states)
     event_ctors = "\n".join(f"  | {event_ctor(row['id'])}" for row in events)
 
-    return f'''import Mathlib
+    state_elems = ", ".join("PhaseState." + state_ctor(row["id"]) for row in states)
+    event_elems = ", ".join("PhaseEvent." + event_ctor(row["id"]) for row in events)
+
+    return f'''module
+public import Mathlib
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -105,11 +111,19 @@ namespace EventAlgebra.SourcePhaseSelectionInput
 
 inductive PhaseState where
 {state_ctors}
-  deriving DecidableEq, Fintype, Repr
+  deriving DecidableEq, Repr
+
+instance : Fintype PhaseState where
+  elems := {{{state_elems}}}
+  complete := by intro x; cases x <;> simp
 
 inductive PhaseEvent where
 {event_ctors}
-  deriving DecidableEq, Fintype, Repr
+  deriving DecidableEq, Repr
+
+instance : Fintype PhaseEvent where
+  elems := {{{event_elems}}}
+  complete := by intro x; cases x <;> simp
 
 abbrev StateBytes := List Nat
 abbrev OperationBytes := List Nat

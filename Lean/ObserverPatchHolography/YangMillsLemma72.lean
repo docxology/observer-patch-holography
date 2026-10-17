@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Yang–Mills finite repair-gap: Lemma 7.2 (keystone: uniform hidden fiber)
@@ -122,10 +125,10 @@ theorem commutant_perm_two_valued
   refine ⟨M p p, M p q, fun i j => ?_⟩
   by_cases h : i = j
   · subst h
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have := hconj (Equiv.swap p i) p p
     rwa [Equiv.swap_apply_left] at this
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     obtain ⟨σ, hσp, hσq⟩ := exists_perm_maps_two hpq h
     have := hconj σ p q
     rwa [hσp, hσq] at this
@@ -163,7 +166,7 @@ theorem lemma_7_2
         intro j; rw [hab p j]; split_ifs <;> ring
       simp_rw [hshift]
       rw [Finset.sum_add_distrib, Finset.sum_ite_eq]
-      simp only [Finset.mem_univ, if_true, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
+      simp only [Finset.mem_univ, ite_true, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
       ring
     rw [hsum] at hp0; linarith
   -- Step 2: positive-semidefiniteness on  e_p − e_q  gives  0 ≤ a − b.
@@ -180,7 +183,7 @@ theorem lemma_7_2
           single_dotProduct, single_dotProduct, single_dotProduct, single_dotProduct]
       simp only [Matrix.col_apply, one_mul]
       rw [hab p p, hab p q, hab q p, hab q q,
-          if_pos rfl, if_pos rfl, if_neg hpq, if_neg (Ne.symm hpq)]
+          ite_eq_left rfl, ite_eq_left rfl, ite_eq_right hpq, ite_eq_right (Ne.symm hpq)]
       ring
     rw [hval] at hpos; linarith
   -- Step 3: ker = constants  ⇒  b ≠ 0  (else D = 0, contradicting kernel exactness).
@@ -209,8 +212,8 @@ theorem lemma_7_2
     rw [hab i j]
     simp only [Matrix.smul_apply, Matrix.sub_apply, Matrix.one_apply, EF_apply, smul_eq_mul]
     by_cases h : i = j
-    · rw [if_pos h, if_pos h, ha_eq]; field_simp; ring
-    · rw [if_neg h, if_neg h, ha_eq]; field_simp; ring
+    · rw [ite_eq_left h, ite_eq_left h, ha_eq]; field_simp; ring
+    · rw [ite_eq_right h, ite_eq_right h, ha_eq]; field_simp; ring
 
 /-! ## Axiom self-audit (build-log visible)
 

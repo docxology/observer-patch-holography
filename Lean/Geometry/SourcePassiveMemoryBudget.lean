@@ -1,4 +1,7 @@
-import Geometry.SourcePassiveReset
+module
+public import Geometry.SourcePassiveReset
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -34,7 +37,7 @@ theorem pairAverage_quadratic_defect (u v : ι) (x : ι → ℝ) :
         · simp [pairAverage_off_seam u v i x hiu hiv, hiu, hiv]
     have hsum := Finset.sum_congr (s₁ := Finset.univ) rfl (fun i _ => hpoint i)
     simp only [Finset.sum_sub_distrib, Finset.sum_add_distrib,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true] at hsum
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true] at hsum
     unfold quadratic
     nlinarith [hsum]
 
@@ -109,7 +112,7 @@ theorem pairAverage_shift (u v : ι) (x : ι → ℝ) (b : ℝ) :
     pairAverage u v (fun i => b+x i) = fun i => b+pairAverage u v x i := by
   ext i
   by_cases h : i = u ∨ i = v
-  · simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, h, if_true]
+  · simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, h, ite_true]
     ring
   · simp [pairAverage, h]
 

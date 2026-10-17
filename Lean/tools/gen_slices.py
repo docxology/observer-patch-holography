@@ -2,6 +2,7 @@
 builds them strictly one after another (each needs ~7 GB of imports plus its own kernel work;
 several at once would cross the box's memory guard). Proved `_split` lemmas reassemble the
 full checks in OphOrigWitness.lean."""
+from module_headers import module_source
 import os
 os.makedirs("OphGap/Slices", exist_ok=True)
 N, M = 8662, 11816
@@ -46,6 +47,6 @@ theorem {name} : {stmt} := by decide +kernel
 
 end GapScout.Oph
 '''
-    open(f"OphGap/Slices/{mod}.lean", "w").write(body)
+    open(f"OphGap/Slices/{mod}.lean", "w").write(module_source(body))
     prev = mod
 print("last slice:", prev)

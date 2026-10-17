@@ -1,6 +1,9 @@
-import Time.SourceCountClock
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Tactic
+module
+public import Time.SourceCountClock
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Tactic
+
+@[expose] public section
 
 set_option autoImplicit false
 

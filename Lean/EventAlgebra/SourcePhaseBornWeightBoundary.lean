@@ -1,6 +1,9 @@
-import EventAlgebra.SourceReachabilityDelimitation
-import EventAlgebra.SourcePhaseSelection
-import EventAlgebra.PhaseInstrumentDetermination
+module
+public import EventAlgebra.SourceReachabilityDelimitation
+public import EventAlgebra.SourcePhaseSelection
+public import EventAlgebra.PhaseInstrumentDetermination
+
+@[expose] public section
 
 set_option autoImplicit false
 

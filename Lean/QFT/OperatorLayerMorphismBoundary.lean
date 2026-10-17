@@ -1,4 +1,7 @@
-import QFT.JoinNetMorphism
+module
+public import QFT.JoinNetMorphism
+
+@[expose] public section
 
 /-!
 # The operator-layer morphism boundary over the committed carriers

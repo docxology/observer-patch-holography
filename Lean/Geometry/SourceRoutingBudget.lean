@@ -1,6 +1,9 @@
-import Mathlib.Data.Finset.Card
-import Mathlib.Algebra.Order.BigOperators.Group.Finset
-import Mathlib.Tactic
+module
+public import Mathlib.Data.Finset.Card
+public import Mathlib.Algebra.Order.BigOperators.Group.Finset
+public import Mathlib.Tactic
+
+@[expose] public section
 
 set_option autoImplicit false
 

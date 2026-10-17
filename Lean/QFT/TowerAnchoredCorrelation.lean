@@ -1,5 +1,8 @@
-import QFT.TowerAnchoredDiamond
-import QFT.SourceCorrelationCapstone
+module
+public import QFT.TowerAnchoredDiamond
+public import QFT.SourceCorrelationCapstone
+
+@[expose] public section
 
 /-!
 # The 86/247 correlation net anchored over a consensus-tower stage
@@ -83,7 +86,7 @@ def ambientEquiv247 :
     Matrix PairIndex247 PairIndex247 ℂ ≃⋆ₐ[ℂ] Matrix (Fin 169) (Fin 169) ℂ :=
   StarAlgEquiv.ofAlgEquiv (Matrix.reindexAlgEquiv ℂ ℂ pairFin247)
     (fun M => by
-      simp only [Matrix.reindexAlgEquiv_apply, Matrix.star_eq_conjTranspose]
+      simp only [Matrix.coe_reindexAlgEquiv, Matrix.star_eq_conjTranspose]
       exact reindex_conjTranspose pairFin247 M)
 
 theorem ambientEquiv247_apply (M : Matrix PairIndex247 PairIndex247 ℂ) :
@@ -179,7 +182,7 @@ theorem anchoredCheckpointPartition247_proper (v : Fin 4) :
       Matrix.zero_apply] at hentry
     rw [Matrix.one_apply_eq] at hentry
     unfold chk86 at hentry
-    rw [Matrix.diagonal_apply_eq, if_pos hs, one_mul] at hentry
+    rw [Matrix.diagonal_apply_eq, ite_eq_left hs, one_mul] at hentry
     exact one_ne_zero hentry
   · intro h
     have hentry := congrFun (congrFun h (pairFin247 (s', 0))) (pairFin247 (s', 0))
@@ -188,7 +191,7 @@ theorem anchoredCheckpointPartition247_proper (v : Fin 4) :
       Equiv.symm_apply_apply, Matrix.kroneckerMap_apply] at hentry
     rw [Matrix.one_apply_eq, Matrix.one_apply_eq] at hentry
     unfold chk86 at hentry
-    rw [Matrix.diagonal_apply_eq, if_neg hs', zero_mul] at hentry
+    rw [Matrix.diagonal_apply_eq, ite_eq_right hs', zero_mul] at hentry
     exact zero_ne_one hentry
 
 /-- The anchored left region is a proper subalgebra of the 169-stage's

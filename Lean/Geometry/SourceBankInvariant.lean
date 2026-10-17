@@ -1,4 +1,7 @@
-import Geometry.SourceBankMachine
+module
+public import Geometry.SourceBankMachine
+
+@[expose] public section
 
 /-! The compiler establishes workspace, retirement and finite-store
 conditions required by native lowering. No well-formed execution trace is

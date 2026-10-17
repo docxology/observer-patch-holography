@@ -1,4 +1,7 @@
-import Geometry.CelestialNullCone
+module
+public import Geometry.CelestialNullCone
+
+@[expose] public section
 
 /-!
 # A finite-effect closure boundary on the celestial sphere
@@ -143,9 +146,10 @@ theorem continuous_celestialSpatialDot (q : Spatial) :
     (continuous_apply (1 : Fin 3)).comp continuous_subtype_val
   have h2 : Continuous (fun n : CelestialSphere ↦ n.1 (2 : Fin 3)) :=
     (continuous_apply (2 : Fin 3)).comp continuous_subtype_val
-  simpa [spatialDot, Fin.sum_univ_succ] using
-    (continuous_const.mul h0).add
-      ((continuous_const.mul h1).add (continuous_const.mul h2))
+  convert ((continuous_const (y := q 0)).mul h0).add
+      (((continuous_const (y := q 1)).mul h1).add ((continuous_const (y := q 2)).mul h2)) using 1
+  funext n
+  simp [spatialDot, Fin.sum_univ_succ]
 
 /-- A centered affine bound verified on a dense family of celestial
 directions extends to every direction.  Density is used only after the

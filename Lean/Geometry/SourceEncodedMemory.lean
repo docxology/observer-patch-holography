@@ -1,4 +1,7 @@
-import ObserverPatchHolography.ScalarSeamRepair
+module
+public import ObserverPatchHolography.ScalarSeamRepair
+
+@[expose] public section
 
 /-!
 # Native balanced-rail copy and logical reset
@@ -34,7 +37,7 @@ theorem run_nonnegative (word : List (ι × ι)) (x : ι → ℝ) (hx : ∀ i, 0
     apply ih
     intro i
     by_cases h : i = e.1 ∨ i = e.2
-    · simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, h, if_true]
+    · simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, h, ite_true]
       exact div_nonneg (add_nonneg (hx e.1) (hx e.2)) (by norm_num)
     · simpa [pairAverage, h] using hx i
 
@@ -192,7 +195,7 @@ theorem pairAverage_near (u v : ι) (x y : ι → ℝ) (E : ℝ) (h : Near E x y
   by_cases hi : i = u ∨ i = v
   · have hu := abs_le.mp (h u)
     have hv := abs_le.mp (h v)
-    simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, hi, if_true]
+    simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, hi, ite_true]
     rw [abs_le]
     constructor <;> linarith
   · simpa [pairAverage, hi] using h i
@@ -258,8 +261,8 @@ theorem robust_route_positive (s : ι) (ts : List ι) (hw : GoodWalk s ts)
     ρ (E + (3*ts.length : ℕ)*δ) hr hn
   apply robust_positive_read b (a/(2:ℝ)^ts.length)
     (ρ+(E+(3*ts.length : ℕ)*δ)) _ _ hmargin
-  · simpa [encode, signal] using ht (finish s ts, false)
-  · simpa [encode, signal] using ht (finish s ts, true)
+  · simpa [encode, signal, sub_eq_add_neg] using ht (finish s ts, false)
+  · simpa [encode, signal, sub_eq_add_neg] using ht (finish s ts, true)
 
 /-- At the exact terminal uncertainty threshold, both opposite bits admit
 the same observation [b,b]. No decoder of that observation can distinguish. -/

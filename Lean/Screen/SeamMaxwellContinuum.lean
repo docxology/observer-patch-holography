@@ -1,5 +1,8 @@
-import CarrierFrequencySpeed
-import Mathlib.Analysis.Calculus.Deriv.MeanValue
+module
+public import CarrierFrequencySpeed
+public import Mathlib.Analysis.Calculus.Deriv.MeanValue
+
+@[expose] public section
 
 open scoped BigOperators
 
@@ -33,10 +36,10 @@ private theorem cubic_sine_lower {x : ℝ} (hx : 0 ≤ x) :
     apply monotone_of_hasDerivAt_nonneg
       (f' := fun y ↦ Real.cos y - 1 + 3 * y ^ 2 / 6)
     · intro y
-      convert ((Real.hasDerivAt_sin y).sub (hasDerivAt_id y)).add
-        (((hasDerivAt_id y).pow 3).div_const 6) using 1
-      simp only [id_eq]
-      ring
+      convert ((Real.hasDerivAt_sin y).fun_sub (hasDerivAt_id y)).fun_add
+        (((hasDerivAt_id y).fun_pow 3).div_const 6) using 1
+      all_goals (try simp only [id_eq])
+      all_goals ring
     · intro y
       change 0 ≤ Real.cos y - 1 + 3 * y ^ 2 / 6
       linarith [Real.one_sub_sq_div_two_le_cos (x := y)]
@@ -64,12 +67,12 @@ theorem cosine_quartic_upper (x : ℝ) :
     · fun_prop
     · intro z _
       apply HasDerivAt.hasDerivWithinAt
-      convert (((hasDerivAt_const z (1 : ℝ)).sub
-        (((hasDerivAt_id z).pow 2).div_const 2)).add
-        (((hasDerivAt_id z).pow 4).div_const 24)).sub
+      convert (((hasDerivAt_const z (1 : ℝ)).fun_sub
+        (((hasDerivAt_id z).fun_pow 2).div_const 2)).fun_add
+        (((hasDerivAt_id z).fun_pow 4).div_const 24)).fun_sub
         (Real.hasDerivAt_cos z) using 1
-      simp only [id_eq]
-      ring
+      all_goals (try simp only [id_eq])
+      all_goals ring
     · intro z hz
       have hz' : 0 ≤ z := (interior_subset hz : z ∈ Set.Ici 0)
       linarith [cubic_sine_lower hz']
@@ -163,7 +166,7 @@ theorem cosine_propagator_error {a : ℝ} (ha : a ≠ 0)
     _ = |t| * (euclideanMomentumMagnitude k - photonModeFrequency a k) := by
       rw [← mul_sub, abs_mul, abs_of_nonpos (sub_nonpos.mpr
         (exact_fz12_frequency_le_euclideanMomentumMagnitude ha k))]
-      ring
+      all_goals ring
     _ ≤ _ := mul_le_mul_of_nonneg_left (exact_frequency_error ha k).2 (abs_nonneg t)
 
 /-- Entrywise sine propagator control, including the zero mode. -/
@@ -178,7 +181,7 @@ theorem sine_propagator_error {a : ℝ} (ha : a ≠ 0)
     _ = |t| * (euclideanMomentumMagnitude k - photonModeFrequency a k) := by
       rw [← mul_sub, abs_mul, abs_of_nonpos (sub_nonpos.mpr
         (exact_fz12_frequency_le_euclideanMomentumMagnitude ha k))]
-      ring
+      all_goals ring
     _ ≤ _ := mul_le_mul_of_nonneg_left (exact_frequency_error ha k).2 (abs_nonneg t)
 
 end OPH.SeamMaxwellContinuum

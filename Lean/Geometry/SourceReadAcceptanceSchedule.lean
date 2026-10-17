@@ -1,4 +1,7 @@
-import Geometry.SourceReadAcceptance
+module
+public import Geometry.SourceReadAcceptance
+
+@[expose] public section
 
 /-!
 # Complete finite histories and native stopping work
@@ -39,7 +42,7 @@ def cost {d n : ℕ} (h : History d n) : ℕ := 2*(stopped h).length
 
 theorem history_card (d n : ℕ) : Fintype.card (History d n) = d^n := by
   induction n with
-  | zero => simp [History]
+  | zero => exact @Fintype.card_unique Unit inferInstance (historyFinite d 0)
   | succ n ih => simp [History, Fintype.card_prod, ih, pow_succ]
 
 theorem letters_length {d n : ℕ} (h : History d n) : (letters h).length = n := by
@@ -78,7 +81,7 @@ theorem stopped_frontier {d n : ℕ} (h : History d n) :
     by_cases hf : frontier h.1 < d
     · simp [stopped, hf, progress_append, progress, ih, frontier]
     · have he : frontier h.1 = d := by have hb := frontier_bound h.1; omega
-      simp [stopped, hf, ih, frontier, he, completed_frontier_absorbs]
+      simp [stopped, ih, frontier, he, completed_frontier_absorbs]
 
 theorem stopped_length_bound {d n : ℕ} (h : History d n) : (stopped h).length ≤ n := by
   induction n with
@@ -86,15 +89,18 @@ theorem stopped_length_bound {d n : ℕ} (h : History d n) : (stopped h).length 
   | succ n ih =>
     have hb := ih h.1
     by_cases hf : frontier h.1 < d
-    · simpa only [stopped, if_pos hf, List.length_append, List.length_singleton]
+    · simpa only [stopped, ite_eq_left hf, List.length_append, List.length_singleton]
         using Nat.add_le_add_right hb 1
-    · simpa only [stopped, if_neg hf] using hb.trans (Nat.le_succ n)
+    · simpa only [stopped, ite_eq_right hf] using hb.trans (Nat.le_succ n)
 
 theorem cost_step {d n : ℕ} (h : History d n) (move : Fin d) :
     cost (d:=d) (n:=n+1) (h,move) = cost h + if frontier h < d then 2 else 0 := by
   unfold cost
   simp only [stopped]
-  split_ifs <;> simp <;> omega
+  split_ifs
+  · simp only [List.length_append, List.length_singleton]
+    omega
+  · omega
 
 /-- The scalar mean count is the actual native compilation length of the
 stopped word, including every unsuccessful attempt before the deadline. -/
@@ -115,7 +121,7 @@ theorem one_step_reward (d k : ℕ) (hk : k ≤ d) (reward : ℕ → ℝ) :
       if k < d then (d:ℝ)*reward k + (reward (k+1)-reward k) else (d:ℝ)*reward k := by
   classical
   by_cases hf : k < d
-  · rw [if_pos hf]
+  · rw [ite_eq_left hf]
     have he (move : Fin d) : reward (advance k move.val) =
         reward k + if move.val = k then reward (k+1)-reward k else 0 := by
       unfold advance; split_ifs <;> ring

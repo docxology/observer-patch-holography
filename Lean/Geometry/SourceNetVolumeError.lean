@@ -1,5 +1,8 @@
-import Geometry.FlatDiamondError
-import Geometry.SourceNetCausalCone
+module
+public import Geometry.FlatDiamondError
+public import Geometry.SourceNetCausalCone
+
+@[expose] public section
 
 set_option autoImplicit false
 

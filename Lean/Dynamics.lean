@@ -1,14 +1,17 @@
-import Dynamics.ProtectedCharge
-import Dynamics.WardLimitManifest
-import Dynamics.ConditionalExpectationGenerator
-import Dynamics.PublicMarkov
-import Dynamics.PublicAutomorphism
-import Dynamics.PrivateInner
-import Dynamics.StoneConverse
-import Dynamics.CentralBlocks
-import Dynamics.CenterSpectral
-import Dynamics.StarWedderburn
-import Dynamics.ChoiCPTP
+module
+public import Dynamics.ProtectedCharge
+public import Dynamics.WardLimitManifest
+public import Dynamics.ConditionalExpectationGenerator
+public import Dynamics.PublicMarkov
+public import Dynamics.PublicAutomorphism
+public import Dynamics.PrivateInner
+public import Dynamics.StoneConverse
+public import Dynamics.CentralBlocks
+public import Dynamics.CenterSpectral
+public import Dynamics.StarWedderburn
+public import Dynamics.ChoiCPTP
+
+@[expose] public section
 
 /-!
 # OPH construction dynamics umbrella

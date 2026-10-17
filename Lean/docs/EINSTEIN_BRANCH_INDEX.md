@@ -8,7 +8,7 @@ constructs an exact `1+3` algebraic carrier and an explicit order-faithful non-c
 control; it does not construct the tensor fields or continuum tower consumed
 by the Einstein branch.
 
-Toolchain: `leanprover/lean4:v4.29.1`, Mathlib `v4.29.1`. The CI build imports
+Toolchain: `leanprover/lean4:v4.35.0`, Mathlib `v4.35.0`. The CI build imports
 `EinsteinBranch/AxiomAudit.lean`, which applies `assert_no_sorry` to every
 public theorem and prints a per-theorem axiom report. The reports contain at
 most Lean's standard extensionality/choice/quotient axioms (`propext`,

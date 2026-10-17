@@ -1,4 +1,7 @@
-import SeamCurrentEdge30Moment
+module
+public import SeamCurrentEdge30Moment
+
+@[expose] public section
 
 open scoped BigOperators goldenRatio
 

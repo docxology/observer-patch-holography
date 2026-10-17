@@ -1,5 +1,8 @@
-import QFT.SimEarnedWitness
-import QFT.CoverageReceipt
+module
+public import QFT.SimEarnedWitness
+public import QFT.CoverageReceipt
+
+@[expose] public section
 
 /-!
 # Source regional net: a declared adapter over the B12 split fibres
@@ -603,7 +606,7 @@ theorem fibreUnit_mem_s64 {a b : Fin 33} (h : splitPair .o64 a b = true) :
   · have hia : i ≠ a := fun he => (of_decide_eq_true hi) (he ▸ ha)
     have hja : j ≠ a := fun he => (of_decide_eq_true hj) (he ▸ ha)
     simp only [fibreUnit]
-    rw [if_neg fun hc => hia hc.1, if_neg fun hc => hja hc.1]
+    rw [ite_eq_right fun hc => hia hc.1, ite_eq_right fun hc => hja hc.1]
 
 /-- Exclusion receipt: every matrix unit off the realized relation is
 outside the enriched regional algebra, so the noncommutative sector is
@@ -657,7 +660,7 @@ theorem sourceRegionalS64_noncommutative :
 enriched one. -/
 theorem diagonal_lt_sourceRegionalS64 :
     diagonalClassSubalgebra (fReg .o64) < sourceRegionalS64 := by
-  rw [SetLike.lt_iff_le_and_exists]
+  rw [IsConcreteLE.lt_iff_le_and_exists]
   constructor
   · rintro X ⟨c, rfl⟩
     refine ⟨fun i j h0 => ?_, fun i j hi hj => ?_⟩
@@ -874,11 +877,11 @@ theorem blockPull64_mem (X : Matrix (Fin 33) (Fin 33) ℂ) :
   refine ⟨fun i j h0 => ?_, fun i j hi hj => ?_⟩
   · have h0' : enrichedRel .o64 i j = false := h0
     simp only [blockPull64]
-    rw [if_neg (ne_true_of_eq_false h0')]
+    rw [ite_eq_right (ne_true_of_eq_false h0')]
   · have hoi : ¬ nodeOwner i = some .o64 := of_decide_eq_true hi
     have hoj : ¬ nodeOwner j = some .o64 := of_decide_eq_true hj
     simp only [blockPull64]
-    rw [if_pos (enrichedRel_o64_refl i), if_pos (enrichedRel_o64_refl j),
+    rw [ite_eq_left (enrichedRel_o64_refl i), ite_eq_left (enrichedRel_o64_refl j),
       collapseMap_of_not_owner hoi, collapseMap_of_not_owner hoj]
 
 /-- The enriched restriction fixes every member of the enriched
@@ -888,7 +891,7 @@ theorem blockPull64_fixes {X : Matrix (Fin 33) (Fin 33) ℂ}
   ext i j
   simp only [blockPull64]
   by_cases hrel : enrichedRel .o64 i j = true
-  · rw [if_pos hrel]
+  · rw [ite_eq_left hrel]
     by_cases hij : i = j
     · subst hij
       by_cases ho : nodeOwner i = some .o64
@@ -897,7 +900,7 @@ theorem blockPull64_fixes {X : Matrix (Fin 33) (Fin 33) ℂ}
         exact hX.2 0 i (by decide) (decide_eq_true ho)
     · obtain ⟨hoi, hoj⟩ := enrichedRel_o64_offdiag_owner i j hrel hij
       rw [collapseMap_of_owner hoi, collapseMap_of_owner hoj]
-  · rw [if_neg hrel]
+  · rw [ite_eq_right hrel]
     exact (hX.1 i j (bool_eq_false hrel)).symm
 
 /-- The restriction from the enriched top onto the enriched support:
@@ -910,7 +913,7 @@ noncomputable def enrichedPullback :
     ext i j
     simp only [blockPull64]
     by_cases hrel : enrichedRel .o64 i j = true
-    · rw [if_pos hrel]
+    · rw [ite_eq_left hrel]
       by_cases hij : i = j
       · subst hij
         rw [Matrix.one_apply_eq, Matrix.one_apply_eq]
@@ -919,7 +922,7 @@ noncomputable def enrichedPullback :
     · have hij : i ≠ j := fun he => by
         subst he
         exact hrel (o64BlockRelation.rel_refl i)
-      rw [if_neg hrel, Matrix.one_apply_ne hij])
+      rw [ite_eq_right hrel, Matrix.one_apply_ne hij])
   map_mul' X Y := Subtype.ext (by
     show blockPull64 (X.1 * Y.1) = blockPull64 X.1 * blockPull64 Y.1
     have hXtop : ∀ i j, enrichedRel .o64 i j = false → X.1 i j = 0 :=
@@ -935,7 +938,7 @@ noncomputable def enrichedPullback :
           · exact (enrichedRel_o64_offdiag_owner i j hrel hij).2
         have hL : blockPull64 (X.1 * Y.1) i j = ∑ k, X.1 i k * Y.1 k j := by
           simp only [blockPull64]
-          rw [if_pos hrel, collapseMap_of_owner hoi,
+          rw [ite_eq_left hrel, collapseMap_of_owner hoi,
             collapseMap_of_owner hoj, Matrix.mul_apply]
         have hR : ∀ k, blockPull64 X.1 i k * blockPull64 Y.1 k j =
             X.1 i k * Y.1 k j := by
@@ -945,13 +948,13 @@ noncomputable def enrichedPullback :
               enrichedRel_o64_owner_closed i k hik hoi
             by_cases hkj : enrichedRel .o64 k j = true
             · simp only [blockPull64]
-              rw [if_pos hik, if_pos hkj, collapseMap_of_owner hoi,
+              rw [ite_eq_left hik, ite_eq_left hkj, collapseMap_of_owner hoi,
                 collapseMap_of_owner hok, collapseMap_of_owner hoj]
             · simp only [blockPull64]
-              rw [if_neg hkj, mul_zero,
+              rw [ite_eq_right hkj, mul_zero,
                 hYtop k j (bool_eq_false hkj), mul_zero]
           · simp only [blockPull64]
-            rw [if_neg hik, zero_mul,
+            rw [ite_eq_right hik, zero_mul,
               hXtop i k (bool_eq_false hik), zero_mul]
         rw [hL, Matrix.mul_apply]
         exact Finset.sum_congr rfl fun k _ => (hR k).symm
@@ -960,7 +963,7 @@ noncomputable def enrichedPullback :
         have hσ : collapseMap .o64 i = 0 := collapseMap_of_not_owner hoi
         have hL : blockPull64 (X.1 * Y.1) i i = X.1 0 0 * Y.1 0 0 := by
           simp only [blockPull64]
-          rw [if_pos hrel, hσ, Matrix.mul_apply]
+          rw [ite_eq_left hrel, hσ, Matrix.mul_apply]
           refine Finset.sum_eq_single_of_mem 0 (Finset.mem_univ _)
             fun m _ hm => ?_
           have h0m : enrichedRel .o64 0 m = false :=
@@ -976,14 +979,14 @@ noncomputable def enrichedPullback :
                 bool_eq_false fun htrue =>
                   hk (enrichedRel_o64_not_owner_singleton i k hoi htrue).symm
               simp only [blockPull64]
-              rw [if_neg (ne_true_of_eq_false hik), zero_mul])]
+              rw [ite_eq_right (ne_true_of_eq_false hik), zero_mul])]
           simp only [blockPull64]
-          rw [if_pos hrel, if_pos hrel, hσ]
+          rw [ite_eq_left hrel, ite_eq_left hrel, hσ]
         exact hL.trans hR.symm
     · have hf : enrichedRel .o64 i j = false := bool_eq_false hrel
       have hL : blockPull64 (X.1 * Y.1) i j = 0 := by
         simp only [blockPull64]
-        rw [if_neg hrel]
+        rw [ite_eq_right hrel]
       have hR : (blockPull64 X.1 * blockPull64 Y.1) i j = 0 := by
         rw [Matrix.mul_apply]
         refine Finset.sum_eq_zero fun k _ => ?_
@@ -991,9 +994,9 @@ noncomputable def enrichedPullback :
         · by_cases hkj : enrichedRel .o64 k j = true
           · exact absurd (o64BlockRelation.rel_trans i k j hik hkj) hrel
           · simp only [blockPull64]
-            rw [if_neg hkj, mul_zero]
+            rw [ite_eq_right hkj, mul_zero]
         · simp only [blockPull64]
-          rw [if_neg hik, zero_mul]
+          rw [ite_eq_right hik, zero_mul]
       exact hL.trans hR.symm)
   map_zero' := Subtype.ext (by
     show blockPull64 0 = 0
@@ -1004,8 +1007,8 @@ noncomputable def enrichedPullback :
     ext i j
     simp only [blockPull64, Matrix.add_apply]
     by_cases hrel : enrichedRel .o64 i j = true
-    · rw [if_pos hrel, if_pos hrel, if_pos hrel]
-    · rw [if_neg hrel, if_neg hrel, if_neg hrel, add_zero])
+    · rw [ite_eq_left hrel, ite_eq_left hrel, ite_eq_left hrel]
+    · rw [ite_eq_right hrel, ite_eq_right hrel, ite_eq_right hrel, add_zero])
   map_star' X := Subtype.ext (by
     show blockPull64 (star X.1) = star (blockPull64 X.1)
     ext i j
@@ -1013,8 +1016,8 @@ noncomputable def enrichedPullback :
       enrichedRel_o64_symm i j
     simp only [blockPull64, Matrix.star_apply]
     by_cases hrel : enrichedRel .o64 i j = true
-    · rw [if_pos hrel, if_pos (hsym.symm.trans hrel)]
-    · rw [if_neg hrel, if_neg fun h => hrel (hsym.trans h), star_zero])
+    · rw [ite_eq_left hrel, ite_eq_left (hsym.symm.trans hrel)]
+    · rw [ite_eq_right hrel, ite_eq_right fun h => hrel (hsym.trans h), star_zero])
   commutes' z := Subtype.ext (by
     show blockPull64 (algebraMap ℂ (Matrix (Fin 33) (Fin 33) ℂ) z) =
       algebraMap ℂ (Matrix (Fin 33) (Fin 33) ℂ) z
@@ -1022,7 +1025,7 @@ noncomputable def enrichedPullback :
     ext i j
     simp only [blockPull64]
     by_cases hrel : enrichedRel .o64 i j = true
-    · rw [if_pos hrel]
+    · rw [ite_eq_left hrel]
       by_cases hij : i = j
       · subst hij
         rw [Matrix.diagonal_apply_eq, Matrix.diagonal_apply_eq]
@@ -1031,7 +1034,7 @@ noncomputable def enrichedPullback :
     · have hij : i ≠ j := fun he => by
         subst he
         exact hrel (o64BlockRelation.rel_refl i)
-      rw [if_neg hrel, Matrix.diagonal_apply_ne _ hij])
+      rw [ite_eq_right hrel, Matrix.diagonal_apply_ne _ hij])
 
 /-- The supplied restriction system of the enriched net: identities on
 equal regions, characters onto the bottom, support collapses from the
@@ -1214,7 +1217,7 @@ theorem supportProjector_mem_s64 :
       exact Bool.noConfusion ((enrichedRel_o64_refl i).symm.trans h0)
     exact Matrix.diagonal_apply_ne _ hij
   · simp only [supportProjector, Matrix.diagonal_apply_eq]
-    rw [if_neg (of_decide_eq_true hi), if_neg (of_decide_eq_true hj)]
+    rw [ite_eq_right (of_decide_eq_true hi), ite_eq_right (of_decide_eq_true hj)]
 
 /-- The diagonal unit at the ambient basis index. -/
 def ambientUnit : Matrix (Fin 33) (Fin 33) ℂ :=
@@ -1258,15 +1261,15 @@ theorem supportTruncation_mem_span (o : PayloadObserver)
     rw [Matrix.diagonal_apply_eq]
     by_cases h : nodeOwner i = some o
     · simp only [supportTruncation]
-      rw [if_pos ⟨h, topBlockRelation.rel_refl i⟩]
+      rw [ite_eq_left ⟨h, topBlockRelation.rel_refl i⟩]
       simp [fReg, h]
     · simp only [supportTruncation]
-      rw [if_neg fun hc => h hc.1]
+      rw [ite_eq_right fun hc => h hc.1]
       simp [fReg, h]
   · rw [Matrix.diagonal_apply_ne _ hij]
     symm
     simp only [supportTruncation]
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨h1, h2⟩
     obtain ⟨ho64, _⟩ := enrichedRelTop_offdiag_owner i j h2 hij
     rw [h1] at ho64
@@ -1277,13 +1280,13 @@ theorem supportTruncation_mem_s64 (X : Matrix (Fin 33) (Fin 33) ℂ) :
   refine ⟨fun i j h0 => ?_, fun i j hi hj => ?_⟩
   · have h0' : enrichedRel .o64 i j = false := h0
     simp only [supportTruncation]
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨_, h2⟩
     rw [enrichedRelTop_eq_o64 i j] at h2
     exact Bool.noConfusion (h0'.symm.trans h2)
   · simp only [supportTruncation]
-    rw [if_neg fun hc => (of_decide_eq_true hi) hc.1,
-      if_neg fun hc => (of_decide_eq_true hj) hc.1]
+    rw [ite_eq_right fun hc => (of_decide_eq_true hi) hc.1,
+      ite_eq_right fun hc => (of_decide_eq_true hj) hc.1]
 
 /-- Exact decomposition of an enriched top observable into the four
 support truncations and the ambient scalar term. -/

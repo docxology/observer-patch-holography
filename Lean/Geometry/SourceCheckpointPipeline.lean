@@ -1,4 +1,7 @@
-import Geometry.SourceCheckpointNative
+module
+public import Geometry.SourceCheckpointNative
+
+@[expose] public section
 
 /-!
 # Algebra for the shortest two-wave path pipeline

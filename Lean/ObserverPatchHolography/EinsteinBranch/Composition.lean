@@ -1,8 +1,11 @@
-import ObserverPatchHolography.EinsteinBranch.Consensus
-import ObserverPatchHolography.EinsteinBranch.Entropy
-import ObserverPatchHolography.EinsteinBranch.SmallBall
-import ObserverPatchHolography.EinsteinBranch.Tensor
-import ObserverPatchHolography.EinsteinBranch.Manifest
+module
+public import ObserverPatchHolography.EinsteinBranch.Consensus
+public import ObserverPatchHolography.EinsteinBranch.Entropy
+public import ObserverPatchHolography.EinsteinBranch.SmallBall
+public import ObserverPatchHolography.EinsteinBranch.Tensor
+public import ObserverPatchHolography.EinsteinBranch.Manifest
+
+@[expose] public section
 
 /-!
 # Corrected typed Einstein-branch composition

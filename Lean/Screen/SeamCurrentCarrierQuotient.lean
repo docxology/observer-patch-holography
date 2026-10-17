@@ -1,4 +1,7 @@
-import RepairWordCarrierReadout
+module
+public import RepairWordCarrierReadout
+
+@[expose] public section
 
 open scoped BigOperators Topology
 
@@ -441,8 +444,9 @@ theorem d6Position_denseRange : DenseRange d6Position := by
     exact htwo.comp goldenLine_denseRange (by fun_prop)
   have hproduct : DenseRange
       (fun p : Fin 3 → ℤ × ℤ ↦ fun d ↦ 2 * goldenLine (p d)) := by
-    simpa only [Pi.map_apply] using
-      (DenseRange.piMap (fun _ : Fin 3 ↦ hscaled))
+    convert (DenseRange.piMap (fun _ : Fin 3 ↦ hscaled)) using 1
+    funext p d
+    rfl
   have hframe : DenseRange
       (fun p : D6Point ↦ pointFrame (d6IntegerPoint p)) := by
     apply hproduct.mono
@@ -461,8 +465,7 @@ theorem d6Position_denseRange : DenseRange d6Position := by
     change rawRadius⁻¹ • (rawRadius • y) = y
     rw [← mul_smul]
     simp [rawRadius_ne_zero]
-  simpa only [d6Position, pointEuclideanFrame, Function.comp_apply] using
-    hscale.denseRange.comp hbase (by fun_prop)
+  exact hscale.denseRange.comp hbase (by fun_prop)
 
 /-- Pull back the response Gram metric to the exact seam quotient. -/
 noncomputable instance d6PointMetric : MetricSpace D6Point :=

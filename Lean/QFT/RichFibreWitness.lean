@@ -1,4 +1,7 @@
-import QFT.FiniteCausalObserverNet
+module
+public import QFT.FiniteCausalObserverNet
+
+@[expose] public section
 
 /-!
 # Rich-fibre witness: literals of the preregistered run `e1_prereg2_64k_20260810`
@@ -33,7 +36,11 @@ inductive RichObserver : Type
   | o88
   | o247
   | o384
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype RichObserver where
+  elems := {RichObserver.o86, RichObserver.o88, RichObserver.o247, RichObserver.o384}
+  complete := by intro x; cases x <;> simp
 
 namespace RichObserver
 

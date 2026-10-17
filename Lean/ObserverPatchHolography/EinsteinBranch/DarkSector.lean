@@ -1,4 +1,7 @@
-import ObserverPatchHolography.EinsteinBranch.SmallBall
+module
+public import ObserverPatchHolography.EinsteinBranch.SmallBall
+
+@[expose] public section
 
 /-!
 # Generic dark sector and the modular-anomaly source
@@ -80,9 +83,6 @@ theorem totalStress_eq_luminous_add_dark (S : SourceFamily ι) :
   rw [← Finset.sum_filter_add_sum_filter_not Finset.univ
     (fun i => S.luminous i = true)]
   congr 1
-  apply Finset.sum_congr _ (fun _ _ => rfl)
-  ext i
-  simp [Bool.not_eq_true]
 
 /-- Universal coupling as a premise: the stress contraction entering the
 rest-frame Einstein relation is the total modular charge of the family,

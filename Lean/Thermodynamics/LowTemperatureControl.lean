@@ -1,4 +1,7 @@
-import FiniteConditionalRepair
+module
+public import FiniteConditionalRepair
+
+@[expose] public section
 
 namespace OPH.Thermodynamics
 
@@ -462,7 +465,9 @@ theorem shrinkingGap_no_uniform_gap :
       energyGap (shrinkingGapEnergy r) h < g := by
   intro g hg
   obtain ⟨n, hn⟩ := exists_nat_gt (1 / g)
-  refine ⟨n, twoLevel_offMin_nonempty _ (shrinkingGap_delta_pos n), ?_⟩
+  have hnonempty : (offMin (shrinkingGapEnergy n)).Nonempty :=
+    twoLevel_offMin_nonempty _ (shrinkingGap_delta_pos n)
+  refine ⟨n, hnonempty, ?_⟩
   rw [shrinkingGap_energyGap]
   rw [div_lt_iff₀ (by positivity : (0 : ℝ) < (n : ℝ) + 1)]
   rw [div_lt_iff₀ hg] at hn

@@ -1,5 +1,8 @@
-import Mathlib
-import TrichotomyCases
+module
+public import Mathlib
+public import TrichotomyCases
+
+@[expose] public section
 
 namespace OPH.A2HolonomyBridge
 

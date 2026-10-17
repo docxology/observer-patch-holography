@@ -1,4 +1,7 @@
-import Variational.SourceToHamiltonianComposed
+module
+public import Variational.SourceToHamiltonianComposed
+
+@[expose] public section
 
 namespace OPH.Variational
 
@@ -83,7 +86,7 @@ theorem constOne_global_mode (M : ℕ) (t : Fin (M + 1) → Fin 2) :
       = ∏ _n : Fin M, chainWeight 1 1 := rfl
   rw [heq]
   unfold pathTransitionWeight
-  exact Finset.prod_le_prod (fun i _ => le_of_lt (chainWeight_pos _ _))
+  exact Finset.prod_le_prod₀ (fun i _ => le_of_lt (chainWeight_pos _ _))
     (fun i _ => chainWeight_le_stay _ _)
 
 /-- The embedded constant-1 history sits at the real value `1` on every

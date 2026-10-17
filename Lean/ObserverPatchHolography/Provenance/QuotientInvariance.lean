@@ -1,4 +1,7 @@
-import ObserverPatchHolography.Provenance.HistoryCausalInvariance
+module
+public import ObserverPatchHolography.Provenance.HistoryCausalInvariance
+
+@[expose] public section
 
 /-!
 # Quotient invariance of mismatch provenance

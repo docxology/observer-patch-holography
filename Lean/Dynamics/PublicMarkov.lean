@@ -1,6 +1,9 @@
-import EventAlgebra.PublicRecordAlgebra
-import Mathlib.Data.Complex.BigOperators
-import Mathlib.Topology.Connected.TotallyDisconnected
+module
+public import EventAlgebra.PublicRecordAlgebra
+public import Mathlib.Basic.Complex.BigOperators
+public import Mathlib.Topology.Connected.TotallyDisconnected
+
+@[expose] public section
 
 /-!
 # Finite public dynamics: stochasticity and the continuity obstruction

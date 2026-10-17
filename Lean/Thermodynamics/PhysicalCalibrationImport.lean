@@ -1,7 +1,10 @@
-import Time.ClockReadout
-import Geometry.InternalClockRestFrequency
-import Geometry.CommonWorldInstrumentJoin
-import CertifiedScaledStepInstrument
+module
+public import Time.ClockReadout
+public import Geometry.InternalClockRestFrequency
+public import Geometry.CommonWorldInstrumentJoin
+public import CertifiedScaledStepInstrument
+
+@[expose] public section
 
 set_option autoImplicit false
 

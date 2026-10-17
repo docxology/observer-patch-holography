@@ -1,6 +1,9 @@
-import WhitneyNormalModeConstruction
-import ConeCochainBridge
-import Mathlib.Analysis.InnerProductSpace.Adjoint
+module
+public import WhitneyNormalModeConstruction
+public import ConeCochainBridge
+public import Mathlib.Analysis.InnerProductSpace.Adjoint
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -156,20 +159,28 @@ def coneCurlL2 : ConeOneL2 →ₗ[ℝ] ConeTwoL2 :=
   coneTwoCoordinates.symm.toLinearMap.comp
     (coneCurlLinear.comp coneOneCoordinates.toLinearMap)
 
+/-- The transported gradient on a vector. -/
+theorem coneGradientL2_apply (x : ConeZeroL2) :
+    coneGradientL2 x = coneOneCoordinates.symm (coneGradientLinear (coneZeroCoordinates x)) := rfl
+
+/-- The transported curl on a vector. -/
+theorem coneCurlL2_apply (x : ConeOneL2) :
+    coneCurlL2 x = coneTwoCoordinates.symm (coneCurlLinear (coneOneCoordinates x)) := rfl
+
 theorem cone_exact_l2 :
     LinearMap.ker coneCurlL2 = LinearMap.range coneGradientL2 := by
   apply le_antisymm
   · intro x hx
     have hraw : coneCurlLinear (coneOneCoordinates x) = 0 := by
       have h := congrArg coneTwoCoordinates (LinearMap.mem_ker.mp hx)
-      simpa [coneCurlL2] using h
+      simpa only [coneCurlL2_apply, LinearEquiv.apply_symm_apply, map_zero] using h
     have hrange : coneOneCoordinates x ∈ LinearMap.range coneGradientLinear := by
       rw [← cone_exact]
       exact LinearMap.mem_ker.mpr hraw
     obtain ⟨u, hu⟩ := hrange
     refine ⟨coneZeroCoordinates.symm u, ?_⟩
     apply coneOneCoordinates.injective
-    simpa [coneGradientL2] using hu
+    simpa only [coneGradientL2_apply, LinearEquiv.apply_symm_apply] using hu
   · intro x hx
     obtain ⟨u, rfl⟩ := hx
     apply LinearMap.mem_ker.mpr
@@ -181,22 +192,28 @@ def coneGradientKernelToRaw :
   toFun x := ⟨coneZeroCoordinates x, by
     apply LinearMap.mem_ker.mpr
     have h := LinearMap.mem_ker.mp x.2
+    rw [coneGradientL2_apply] at h
     have h' := congrArg coneOneCoordinates h
-    simpa only [coneGradientL2, LinearMap.comp_apply,
-      LinearEquiv.apply_symm_apply, map_zero, coneGradientLinear_apply] using h'⟩
+    simpa only [LinearEquiv.apply_symm_apply, map_zero] using h' ⟩
   map_add' x y := by
     apply Subtype.ext
     simp
   map_smul' r x := by
     apply Subtype.ext
-    simp
+    simpa only [RingHom.id_apply, Submodule.coe_smul] using coneZeroCoordinates.map_smul r (x : ConeZeroL2)
+
+/-- The underlying raw coordinate of the restricted kernel map. -/
+theorem coneGradientKernelToRaw_apply (x : LinearMap.ker coneGradientL2) :
+    (coneGradientKernelToRaw x : ConeZero) = coneZeroCoordinates (x : ConeZeroL2) := rfl
 
 theorem coneGradientKernelToRaw_bijective :
     Function.Bijective coneGradientKernelToRaw := by
   constructor
   · intro x y hxy
     apply Subtype.ext
-    exact coneZeroCoordinates.injective (congrArg Subtype.val hxy)
+    apply coneZeroCoordinates.injective
+    have h := congrArg Subtype.val hxy
+    simpa only [coneGradientKernelToRaw_apply] using h
   · intro u
     let x : ConeZeroL2 := coneZeroCoordinates.symm u
     have hx : coneGradientL2 x = 0 := by
@@ -204,7 +221,7 @@ theorem coneGradientKernelToRaw_bijective :
       simp [coneGradientL2, x, LinearMap.mem_ker.mp u.2]
     refine ⟨⟨x, LinearMap.mem_ker.mpr hx⟩, ?_⟩
     apply Subtype.ext
-    simp [coneGradientKernelToRaw, x]
+    simp only [coneGradientKernelToRaw_apply, x, LinearEquiv.apply_symm_apply]
 
 def coneGradientKernelL2EquivRaw :
     LinearMap.ker coneGradientL2 ≃ₗ[ℝ] LinearMap.ker coneGradientLinear :=
@@ -337,3 +354,9 @@ end
 
 
 end OPH.WhitneyConeModes
+
+#print axioms OPH.WhitneyConeModes.coneGradientL2_apply
+
+#print axioms OPH.WhitneyConeModes.coneCurlL2_apply
+
+#print axioms OPH.WhitneyConeModes.coneGradientKernelToRaw_apply

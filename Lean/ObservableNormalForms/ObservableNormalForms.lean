@@ -1,18 +1,21 @@
-import ObservableNormalForms.Exact
-import ObservableNormalForms.ObserverConfluence
-import ObservableNormalForms.Stability
-import ObservableNormalForms.Moduli
-import ObservableNormalForms.Refinement
-import ObservableNormalForms.Repair
-import ObservableNormalForms.MechanismVariants
-import ObservableNormalForms.Functional
-import ObservableNormalForms.Stochastic
-import ObservableNormalForms.ConditionalResampling
-import ObservableNormalForms.ProtectedObstructions
-import ObservableNormalForms.Examples.ProtectedObstructions
-import ObservableNormalForms.SchedulerClassObstructions
-import ObservableNormalForms.Examples.Rule90
-import ObservableNormalForms.AxiomAudit
+module
+public import ObservableNormalForms.Exact
+public import ObservableNormalForms.ObserverConfluence
+public import ObservableNormalForms.Stability
+public import ObservableNormalForms.Moduli
+public import ObservableNormalForms.Refinement
+public import ObservableNormalForms.Repair
+public import ObservableNormalForms.MechanismVariants
+public import ObservableNormalForms.Functional
+public import ObservableNormalForms.Stochastic
+public import ObservableNormalForms.ConditionalResampling
+public import ObservableNormalForms.ProtectedObstructions
+public import ObservableNormalForms.Examples.ProtectedObstructions
+public import ObservableNormalForms.SchedulerClassObstructions
+public import ObservableNormalForms.Examples.Rule90
+public import ObservableNormalForms.AxiomAudit
+
+@[expose] public section
 
 /-!
 # Observation-Determined Normal Forms: Lean 4 library root

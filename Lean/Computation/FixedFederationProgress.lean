@@ -1,5 +1,8 @@
-import Computation.RepairUniversality
-import ObservableNormalForms.ObserverConfluence
+module
+public import Computation.RepairUniversality
+public import ObservableNormalForms.ObserverConfluence
+
+@[expose] public section
 
 /-!
 # Fixed-federation canonical repair progress
@@ -35,7 +38,7 @@ theorem canonicalAcceptedStep_to_repairStep {L : List Node} {s t : State}
   refine ⟨n.obs, List.mem_map.mpr ⟨n, hn, rfl⟩, hfail, ?_⟩
   intro i hi
   simp only [repairNode, write]
-  exact if_neg fun hir => hi (by rw [hir]; exact List.mem_cons_self)
+  exact ite_eq_right fun hir => hi (by rw [hir]; exact List.mem_cons_self)
 
 /-- Canonical normality is exactly consensus for the declared node list. -/
 theorem isNormalForm_canonicalAcceptedStep_iff_consensus
@@ -181,7 +184,7 @@ theorem canonicalAcceptedStep_wellFounded
     (InvImage.wf _ wellFounded_lt)
 
 /-- A scheduler for attempts on one fixed node federation. -/
-def NodeScheduler (L : List Node) :=
+abbrev NodeScheduler (L : List Node) :=
   Nat → State → {n : Node // n ∈ L}
 
 /-- Attempts may stutter when the selected member accepts. -/
@@ -205,8 +208,7 @@ theorem attemptRun_add (L : List Node) (m n : Nat)
   induction n with
   | zero => rfl
   | succ n ih =>
-      rw [Nat.add_succ, attemptRun_last_step,
-        attemptRun_last_step, ih]
+      simp only [attemptRun, Nat.add_eq, ih]
 
 theorem repairNode_eq_self_of_accepts (n : Node) (s : State)
     (hok : n.obs.ok s = true) : repairNode n s = s := by
@@ -502,7 +504,7 @@ theorem fixedCanonicalStep_observationPreserving {k : Nat}
   obtain ⟨n, hn, _hfail, rfl⟩ := hstep
   funext j
   simp only [InputObservation, repairNode, write]
-  exact (if_neg (Nat.ne_of_lt
+  exact (ite_eq_right (Nat.ne_of_lt
     (lt_of_lt_of_le j.isLt (fixedProgram_inputSeparated phi n hn)))).symm
 
 theorem fixedRepairNode_preservesInputObservation {k : Nat}
@@ -511,7 +513,7 @@ theorem fixedRepairNode_preservesInputObservation {k : Nat}
     InputObservation k (repairNode n s) = InputObservation k s := by
   funext j
   simp only [InputObservation, repairNode, write]
-  exact if_neg (Nat.ne_of_lt
+  exact ite_eq_right (Nat.ne_of_lt
     (lt_of_lt_of_le j.isLt (fixedProgram_inputSeparated phi n hn)))
 
 theorem fixedAttemptRun_preservesInputObservation {k : Nat}

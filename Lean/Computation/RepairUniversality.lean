@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Input-specialized repair satisfiability and width-five permutation programs
@@ -123,7 +126,7 @@ theorem sweepFrom_frame (s : State) (L : List Node) (i : ℕ)
       have hi : n.reg ≠ i := h n (List.mem_cons_self)
       rw [sweepFrom, ih _ fun m hm => h m (List.mem_cons_of_mem n hm)]
       simp only [write]
-      exact if_neg fun heq => hi heq.symm
+      exact ite_eq_right fun heq => hi heq.symm
 
 theorem sweepFrom_forced (s : State) (L : List Node) (hWF : NodesWF L) :
     ∀ n ∈ L, sweepFrom s L n.reg = n.val (sweepFrom s L) := by
@@ -144,7 +147,7 @@ theorem sweepFrom_forced (s : State) (L : List Node) (hWF : NodesWF L) :
           have hilt : i < n.reg := hdep n (List.mem_cons_self) i hi
           rw [sweepFrom_frame _ _ _ fun p hp => ne_of_gt (lt_trans hilt (hpw.1 p hp))]
           simp only [write]
-          exact if_neg (Nat.ne_of_lt hilt)
+          exact ite_eq_right (Nat.ne_of_lt hilt)
         rw [hfr, hval]
         simp [write]
       · rw [sweepFrom]
@@ -183,7 +186,7 @@ theorem sweep_reaches (F : Federation) (s : State) (L : List Node)
           refine ⟨n.obs, hsub n (List.mem_cons_self), hfalse, ?_⟩
           intro i hi
           simp only [write]
-          refine if_neg fun heq => hi ?_
+          refine ite_eq_right fun heq => hi ?_
           rw [heq]
           exact List.mem_cons_self
         exact Reaches.step hstep (ih _ fun m hm => hsub m (List.mem_cons_of_mem n hm))
@@ -294,6 +297,17 @@ structure Out where
   out : ℕ
   next : ℕ
 
+/-- Assemble one NAND gate from compiled children. Keeping the node's
+locality proof outside structural recursion avoids duplicating recursive
+compiler terms inside the generated recursor proof. -/
+@[simp] def appendNand (left right : Out) : Out :=
+  ⟨left.nodes ++ (right.nodes ++
+      [⟨right.next, [left.out, right.out],
+        fun s => !(s left.out && s right.out),
+        fun s t h => by
+          rw [h left.out (by simp), h right.out (by simp)]⟩]),
+    right.next, right.next + 1⟩
+
 variable {k : ℕ}
 
 /-- Compile the interior of a formula, allocating registers from `c`.
@@ -303,13 +317,9 @@ def go : Formula k → ℕ → Out
       ⟨[⟨c, [i.val], fun s => s i.val, fun _ _ h => h i.val (by simp)⟩], c, c + 1⟩
   | .const b, c => ⟨[⟨c, [], fun _ => b, fun _ _ _ => rfl⟩], c, c + 1⟩
   | .nand φ ψ, c =>
-      ⟨(go φ c).nodes ++ ((go ψ (go φ c).next).nodes ++
-          [⟨(go ψ (go φ c).next).next, [(go φ c).out, (go ψ (go φ c).next).out],
-            fun s => !(s (go φ c).out && s (go ψ (go φ c).next).out),
-            fun s t h => by
-              dsimp only
-              rw [h (go φ c).out (by simp), h (go ψ (go φ c).next).out (by simp)]⟩]),
-        (go ψ (go φ c).next).next, (go ψ (go φ c).next).next + 1⟩
+      let left := go φ c
+      let right := go ψ left.next
+      appendNand left right
 
 /-- The facts the compiler guarantees, relative to allocation start `c`. -/
 structure GoFacts (k c : ℕ) (φ : Formula k) (x : Fin k → Bool) (o : Out) : Prop where
@@ -375,7 +385,7 @@ theorem go_facts (φ : Formula k) : ∀ (c : ℕ), k ≤ c → ∀ x : Fin k →
         le_trans (le_trans Fφ.c_le_out (le_of_lt Fφ.out_lt_next)) hφψ
       refine ⟨hcnext, Nat.lt_succ_self _, ?_, ?_, ?_, ?_, ?_, ?_⟩
       · intro n hn
-        simp only [go, List.mem_append, List.mem_singleton] at hn
+        simp only [go, appendNand, List.mem_append, List.mem_singleton] at hn
         rcases hn with hn | hn | rfl
         · rcases Fφ.range n hn with ⟨h1, h2⟩
           exact ⟨h1, lt_trans (lt_of_lt_of_le h2 hφψ) (Nat.lt_succ_self _)⟩
@@ -383,7 +393,7 @@ theorem go_facts (φ : Formula k) : ∀ (c : ℕ), k ≤ c → ∀ x : Fin k →
           exact ⟨le_trans (le_trans Fφ.c_le_out (le_of_lt Fφ.out_lt_next)) h1,
             lt_trans h2 (Nat.lt_succ_self _)⟩
         · exact ⟨hcnext, Nat.lt_succ_self _⟩
-      · simp only [go]
+      · simp only [go, appendNand]
         rw [List.pairwise_append]
         refine ⟨Fφ.pairwise, ?_, ?_⟩
         · rw [List.pairwise_append]
@@ -398,7 +408,7 @@ theorem go_facts (φ : Formula k) : ∀ (c : ℕ), k ≤ c → ∀ x : Fin k →
           · exact lt_of_lt_of_le haφ (Fψ.range b hb).1
           · exact lt_of_lt_of_le haφ hφψ
       · intro n hn j hj
-        simp only [go, List.mem_append, List.mem_singleton] at hn
+        simp only [go, appendNand, List.mem_append, List.mem_singleton] at hn
         rcases hn with hn | hn | rfl
         · exact Fφ.deps_lt n hn j hj
         · exact Fψ.deps_lt n hn j hj
@@ -406,32 +416,32 @@ theorem go_facts (φ : Formula k) : ∀ (c : ℕ), k ≤ c → ∀ x : Fin k →
           rcases hj with rfl | rfl
           · exact houtφ
           · exact Fψ.out_lt_next
-      · simp only [go, List.map_append, List.mem_append]
+      · simp only [go, appendNand, List.map_append, List.mem_append]
         right; right
         simp
       · intro n hn j hj
-        simp only [go, List.mem_append, List.mem_singleton] at hn
+        simp only [go, appendNand, List.mem_append, List.mem_singleton] at hn
         rcases hn with hn | hn | rfl
         · rcases Fφ.deps_cov n hn j hj with h | h
           · exact Or.inl h
           · refine Or.inr ?_
-            simp only [go, List.map_append, List.mem_append]
+            simp only [go, appendNand, List.map_append, List.mem_append]
             exact Or.inl h
         · rcases Fψ.deps_cov n hn j hj with h | h
           · exact Or.inl h
           · refine Or.inr ?_
-            simp only [go, List.map_append, List.mem_append]
+            simp only [go, appendNand, List.map_append, List.mem_append]
             exact Or.inr (Or.inl h)
         · simp only [List.mem_cons, List.not_mem_nil, or_false] at hj
           rcases hj with rfl | rfl
           · refine Or.inr ?_
-            simp only [go, List.map_append, List.mem_append]
+            simp only [go, appendNand, List.map_append, List.mem_append]
             exact Or.inl Fφ.out_mem
           · refine Or.inr ?_
-            simp only [go, List.map_append, List.mem_append]
+            simp only [go, appendNand, List.map_append, List.mem_append]
             exact Or.inr (Or.inl Fψ.out_mem)
       · intro s hs
-        simp only [go, sweepFrom_append]
+        simp only [go, appendNand, sweepFrom_append]
         have hs₁ : ∀ j : Fin k, sweepFrom s (go φ c).nodes j.val = x j := by
           intro j
           rw [sweepFrom_frame _ _ _ fun p hp =>
@@ -445,7 +455,7 @@ theorem go_facts (φ : Formula k) : ∀ (c : ℕ), k ≤ c → ∀ x : Fin k →
         have hψout : sweepFrom (sweepFrom s (go φ c).nodes)
             (go ψ (go φ c).next).nodes (go ψ (go φ c).next).out = Formula.evalF ψ x :=
           Fψ.sweep_out _ hs₁
-        simp only [sweepFrom, write, if_true]
+        simp only [sweepFrom, write, ite_true]
         rw [hφout, hψout]
         rfl
 
@@ -518,10 +528,10 @@ theorem buildInputs_sweep (x : Fin k → Bool) (s : State) :
       rw [buildInputs, sweepFrom_append]
       rcases Nat.lt_succ_iff_lt_or_eq.mp hj with hj | hj
       · simp only [sweepFrom, write]
-        rw [if_neg (Nat.ne_of_lt hj)]
+        rw [ite_eq_right (Nat.ne_of_lt hj)]
         exact ih _ j hj
       · simp only [sweepFrom, write]
-        rw [if_pos hj]
+        rw [ite_eq_left hj]
         exact congrArg x (Fin.ext hj.symm)
 
 /-- The input federation: registers `0, …, k-1` pinned to `x`. -/
@@ -777,7 +787,7 @@ theorem bar_computes (φ : Formula k) (τ : P5) :
       rcases Bool.eq_false_or_eq_true (Formula.evalF φ x) with h1 | h1 <;>
         rcases Bool.eq_false_or_eq_true (Formula.evalF ψ x) with h2 | h2 <;>
         simp only [h1, h2, Bool.true_and, Bool.false_and, Bool.not_true,
-          Bool.not_false, reduceIte, if_neg Bool.false_ne_true, inv_one]
+          Bool.not_false, reduceIte, ite_eq_right Bool.false_ne_true, inv_one]
       · exact conj_key τ
       · group
       · group

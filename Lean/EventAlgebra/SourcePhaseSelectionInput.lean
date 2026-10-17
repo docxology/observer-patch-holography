@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -18,7 +21,11 @@ inductive PhaseState where
   | orbit04
   | phaseNegative
   | phasePositive
-  deriving DecidableEq, Fintype, Repr
+  deriving DecidableEq, Repr
+
+instance : Fintype PhaseState where
+  elems := {PhaseState.orbit00, PhaseState.orbit02, PhaseState.orbit04, PhaseState.phaseNegative, PhaseState.phasePositive}
+  complete := by intro x; cases x <;> simp
 
 inductive PhaseEvent where
   | pair0002
@@ -33,7 +40,11 @@ inductive PhaseEvent where
   | pair0205
   | pair0304
   | pair0305
-  deriving DecidableEq, Fintype, Repr
+  deriving DecidableEq, Repr
+
+instance : Fintype PhaseEvent where
+  elems := {PhaseEvent.pair0002, PhaseEvent.pair0003, PhaseEvent.pair0004, PhaseEvent.pair0005, PhaseEvent.pair0102, PhaseEvent.pair0103, PhaseEvent.pair0104, PhaseEvent.pair0105, PhaseEvent.pair0204, PhaseEvent.pair0205, PhaseEvent.pair0304, PhaseEvent.pair0305}
+  complete := by intro x; cases x <;> simp
 
 abbrev StateBytes := List Nat
 abbrev OperationBytes := List Nat

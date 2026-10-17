@@ -1,4 +1,7 @@
-import OphGap.Slices.P4
+module
+public import OphGap.Slices.P4
+
+@[expose] public section
 
 /-!
 # The gap theorem for OPH's graph WITH ITS ORIGINAL CARRIER IDS

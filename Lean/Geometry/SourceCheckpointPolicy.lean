@@ -1,4 +1,7 @@
-import Mathlib.Analysis.SpecialFunctions.Log.Basic
+module
+public import Mathlib.Analysis.SpecialFunctions.Log.Basic
+
+@[expose] public section
 
 /-!
 # A finite checkpoint law and its causal implementation

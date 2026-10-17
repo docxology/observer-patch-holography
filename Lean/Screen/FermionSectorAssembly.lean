@@ -1,4 +1,7 @@
-import AssembledActionComposition
+module
+public import AssembledActionComposition
+
+@[expose] public section
 
 /-!
 # Fermion-sector completion of the assembled structural action (V3, issue #735, OL-G9)
@@ -424,7 +427,7 @@ theorem fermionSector_diagonal_display (κ : Fin 10 → ℝ) (m : ℕ)
   unfold fermionSector
   refine Finset.sum_congr rfl fun i _ => ?_
   by_cases h : mem m i = true
-  · simp only [h, if_true]
+  · simp only [h, ite_true]
     rw [rowPairForm_diag]
     simp
   · simp [h]
@@ -460,7 +463,7 @@ theorem fermionSector_nonneg (κ : Fin 10 → ℝ) (hκ : ∀ i, 0 ≤ κ i)
   unfold fermionSector
   refine Finset.sum_nonneg fun i _ => ?_
   by_cases h : mem m i = true
-  · simp only [h, if_true]
+  · simp only [h, ite_true]
     exact mul_nonneg (hκ i) (Complex.normSq_nonneg _)
   · simp [h]
 

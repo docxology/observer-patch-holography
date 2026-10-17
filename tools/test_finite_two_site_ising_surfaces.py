@@ -93,9 +93,9 @@ def test_lean_surface_and_umbrella_keep_the_controls_visible() -> None:
         assert declaration in source
     assert "The ground space is\ndegenerate" in source
     umbrella = (ROOT / "Lean/QFT.lean").read_text(encoding="utf-8")
-    assert umbrella.splitlines().count("import QFT.FiniteTwoSiteIsingField") == 1
+    assert umbrella.splitlines().count("public import QFT.FiniteTwoSiteIsingField") == 1
     assert umbrella.splitlines().count(
-        "import QFT.FiniteTwoSiteIsingColimitGNS"
+        "public import QFT.FiniteTwoSiteIsingColimitGNS"
     ) == 1
     assert "closes this exact\ncomposition gap" in umbrella
 
@@ -135,7 +135,7 @@ def test_composition_claim_keeps_every_physical_exit_open() -> None:
 
     source = (ROOT / COMPOSITION_LEAN_PATH).read_text(encoding="utf-8")
     for declaration in [
-        "def isingTower",
+        "abbrev isingTower",
         "def slotNet",
         "theorem stageRepresentation_injective",
         "theorem representedHamiltonian_cyclicUnit_eq_zero",

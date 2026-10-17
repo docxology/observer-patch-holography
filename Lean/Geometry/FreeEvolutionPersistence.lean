@@ -1,4 +1,7 @@
-import Geometry.InternalClockRestFrequency
+module
+public import Geometry.InternalClockRestFrequency
+
+@[expose] public section
 
 /-!
 # C1: free-evolution persistence on the declared Lorentz module

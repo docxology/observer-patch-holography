@@ -1,6 +1,9 @@
-import EventAlgebra.Lueders
-import ObserverPatchHolography.Primitives
-import EventAlgebra.SourcePhaseSelectionInput
+module
+public import EventAlgebra.Lueders
+public import ObserverPatchHolography.Primitives
+public import EventAlgebra.SourcePhaseSelectionInput
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -46,7 +49,7 @@ theorem eventStateOperationBytes (event : PhaseEvent) :
     stateBytes (eventState event) = operationBytes event := by
   simpa [matchingStates] using eventState_mem_matchingStates event
 
-noncomputable def Carrier (event : PhaseEvent) : OPHCarrier where
+noncomputable abbrev Carrier (event : PhaseEvent) : OPHCarrier where
   Patch := Unit
   State := fun _ => PhaseState
   Edge := Unit

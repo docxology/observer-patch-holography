@@ -1,10 +1,15 @@
-import Geometry.SourcePopulationQuadrature
-import Mathlib.NumberTheory.Real.GoldenRatio
-import Mathlib.Data.Nat.ModEq
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
-import Mathlib.MeasureTheory.Function.LocallyIntegrable
-import Mathlib.Analysis.SpecificLimits.Basic
+module
+public import Geometry.SourcePopulationQuadrature
+public import Mathlib.NumberTheory.Real.GoldenRatio
+public import Mathlib.Data.Nat.ModEq
+public import Mathlib.Analysis.InnerProductSpace.PiL2
+public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
+public import Mathlib.MeasureTheory.Function.LocallyIntegrable
+public import Mathlib.Analysis.SpecificLimits.Basic
+
+public import Mathlib.MeasureTheory.Integral.Bochner.Set
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -351,7 +356,7 @@ theorem golden_quadrature {n : ℕ} (hn : 0 < n) {L : ℝ} (hL : 0 < L)
     apply hfcube.mono_set
     rw [← cell_cover hn hL]
     exact subset_iUnion (cell n L) b
-  letI hfinite (b : Fin 3 → Fin (Nat.fib n)) :
+  have hfinite (b : Fin 3 → Fin (Nat.fib n)) :
       IsFiniteMeasure (volume.restrict (cell n L b)) := cell_measure_finite n L b
   have hsum : (∑ b : Fin 3 → Fin (Nat.fib n), volume.restrict (cell n L b)) =
       volume.restrict (cube L) := by
@@ -377,7 +382,7 @@ theorem golden_quadrature {n : ℕ} (hn : 0 < n) {L : ℝ} (hL : 0 < L)
     simpa only [mul_assoc, mul_comm, mul_left_comm] using norm_integral_le_of_norm_le_const hb
   have hq : (Nat.fib n : ℝ) ≠ 0 := by exact_mod_cast (Nat.fib_pos.mpr hn).ne'
   change ‖_ - ∫ x, F x ∂volume.restrict (cube L)‖ ≤ _
-  rw [← hsum, integral_finset_sum_measure (fun b _ => hfcell b), ← Finset.sum_sub_distrib]
+  rw [← hsum, integral_finsetSum_measure (fun b _ => hfcell b), ← Finset.sum_sub_distrib]
   calc
     _ ≤ ∑ _ : Fin 3 → Fin (Nat.fib n),
         (L ^ 3 / (Nat.fib n : ℝ) ^ 3) * (K : ℝ) *
@@ -418,7 +423,7 @@ theorem golden_quadrature_closed {n : ℕ} (hn : 0 < n) {L : ℝ} (hL : 0 < L)
       (L ^ 3 / (Nat.fib n : ℝ) ^ 3) • f (site L b)) -
       ∫ x in Icc (fun _ : Fin 3 => (0 : ℝ)) (fun _ => L), f (WithLp.toLp 2 x)‖ ≤
       L ^ 3 * (K : ℝ) * (2 * Real.sqrt 3 * L / Nat.fib n) := by
-  rw [← setIntegral_congr_set (cube_ae_closed L)]
+  rw [← MeasureTheory.setIntegral_congr_set (cube_ae_closed L)]
   exact golden_quadrature hn hL f hK
 
 /-- A sample can lie outside its assigned cell: treating these as Voronoi

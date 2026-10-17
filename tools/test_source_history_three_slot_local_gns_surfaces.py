@@ -149,7 +149,7 @@ def test_claim_does_not_promote_compatible_restriction_to_expectation() -> None:
 def test_qft_umbrella_imports_packet_once_and_states_its_boundary() -> None:
     umbrella = (ROOT / "Lean/QFT.lean").read_text(encoding="utf-8")
     assert umbrella.splitlines().count(
-        "import QFT.SourceHistoryThreeSlotLocalGNS"
+        "public import QFT.SourceHistoryThreeSlotLocalGNS"
     ) == 1
     collapsed_umbrella = " ".join(umbrella.split())
     for text in [

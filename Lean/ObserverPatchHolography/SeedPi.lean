@@ -1,5 +1,8 @@
-import Mathlib
-import ObserverPatchHolography.CapacityFixedPoint
+module
+public import Mathlib
+public import ObserverPatchHolography.CapacityFixedPoint
+
+@[expose] public section
 
 /-!
 # Coupling-Algebra Part A: CAP-P Seed

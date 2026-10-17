@@ -1,5 +1,9 @@
-import Mathlib.Util.AssertNoSorry
-import Geometry.SourcePassiveMemoryBudget
+module
+public import Mathlib.Util.AssertNoSorry
+public import PortGramA5Isometry
+public import Geometry.SourcePassiveMemoryBudget
+
+@[expose] public section
 
 /-! Transitive audit of every theorem in the passive-memory derivation. -/
 open Lean Elab Command in
@@ -16,9 +20,12 @@ elab "audit_passive_axioms " n:ident : command => do
 #guard_msgs in
 audit_passive_axioms sorryAx
 
-/-- error: Passive memory axiom audit rejected [Lean.ofReduceBool, Lean.trustCompiler] -/
+-- The control inherits the native axiom of the reviewed rotation proof.
+private alias nativeDecisionControl := OPH.PortGramA5Isometry.rotationQ_orthogonal
+
+/-- error: Passive memory axiom audit rejected [_private.PortGramA5Isometry.0.OPH.PortGramA5Isometry.rotationQ_orthogonal._native.native_decide.ax_1_1] -/
 #guard_msgs in
-audit_passive_axioms Lean.ofReduceBool
+audit_passive_axioms nativeDecisionControl
 
 audit_passive_axioms OPH.SourceNonlinearRecord.nonnegative_single
 audit_passive_axioms OPH.SourceNonlinearRecord.nonnegative_add

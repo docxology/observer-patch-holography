@@ -1,5 +1,8 @@
-import CarrierModeOscillators
-import Geometry.WorldlineHopTransport
+module
+public import CarrierModeOscillators
+public import Geometry.WorldlineHopTransport
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -428,14 +431,14 @@ theorem twoRest_portSeq : ∀ n, portSeq (seamLeft 0) twoRestSteps n = twoRestPo
       rw [hd]
       by_cases hp : n / 3 % 2 = 0
       · have hp' : (n / 3 + 1) % 2 ≠ 0 := by omega
-        simp only [if_pos h3, if_pos hp, if_neg hp']
+        simp only [ite_eq_left h3, ite_eq_left hp, ite_eq_right hp']
         rfl
       · have hp' : (n / 3 + 1) % 2 = 0 := by omega
-        simp only [if_pos h3, if_neg hp, if_pos hp']
+        simp only [ite_eq_left h3, ite_eq_right hp, ite_eq_left hp']
         rfl
     · have hd : (n + 1) / 3 = n / 3 := by omega
       rw [hd]
-      simp only [if_neg h3]
+      simp only [ite_eq_right h3]
       rfl
 
 /-- **The two-rest worldline**: start at `seamLeft 0`, two rests, cross
@@ -449,11 +452,11 @@ def twoRestWorldline : SeamStepWorldline where
     unfold twoRestSteps twoRestPort
     by_cases h3 : n % 3 = 2
     · by_cases hp : n / 3 % 2 = 0
-      · simp only [if_pos h3, if_pos hp]
+      · simp only [ite_eq_left h3, ite_eq_left hp]
         exact rfl
-      · simp only [if_pos h3, if_neg hp]
+      · simp only [ite_eq_left h3, ite_eq_right hp]
         exact rfl
-    · simp only [if_neg h3]
+    · simp only [ite_eq_right h3]
       exact trivial
 
 /-- Every triple `3j, 3j+1, 3j+2` of the two-rest worldline is a rest block
@@ -463,16 +466,16 @@ theorem twoRestWorldline_block (j : ℕ) : RestBlock twoRestWorldline (3 * j) 2 
   · show twoRestSteps (3 * j + i) = .rest
     unfold twoRestSteps
     have : (3 * j + i) % 3 ≠ 2 := by omega
-    simp only [if_neg this]
+    simp only [ite_eq_right this]
   · show twoRestSteps (3 * j + 2) ≠ .rest
     unfold twoRestSteps
     have h3 : (3 * j + 2) % 3 = 2 := by omega
-    simp only [if_pos h3]
+    simp only [ite_eq_left h3]
     by_cases hp : (3 * j + 2) / 3 % 2 = 0
-    · simp only [if_pos hp]
+    · simp only [ite_eq_left hp]
       intro h
       cases h
-    · simp only [if_neg hp]
+    · simp only [ite_eq_right hp]
       intro h
       cases h
 

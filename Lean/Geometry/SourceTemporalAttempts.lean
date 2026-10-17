@@ -1,4 +1,7 @@
-import Geometry.SourceTemporalGuard
+module
+public import Geometry.SourceTemporalGuard
+
+@[expose] public section
 
 /-!
 # Unconditional proposal counts for native completion
@@ -74,7 +77,8 @@ def blockProgram {P : Type*} {B k : ℕ} (seam : E → P × P)
     (w : Fin k → Fin B → E) : List (P × P) :=
   (List.ofFn (fun i => (List.ofFn (w i)).map seam)).flatten
 
-theorem block_occurrence {P : Type*} (B k : ℕ) (seam : E → P × P)
+omit [Fintype E] in
+theorem block_occurrence [_instFintypeE : Fintype E] {P : Type*} (B k : ℕ) (seam : E → P × P)
     (word : Fin B → E) (w : Fin k → Fin B → E) (hit : ∃ i, w i = word) :
     ∃ before after, blockProgram seam w = before ++ (List.ofFn word).map seam ++ after := by
   obtain ⟨i,hi⟩ := hit

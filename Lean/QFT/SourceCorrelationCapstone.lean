@@ -1,4 +1,7 @@
-import QFT.TwoSlotCPNetWitness
+module
+public import QFT.TwoSlotCPNetWitness
+
+@[expose] public section
 
 /-!
 # The source correlation capstone on a fully disjoint pair

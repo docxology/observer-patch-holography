@@ -1,5 +1,8 @@
-import QFT.SourceLinkSquare
-import Tower.OperationalObserver
+module
+public import QFT.SourceLinkSquare
+public import Tower.OperationalObserver
+
+@[expose] public section
 
 /-!
 # The first finite joint instance of the E2 integration gate

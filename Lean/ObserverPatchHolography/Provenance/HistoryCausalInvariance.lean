@@ -1,4 +1,7 @@
-import ObserverPatchHolography.Provenance.MismatchProvenance
+module
+public import ObserverPatchHolography.Provenance.MismatchProvenance
+
+@[expose] public section
 
 /-!
 # History invariance of the generated causal order
@@ -76,22 +79,22 @@ def apply (s : CommitSpec Register Value EventId)
 @[simp] theorem apply_value_mem {s : CommitSpec Register Value EventId}
     {q : VersionedState Register Value EventId} {a : Register}
     (ha : a ∈ s.writeSet) : (s.apply q).value a = s.writeValue a :=
-  if_pos ha
+  ite_eq_left ha
 
 @[simp] theorem apply_value_notMem {s : CommitSpec Register Value EventId}
     {q : VersionedState Register Value EventId} {a : Register}
     (ha : a ∉ s.writeSet) : (s.apply q).value a = q.value a :=
-  if_neg ha
+  ite_eq_right ha
 
 @[simp] theorem apply_writer_mem {s : CommitSpec Register Value EventId}
     {q : VersionedState Register Value EventId} {a : Register}
     (ha : a ∈ s.writeSet) : (s.apply q).writer a = some s.eventId :=
-  if_pos ha
+  ite_eq_left ha
 
 @[simp] theorem apply_writer_notMem {s : CommitSpec Register Value EventId}
     {q : VersionedState Register Value EventId} {a : Register}
     (ha : a ∉ s.writeSet) : (s.apply q).writer a = q.writer a :=
-  if_neg ha
+  ite_eq_right ha
 
 /-- The semantic commit executed by a specification at a state. -/
 def commitAt (s : CommitSpec Register Value EventId)
@@ -104,9 +107,9 @@ def commitAt (s : CommitSpec Register Value EventId)
   writeSet := s.writeSet
   causalSupp := s.causalSupp
   supp_subset_read := s.supp_subset_read
-  frame_value := fun _ ha => if_neg ha
-  frame_writer := fun _ ha => if_neg ha
-  stamp := fun _ ha => if_pos ha
+  frame_value := fun _ ha => ite_eq_right ha
+  frame_writer := fun _ ha => ite_eq_right ha
+  stamp := fun _ ha => ite_eq_left ha
 
 /-- Direct parenthood of an executed commit reads only the pre-commit
 writers on the certified support. -/
@@ -358,7 +361,7 @@ theorem idRank_lt_of_mem_prefix [DecidableEq EventId]
           · exact absurd hx.symm hxe
           · exact hr
         have := ih hrest
-        simp only [List.cons_append, idRank, hxe, if_false,
+        simp only [List.cons_append, idRank, hxe, ite_false,
           List.length_cons]
         omega
 
@@ -526,7 +529,7 @@ theorem execParents_authenticated [DecidableEq EventId]
       apply eq_of_mem_of_mem_of_map_nodup CommitSpec.eventId hnodup
         htspecs hcsmem htid
     have hacs : a ∈ cs.writeSet := by simpa [htcs] using hat
-    have hac : a ∈ c.writeSet := by simpa [hccommit] using hacs
+    have hac : a ∈ c.writeSet := by simpa [hccommit, CommitSpec.commitAt] using hacs
     have hvalue : d.before.value a = c.after.value a := by
       calc
         d.before.value a = (execState q dpre).value a := by
@@ -561,7 +564,7 @@ def ExecutedCarrierComplete
     (specs : List (CommitSpec Register Value EventId)) : Prop :=
   ∀ e : EventId, e ∈ specs.map CommitSpec.eventId
 
-private theorem executedCommit_exists
+theorem executedCommit_exists
     (q : VersionedState Register Value EventId)
     (specs : List (CommitSpec Register Value EventId))
     (hcomplete : ExecutedCarrierComplete specs) (e : EventId) :
@@ -653,7 +656,7 @@ theorem semanticEventLogOfExecution_parentEdge_iff [DecidableEq EventId]
       eq_of_mem_of_mem_of_map_nodup SemanticCommit.eventId hlognodup hd
         (executedCommitOf_mem q specs hcomplete f)
         (hdf.trans (executedCommitOf_eventId q specs hcomplete f).symm)
-    simpa [L, semanticEventLogOfExecution, hcEq, hdEq] using hparent
+    simpa [L, SemanticEventLog.ParentEdge, semanticEventLogOfExecution, hcEq, hdEq] using hparent
 
 /-- The generated precedence of the canonical executed log is exactly the
 transitive closure of authenticated execution edges. -/

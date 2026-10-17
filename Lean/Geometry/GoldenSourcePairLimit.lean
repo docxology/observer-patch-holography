@@ -1,4 +1,7 @@
-import Geometry.GoldenSourceCausalLimit
+module
+public import Geometry.GoldenSourceCausalLimit
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -65,7 +68,7 @@ theorem strict_classification_ae {T L c : ℝ} (hL : 0 < L) (hc : 0 < c) :
       ∀ ij : Label (n + 2) T L c × Label (n + 2) T L c,
         z ∈ pairCell (n + 2) T L (sourceDelta (n + 2) L c) ij →
           (strictlyGenerated ij.1 ij.2 ↔ 0 < margin c z.1 z.2) := by
-  letI : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
+  let : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
   have hcov (n : ℕ) : ∀ᵐ x ∂spaceTimeVolume T L, ∃ i,
       x ∈ eventCell (n + 2) T L (sourceDelta (n + 2) L c) i :=
     eventCell_ae_cover (by omega : 0 < n + 2) hL (sourceDelta_pos (by omega) hL hc)
@@ -101,7 +104,7 @@ theorem pair_classification_ae {T L c : ℝ} (hL : 0 < L) (hc : 0 < c)
     ∀ᵐ z ∂(spaceTimeVolume T L).prod (spaceTimeVolume T L), ∀ᶠ n in atTop,
       ∀ ij, z ∈ pairCell (n + 2) T L (sourceDelta (n + 2) L c) ij →
         (pairMember (e n) (f n) ij ↔ z ∈ pairRegion c p q) := by
-  letI : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
+  let : IsFiniteMeasure (spaceTimeVolume T L) := spaceTimeVolume_finite T L
   have hi := interval_classification_ae hL hc e f he hf
   filter_upwards [Measure.quasiMeasurePreserving_fst.ae hi,
     Measure.quasiMeasurePreserving_snd.ae hi, strict_classification_ae (T := T) hL hc]

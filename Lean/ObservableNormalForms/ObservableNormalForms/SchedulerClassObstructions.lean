@@ -1,4 +1,7 @@
-import ObservableNormalForms.Examples.ProtectedObstructions
+module
+public import ObservableNormalForms.Examples.ProtectedObstructions
+
+@[expose] public section
 
 /-!
 # Declared admissible scheduler class and capacity-split obstruction bounds
@@ -299,12 +302,12 @@ theorem all_scheduler_defect_cut (A : AdmissibleScheduler) :
   apply hitProbability_eq_zero_on_closed A.kernel DefectTarget
     {r : State | r.2 = false}
   · intro u hu ht
-    rw [Set.mem_setOf_eq] at hu
+    rw [Set.mem_ofPred_eq] at hu
     have ht' : u.2 = true := ht
     rw [hu] at ht'
     exact Bool.false_ne_true ht'
   · intro u hu v huv
-    rw [Set.mem_setOf_eq] at hu ⊢
+    rw [Set.mem_ofPred_eq] at hu ⊢
     have hm := A.mismatch_nonincrease u v huv
     by_contra hv
     have hv' : v.2 = true := by simpa using hv
@@ -338,9 +341,9 @@ theorem defectInjectionKernel_violates_mismatch :
 
 theorem defectInjectionKernel_defect_hitBy (q : State) (hq : q.2 = false) :
     hitBy defectInjectionKernel DefectTarget 1 q = 1 := by
-  rw [hitBy_succ_recurrence, if_neg (by simp [DefectTarget, hq])]
+  rw [hitBy_succ_recurrence, ite_eq_right (by simp [DefectTarget, hq])]
   rw [Finset.sum_eq_single ((q.1, true) : State)]
-  · rw [hitBy_zero, if_pos (show DefectTarget (q.1, true) from rfl), mul_one]
+  · rw [hitBy_zero, ite_eq_left (show DefectTarget (q.1, true) from rfl), mul_one]
     simp [defectInjectionKernel]
   · intro r _ hr
     simp [defectInjectionKernel, hr]
@@ -372,27 +375,27 @@ theorem selfUpdateOnly_cross_cut (A : AdmissibleScheduler)
   apply hitProbability_eq_zero_on_closed A.kernel (CrossTarget b)
     {r : State | r.1 = !b}
   · intro u hu ht
-    rw [Set.mem_setOf_eq] at hu
+    rw [Set.mem_ofPred_eq] at hu
     have ht' : u.1 = b := ht
     rw [hu] at ht'
     cases b <;> simp at ht'
   · intro u hu v huv
-    rw [Set.mem_setOf_eq] at hu ⊢
+    rw [Set.mem_ofPred_eq] at hu ⊢
     rw [hA u v huv, hu]
   · exact hq
 
 theorem networkSwap_cross_hitBy (b : Bool) :
     hitBy networkSwapKernel (CrossTarget b) 1 ((!b, false) : State) = 1 := by
   rw [hitBy_succ_recurrence,
-    if_neg (show ¬ CrossTarget b ((!b, false) : State) by
+    ite_eq_right (show ¬ CrossTarget b ((!b, false) : State) by
       cases b <;> simp [CrossTarget])]
   rw [Finset.sum_eq_single (((b, false)) : State)]
-  · rw [hitBy_zero, if_pos (show CrossTarget b ((b, false) : State) from rfl),
+  · rw [hitBy_zero, ite_eq_left (show CrossTarget b ((b, false) : State) from rfl),
       mul_one]
     simp [networkSwapKernel]
   · intro r _ hr
     simp only [networkSwapKernel, Bool.not_not]
-    rw [if_neg hr, zero_mul]
+    rw [ite_eq_right hr, zero_mul]
   · simp
 
 /-- Full-class reachability witness: the network-update-only swap scheduler
@@ -533,7 +536,8 @@ def coarseProfileOf (A : AdmissibleScheduler) : Profile Unit State where
   target_iff := by
     intro b q
     cases b
-    simp [coarseModelOf, TwoBit.coarseCore, TwoBit.coarseTarget,
+    cases q with
+    | mk q1 q2 => cases q2 <;> simp [coarseModelOf, TwoBit.coarseCore, TwoBit.coarseTarget,
       TwoBit.CoarseTargetPred, FixedBehaviorModel.IsTarget,
       TwoBitRepair.consistent, TwoBitRepair.coarseObserve]
   initial_observe := by
@@ -562,11 +566,13 @@ theorem fine_layer2_eq_layer3_of_class (A : AdmissibleScheduler) :
   apply (fineProfileOf A).t5_observableDetermination_collapse
   intro b c d hc hd
   have hc' : c.2 = false ∧ c.1 = b := by
-    simpa [fineProfileOf, fineModelOf, TwoBit.fineCore, TwoBit.fineTarget,
-      TwoBit.FineTargetPred, FixedBehaviorModel.IsTarget] using hc
+    simp only [fineProfileOf, fineModelOf, TwoBit.fineCore, TwoBit.fineTarget,
+      TwoBit.FineTargetPred, FixedBehaviorModel.IsTarget] at hc
+    exact @of_decide_eq_true _ _ hc
   have hd' : d.2 = false ∧ d.1 = b := by
-    simpa [fineProfileOf, fineModelOf, TwoBit.fineCore, TwoBit.fineTarget,
-      TwoBit.FineTargetPred, FixedBehaviorModel.IsTarget] using hd
+    simp only [fineProfileOf, fineModelOf, TwoBit.fineCore, TwoBit.fineTarget,
+      TwoBit.FineTargetPred, FixedBehaviorModel.IsTarget] at hd
+    exact @of_decide_eq_true _ _ hd
   change c = d
   apply Prod.ext
   · exact hc'.2.trans hd'.2.symm
@@ -583,7 +589,7 @@ theorem selfUpdateOnly_coarse_endpoint_shared (A : AdmissibleScheduler)
   rw [hend] at hchain
   refine reflTransGen_mem_of_closed {r : State | r.1 = x.1} ?_ hchain rfl
   intro u hu v huv
-  rw [Set.mem_setOf_eq] at hu ⊢
+  rw [Set.mem_ofPred_eq] at hu ⊢
   rw [hA u v huv, hu]
 
 /-- Endpoint-uniqueness obstruction for the whole self-update-only sub-class:
@@ -635,15 +641,16 @@ theorem networkUpdateOnly_coarse_cut (A : AdmissibleScheduler)
   apply hitProbability_eq_zero_on_closed A.kernel
     ((coarseProfileOf A).core.IsTarget ()) {r : State | r.2 = true}
   · intro u hu ht
-    rw [Set.mem_setOf_eq] at hu
+    rw [Set.mem_ofPred_eq] at hu
     have ht' : u.2 = false := by
-      simpa [coarseProfileOf, coarseModelOf, TwoBit.coarseCore,
+      simp only [coarseProfileOf, coarseModelOf, TwoBit.coarseCore,
         TwoBit.coarseTarget, TwoBit.CoarseTargetPred,
-        FixedBehaviorModel.IsTarget] using ht
+        FixedBehaviorModel.IsTarget] at ht
+      exact @of_decide_eq_true _ _ ht
     rw [hu] at ht'
     exact Bool.noConfusion ht'
   · intro u hu v huv
-    rw [Set.mem_setOf_eq] at hu ⊢
+    rw [Set.mem_ofPred_eq] at hu ⊢
     rw [hA u v huv, hu]
   · exact hq
 
@@ -755,7 +762,7 @@ theorem merge_coarse_hit_one_true :
   have hs : ¬ (coarseModelOf mergeScheduler).IsTarget () (true, true) := by
     simp [coarseModelOf, TwoBit.coarseCore, TwoBit.coarseTarget,
       TwoBit.CoarseTargetPred, FixedBehaviorModel.IsTarget]
-  rw [if_neg hs]
+  rw [ite_eq_right hs]
   change mergeKernel.apply
     (fun z => hitProbability mergeKernel
       ((coarseModelOf mergeScheduler).IsTarget ()) z) (true, true) = 1
@@ -765,7 +772,7 @@ theorem merge_coarse_hit_one_true :
   have ht : (coarseModelOf mergeScheduler).IsTarget () (true, false) := by
     simp [coarseModelOf, TwoBit.coarseCore, TwoBit.coarseTarget,
       TwoBit.CoarseTargetPred, FixedBehaviorModel.IsTarget]
-  rw [if_pos ht]
+  rw [ite_eq_left ht]
 
 theorem merge_coarse_hit_one_false :
     (coarseProfileOf mergeScheduler).core.hit () (false, true) = 1 := by
@@ -775,7 +782,7 @@ theorem merge_coarse_hit_one_false :
   have hs : ¬ (coarseModelOf mergeScheduler).IsTarget () (false, true) := by
     simp [coarseModelOf, TwoBit.coarseCore, TwoBit.coarseTarget,
       TwoBit.CoarseTargetPred, FixedBehaviorModel.IsTarget]
-  rw [if_neg hs]
+  rw [ite_eq_right hs]
   change mergeKernel.apply
     (fun z => hitProbability mergeKernel
       ((coarseModelOf mergeScheduler).IsTarget ()) z) (false, true) = 1
@@ -791,9 +798,10 @@ theorem merge_coarse_endpoint_eq {x c : State} (hx : x.2 = true)
     c = (true, false) := by
   have htarget := (coarseProfileOf mergeScheduler).endpoint_pos_target hpos
   have hc2 : c.2 = false := by
-    simpa [coarseProfileOf, coarseModelOf, TwoBit.coarseCore,
+    simp only [coarseProfileOf, coarseModelOf, TwoBit.coarseCore,
       TwoBit.coarseTarget, TwoBit.CoarseTargetPred,
-      FixedBehaviorModel.IsTarget] using htarget
+      FixedBehaviorModel.IsTarget] at htarget
+    exact @of_decide_eq_true _ _ htarget
   rcases ((coarseProfileOf mergeScheduler).endpoint_pos_iff_path x () c).mp hpos
     with ⟨n, p, _, hend, hsupp⟩
   have hchain :=
@@ -803,13 +811,13 @@ theorem merge_coarse_endpoint_eq {x c : State} (hx : x.2 = true)
     refine reflTransGen_mem_of_closed {r : State | r.1 = true ∨ r.2 = true}
       ?_ hchain ?_
     · intro u hu v huv
-      rw [Set.mem_setOf_eq] at hu ⊢
+      rw [Set.mem_ofPred_eq] at hu ⊢
       rw [mergeKernel_support huv]
       rcases u with ⟨b, d⟩
       cases b <;> cases d <;> simp [mergeNext] at hu ⊢
-    · rw [Set.mem_setOf_eq]
+    · rw [Set.mem_ofPred_eq]
       exact Or.inr hx
-  rw [Set.mem_setOf_eq] at hmem
+  rw [Set.mem_ofPred_eq] at hmem
   clear hpos htarget hchain hsupp hend
   rcases c with ⟨cb, cd⟩
   cases cb <;> cases cd <;> simp at hc2 hmem ⊢

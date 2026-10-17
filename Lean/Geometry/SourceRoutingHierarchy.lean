@@ -1,5 +1,8 @@
-import Mathlib.Data.Finset.Basic
-import Mathlib.Tactic
+module
+public import Mathlib.Data.Finset.Basic
+public import Mathlib.Tactic
+
+@[expose] public section
 
 set_option autoImplicit false
 

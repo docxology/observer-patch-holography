@@ -1,4 +1,7 @@
-import SMStructureAdequacySurface
+module
+public import SMStructureAdequacySurface
+
+@[expose] public section
 
 /-!
 # Exact character descent bookkeeping for the global form (V3, issue #739)

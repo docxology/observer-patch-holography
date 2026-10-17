@@ -1,10 +1,13 @@
-import EventAlgebra.FiniteBuschGleason
-import EventAlgebra.Lueders
-import EventAlgebra.Tsirelson
-import EventAlgebra.PublicRecordAlgebra
-import EventAlgebra.SlotLocalitySurface
-import Dynamics.StoneConverse
-import QFT.SourcePhaseLiftBridge
+module
+public import EventAlgebra.FiniteBuschGleason
+public import EventAlgebra.Lueders
+public import EventAlgebra.Tsirelson
+public import EventAlgebra.PublicRecordAlgebra
+public import EventAlgebra.SlotLocalitySurface
+public import Dynamics.StoneConverse
+public import QFT.SourcePhaseLiftBridge
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -348,7 +351,7 @@ theorem unique_continuous_flow [NeZero d]
     ∃ Ham : Matrix (Fin d) (Fin d) ℂ, IsSelfAdjoint Ham ∧
       ∀ (t : ℝ) (x : Matrix (Fin d) (Fin d) ℂ),
         α t x = stonePropagator Ham t * x * stonePropagator Ham (-t) := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne d)⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne d)⟩⟩
   exact finiteStoneConverse_of_continuous α hzero hgroup hcont
 
 /-- **Uniqueness of the generator.** Two self-adjoint generators with
@@ -361,7 +364,7 @@ theorem flow_generator_unique [NeZero d]
       stonePropagator H₁ t * x * stonePropagator H₁ (-t) =
         stonePropagator H₂ t * x * stonePropagator H₂ (-t)) :
     ∃ r : ℝ, H₁ = H₂ + (r : ℂ) • 1 := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne d)⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne d)⟩⟩
   exact stoneFlow_generator_unique_up_to_real_scalar h₁ h₂ hflow
 
 end ContinuousFlow

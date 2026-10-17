@@ -1,4 +1,7 @@
-import ElectroweakBreakingComposition
+module
+public import ElectroweakBreakingComposition
+
+@[expose] public section
 
 /-!
 # The neutral-current coupling dictionary on the committed grammar

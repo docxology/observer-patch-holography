@@ -1,5 +1,8 @@
-import Geometry.SourceTemporalNative
-import Geometry.SourceSeamPathTomography
+module
+public import Geometry.SourceTemporalNative
+public import Geometry.SourceSeamPathTomography
+
+@[expose] public section
 
 /-!
 # Native calibrated paths and continuation without loss
@@ -29,7 +32,8 @@ def destination (u : P) : List P → P
   | [] => u
   | v::vs => destination v vs
 
-theorem route_length (u : P) (vs : List P) : (route u vs).length = vs.length := by
+omit [DecidableEq P] in
+theorem route_length [_instDecidableEqP : DecidableEq P] (u : P) (vs : List P) : (route u vs).length = vs.length := by
   induction vs generalizing u with
   | nil => rfl
   | cons v vs ih => simp [route,ih]
@@ -48,7 +52,7 @@ theorem native_endpoint (u : P) (vs : List P) (h : (u::vs).Nodup) (x : P → ℝ
       intro p hp
       exact pairAverage_off_seam u v p x
         (fun he => hu (by simp [← he,hp])) (fun he => hv (he ▸ hp))
-    simpa only [route,wordMap,LinearMap.comp_apply,destination,ih v
+    simp only [route,wordMap,LinearMap.comp_apply,destination,ih v
       (List.nodup_cons.mp h).2,hm,pairAverage_right,List.map_cons,endpoint]
 
 /-- Only the endpoint sample and calibrated relay values enter
@@ -226,7 +230,8 @@ theorem lower_length {root : P} {K : Set P} (plan : Plan root K) :
 
 def knownCount (K : Set P) : ℕ := K.ncard
 
-theorem knownCount_insert [Fintype P] (K : Set P) (u : P) (hu : u ∉ K) :
+omit [DecidableEq P] in
+theorem knownCount_insert [_instDecidableEqP : DecidableEq P] [Fintype P] (K : Set P) (u : P) (hu : u ∉ K) :
     knownCount (insert u K) = knownCount K + 1 := by
   exact Set.ncard_insert_of_notMem hu
 

@@ -1,5 +1,8 @@
-import Mathlib
-import ObserverPatchHolography.Primitives
+module
+public import Mathlib
+public import ObserverPatchHolography.Primitives
+
+@[expose] public section
 
 /-!
 # A cellular-automaton OPH carrier: Rule 90 (issue #304, `Hfib` half)
@@ -81,7 +84,7 @@ def rule90t (t : Bool × Bool × Bool) : Bool × Bool × Bool :=
     projection applies the CA map; the `tgt` projection is the identity, so
     edge-consistency says exactly `next row = Rule90(seed)`, i.e. the record
     is a valid one-step CA diagram. Unit weight, discrete row metric. -/
-def rule90Carrier : OPHCarrier where
+abbrev rule90Carrier : OPHCarrier where
   Patch := Bool
   State := fun _ => Bool × Bool × Bool
   Edge := Unit
@@ -96,8 +99,8 @@ def rule90Carrier : OPHCarrier where
   dist_eq_zero := by
     intro _ a b
     by_cases h : a = b
-    · rw [if_pos h]; exact ⟨fun _ => h, fun _ => rfl⟩
-    · rw [if_neg h]; exact ⟨fun h1 => absurd h1 one_ne_zero, fun h2 => absurd h2 h⟩
+    · rw [ite_eq_left h]; exact ⟨fun _ => h, fun _ => rfl⟩
+    · rw [ite_eq_right h]; exact ⟨fun h1 => absurd h1 one_ne_zero, fun h2 => absurd h2 h⟩
 
 /-- **The information-set boundary.** Reads bottom-row cells `{0,1}`, cell 0
     and the middle cell. Strictly coarser than the full observable `obsMap`. -/

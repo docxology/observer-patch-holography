@@ -1,9 +1,12 @@
-import Mathlib.Analysis.Normed.Algebra.MatrixExponential
-import Mathlib.Analysis.SpecialFunctions.Exponential
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
-import Mathlib.LinearAlgebra.Matrix.PosDef
-import QFT.LocallyCovariantLimit
-import Dynamics.PublicAutomorphism
+module
+public import Mathlib.Analysis.Normed.Algebra.MatrixExponential
+public import Mathlib.Analysis.SpecialFunctions.Exponential
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+public import Mathlib.LinearAlgebra.Matrix.PosDef
+public import QFT.LocallyCovariantLimit
+public import Dynamics.PublicAutomorphism
+
+@[expose] public section
 
 /-!
 # The E4 structural-inheritance matrix: the KMS and thermality row
@@ -506,7 +509,7 @@ detailed-balance thermality is not evaluated here.  The proof is
 re-proved. -/
 theorem publicRecord_no_thermal_flow {κ : Type*} [Fintype κ] [DecidableEq κ]
     (A : OPH.Dynamics.ContinuousPublicStarFlow κ) (t : ℝ) :
-    A.toAut t = StarAlgEquiv.refl :=
+    A.toAut t = StarAlgEquiv.refl ℂ (κ → ℂ) :=
   OPH.Dynamics.ContinuousPublicStarFlow.toAut_eq_refl A t
 
 /-- Pointwise form of the public rigidity citation: every continuous

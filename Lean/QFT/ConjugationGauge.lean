@@ -1,5 +1,8 @@
-import QFT.SourcePhaseLiftBridge
-import EventAlgebra.FiniteBuschGleason
+module
+public import QFT.SourcePhaseLiftBridge
+public import EventAlgebra.FiniteBuschGleason
+
+@[expose] public section
 
 /-!
 # The conjugation gauge of the missing Born phase

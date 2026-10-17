@@ -1,5 +1,8 @@
-import Mathlib.LinearAlgebra.ExteriorAlgebra.Basis
-import ExteriorSelection
+module
+public import Mathlib.LinearAlgebra.ExteriorAlgebra.Basis
+public import ExteriorSelection
+
+@[expose] public section
 
 /-!
 # Five-mode exterior basis and the finite matter component table

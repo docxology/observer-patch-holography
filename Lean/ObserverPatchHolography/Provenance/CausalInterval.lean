@@ -1,5 +1,8 @@
-import ObserverPatchHolography.Provenance.SemanticEventProvenance
-import Mathlib.Data.Fin.VecNotation
+module
+public import ObserverPatchHolography.Provenance.SemanticEventProvenance
+public import Mathlib.Data.Fin.VecNotation
+
+@[expose] public section
 
 /-!
 # Source-derived causal intervals and the Boolean response diamond

@@ -1,65 +1,68 @@
-import QFT.FiniteCausalObserverNet
-import QFT.ObserverNetDescent
-import QFT.ObserverAccessCut
-import QFT.ObserverEventWorld
-import QFT.OperationalOverlapEvidence
-import QFT.StructuralNetAdequacySurface
-import QFT.ObserverEventTower
-import QFT.SourceDerivedEventPrecedence
-import QFT.NoncommutativeWitness
-import QFT.SourceLinkSquare
-import QFT.JointInstance
-import QFT.CoverageReceipt
-import QFT.GlueCountermodel
-import QFT.SimEarnedWitness
-import QFT.SourceRegionalNet
-import QFT.RichFibreWitness
-import QFT.RichFibreRegionalNet
-import QFT.PublicEndpointBridge
-import QFT.ConvexAffinityBridge
-import QFT.SourceConvexFamily
-import QFT.SourceContextWeb
-import QFT.SourceContextTomographyNoGo
-import QFT.SourcePhaseLiftBridge
-import QFT.ConjugationGauge
-import QFT.SourceOrientedCompletion
-import QFT.SourceOperatorGeneration
-import QFT.JointSlotFactorisation
-import QFT.CPRestrictionNet
-import QFT.TwoSlotCPNetWitness
-import QFT.TowerAnchoredDiamond
-import QFT.SourceCorrelationCapstone
-import QFT.TowerAnchoredCorrelation
-import QFT.PathTimeSliceInterface
-import QFT.TripleCarrierJoin
-import QFT.TripleCarrierOperatorJoin
-import QFT.GaugeIrreducibleBorn
-import QFT.HistoryActionBinding
-import QFT.TwoFactorHistoryBinding
-import QFT.InhabitedTowerRow
-import QFT.LocallyCovariantLimit
-import QFT.LimitRestriction
-import QFT.EffectiveQuantumComparison
-import QFT.ScalarRegionalTimeSlice
-import QFT.StructuralInheritance
-import QFT.SectorInheritance
-import QFT.InheritanceMatrix
-import QFT.InheritanceMatrixGuards
-import QFT.FiniteUnitaryScatteringNoGo
-import QFT.CarrierJoinTransport
-import QFT.JoinNetMorphism
-import QFT.OperatorLayerMorphismBoundary
-import QFT.ColimitNormedCompletion
-import QFT.ColimitGNSRepresentation
-import QFT.ColimitSelectedStateGNS
-import QFT.FiniteTwoSiteIsingField
-import QFT.FiniteTwoSiteIsingColimitGNS
-import QFT.SourceHistoryGNSDynamics
-import QFT.SourceHistoryThreeSlotLocalGNS
-import QFT.SourceHistoryExpectationNet
-import QFT.SourceClockCandidate
-import QFT.EnlargedTargetRecordEmbedding
-import QFT.SourceRecurrenceClock
+module
+public import QFT.FiniteCausalObserverNet
+public import QFT.ObserverNetDescent
+public import QFT.ObserverAccessCut
+public import QFT.ObserverEventWorld
+public import QFT.OperationalOverlapEvidence
+public import QFT.StructuralNetAdequacySurface
+public import QFT.ObserverEventTower
+public import QFT.SourceDerivedEventPrecedence
+public import QFT.NoncommutativeWitness
+public import QFT.SourceLinkSquare
+public import QFT.JointInstance
+public import QFT.CoverageReceipt
+public import QFT.GlueCountermodel
+public import QFT.SimEarnedWitness
+public import QFT.SourceRegionalNet
+public import QFT.RichFibreWitness
+public import QFT.RichFibreRegionalNet
+public import QFT.PublicEndpointBridge
+public import QFT.ConvexAffinityBridge
+public import QFT.SourceConvexFamily
+public import QFT.SourceContextWeb
+public import QFT.SourceContextTomographyNoGo
+public import QFT.SourcePhaseLiftBridge
+public import QFT.ConjugationGauge
+public import QFT.SourceOrientedCompletion
+public import QFT.SourceOperatorGeneration
+public import QFT.JointSlotFactorisation
+public import QFT.CPRestrictionNet
+public import QFT.TwoSlotCPNetWitness
+public import QFT.TowerAnchoredDiamond
+public import QFT.SourceCorrelationCapstone
+public import QFT.TowerAnchoredCorrelation
+public import QFT.PathTimeSliceInterface
+public import QFT.TripleCarrierJoin
+public import QFT.TripleCarrierOperatorJoin
+public import QFT.GaugeIrreducibleBorn
+public import QFT.HistoryActionBinding
+public import QFT.TwoFactorHistoryBinding
+public import QFT.InhabitedTowerRow
+public import QFT.LocallyCovariantLimit
+public import QFT.LimitRestriction
+public import QFT.EffectiveQuantumComparison
+public import QFT.ScalarRegionalTimeSlice
+public import QFT.StructuralInheritance
+public import QFT.SectorInheritance
+public import QFT.InheritanceMatrix
+public import QFT.InheritanceMatrixGuards
+public import QFT.FiniteUnitaryScatteringNoGo
+public import QFT.CarrierJoinTransport
+public import QFT.JoinNetMorphism
+public import QFT.OperatorLayerMorphismBoundary
+public import QFT.ColimitNormedCompletion
+public import QFT.ColimitGNSRepresentation
+public import QFT.ColimitSelectedStateGNS
+public import QFT.FiniteTwoSiteIsingField
+public import QFT.FiniteTwoSiteIsingColimitGNS
+public import QFT.SourceHistoryGNSDynamics
+public import QFT.SourceHistoryThreeSlotLocalGNS
+public import QFT.SourceHistoryExpectationNet
+public import QFT.SourceClockCandidate
+public import QFT.EnlargedTargetRecordEmbedding
+public import QFT.SourceRecurrenceClock
+
+@[expose] public section
 
 /-!
 # OPH construction QFT umbrella

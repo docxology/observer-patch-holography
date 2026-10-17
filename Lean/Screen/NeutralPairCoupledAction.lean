@@ -1,5 +1,8 @@
-import SeamChargeContinuity
-import Geometry.TransportedChargeForceLaw
+module
+public import SeamChargeContinuity
+public import Geometry.TransportedChargeForceLaw
+
+@[expose] public section
 
 set_option autoImplicit false
 

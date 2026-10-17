@@ -1,5 +1,8 @@
-import InformationProjection.PathGibbs
-import InformationProjection.GlobalObjective
+module
+public import InformationProjection.PathGibbs
+public import InformationProjection.GlobalObjective
+
+@[expose] public section
 
 namespace OPH.InformationProjection
 
@@ -253,7 +256,7 @@ inhabited. -/
 theorem nonempty_of_sum_eq_one {Γ : Type*} [Fintype Γ] {f : Γ → ℝ}
     (h : ∑ g, f g = 1) : Nonempty Γ := by
   rcases isEmpty_or_nonempty Γ with hemp | hne
-  · haveI := hemp
+  · have := hemp
     rw [Finset.univ_eq_empty, Finset.sum_empty] at h
     norm_num at h
   · exact hne
@@ -342,7 +345,6 @@ theorem pathGibbs_logZ_forced
   have hexp : tiltZ R (fun γ => ∑ a, lam a * F a γ) 1
       = Real.exp logZ := by
     have h := congrArg (fun t => t * Real.exp logZ) hZ
-    dsimp only [] at h
     rwa [mul_assoc, ← Real.exp_add, neg_add_cancel, Real.exp_zero,
       mul_one, one_mul] at h
   rw [hexp, Real.log_exp]
@@ -361,7 +363,7 @@ theorem historyLaw_constrained_minimizer
     (hmom : meanAction P (fun γ => ∑ a, lam a * F a γ)
       = meanAction τ (fun γ => ∑ a, lam a * F a γ)) :
     kl τ R ≤ kl P R := by
-  haveI : Nonempty (PathSpace Ω N) := nonempty_of_sum_eq_one hτ1
+  have : Nonempty (PathSpace Ω N) := nonempty_of_sum_eq_one hτ1
   have heq := pathGibbs_eq_tilt τ R F lam logZ hτ hR hτ1 hlog
   rw [heq] at hmom ⊢
   exact tilt_constrained_minimizer R (fun γ => ∑ a, lam a * F a γ) 1 P
@@ -380,7 +382,7 @@ theorem historyLaw_constrained_unique
     (hmom : meanAction P (fun γ => ∑ a, lam a * F a γ)
       = meanAction τ (fun γ => ∑ a, lam a * F a γ))
     (h : kl P R = kl τ R) : P = τ := by
-  haveI : Nonempty (PathSpace Ω N) := nonempty_of_sum_eq_one hτ1
+  have : Nonempty (PathSpace Ω N) := nonempty_of_sum_eq_one hτ1
   have heq := pathGibbs_eq_tilt τ R F lam logZ hτ hR hτ1 hlog
   rw [heq] at hmom h ⊢
   exact tilt_constrained_unique R (fun γ => ∑ a, lam a * F a γ) 1 P
@@ -459,15 +461,15 @@ noncomputable def historyAction : Fin 3 → ℝ :=
 
 theorem historyAction_apply_0 : historyAction 0 = 0 := by
   unfold historyAction
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem historyAction_apply_1 : historyAction 1 = 1 := by
   unfold historyAction
-  rw [if_neg (by decide : ¬ (1 : Fin 3) = 0)]
+  rw [ite_eq_right (by decide : ¬ (1 : Fin 3) = 0)]
 
 theorem historyAction_apply_2 : historyAction 2 = 1 := by
   unfold historyAction
-  rw [if_neg (by decide : ¬ (2 : Fin 3) = 0)]
+  rw [ite_eq_right (by decide : ¬ (2 : Fin 3) = 0)]
 
 /-- The witness history law: the tilt of the uniform reference by the
 witness action at unit multiplier. -/
@@ -548,29 +550,29 @@ noncomputable def historyControl : Fin 3 → ℝ :=
 theorem historyControl_apply_0 :
     historyControl 0 = 1 - historyControlMass := by
   unfold historyControl
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem historyControl_apply_1 :
     historyControl 1 = historyControlMass := by
   unfold historyControl
-  rw [if_neg (by decide : ¬ (1 : Fin 3) = 0), if_pos rfl]
+  rw [ite_eq_right (by decide : ¬ (1 : Fin 3) = 0), ite_eq_left rfl]
 
 theorem historyControl_apply_2 : historyControl 2 = 0 := by
   unfold historyControl
-  rw [if_neg (by decide : ¬ (2 : Fin 3) = 0),
-    if_neg (by decide : ¬ (2 : Fin 3) = 1)]
+  rw [ite_eq_right (by decide : ¬ (2 : Fin 3) = 0),
+    ite_eq_right (by decide : ¬ (2 : Fin 3) = 1)]
 
 theorem historyControl_nonneg : ∀ g, 0 ≤ historyControl g := by
   intro g
   unfold historyControl
   by_cases h0 : g = 0
-  · rw [if_pos h0]
+  · rw [ite_eq_left h0]
     linarith [historyControlMass_lt_one]
-  rw [if_neg h0]
+  rw [ite_eq_right h0]
   by_cases h1 : g = 1
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     exact le_of_lt historyControlMass_pos
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
 
 theorem historyControl_sum : ∑ g, historyControl g = 1 := by
   rw [Fin.sum_univ_three, historyControl_apply_0,

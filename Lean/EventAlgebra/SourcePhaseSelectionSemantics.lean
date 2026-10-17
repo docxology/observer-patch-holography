@@ -1,5 +1,8 @@
-import QFT.SourcePhaseLiftBridge
-import EventAlgebra.SourcePhaseSelectionInput
+module
+public import QFT.SourcePhaseLiftBridge
+public import EventAlgebra.SourcePhaseSelectionInput
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -14,7 +17,11 @@ noncomputable section
 inductive EffectValue where
   | positive
   | negative
-  deriving DecidableEq, Fintype, Repr
+  deriving DecidableEq, Repr
+
+instance : Fintype EffectValue where
+  elems := {EffectValue.positive, EffectValue.negative}
+  complete := by intro x; cases x <;> simp
 
 def stateMatrix : PhaseState → Matrix (Fin 2) (Fin 2) ℂ
   | .orbit00 => !![(((((1 : ℝ) + (0 : ℝ) * OPH.QFT.sqrt3)) : ℂ) + (((((0 : ℝ) + (0 : ℝ) * OPH.QFT.sqrt3)) : ℂ) * Complex.I)), (((((0 : ℝ) + (0 : ℝ) * OPH.QFT.sqrt3)) : ℂ) + (((((0 : ℝ) + (0 : ℝ) * OPH.QFT.sqrt3)) : ℂ) * Complex.I)); (((((0 : ℝ) + (0 : ℝ) * OPH.QFT.sqrt3)) : ℂ) + (((((0 : ℝ) + (0 : ℝ) * OPH.QFT.sqrt3)) : ℂ) * Complex.I)), (((((0 : ℝ) + (0 : ℝ) * OPH.QFT.sqrt3)) : ℂ) + (((((0 : ℝ) + (0 : ℝ) * OPH.QFT.sqrt3)) : ℂ) * Complex.I))]

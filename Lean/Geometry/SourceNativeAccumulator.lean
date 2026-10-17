@@ -1,4 +1,7 @@
-import Geometry.SourceNativeRecords
+module
+public import Geometry.SourceNativeRecords
+
+@[expose] public section
 
 /-!
 # Reusable native accumulation

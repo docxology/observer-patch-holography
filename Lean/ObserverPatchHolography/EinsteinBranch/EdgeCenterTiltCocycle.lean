@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Edge-center tilt from the survival cocycle
@@ -133,7 +136,10 @@ theorem hasDerivAt_zero : HasDerivAt S.u (-S.tilt) 0 := by
   have hfun : S.u = fun s => Real.exp (-(S.tilt * s)) := funext S.u_eq_exp
   have h1 : HasDerivAt (fun s : ℝ => -(S.tilt * s)) (-S.tilt) 0 := by
     have h := ((hasDerivAt_id (0 : ℝ)).const_mul S.tilt).neg
-    simpa using h
+    convert h using 1
+    · funext s
+      rfl
+    · simp
   have h2 := h1.exp
   rw [hfun]
   simpa using h2

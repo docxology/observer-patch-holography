@@ -1,5 +1,9 @@
-import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
-import Mathlib.Tactic
+module
+public import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+public import Mathlib.Tactic
+public import Mathlib.Analysis.Calculus.Deriv.Pow
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -31,8 +35,9 @@ theorem extension_derivative (Q V₀ α : ℝ) (hV : V₀ ≠ 0) :
   have hn : V₀ / V₀ ≠ 0 := by simp [hV]
   have hp := (hd.rpow_const (p := -α) (Or.inl hn)).const_mul Q
   convert hp using 1
-  simp [div_self hV]
-  ring
+  · rfl
+  · simp only [id_eq, div_self hV, Real.one_rpow]
+    ring
 
 theorem arbitrary_reference_w (Q V₀ α : ℝ) (hQ : Q ≠ 0) (hV : V₀ ≠ 0) :
     -deriv (extension Q V₀ α) V₀ / (extension Q V₀ α V₀ / V₀) = α := by
@@ -84,8 +89,10 @@ theorem scalar_dilation_derivative (K G U : ℝ) :
   have grad := (hasDerivAt_id (1 : ℝ)).const_mul G
   have mass := cube.const_mul U
   convert (kinetic.add grad).add mass using 1
-  norm_num
-  ring
+  · funext L
+    simp [scalarHamiltonian]
+  · norm_num
+    ring
 
 /-- V=L³ and fixed original field q and canonical p are part of the
 Hamiltonian convention. The mass-normalized coordinates must not be held
@@ -124,7 +131,7 @@ theorem scalar_massless_virial (K G : ℝ) (hG : G ≠ 0) (hv : K = G) :
 
 theorem maxwell_dilation_derivative (E : ℝ) :
     HasDerivAt (fun L : ℝ => E/L) (-E) 1 := by
-  simpa using (hasDerivAt_const (1 : ℝ) E).div (hasDerivAt_id 1) (by norm_num)
+  simpa [Pi.div_def] using (hasDerivAt_const (1 : ℝ) E).div (hasDerivAt_id 1) (by norm_num)
 
 /-- A supplied 3D Maxwell Hamiltonian scaling as L⁻¹ has trace-average
 stress E/(3V). This says nothing about isotropy of individual stresses. -/

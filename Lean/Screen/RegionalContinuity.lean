@@ -1,4 +1,7 @@
-import SeamCurrentCarrierQuotient
+module
+public import SeamCurrentCarrierQuotient
+
+@[expose] public section
 
 open scoped BigOperators
 

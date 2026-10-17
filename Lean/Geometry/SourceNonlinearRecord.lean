@@ -1,4 +1,7 @@
-import Geometry.SourceRecordProtection
+module
+public import Geometry.SourceRecordProtection
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -19,7 +22,7 @@ def Protects (E : ι → ι → Prop) (f : (ι → ℝ) → β) : Prop :=
 theorem nonnegative_single (i : ι) {a : ℝ} (ha : 0 ≤ a) :
     Nonnegative (Pi.single i a) := by
   intro j
-  by_cases h : j = i <;> simp [Pi.single_apply, h, ha]
+  by_cases h : j = i <;> simp [h, ha]
 
 omit [DecidableEq ι] in
 theorem nonnegative_add {x y : ι → ℝ} (hx : Nonnegative x) (hy : Nonnegative y) :

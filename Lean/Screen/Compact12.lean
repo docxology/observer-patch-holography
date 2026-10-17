@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 namespace OPH.Compact12
 
@@ -375,22 +378,23 @@ def iH : U3 := ⟨fun i j ↦ Complex.I * H i j, by
   change Matrix.conjTranspose (fun i j ↦ Complex.I * H i j : CMat3) =
     -(fun i j ↦ Complex.I * H i j : CMat3)
   ext i j
-  fin_cases i <;> fin_cases j <;>
-    norm_num [H, Matrix.conjTranspose_apply]⟩
+  change star (Complex.I * H j i) = -(Complex.I * H i j)
+  fin_cases i <;> fin_cases j <;> norm_num [H]⟩
 
 /-- The same real rotation matrix is skew-Hermitian, hence lies in `u(3)`. -/
 def kU : U3 := ⟨fun i j ↦ (K i j : ℂ), by
   change Matrix.conjTranspose (fun i j ↦ (K i j : ℂ) : CMat3) =
     -(fun i j ↦ (K i j : ℂ) : CMat3)
   ext i j
-  fin_cases i <;> fin_cases j <;>
-    norm_num [K, Matrix.conjTranspose_apply]⟩
+  change star (K j i : ℂ) = -(K i j : ℂ)
+  fin_cases i <;> fin_cases j <;> norm_num [K]⟩
 
 theorem iH_noncentral_in_u3 : uBracket iH kU ≠ 0 := by
   intro h
   have h01 := congrFun (congrFun (congrArg Subtype.val h) (0 : I3)) (1 : I3)
-  norm_num [uBracket, commC, iH, kU, H, K, Matrix.mul_apply,
-    Fin.sum_univ_succ] at h01
+  change (∑ k : I3, (Complex.I * H 0 k) * (K k 1 : ℂ)) -
+    (∑ k : I3, (K 0 k : ℂ) * (Complex.I * H k 1)) = 0 at h01
+  norm_num [H, K, Fin.sum_univ_succ] at h01
 
 #print axioms commC_jacobi
 #print axioms commR_jacobi

@@ -1,5 +1,8 @@
-import QFT.PathTimeSliceInterface
-import QFT.TowerAnchoredCorrelation
+module
+public import QFT.PathTimeSliceInterface
+public import QFT.TowerAnchoredCorrelation
+
+@[expose] public section
 
 /-!
 # A common carrier for the committed 86/88 and 86/247 paths
@@ -508,7 +511,7 @@ def tripleStepEvolve (t : Fin 31) :
       Matrix TripleCarrier TripleCarrier ℂ :=
   StarAlgEquiv.ofAlgEquiv (Matrix.reindexAlgEquiv ℂ ℂ (tripleStepEquiv t))
     (fun M => by
-      simp only [Matrix.reindexAlgEquiv_apply, Matrix.star_eq_conjTranspose]
+      simp only [Matrix.coe_reindexAlgEquiv, Matrix.star_eq_conjTranspose]
       exact reindex_conjTranspose (tripleStepEquiv t) M)
 
 /-- The pair-86/88 one-step star automorphism. -/
@@ -516,8 +519,23 @@ def pair88StepEvolve (t : Fin 31) :
     Matrix PairIndex PairIndex ℂ ≃⋆ₐ[ℂ] Matrix PairIndex PairIndex ℂ :=
   StarAlgEquiv.ofAlgEquiv (Matrix.reindexAlgEquiv ℂ ℂ (walkStepEquiv88 t))
     (fun M => by
-      simp only [Matrix.reindexAlgEquiv_apply, Matrix.star_eq_conjTranspose]
+      simp only [Matrix.coe_reindexAlgEquiv, Matrix.star_eq_conjTranspose]
       exact reindex_conjTranspose (walkStepEquiv88 t) M)
+
+/-- A matrix entry of the reindexed triple evolution. -/
+theorem tripleStepEvolve_apply (t : Fin 31) (M : Matrix TripleCarrier TripleCarrier ℂ)
+    (p p' : TripleCarrier) :
+    tripleStepEvolve t M p p' = M ((tripleStepEquiv t).symm p) ((tripleStepEquiv t).symm p') := rfl
+
+/-- A matrix entry of the reindexed pair evolution. -/
+theorem pair88StepEvolve_apply (t : Fin 31) (M : Matrix PairIndex PairIndex ℂ)
+    (p p' : PairIndex) :
+    pair88StepEvolve t M p p' = M ((walkStepEquiv88 t).symm p) ((walkStepEquiv88 t).symm p') := rfl
+
+/-- A matrix entry of the imported path-read evolution. -/
+private theorem transportedStepEvolve_entry (t : Fin 32)
+    (M : Matrix PairIndex247 PairIndex247 ℂ) (p p' : PairIndex247) :
+    stepEvolve t M p p' = M ((walkStepEquiv t).symm p) ((walkStepEquiv t).symm p') := rfl
 
 /-- Casting one of the 31 transition indices into the 32 source rows and
 adding one reaches its non-wrapping successor. -/
@@ -614,7 +632,7 @@ theorem tripleStepEvolve_transports_slice (t : Fin 31) :
     tripleStepEvolve t (tripleWalkSliceProjector t.castSucc) =
       tripleWalkSliceProjector t.succ := by
   unfold tripleStepEvolve tripleWalkSliceProjector
-  simp only [StarAlgEquiv.ofAlgEquiv_apply, Matrix.reindexAlgEquiv_apply]
+  simp only [StarAlgEquiv.ofAlgEquiv_apply, Matrix.coe_reindexAlgEquiv]
   rw [reindex_single, tripleStepEquiv_carries_path]
 
 /-- Partial trace to the 86/88 carrier intertwines the common evolution
@@ -623,9 +641,9 @@ theorem ptraceSnd_tripleStepEvolve (t : Fin 31)
     (M : Matrix TripleCarrier TripleCarrier ℂ) :
     ptraceSnd (tripleStepEvolve t M) = pair88StepEvolve t (ptraceSnd M) := by
   ext p p'
-  unfold ptraceSnd tripleStepEvolve pair88StepEvolve
-  simp only [StarAlgEquiv.ofAlgEquiv_apply, Matrix.reindexAlgEquiv_apply,
-    Matrix.reindex_apply, Matrix.submatrix_apply, tripleStepEquiv]
+  rw [pair88StepEvolve_apply]
+  unfold ptraceSnd
+  simp only [tripleStepEvolve_apply, tripleStepEquiv]
   rw [← Equiv.sum_comp (walkSwapRight t.castSucc)]
   apply Finset.sum_congr rfl
   intro i _
@@ -638,9 +656,9 @@ theorem ptraceMiddle_tripleStepEvolve (t : Fin 31)
     ptraceMiddle (tripleStepEvolve t M) =
       stepEvolve t.castSucc (ptraceMiddle M) := by
   ext p p'
-  unfold ptraceMiddle tripleStepEvolve stepEvolve
-  simp only [StarAlgEquiv.ofAlgEquiv_apply, Matrix.reindexAlgEquiv_apply,
-    Matrix.reindex_apply, Matrix.submatrix_apply, tripleStepEquiv,
+  rw [transportedStepEvolve_entry]
+  unfold ptraceMiddle
+  simp only [tripleStepEvolve_apply, tripleStepEquiv,
     walkStepEquiv88, walkStepEquiv]
   rw [← Equiv.sum_comp (walkSwap88 t)]
   apply Finset.sum_congr rfl
@@ -735,3 +753,6 @@ end OPH.QFT
 #print axioms OPH.QFT.ptraceSnd_tripleStepEvolve
 #print axioms OPH.QFT.ptraceMiddle_tripleStepEvolve
 #print axioms OPH.QFT.tripleCarrier_join_receipt
+
+#print axioms OPH.QFT.tripleStepEvolve_apply
+#print axioms OPH.QFT.pair88StepEvolve_apply

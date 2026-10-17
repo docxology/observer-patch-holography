@@ -1,6 +1,9 @@
-import CurlSectorEigenbasis
-import Dynamics.StoneConverse
-import Geometry.CommonWorldMaxwellClockJoin
+module
+public import CurlSectorEigenbasis
+public import Dynamics.StoneConverse
+public import Geometry.CommonWorldMaxwellClockJoin
+
+@[expose] public section
 
 set_option autoImplicit false
 

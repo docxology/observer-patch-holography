@@ -1,5 +1,8 @@
-import QFT.JointSlotFactorisation
-import QFT.NoncommutativeWitness
+module
+public import QFT.JointSlotFactorisation
+public import QFT.NoncommutativeWitness
+
+@[expose] public section
 
 /-!
 # Regional nets with conditional-expectation restrictions

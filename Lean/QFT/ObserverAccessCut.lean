@@ -1,4 +1,7 @@
-import QFT.ObserverNetDescent
+module
+public import QFT.ObserverNetDescent
+
+@[expose] public section
 
 /-!
 # Observer access cuts on finite causal observer nets
@@ -337,11 +340,11 @@ noncomputable def diagonalPartition (n : ℕ) : ProjectivePartition n n where
       rw [Matrix.diagonal_conjTranspose]
       congr 1
       funext j
-      by_cases h : j = i <;> simp [Pi.single_apply, h]
+      by_cases h : j = i <;> simp [h]
     · rw [Matrix.diagonal_mul_diagonal]
       congr 1
       funext j
-      by_cases h : j = i <;> simp [Pi.single_apply, h]
+      by_cases h : j = i <;> simp [h]
   orthogonal := fun i j hij => by
     rw [Matrix.diagonal_mul_diagonal]
     have hsingle : (fun x => Pi.single i (1 : ℂ) x * Pi.single j 1 x) =
@@ -457,7 +460,7 @@ noncomputable def twoPartitionCausalNet {n k m : ℕ}
 /-- The witness tower: constant tower of the one-block partition at
 dimension two, so the public algebra is the scalar span of the
 identity. -/
-noncomputable def witnessTower : ConsensusTower Unit :=
+noncomputable abbrev witnessTower : ConsensusTower Unit :=
   ConsensusTower.constantConsensusTower (oneBlockPartition 2) witnessState
 
 /-- The witness net over the witness tower: every regional algebra is the
@@ -516,7 +519,7 @@ inside the witness accessible algebra. -/
 theorem witnessAccessCut_public_lt_accessible
     (o : witnessTower.Observer ()) :
     witnessTower.publicAlgebra () o < witnessAccessCut.accessibleAlgebra o := by
-  rw [SetLike.lt_iff_le_and_exists]
+  rw [IsConcreteLE.lt_iff_le_and_exists]
   exact ⟨witnessAccessCut.public_le_accessible o,
     (diagonalPartition 2).proj 0, witness_proj_mem_accessible,
     witness_proj_not_mem_public⟩
@@ -527,7 +530,7 @@ theorem witnessAccessCut_accessible_lt_top
     (o : witnessTower.Observer ()) :
     witnessAccessCut.accessibleAlgebra o <
       (⊤ : StarSubalgebra ℂ (ConsensusTower.PrivateAlgebra witnessTower ())) := by
-  rw [SetLike.lt_iff_le_and_exists]
+  rw [IsConcreteLE.lt_iff_le_and_exists]
   exact ⟨le_top, FiniteCausalObserverNet.m2Raise,
     StarSubalgebra.mem_top, witness_m2Raise_not_mem_accessible⟩
 
@@ -554,10 +557,10 @@ noncomputable def witnessAllCoversDescent : witnessNet.ObserverNetDescent where
     refine ⟨F.localSection U hU, ?_, ?_⟩
     · intro V hV
       have hcompat := F.overlap_compatible U hU V hV
-      simpa [witnessNet, twoPartitionCausalNet] using hcompat
+      exact hcompat
     · intro X hX
       have hx := hX U hU
-      simpa [witnessNet, twoPartitionCausalNet] using hx
+      exact hx
 
 /-- The witness cut satisfies the accessible-glue receipt over the
 all-families descent packet of the witness net: every globalization is
@@ -643,8 +646,8 @@ def properMeetBlockAlgebra : StarSubalgebra ℂ (Matrix (Fin 4) (Fin 4) ℂ) whe
   carrier := {X | X 0 1 = 0 ∧ X 1 0 = 0 ∧ X 1 1 = X 0 0 ∧
     X 0 2 = 0 ∧ X 0 3 = 0 ∧ X 1 2 = 0 ∧ X 1 3 = 0 ∧
     X 2 0 = 0 ∧ X 2 1 = 0 ∧ X 3 0 = 0 ∧ X 3 1 = 0}
-  zero_mem' := by simp [Set.mem_setOf_eq]
-  one_mem' := by simp [Set.mem_setOf_eq]
+  zero_mem' := by simp [Set.mem_ofPred_eq]
+  one_mem' := by simp [Set.mem_ofPred_eq]
   add_mem' := by
     intro X Y hX hY
     obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := hX
@@ -661,7 +664,7 @@ def properMeetBlockAlgebra : StarSubalgebra ℂ (Matrix (Fin 4) (Fin 4) ℂ) whe
         h8, h9, h10, h11, g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11]
   algebraMap_mem' := by
     intro c
-    simp [Set.mem_setOf_eq, Algebra.algebraMap_eq_smul_one,
+    simp [Set.mem_ofPred_eq, Algebra.algebraMap_eq_smul_one,
       Matrix.smul_apply]
   star_mem' := by
     intro X hX
@@ -734,11 +737,15 @@ noncomputable def properMeetTower : ConsensusTower Unit :=
 
 /-- Region labels for the proper-meet net: a scalar bottom region, the
 diagonal observer region, and the noncommutative block region. -/
-inductive ProperMeetRegion : Type
+inductive ProperMeetRegion where
   | bot
   | diag
   | block
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype ProperMeetRegion where
+  elems := {ProperMeetRegion.bot, ProperMeetRegion.diag, ProperMeetRegion.block}
+  complete := by intro x; cases x <;> simp
 
 namespace ProperMeetRegion
 
@@ -1018,7 +1025,7 @@ theorem properMeetAccessCut_meet_lt_regional
     (o : properMeetTower.Observer ()) :
     properMeetAccessCut.observerLocalAlgebra o ProperMeetRegion.block <
       properMeetNet.localAlgebra () ProperMeetRegion.block := by
-  rw [SetLike.lt_iff_le_and_exists]
+  rw [IsConcreteLE.lt_iff_le_and_exists]
   refine ⟨properMeetAccessCut.observerLocal_le_local o ProperMeetRegion.block,
     properMeetRaise, properMeetRaise_mem_block, fun hmem => ?_⟩
   exact properMeetRaise_not_mem_diagonal
@@ -1031,7 +1038,7 @@ theorem properMeetAccessCut_meet_lt_accessible
     (o : properMeetTower.Observer ()) :
     properMeetAccessCut.observerLocalAlgebra o ProperMeetRegion.block <
       properMeetAccessCut.accessibleAlgebra o := by
-  rw [SetLike.lt_iff_le_and_exists]
+  rw [IsConcreteLE.lt_iff_le_and_exists]
   refine
     ⟨properMeetAccessCut.observerLocal_le_accessible o ProperMeetRegion.block,
       (diagonalPartition 4).proj 1, (diagonalPartition 4).proj_mem_span 1,

@@ -1,6 +1,9 @@
-import SeamCurrentEdge30Moment
-import PortGramA5Isometry
-import ObserverPatchHolography.EqualSeamSelection
+module
+public import SeamCurrentEdge30Moment
+public import PortGramA5Isometry
+public import ObserverPatchHolography.EqualSeamSelection
+
+@[expose] public section
 
 open scoped BigOperators
 
@@ -351,9 +354,9 @@ theorem directedSeamAxisCurrent_reverse (e : DirectedSeam) :
     directedSeamAxisCurrent (reverseDirectedSeam e) =
       fun i ↦ -directedSeamAxisCurrent e i := by
   funext i
-  simp [directedSeamAxisCurrent, reverseDirectedSeam, signedLoadControl,
+  simp only [directedSeamAxisCurrent, reverseDirectedSeam, signedLoadControl,
     directedBoundary]
-  ring_nf
+  omega
 
 /-- The integer carrier chart is additive under reversal. -/
 theorem integerFrame_neg (z : Fin 6 → ℤ) :

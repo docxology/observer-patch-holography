@@ -1,4 +1,7 @@
-import OphGap.OphData
+module
+public import OphGap.OphData
+
+@[expose] public section
 
 /-!
 # The OPH frozen visible seam complex satisfies the certificate

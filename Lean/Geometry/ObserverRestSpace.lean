@@ -1,5 +1,8 @@
-import Geometry.CelestialNullCone
-import Geometry.ObserverFrameHyperboloid
+module
+public import Geometry.CelestialNullCone
+public import Geometry.ObserverFrameHyperboloid
+
+@[expose] public section
 
 /-!
 # C1: three-dimensional Euclidean rest spaces
@@ -58,9 +61,9 @@ theorem lorentzFunctional_ne_zero (u : FrameHyperboloid) :
 theorem finrank_restSpace (u : FrameHyperboloid) :
     Module.finrank ℝ (RestSpace u) = 3 := by
   have h : Module.finrank ℝ (RestSpace u) + 1 = 4 := by
-    simpa [RestSpace, restSubspace, finrank_Herm2] using
-      (Module.Dual.finrank_ker_add_one_of_ne_zero
-        (lorentzFunctional_ne_zero u))
+    convert! (Module.Dual.finrank_ker_add_one_of_ne_zero
+        (lorentzFunctional_ne_zero u)) using 1
+    exact finrank_Herm2.symm
   omega
 
 /-- Cauchy--Schwarz in the explicit three-coordinate realization. -/

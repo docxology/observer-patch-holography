@@ -1,4 +1,7 @@
-import CoherentRefinementFamily
+module
+public import CoherentRefinementFamily
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -89,7 +92,7 @@ empty and every finite stage system. -/
 theorem index_infinite (C : AmbientCofinality I) : Infinite I := by
   let a : C.Regulator := Classical.choice inferInstance
   obtain ⟨i0, _⟩ := C.cofinal a
-  letI : Nonempty I := ⟨i0⟩
+  let : Nonempty I := ⟨i0⟩
   rw [← Set.infinite_univ_iff]
   apply Set.infinite_of_forall_exists_gt
   intro i
@@ -240,7 +243,7 @@ theorem uniformGap_cofinalFamily_isEmpty
   refine ⟨fun F ↦ ?_⟩
   let a : F.ambient.Regulator := Classical.choice inferInstance
   obtain ⟨r, _⟩ := F.ambient.cofinal a
-  letI : Nonempty I := ⟨r⟩
+  let : Nonempty I := ⟨r⟩
   exact uniformGap_strictCarrierProgress_false G F.strict_carrier_progress
 
 end CofinalSpectralTailFamily
@@ -258,7 +261,7 @@ state. -/
 theorem ladderTrunc_succInclusion (n : ℕ) (x : LadderState n) :
     ladderTrunc n (ladderSuccInclusion n x) = x := by
   unfold ladderSuccInclusion ladderTrunc
-  rw [dif_pos (Nat.lt_succ_iff.mp x.1.isLt)]
+  rw [dite_eq_left (Nat.lt_succ_iff.mp x.1.isLt)]
 
 /-- The successor-stage inclusion is injective. -/
 theorem ladderSuccInclusion_injective (n : ℕ) :
@@ -422,7 +425,7 @@ structure FiniteFourLawCore {Omega : Type u} [Fintype Omega]
 
 /-- Extract the refinement-independent core from the committed conclusion
 record.  Its old PR-08 fields are intentionally not projected. -/
-def FiniteFourLawCore.ofFourLawConclusions {Omega : Type u}
+theorem FiniteFourLawCore.ofFourLawConclusions {Omega : Type u}
     [Fintype Omega] [DecidableEq Omega] [Nonempty Omega]
     {B : Type*} [DecidableEq B] (A : FourLawAntecedent Omega B)
     (H : FourLawConclusions A) : FiniteFourLawCore A.repair A.calib where

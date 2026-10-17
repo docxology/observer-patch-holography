@@ -1,4 +1,7 @@
-import Geometry.SourceBankMachine
+module
+public import Geometry.SourceBankMachine
+
+@[expose] public section
 
 /-!
 # Native lowering of the bank instruction machine

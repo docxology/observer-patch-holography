@@ -1,4 +1,7 @@
-import Geometry.SourceReusableBus
+module
+public import Geometry.SourceReusableBus
+
+@[expose] public section
 
 /-!
 # Native arithmetic and its boundary
@@ -72,7 +75,7 @@ theorem mean_range (u v : ι) (a : ι → ℝ) (lo hi : ℝ)
     ∀ i, lo ≤ pairAverage u v a i ∧ pairAverage u v a i ≤ hi := by
   intro i
   by_cases h : i = u ∨ i = v
-  · simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, if_pos h]
+  · simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, ite_eq_left h]
     have hu := ha u
     have hv := ha v
     constructor <;> linarith

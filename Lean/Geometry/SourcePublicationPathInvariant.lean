@@ -1,4 +1,7 @@
-import Geometry.SourcePublicationPath
+module
+public import Geometry.SourcePublicationPath
+
+@[expose] public section
 
 /-! An ordered-minor invariant for arbitrary nearest-neighbour native words.
 Each nonadjacent two-row minor persists under every adjacent pair mean.
@@ -54,7 +57,13 @@ theorem separated_minor_half (x y : ℕ → ℝ) (h : Ordered x y) (e : ℕ) :
   · have hh := h 0 2 (by omega)
     have h₀ : ¬(0=e+1+1+1 ∨ 0=e+1+1+1+1) := by omega
     have h₂ : ¬(2=e+1+1+1 ∨ 2=e+1+1+1+1) := by omega
-    simpa only [minor,pairAverage,if_neg h₀,if_neg h₂] using (half_le_self hh)
+    have hfix (a : ℕ → ℝ) (i : ℕ)
+        (hi : ¬ (i = e+1+1+1 ∨ i = e+1+1+1+1)) :
+        pairAverage (e+1+1+1) (e+1+1+1+1) a i = a i := by
+      change (if i = e+1+1+1 ∨ i = e+1+1+1+1 then _ else _) = _
+      rw [ite_eq_right hi]
+    simpa only [minor, hfix x 0 h₀, hfix y 0 h₀,
+      hfix x 2 h₂, hfix y 2 h₂] using (half_le_self hh)
 
 def run : List ℕ → (ℕ → ℝ) → (ℕ → ℝ)
   | [], x => x

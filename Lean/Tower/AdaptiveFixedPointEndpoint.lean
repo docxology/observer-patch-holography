@@ -1,5 +1,8 @@
-import Tower.FixedPointEndpoint
-import ObserverPatchHolography.Execution.AdaptiveRunStratification
+module
+public import Tower.FixedPointEndpoint
+public import ObserverPatchHolography.Execution.AdaptiveRunStratification
+
+@[expose] public section
 
 /-!
 # Adaptive canonical-repair endpoints

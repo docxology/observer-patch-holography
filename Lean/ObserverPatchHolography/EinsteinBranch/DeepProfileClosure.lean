@@ -1,4 +1,7 @@
-import ObserverPatchHolography.EinsteinBranch.DarkSector
+module
+public import ObserverPatchHolography.EinsteinBranch.DarkSector
+
+@[expose] public section
 
 /-!
 # Deep-profile characterization from atomic premises

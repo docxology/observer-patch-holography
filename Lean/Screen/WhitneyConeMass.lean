@@ -1,5 +1,8 @@
-import WhitneyConeModes
-import Mathlib.LinearAlgebra.BilinearForm.Orthogonal
+module
+public import WhitneyConeModes
+public import Mathlib.LinearAlgebra.BilinearForm.Orthogonal
+
+@[expose] public section
 
 set_option autoImplicit false
 

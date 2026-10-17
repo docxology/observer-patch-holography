@@ -8,6 +8,7 @@ Inputs (pure data):
                   list, edge list in OPH's order/orientation, signs. freeze sha256 a0be6fc6...
   cert.json    -- the BFS relabel map used by certify.py for OphData.lean (new label per id)
 """
+from module_headers import module_source
 import json, sys, hashlib
 if len(sys.argv) < 2:
     raise SystemExit("usage: gen_orig_data.py SOURCE_DIR")
@@ -110,7 +111,7 @@ L.append(f"/-- hint: original edge index ↦ index in `edges` (OphData.lean) -/\
 L.append(f"/-- hint: inverse of `permT` -/\ndef invPermT : NTree := {s_inv}\n")
 L.append(f"/-- hint: table of `edges.map canon` by index -/\ndef edgesT : Trie Edge := {s_et}\n")
 L.append("end GapScout.Oph\n")
-out = "\n".join(L)
+out = module_source("\n".join(L))
 open("OphGap/OphOrigData.lean", "w").write(out)
 print("OphOrigData.lean bytes", len(out), "sha256", hashlib.sha256(out.encode()).hexdigest())
 print("nodes", n, "edges", len(edges), "max id", max(nodes), "tree defs", len(defs))

@@ -1,4 +1,7 @@
-import ObserverPatchHolography.EinsteinBranch.DeepProfileClosure
+module
+public import ObserverPatchHolography.EinsteinBranch.DeepProfileClosure
+
+@[expose] public section
 
 /-!
 # Per-cut collar composition and the acceleration-constant dictionary

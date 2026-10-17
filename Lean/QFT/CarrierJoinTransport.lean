@@ -1,5 +1,8 @@
-import QFT.TripleCarrierJoin
-import QFT.StructuralNetAdequacySurface
+module
+public import QFT.TripleCarrierJoin
+public import QFT.StructuralNetAdequacySurface
+
+@[expose] public section
 
 /-!
 # A typed hinge-fibered join of the two committed carriers, and evolved-data time slices
@@ -343,19 +346,19 @@ theorem jointCount88_marginal (i : Fin 13) :
   apply Finset.sum_congr rfl
   intro t _
   by_cases h : obs86.path t = i
-  · rw [if_pos h, Finset.sum_eq_single (obs88.path t)]
-    · rw [if_pos]
+  · rw [ite_eq_left h, Finset.sum_eq_single (obs88.path t)]
+    · rw [ite_eq_left]
       exact Prod.ext h rfl
     · intro j _ hj
-      rw [if_neg]
+      rw [ite_eq_right]
       intro hEq
       exact hj (congrArg Prod.snd hEq).symm
     · intro habs
       exact absurd (Finset.mem_univ _) habs
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     apply Finset.sum_eq_zero
     intro j _
-    rw [if_neg]
+    rw [ite_eq_right]
     intro hEq
     exact h (congrArg Prod.fst hEq)
 
@@ -789,36 +792,36 @@ theorem carrierJoin_receipt :
 theorem starEquiv_map_bot {γ : Type*} [Fintype γ] [DecidableEq γ]
     (e : Matrix γ γ ℂ ≃⋆ₐ[ℂ] Matrix γ γ ℂ) :
     StarSubalgebra.map
-        (e : Matrix γ γ ℂ →⋆ₐ[ℂ] Matrix γ γ ℂ)
+        (e).toStarAlgHom
         (⊥ : StarSubalgebra ℂ (Matrix γ γ ℂ)) = ⊥ := by
   apply le_antisymm
   · rintro x ⟨y, hy, rfl⟩
     obtain ⟨c, rfl⟩ := StarSubalgebra.mem_bot.mp hy
     exact ⟨c, (AlgHomClass.commutes
-      (e : Matrix γ γ ℂ →⋆ₐ[ℂ] Matrix γ γ ℂ) c).symm⟩
+      (e).toStarAlgHom c).symm⟩
   · intro x hx
     obtain ⟨c, rfl⟩ := StarSubalgebra.mem_bot.mp hx
     exact ⟨algebraMap ℂ _ c, ⟨c, rfl⟩,
-      AlgHomClass.commutes (e : Matrix γ γ ℂ →⋆ₐ[ℂ] Matrix γ γ ℂ) c⟩
+      AlgHomClass.commutes (e).toStarAlgHom c⟩
 
 /-- A matrix star-automorphism maps a subalgebra onto the scalars only
 if the subalgebra is the scalars. -/
 theorem starEquiv_map_eq_bot_iff {γ : Type*} [Fintype γ] [DecidableEq γ]
     (e : Matrix γ γ ℂ ≃⋆ₐ[ℂ] Matrix γ γ ℂ)
     (A : StarSubalgebra ℂ (Matrix γ γ ℂ)) :
-    StarSubalgebra.map (e : Matrix γ γ ℂ →⋆ₐ[ℂ] Matrix γ γ ℂ) A = ⊥ ↔
+    StarSubalgebra.map (e).toStarAlgHom A = ⊥ ↔
       A = ⊥ := by
   constructor
   · intro hmap
     apply le_antisymm _ bot_le
     intro a ha
     have hmem : e a ∈ StarSubalgebra.map
-        (e : Matrix γ γ ℂ →⋆ₐ[ℂ] Matrix γ γ ℂ) A := ⟨a, ha, rfl⟩
+        (e).toStarAlgHom A := ⟨a, ha, rfl⟩
     rw [hmap] at hmem
     obtain ⟨c, hc⟩ := StarSubalgebra.mem_bot.mp hmem
     have he : e (algebraMap ℂ (Matrix γ γ ℂ) c) =
         algebraMap ℂ (Matrix γ γ ℂ) c :=
-      AlgHomClass.commutes (e : Matrix γ γ ℂ →⋆ₐ[ℂ] Matrix γ γ ℂ) c
+      AlgHomClass.commutes (e).toStarAlgHom c
     have hax : e a = e (algebraMap ℂ (Matrix γ γ ℂ) c) := by
       rw [he]
       exact hc.symm
@@ -831,7 +834,7 @@ algebra. -/
 theorem starEquiv_map_top {γ : Type*} [Fintype γ] [DecidableEq γ]
     (e : Matrix γ γ ℂ ≃⋆ₐ[ℂ] Matrix γ γ ℂ) :
     StarSubalgebra.map
-        (e : Matrix γ γ ℂ →⋆ₐ[ℂ] Matrix γ γ ℂ)
+        (e).toStarAlgHom
         (⊤ : StarSubalgebra ℂ (Matrix γ γ ℂ)) = ⊤ := by
   rw [← StarAlgHom.range_eq_map_top, StarSubalgebra.eq_top_iff]
   intro x
@@ -842,14 +845,14 @@ only if the subalgebra is the full algebra. -/
 theorem starEquiv_map_eq_top_iff {γ : Type*} [Fintype γ] [DecidableEq γ]
     (e : Matrix γ γ ℂ ≃⋆ₐ[ℂ] Matrix γ γ ℂ)
     (A : StarSubalgebra ℂ (Matrix γ γ ℂ)) :
-    StarSubalgebra.map (e : Matrix γ γ ℂ →⋆ₐ[ℂ] Matrix γ γ ℂ) A = ⊤ ↔
+    StarSubalgebra.map (e).toStarAlgHom A = ⊤ ↔
       A = ⊤ := by
   constructor
   · intro hmap
     rw [StarSubalgebra.eq_top_iff]
     intro x
     have hmem : e x ∈ StarSubalgebra.map
-        (e : Matrix γ γ ℂ →⋆ₐ[ℂ] Matrix γ γ ℂ) A := by
+        (e).toStarAlgHom A := by
       rw [hmap]
       trivial
     obtain ⟨a, ha, hax⟩ := hmem
@@ -866,15 +869,13 @@ theorem region_preserving_forces_slice_invariance
     (E : TimeIndexedNetEvolution PairIndex247 twoSlotNet247)
     (hpres : ∀ (t : E.Time) (U : TwoSlotRegion),
       StarSubalgebra.map
-          (E.evolve t : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-            Matrix PairIndex247 PairIndex247 ℂ)
+          (E.evolve t).toStarAlgHom
           (twoSlotAlgebra247 U) = twoSlotAlgebra247 U) :
     ∀ t : E.Time, E.slice (E.step t) = E.slice t := by
   intro t
   apply twoSlotAlgebra247_injective
   have h : StarSubalgebra.map
-      (E.evolve t : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-        Matrix PairIndex247 PairIndex247 ℂ)
+      (E.evolve t).toStarAlgHom
       (twoSlotAlgebra247 (E.slice t)) =
       twoSlotAlgebra247 (E.slice (E.step t)) := E.evolve_net_compatible t
   rw [hpres t (E.slice t)] at h
@@ -889,8 +890,7 @@ theorem stepEvolve_slice_constant
     (slice : Fin 32 → TwoSlotRegion)
     (hcompat : ∀ t : Fin 32,
       StarSubalgebra.map
-          (stepEvolve t : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-            Matrix PairIndex247 PairIndex247 ℂ)
+          (stepEvolve t).toStarAlgHom
           (twoSlotAlgebra247 (slice t)) = twoSlotAlgebra247 (slice (t + 1))) :
     ∀ t : Fin 32, slice t = slice 0 := by
   have hstep : ∀ t : Fin 32, slice (t + 1) = slice t := by
@@ -918,8 +918,7 @@ theorem timeSlice_bot_rigid
     E.slice t = TwoSlotRegion.bot ↔
       E.slice (E.step t) = TwoSlotRegion.bot := by
   have h : StarSubalgebra.map
-      (E.evolve t : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-        Matrix PairIndex247 PairIndex247 ℂ)
+      (E.evolve t).toStarAlgHom
       (twoSlotAlgebra247 (E.slice t)) =
       twoSlotAlgebra247 (E.slice (E.step t)) := E.evolve_net_compatible t
   constructor
@@ -940,8 +939,7 @@ theorem timeSlice_top_rigid
     E.slice t = TwoSlotRegion.top ↔
       E.slice (E.step t) = TwoSlotRegion.top := by
   have h : StarSubalgebra.map
-      (E.evolve t : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-        Matrix PairIndex247 PairIndex247 ℂ)
+      (E.evolve t).toStarAlgHom
       (twoSlotAlgebra247 (E.slice t)) =
       twoSlotAlgebra247 (E.slice (E.step t)) := E.evolve_net_compatible t
   constructor
@@ -1026,20 +1024,16 @@ def alternatingEvolve (t : Fin 32) :
   (stepEvolve t).trans slotSwap
 
 theorem alternatingEvolve_toHom (t : Fin 32) :
-    (alternatingEvolve t : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-        Matrix PairIndex247 PairIndex247 ℂ) =
-      (slotSwap : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-          Matrix PairIndex247 PairIndex247 ℂ).comp
-        (stepEvolve t : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-          Matrix PairIndex247 PairIndex247 ℂ) :=
+    (alternatingEvolve t).toStarAlgHom =
+      (slotSwap).toStarAlgHom.comp
+        (stepEvolve t).toStarAlgHom :=
   DFunLike.ext _ _ fun _ => rfl
 
 /-- The slot-alternating evolution maps each regional algebra of the
 committed diamond onto the algebra of the swapped region. -/
 theorem alternatingEvolve_map (t : Fin 32) (U : TwoSlotRegion) :
     StarSubalgebra.map
-        (alternatingEvolve t : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-          Matrix PairIndex247 PairIndex247 ℂ)
+        (alternatingEvolve t).toStarAlgHom
         (twoSlotAlgebra247 U) = twoSlotAlgebra247 U.swap := by
   rw [alternatingEvolve_toHom, ← StarSubalgebra.map_map,
     stepEvolve_maps_regions t U, slotSwap_map_localAlgebra U]
@@ -1076,21 +1070,20 @@ theorem alternatingAdmitted_generates (t : Fin 32) :
             Matrix PairIndex247 PairIndex247 ℂ) '' alternatingAdmitted t) =
       twoSlotAlgebra247 (alternatingSlice (t + 1)) := by
   change StarAlgebra.adjoin ℂ
-      ((alternatingEvolve t : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-          Matrix PairIndex247 PairIndex247 ℂ) '' alternatingAdmitted t) = _
+      ((alternatingEvolve t).toStarAlgHom '' alternatingAdmitted t) = _
   rw [← StarAlgHom.map_adjoin, alternatingSlice_step]
   unfold alternatingAdmitted
   by_cases h : t.val % 2 = 0
-  · rw [if_pos h, liftedSourceGenerators_generate_left]
+  · rw [ite_eq_left h, liftedSourceGenerators_generate_left]
     have hs : alternatingSlice t = TwoSlotRegion.left := by
       unfold alternatingSlice
-      rw [if_pos h]
+      rw [ite_eq_left h]
     rw [hs]
     exact alternatingEvolve_map t TwoSlotRegion.left
-  · rw [if_neg h, liftedRightSourceGenerators_generate_right]
+  · rw [ite_eq_right h, liftedRightSourceGenerators_generate_right]
     have hs : alternatingSlice t = TwoSlotRegion.right := by
       unfold alternatingSlice
-      rw [if_neg h]
+      rw [ite_eq_right h]
     rw [hs]
     exact alternatingEvolve_map t TwoSlotRegion.right
 
@@ -1121,10 +1114,10 @@ def slotAlternatingEvolution :
         Set (Matrix PairIndex247 PairIndex247 ℂ))
     unfold alternatingAdmitted alternatingSlice
     by_cases h : t.val % 2 = 0
-    · rw [if_pos h, if_pos h]
+    · rw [ite_eq_left h, ite_eq_left h]
       rintro X ⟨A, _, rfl⟩
       exact ⟨A, rfl⟩
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_right h, ite_eq_right h]
       rintro X ⟨B, _, rfl⟩
       exact ⟨B, rfl⟩
   slice_generates := fun t => by
@@ -1163,8 +1156,7 @@ theorem evolvedTimeSlice_receipt :
     (∀ (slice : Fin 32 → TwoSlotRegion),
       (∀ t : Fin 32,
         StarSubalgebra.map
-            (stepEvolve t : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-              Matrix PairIndex247 PairIndex247 ℂ)
+            (stepEvolve t).toStarAlgHom
             (twoSlotAlgebra247 (slice t)) =
           twoSlotAlgebra247 (slice (t + 1))) →
       ∀ t : Fin 32, slice t = slice 0) ∧

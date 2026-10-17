@@ -1,6 +1,9 @@
-import EventAlgebra.SourcePhaseSelectionRelation
-import EventAlgebra.SourcePhaseSelectionSemantics
-import EventAlgebra.LuedersPhaseInstrument
+module
+public import EventAlgebra.SourcePhaseSelectionRelation
+public import EventAlgebra.SourcePhaseSelectionSemantics
+public import EventAlgebra.LuedersPhaseInstrument
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -190,7 +193,7 @@ theorem enabled_phase_transition_refines_accepted_or_equality_stutter :
         localRepair_eq_generated_result step.event step.source h
       have hrecords := heq.symm.trans hrepair
       have happ := congrFun hrecords ()
-      simpa [abstractState] using happ
+      simpa only [abstractState, SourceStep.result] using happ
 
 structure ExcludedPayloadFields where
   nextStateFingerprint : String

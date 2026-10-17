@@ -1,5 +1,8 @@
-import Mathlib
-import ObserverPatchHolography.Primitives
+module
+public import Mathlib
+public import ObserverPatchHolography.Primitives
+
+@[expose] public section
 
 /-!
 # Issue #544 (central-interface collar clause): what the overlap-consistency
@@ -184,7 +187,7 @@ theorem mismatchCount_eq (h : SameConstraintFamily K₁ K₂) (x : Records K₁.
 theorem acceptedStep_iff (h : SameConstraintFamily K₁ K₂)
     (x y : Records K₁.carrier) :
     acceptedStep K₁.carrier x y ↔ acceptedStep K₂.carrier x y :=
-  exists_congr fun i => by rw [h.localRepair_eq]; exact Iff.rfl
+  exists_congr fun i => by rw [h.localRepair_eq]
 
 /-- Normal forms are determined by the constraint family. -/
 theorem normalForm_iff (h : SameConstraintFamily K₁ K₂) (x : Records K₁.carrier) :
@@ -208,7 +211,7 @@ private theorem Repair_eq_aux (h : SameConstraintFamily K₁ K₂) :
       obtain ⟨i, hi⟩ := hx
       exact ⟨i, by rw [← h.localRepair_eq]; exact hi⟩
     have hsite : Classical.choose hx = Classical.choose hx' :=
-      choose_eq_of_pred_iff' (fun i => by rw [h.localRepair_eq]; exact Iff.rfl) hx hx'
+      choose_eq_of_pred_iff' (fun i => by rw [h.localRepair_eq]) hx hx'
     rw [Repair_of_fire K₁.carrier x hx, Repair_of_fire K₂.carrier x hx', ← hsite,
       ← h.localRepair_eq]
     exact ih (mismatchCount (C := K₁.carrier)
@@ -282,8 +285,8 @@ def fluxKit : InterfaceKit Bool (fun _ => Bool) Unit (fun _ => false) (fun _ => 
   dist_eq_zero := by
     intro _ a b
     by_cases hab : a = b
-    · rw [if_pos hab]; exact ⟨fun _ => hab, fun _ => rfl⟩
-    · rw [if_neg hab]; exact ⟨fun h1 => absurd h1 one_ne_zero, fun h2 => absurd h2 hab⟩
+    · rw [ite_eq_left hab]; exact ⟨fun _ => hab, fun _ => rfl⟩
+    · rw [ite_eq_right hab]; exact ⟨fun h1 => absurd h1 one_ne_zero, fun h2 => absurd h2 hab⟩
 
 /-- The same constraint family carrying an extra symmetric cross-cut cost:
     every broken configuration is charged double. Constraint-preserving
@@ -299,8 +302,8 @@ def coupledKit : InterfaceKit Bool (fun _ => Bool) Unit (fun _ => false) (fun _ 
   dist_eq_zero := by
     intro _ a b
     by_cases hab : a = b
-    · rw [if_pos hab]; exact ⟨fun _ => hab, fun _ => rfl⟩
-    · rw [if_neg hab]
+    · rw [ite_eq_left hab]; exact ⟨fun _ => hab, fun _ => rfl⟩
+    · rw [ite_eq_right hab]
       exact ⟨fun h1 => absurd h1 (by norm_num), fun h2 => absurd h2 hab⟩
 
 /-- The two kits realize the same constraint family: their projections are
@@ -324,12 +327,12 @@ theorem demoKits_phi_ne :
     unfold Φ
     rw [Fintype.sum_unique]
     show (1 : NNReal) * (if (false : Bool) = true then 0 else 1) = 1
-    rw [if_neg (by decide : ¬ (false : Bool) = true), mul_one]
+    rw [ite_eq_right (by decide : ¬ (false : Bool) = true), mul_one]
   have h2 : Φ coupledKit.carrier (fun b => b) = 2 := by
     unfold Φ
     rw [Fintype.sum_unique]
     show (1 : NNReal) * (if (false : Bool) = true then 0 else 2) = 2
-    rw [if_neg (by decide : ¬ (false : Bool) = true), one_mul]
+    rw [ite_eq_right (by decide : ¬ (false : Bool) = true), one_mul]
   rw [h1, h2]
   norm_num
 

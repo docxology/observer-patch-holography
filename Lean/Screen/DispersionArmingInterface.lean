@@ -1,5 +1,8 @@
-import SeamCurrentEdge30Moment
-import PrimitivePortScaleBoundary
+module
+public import SeamCurrentEdge30Moment
+public import PrimitivePortScaleBoundary
+
+@[expose] public section
 
 set_option autoImplicit false
 

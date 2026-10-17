@@ -1,4 +1,7 @@
-import Geometry.CanonicalLorentzModule
+module
+public import Geometry.CanonicalLorentzModule
+
+@[expose] public section
 
 /-!
 # C1: the celestial projective future null cone

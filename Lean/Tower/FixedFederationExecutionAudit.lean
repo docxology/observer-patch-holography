@@ -1,6 +1,9 @@
-import Tower.FixedFederationExecutionEndpoint
-import Tower.CumulativeCapacityEndpoint
-import Tower.FixedFederationFanoutEndpoint
+module
+public import Tower.FixedFederationExecutionEndpoint
+public import Tower.CumulativeCapacityEndpoint
+public import Tower.FixedFederationFanoutEndpoint
+
+@[expose] public section
 
 /-!
 # Typed audit for fixed-federation execution classification

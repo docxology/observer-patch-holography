@@ -1,4 +1,7 @@
-import DiscreteCoulombGreen
+module
+public import DiscreteCoulombGreen
+
+@[expose] public section
 
 set_option autoImplicit false
 

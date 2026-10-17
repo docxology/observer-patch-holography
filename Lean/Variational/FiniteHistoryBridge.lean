@@ -1,5 +1,8 @@
-import InformationProjection.PathGibbs
-import Variational.DiscreteNoether
+module
+public import InformationProjection.PathGibbs
+public import Variational.DiscreteNoether
+
+@[expose] public section
 
 namespace OPH.Variational
 

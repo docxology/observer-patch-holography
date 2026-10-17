@@ -1,4 +1,7 @@
-import ObservableNormalForms.MechanismVariants
+module
+public import ObservableNormalForms.MechanismVariants
+
+@[expose] public section
 
 /-!
 # Conditional A2/A5 mechanism-variant example
@@ -673,14 +676,12 @@ theorem flashHybridPolicy_a5_eligible : flashHybridPolicy.Eligible .a5 := by
 theorem broadOutcomePolicy_a2_lt_a5 :
     broadOutcomePolicy.PairwiseLT .a2 .a5 := by
   refine ⟨broadOutcomePolicy_a2_eligible, broadOutcomePolicy_a5_eligible, ?_⟩
-  simpa [ComparisonPolicy.cut, ComparisonPolicy.admissible, broadOutcomePolicy,
-    broadOutcomeCut, BroadAdmissible] using a2_pairwise_lt_a5_outcome_broad
+  exact a2_pairwise_lt_a5_outcome_broad
 
 theorem flashHybridPolicy_a2_lt_a5 :
     flashHybridPolicy.PairwiseLT .a2 .a5 := by
   refine ⟨flashHybridPolicy_a2_eligible, flashHybridPolicy_a5_eligible, ?_⟩
-  simpa [ComparisonPolicy.cut, ComparisonPolicy.admissible, flashHybridPolicy,
-    flashHybridCut, FlashAdmissible] using a2_pairwise_lt_a5_hybrid_flash
+  exact a2_pairwise_lt_a5_hybrid_flash
 
 theorem support_costs_are_nontrivial :
     supportCost .a2 .full < supportCost .a2 .missing := by
@@ -771,7 +772,7 @@ structure PremiseActivation where
   supportActive : Support.full ∈ declaredSupports .a2
   collarCovered : AdmissibleCollar (supportRelation .a2 .full) Set.univ
 
-def finiteControlPremises : PremiseActivation where
+theorem finiteControlPremises : PremiseActivation where
   initial := each_variant_has_initial_state
   step := each_variant_has_nontrivial_step
   a2Admissible := a2_ownerDeclines_premises_activate.1
@@ -895,7 +896,7 @@ structure FullControlActivation where
   fullWriteSpaceNonempty : Nonempty (WriteSpace .a2 .full)
   fullCollarSpaceNonempty : Nonempty (CollarSpace .a2 .full)
 
-def fullControlActivation : FullControlActivation where
+theorem fullControlActivation : FullControlActivation where
   broadA2TargetEliminated := a2_broad_target_eliminated
   flashA5TargetEliminated := a5_flash_target_eliminated
   broadA5TargetWitness := a5_broad_target_failure

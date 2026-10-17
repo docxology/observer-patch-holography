@@ -1,5 +1,8 @@
-import QFT.ColimitNormedCompletion
-import Mathlib.Analysis.CStarAlgebra.GelfandNaimarkSegal
+module
+public import QFT.ColimitNormedCompletion
+public import Mathlib.Analysis.CStarAlgebra.GelfandNaimarkSegal
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false
@@ -119,6 +122,8 @@ theorem norm_colimitGNSUnitClass
   change ω 1 = 1 at hω
   have hinner := colimitGNSUnitClass_expectation ω
     (1 : ColimitCompletion T)
+  rw [colimitGNSRepresentation_apply_unitClass] at hinner
+  change ⟪colimitGNSUnitClass ω, colimitGNSUnitClass ω⟫_ℂ = ω 1 at hinner
   have hsq : ‖colimitGNSUnitClass ω‖ ^ 2 = 1 := by
     rw [norm_sq_eq_re_inner (𝕜 := ℂ)]
     simpa [hω] using congrArg Complex.re hinner

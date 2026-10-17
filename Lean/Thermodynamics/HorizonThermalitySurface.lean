@@ -1,7 +1,10 @@
-import CapFirstLaw
-import EinsteinPremiseLink
-import FourLawAdequacySurface
-import ObserverPatchHolography.DeSitterCapacityShock
+module
+public import CapFirstLaw
+public import EinsteinPremiseLink
+public import FourLawAdequacySurface
+public import ObserverPatchHolography.DeSitterCapacityShock
+
+@[expose] public section
 
 set_option autoImplicit false
 

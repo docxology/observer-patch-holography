@@ -1,12 +1,15 @@
-import Mathlib.Analysis.CStarAlgebra.Matrix
-import Mathlib.Analysis.SpecialFunctions.Exponential
-import Mathlib.Analysis.Calculus.Deriv.Star
-import Mathlib.Analysis.Calculus.Deriv.Shift
-import Mathlib.Analysis.Calculus.MeanValue
-import Mathlib.Analysis.Normed.Module.FiniteDimension
-import Mathlib.Data.Matrix.Basis
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
-import Mathlib.Tactic.Module
+module
+public import Mathlib.Analysis.CStarAlgebra.Matrix
+public import Mathlib.Analysis.SpecialFunctions.Exponential
+public import Mathlib.Analysis.Calculus.Deriv.Star
+public import Mathlib.Analysis.Calculus.Deriv.Shift
+public import Mathlib.Analysis.Calculus.MeanValue
+public import Mathlib.Analysis.Normed.Module.FiniteDimension
+public import Mathlib.Data.Matrix.Basis
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
+public import Mathlib.Tactic.Module
+
+@[expose] public section
 
 /-!
 # Finite Stone converse on one full matrix block
@@ -539,11 +542,11 @@ theorem continuous_starAutomorphismGroup_exists_hasDerivAt
     ∀ x : Matrix ι ι ℂ, ∃ dx : Matrix ι ι ℂ,
       HasDerivAt (fun t : ℝ => α t x) dx 0 := by
   classical
-  haveI : IsScalarTower ℝ ℂ (Matrix ι ι ℂ) :=
+  have : IsScalarTower ℝ ℂ (Matrix ι ι ℂ) :=
     ⟨fun r c N => by
       ext i j
       exact smul_assoc r c (N i j)⟩
-  haveI : IsScalarTower ℝ ℂ (Matrix (ι × ι) (ι × ι) ℂ) :=
+  have : IsScalarTower ℝ ℂ (Matrix (ι × ι) (ι × ι) ℂ) :=
     ⟨fun r c N => by
       ext p q
       exact smul_assoc r c (N p q)⟩
@@ -576,7 +579,7 @@ theorem continuous_starAutomorphismGroup_exists_hasDerivAt
       simp
     · have hne : ¬(q.1 = p.1 ∧ q.2 = p.2) := fun h =>
         hpq (Prod.ext h.1.symm h.2.symm)
-      rw [if_neg hne, if_neg hpq]
+      rw [ite_eq_right hne, ite_eq_right hpq]
   have hAgrp : ∀ s t : ℝ, A (s + t) = A s * A t := by
     intro s t
     ext p q
@@ -609,7 +612,6 @@ theorem continuous_starAutomorphismGroup_exists_hasDerivAt
       V - ε • (1 : Matrix (ι × ι) (ι × ι) ℂ) := by
     rw [intervalIntegral.integral_sub (hAint 0 ε) intervalIntegrable_const,
       intervalIntegral.integral_const, sub_zero, hVdef]
-    congr 1
   have hVnorm : ‖V - ε • (1 : Matrix (ι × ι) (ι × ι) ℂ)‖ ≤
       1 / 2 * |ε - 0| := by
     rw [← hsub]
@@ -728,7 +730,7 @@ theorem continuous_starAutomorphismGroup_exists_hasDerivAt
       Matrix.of fun i j => ∑ q : ι × ι, M (i, j) q * x q.1 q.2
     apply continuous_matrix
     intro i j
-    apply continuous_finset_sum
+    apply continuous_finsetSum
     intro q _
     exact (continuous_id.matrix_elem (i, j) q).mul continuous_const
   have hΦd : HasDerivAt (fun t : ℝ => Φ (A t))

@@ -1,5 +1,8 @@
-import Mathlib
-import PrimitivePortScaleBoundary
+module
+public import Mathlib
+public import PrimitivePortScaleBoundary
+
+@[expose] public section
 
 namespace OPH.PrimitivePortMetricAttachment
 

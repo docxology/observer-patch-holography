@@ -1,4 +1,7 @@
-import EventAlgebra.TwoScalePublicRepair
+module
+public import EventAlgebra.TwoScalePublicRepair
+
+@[expose] public section
 
 /-!
 # Poissonized idempotent repair
@@ -124,7 +127,9 @@ theorem hasDerivAt_poissonizedRepair_apply
   have hconst : HasDerivAt (fun _s : ℝ => E x) 0 t :=
     hasDerivAt_const t (E x)
   convert hconst.add hscaled using 1
-  simp [mul_comm]
+  · funext s
+    rfl
+  · simp [mul_comm]
 
 /-- The Poissonized closed form solves `dT/dt = L T` for the declared
 generator `L = gamma (E-I)` whenever `E` is idempotent.  Together with the

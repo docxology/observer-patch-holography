@@ -1,5 +1,8 @@
-import Geometry.InternalEnergyInertia
-import Geometry.InternalClockRestFrequency
+module
+public import Geometry.InternalEnergyInertia
+public import Geometry.InternalClockRestFrequency
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -143,14 +146,14 @@ theorem refine_even (x : ℕ → Herm2) (n : ℕ) : refine x (2 * n) = x n := by
   unfold refine
   have h1 : (2 * n) % 2 = 0 := by omega
   have h2 : (2 * n) / 2 = n := by omega
-  rw [if_pos h1, h2]
+  rw [ite_eq_left h1, h2]
 
 theorem refine_odd (x : ℕ → Herm2) (n : ℕ) :
     refine x (2 * n + 1) = (1 / 2 : ℝ) • (x n + x (n + 1)) := by
   unfold refine
   have h1 : (2 * n + 1) % 2 ≠ 0 := by omega
   have h2 : (2 * n + 1) / 2 = n := by omega
-  rw [if_neg h1, h2]
+  rw [ite_eq_right h1, h2]
 
 /-- Each half increment of the refined path is one half of the parent
 increment: the first half. -/
@@ -565,8 +568,8 @@ theorem lengthStationary_eom {m E : ℝ} {N : ℕ} {F x : ℕ → Herm2}
   have key : ∀ w : Herm2, lorentzB (lengthResidual m E F x j) w = 0 := by
     intro w
     let η : ℕ → Herm2 := fun n => if n = j + 1 then w else 0
-    have h0 : η 0 = 0 := if_neg (by omega)
-    have hN1 : η (N + 1) = 0 := if_neg (by omega)
+    have h0 : η 0 = 0 := ite_eq_right (by omega)
+    have hN1 : η (N + 1) = 0 := ite_eq_right (by omega)
     have hfv := hs η h0 hN1
     rw [lengthFirstVariation_interior m E N F x η h0 hN1] at hfv
     have hterm : ∀ k ∈ Finset.range N,
@@ -575,14 +578,14 @@ theorem lengthStationary_eom {m E : ℝ} {N : ℕ} {F x : ℕ → Herm2}
       intro k _
       by_cases hkj : k = j
       · subst hkj
-        rw [if_pos rfl]
-        have hv : η (k + 1) = w := if_pos rfl
+        rw [ite_eq_left rfl]
+        have hv : η (k + 1) = w := ite_eq_left rfl
         rw [hv]
-      · rw [if_neg hkj]
-        have hv : η (k + 1) = 0 := if_neg (by omega)
+      · rw [ite_eq_right hkj]
+        have hv : η (k + 1) = 0 := ite_eq_right (by omega)
         rw [hv, lorentzB_zero_right]
     rw [Finset.sum_congr rfl hterm, Finset.sum_ite_eq',
-      if_pos (Finset.mem_range.mpr hj)] at hfv
+      ite_eq_left (Finset.mem_range.mpr hj)] at hfv
     exact hfv
   exact (lengthResidual_eq_zero_iff m E F x j).mp (lorentzB_nondegenerate key)
 

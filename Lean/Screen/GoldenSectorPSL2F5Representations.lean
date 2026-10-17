@@ -1,6 +1,9 @@
-import Mathlib.RepresentationTheory.Basic
-import GoldenSectorIrreducibility
-import PSL2F5SixAxesBridge
+module
+public import Mathlib.RepresentationTheory.Basic
+public import GoldenSectorIrreducibility
+public import PSL2F5SixAxesBridge
+
+@[expose] public section
 
 open scoped Matrix
 

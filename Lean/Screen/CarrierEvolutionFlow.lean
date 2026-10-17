@@ -1,4 +1,7 @@
-import CarrierModeOscillators
+module
+public import CarrierModeOscillators
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -544,7 +547,7 @@ def modeFlow (h lam t : ℝ) : Matrix (Fin 2) (Fin 2) ℝ :=
 
 theorem modeFlow_of_zero (h t : ℝ) : modeFlow h 0 t = shearFlow t := by
   unfold modeFlow
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem modeFlow_of_pos (h lam t : ℝ) (h0 : 0 < h ^ 2 * lam) :
     modeFlow h lam t = rotFlow h lam t := by
@@ -552,7 +555,7 @@ theorem modeFlow_of_pos (h lam t : ℝ) (h0 : 0 < h ^ 2 * lam) :
   have hne : lam ≠ 0 := by
     rintro rfl
     simp at h0
-  rw [if_neg hne]
+  rw [ite_eq_right hne]
 
 theorem modeFlow_zero (h lam : ℝ) (hh : h ≠ 0) (hadm : Admissible h lam) :
     modeFlow h lam 0 = 1 := by
@@ -581,9 +584,9 @@ theorem modeFlow_nat_step (h lam : ℝ) (hh : h ≠ 0) (hadm : Admissible h lam)
 theorem modeFlow_continuous (h lam : ℝ) : Continuous (modeFlow h lam) := by
   unfold modeFlow
   by_cases hl : lam = 0
-  · simp only [hl, if_true]
+  · simp only [hl, ite_true]
     exact shearFlow_continuous
-  · simp only [hl, if_false]
+  · simp only [hl, ite_false]
     exact rotFlow_continuous h lam
 
 theorem modeForm_modeFlow (h lam : ℝ) (hh : h ≠ 0) (hadm : Admissible h lam) (t : ℝ)

@@ -1,5 +1,8 @@
-import Geometry.CommonWorldKinematicsWitness
-import Geometry.RestFiberShellTransport
+module
+public import Geometry.CommonWorldKinematicsWitness
+public import Geometry.RestFiberShellTransport
+
+@[expose] public section
 
 set_option autoImplicit false
 

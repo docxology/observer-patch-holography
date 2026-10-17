@@ -1,4 +1,7 @@
-import Computation.FixedFederationComplexity
+module
+public import Computation.FixedFederationComplexity
+
+@[expose] public section
 
 /-!
 # Fixed-federation execution controls
@@ -117,7 +120,7 @@ theorem delayedRoundRobin_memberRecurrent (delay : Nat) (s : State) :
   have hNm : N ≤ m := le_trans (le_max_left N delay) hm
   have hdelay : delay ≤ m := le_trans (le_max_right N delay) hm
   refine ⟨m, hNm, ?_⟩
-  simp only [delayedRoundRobin, if_neg (not_lt_of_ge hdelay)]
+  simp only [delayedRoundRobin, ite_eq_right (not_lt_of_ge hdelay)]
   simpa [fixedRoundRobinScheduler, roundRobinScheduler] using hselected
 
 theorem delayedRoundRobin_pathwiseWeakFair (delay : Nat) (s : State) :
@@ -138,7 +141,7 @@ theorem delayedRoundRobin_run_before (delay n : Nat) (hn : n ≤ delay) :
   | succ n ih =>
       rw [attemptRun_last_step, ih (Nat.le_trans (Nat.le_succ n) hn)]
       have hndelay : n < delay := by omega
-      simp only [delayedRoundRobin, if_pos hndelay]
+      simp only [delayedRoundRobin, ite_eq_left hndelay]
       change repairNode recurrenceGapNode0 allFalse = allFalse
       apply repairNode_eq_self_of_accepts
       exact recurrenceGapNode0_accepts_allFalse
@@ -445,9 +448,7 @@ theorem combInitial_pair (q : Nat) :
   induction q with
   | zero => decide
   | succ q ih =>
-      constructor <;>
-        simp only [combInitial] at ih ⊢ <;>
-        simp_all
+      simpa [combInitial, Nat.mul_add, Nat.add_assoc] using ih
 
 theorem combInitial_ready (d : Nat) :
     CombReady d d combInitial := by
@@ -571,8 +572,8 @@ theorem gateTail_accepted
             simp [combGate, combNandNode, Node.obs] at hi
             rcases hi with rfl | rfl | rfl <;> omega
           exact ⟨hsideFinal.trans hsideNext, hobsEq.trans hacceptNext⟩
-        · simpa [Nat.add_assoc, Nat.add_left_comm, Nat.add_comm] using
-            htailProcessed j (by omega)
+        · convert htailProcessed j (by omega) using 1 <;>
+            simp [gateTail, runNodeSchedule, next, Nat.add_left_comm, Nat.add_comm]
       · intro r hr
         calc
           runNodeSchedule current (gateTail q (n + 1)) r =
@@ -615,7 +616,7 @@ theorem combBlock_transition
       have hleafFail : combLeaf.obs.ok s = false := by
         simp [combLeaf, combConstNode, Node.obs, hzero]
       have hleft : afterLeaf 0 = !s 0 := by
-        simpa [afterLeaf, combLeaf] using
+        simpa [afterLeaf, combLeaf, combConstNode] using
           repairNode_output_flip_of_fails combLeaf s hleafFail
       have habove : ∀ r, 0 < r → afterLeaf r = s r := by
         intro r hr
@@ -638,7 +639,10 @@ theorem combBlock_transition
           _ = afterLeaf 0 := hframeZero
           _ = false := by simpa [hzero] using hleft
       · intro q hq
-        simpa using htailProcessed q hq
+        have hrun : runNodeSchedule s (combBlockNodes d 0) =
+            runNodeSchedule afterLeaf (gateTail 0 d) := rfl
+        rw [hrun]
+        simpa only [Nat.zero_add] using htailProcessed q hq
   | succ q =>
       have hqd : q < d := by omega
       have hqValues := hunprocessed q (Nat.lt_succ_self q)
@@ -667,7 +671,7 @@ theorem combBlock_transition
       let afterGate := repairNode (combGate q) afterSide
       have hgateLeftFlip :
           afterGate (2 * (q + 1)) = !afterSide (2 * (q + 1)) := by
-        simpa [afterGate, show 2 * (q + 1) = 2 * q + 2 by omega] using
+        simpa [afterGate, combGate, combNandNode, show 2 * (q + 1) = 2 * q + 2 by omega] using
           repairNode_output_flip_of_fails (combGate q) afterSide hgateFail
       have hgateAbove : ∀ r, 2 * (q + 1) < r →
           afterGate r = afterSide r := by

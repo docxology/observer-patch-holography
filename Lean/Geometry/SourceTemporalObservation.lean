@@ -1,5 +1,8 @@
-import Geometry.SourceReadAcceptance
-import Mathlib.LinearAlgebra.Dual.Lemmas
+module
+public import Geometry.SourceReadAcceptance
+public import Mathlib.LinearAlgebra.Dual.Lemmas
+
+@[expose] public section
 
 /-!
 # Complete linear acceptance grammar from a finite observation record
@@ -28,7 +31,8 @@ def Possible (L : I → V →ₗ[ℝ] ℝ) (f : V →ₗ[ℝ] ℝ)
     (value : ℝ) (samples : I → ℝ) : Prop :=
   ∃ x, (∀ i, L i x = samples i) ∧ f x = value
 
-theorem observable_iff_kernel (L : I → V →ₗ[ℝ] ℝ) (f : V →ₗ[ℝ] ℝ) :
+omit [Fintype I] in
+theorem observable_iff_kernel [_instFintypeI : Fintype I] (L : I → V →ₗ[ℝ] ℝ) (f : V →ₗ[ℝ] ℝ) :
     Observable L f ↔ (⨅ i, LinearMap.ker (L i)) ≤ LinearMap.ker f := by
   constructor
   · intro h z hz
@@ -117,9 +121,10 @@ theorem nonobservable_abstains (L : I → V →ₗ[ℝ] ℝ)
     have he' : f x = f x + f z := by simpa using he
     exact (add_eq_left.mp he'.symm)
 
+omit [Fintype I] in
 /-- Prefix extension preserves every identifiable meaning if each old
 sample is among the extended observations. -/
-theorem observable_extension {J : Type*} [Fintype J]
+theorem observable_extension [_instFintypeI : Fintype I] {J : Type*} [Fintype J]
     (L : I → V →ₗ[ℝ] ℝ) (M : J → V →ₗ[ℝ] ℝ)
     (embed : I → J) (he : ∀ i, M (embed i) = L i)
     (f : V →ₗ[ℝ] ℝ) (h : Observable L f) : Observable M f := by
@@ -128,10 +133,11 @@ theorem observable_extension {J : Type*} [Fintype J]
   intro i
   simpa [he i] using hxy (embed i)
 
+omit [Fintype I] in
 /-- An invertible source presentation changes neither the accepted meanings
 nor their temporal availability when preparation and meaning are transported
 together. This does not assert refinement optimizer compatibility. -/
-theorem observable_rechart {U : Type*} [AddCommGroup U] [Module ℝ U]
+theorem observable_rechart [_instFintypeI : Fintype I] {U : Type*} [AddCommGroup U] [Module ℝ U]
     (L : I → V →ₗ[ℝ] ℝ) (f : V →ₗ[ℝ] ℝ) (e : U ≃ₗ[ℝ] V) :
     Observable (fun i => (L i).comp e.toLinearMap) (f.comp e.toLinearMap) ↔
       Observable L f := by

@@ -1,6 +1,9 @@
-import CarrierEvolutionFlow
-import FieldSectorEnergyInnerProduct
-import GoldenSectorCharacters
+module
+public import CarrierEvolutionFlow
+public import FieldSectorEnergyInnerProduct
+public import GoldenSectorCharacters
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -387,10 +390,10 @@ theorem curl_inner (i j : Fin 19) :
 
 /-- **(1) Pairwise orthogonality.** -/
 theorem curl_orth (i j : Fin 19) (hij : i ≠ j) : realSeamInner (curlR i) (curlR j) = 0 := by
-  rw [curl_inner, if_neg hij, evalPhi_zero]
+  rw [curl_inner, ite_eq_right hij, evalPhi_zero]
 
 theorem curl_energy (i : Fin 19) : realSeamEnergy (curlR i) = evalPhi (curlNormZ i) := by
-  rw [← realSeamInner_self_eq_energy, curl_inner, if_pos rfl]
+  rw [← realSeamInner_self_eq_energy, curl_inner, ite_eq_left rfl]
 
 /-- **(1) Nonzero.** -/
 theorem curl_ne_zero (i : Fin 19) : curlR i ≠ 0 := by
@@ -522,10 +525,10 @@ theorem grad_inner (i j : Fin 11) :
   rw [gradR_eq, gradR_eq, realSeamInner_evalPhi, grad_gram_Z i j]
 
 theorem grad_orth (i j : Fin 11) (hij : i ≠ j) : realSeamInner (gradR i) (gradR j) = 0 := by
-  rw [grad_inner, if_neg hij, evalPhi_zero]
+  rw [grad_inner, ite_eq_right hij, evalPhi_zero]
 
 theorem grad_energy (i : Fin 11) : realSeamEnergy (gradR i) = evalPhi (gradNormZ i) := by
-  rw [← realSeamInner_self_eq_energy, grad_inner, if_pos rfl]
+  rw [← realSeamInner_self_eq_energy, grad_inner, ite_eq_left rfl]
 
 theorem grad_ne_zero (i : Fin 11) : gradR i ≠ 0 := by
   intro h

@@ -1,7 +1,10 @@
-import Mathlib
-import EqualStateWeights
-import PortFrameGram
-import PrimitivePortTranslationBridge
+module
+public import Mathlib
+public import EqualStateWeights
+public import PortFrameGram
+public import PrimitivePortTranslationBridge
+
+@[expose] public section
 
 open scoped BigOperators
 

@@ -1,6 +1,9 @@
-import Geometry.SourceCheckpointMeaning
-import Geometry.SourceCheckpointPolicy
-import Geometry.SourceCheckpointEntropy
+module
+public import Geometry.SourceCheckpointMeaning
+public import Geometry.SourceCheckpointPolicy
+public import Geometry.SourceCheckpointEntropy
+
+@[expose] public section
 
 /-!
 # Composition of native observability, finite feasibility and checkpoint selection

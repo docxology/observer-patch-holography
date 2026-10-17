@@ -1,6 +1,9 @@
-import Geometry.SourceReusableBusAxiomAudit
-import Geometry.SourceBusScaling
-import Geometry.SourceNativeRecords
+module
+public import Geometry.SourceReusableBusAxiomAudit
+public import Geometry.SourceBusScaling
+public import Geometry.SourceNativeRecords
+
+@[expose] public section
 
 /-! All new theorems use the existing transitive standard-axiom gate.
 Its guarded negative controls reject sorryAx and compiler trust. -/

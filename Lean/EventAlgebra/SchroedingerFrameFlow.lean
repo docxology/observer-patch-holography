@@ -1,4 +1,7 @@
-import EventAlgebra.QuantumAdequacySurface
+module
+public import EventAlgebra.QuantumAdequacySurface
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -201,7 +204,7 @@ theorem schroedinger_frame_duality [NeZero d] (W : FlowedPublicFrame d) :
         (∀ (t : ℝ) (x : Matrix (Fin d) (Fin d) ℂ),
           W.flow t x = stonePropagator H' t * x * stonePropagator H' (-t)) →
         ∃ r : ℝ, Ham = H' + (r : ℂ) • 1) := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne d)⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne d)⟩⟩
   obtain ⟨Ham, hHam, hconj⟩ := finiteStoneConverse_of_continuous
     W.flow W.flow_zero W.flow_group W.flow_continuous
   refine ⟨Ham, hHam, hconj, ?_, ?_⟩

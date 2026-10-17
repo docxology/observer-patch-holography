@@ -1,5 +1,8 @@
-import ObserverPatchHolography.DirectedSeamRepair
-import PortFrameGram
+module
+public import ObserverPatchHolography.DirectedSeamRepair
+public import PortFrameGram
+
+@[expose] public section
 
 namespace ObserverPatchHolography.DirectedSeamRepair
 

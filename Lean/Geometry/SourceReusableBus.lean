@@ -1,4 +1,7 @@
-import Geometry.SourceEncodedMemory
+module
+public import Geometry.SourceEncodedMemory
+
+@[expose] public section
 
 /-!
 # Finite reusable paired-rail bus

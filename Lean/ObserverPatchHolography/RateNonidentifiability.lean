@@ -1,5 +1,8 @@
-import Mathlib
-import ObserverPatchHolography.AbstractRewriting
+module
+public import Mathlib
+public import ObserverPatchHolography.AbstractRewriting
+
+@[expose] public section
 
 /-!
 # Rate non-identifiability for finite locking systems (abstract; **not** repository-facing)
@@ -181,7 +184,7 @@ theorem stutterStep_locked (T : S → S) (s : ℕ) (p : S × Fin (s + 1)) (h : L
     stutterStep T s p = p := by
   have h' : T p.1 = p.1 := h
   simp only [stutterStep]
-  rw [if_pos h']
+  rw [ite_eq_left h']
 
 /-- With the counter exhausted, one base step fires and the counter reloads. -/
 theorem stutterStep_reload (T : S → S) (s : ℕ) {x : S} (hx : ¬ Locked T x)
@@ -189,7 +192,7 @@ theorem stutterStep_reload (T : S → S) (s : ℕ) {x : S} (hx : ¬ Locked T x)
     stutterStep T s (x, c) = (T x, Fin.last s) := by
   have hx' : ¬ (T x = x) := hx
   simp only [stutterStep]
-  rw [if_neg hx', if_pos hc]
+  rw [ite_eq_right hx', ite_eq_left hc]
 
 /-- Otherwise the extension takes a permitted stuttering move. -/
 theorem stutterStep_idle (T : S → S) (s : ℕ) {x : S} (hx : ¬ Locked T x)
@@ -197,7 +200,7 @@ theorem stutterStep_idle (T : S → S) (s : ℕ) {x : S} (hx : ¬ Locked T x)
     stutterStep T s (x, c) = (x, ⟨c.val - 1, by have := c.isLt; omega⟩) := by
   have hx' : ¬ (T x = x) := hx
   simp only [stutterStep]
-  rw [if_neg hx', if_neg hc]
+  rw [ite_eq_right hx', ite_eq_right hc]
 
 /-- **Failure mode 1, defeated.** The full fixed-point set of the extended system is pinned in
 both directions: an extended state is locked exactly when its base state is, so

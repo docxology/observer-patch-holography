@@ -1,5 +1,8 @@
-import Geometry.ScreenCarrierMapCandidate
-import CertifiedScaledStepInstrument
+module
+public import Geometry.ScreenCarrierMapCandidate
+public import CertifiedScaledStepInstrument
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -1125,7 +1128,7 @@ theorem interaction_witness_value :
   simp only [ite_mul, one_mul, zero_mul]
   rw [Finset.sum_ite_eq' Finset.univ (0 : Fin 30)
     (fun e ↦ spatialDot (seamVector e) (seamVector 0)),
-    if_pos (Finset.mem_univ _)]
+    ite_eq_left (Finset.mem_univ _)]
   unfold seamVector
   rw [← evalPhi_dotZ, seamVec0_selfdot]
   show ((4 : ℤ) : ℝ) + ((0 : ℤ) : ℝ) * Real.goldenRatio = 4

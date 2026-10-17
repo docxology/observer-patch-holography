@@ -1,16 +1,19 @@
-import Variational.DiscreteEulerLagrange
-import Variational.DiscreteNoether
-import Variational.FiniteHistoryBridge
-import Variational.FiniteRealTransfer
-import Variational.LegendreBridge
-import Variational.RealizedHistoryLegendreNoGo
-import Variational.StationarySaddleCoverage
-import Variational.SourceToHamiltonianComposed
-import Variational.ModeExtremalEnrichment
-import Variational.EnrichmentCharacterization
-import Variational.TranslationInvariantComposedInstance
-import Variational.MechanicsAdequacySurface
-import Variational.PolynomialEnrichmentSelection
+module
+public import Variational.DiscreteEulerLagrange
+public import Variational.DiscreteNoether
+public import Variational.FiniteHistoryBridge
+public import Variational.FiniteRealTransfer
+public import Variational.LegendreBridge
+public import Variational.RealizedHistoryLegendreNoGo
+public import Variational.StationarySaddleCoverage
+public import Variational.SourceToHamiltonianComposed
+public import Variational.ModeExtremalEnrichment
+public import Variational.EnrichmentCharacterization
+public import Variational.TranslationInvariantComposedInstance
+public import Variational.MechanicsAdequacySurface
+public import Variational.PolynomialEnrichmentSelection
+
+@[expose] public section
 
 /-!
 # Variational umbrella root

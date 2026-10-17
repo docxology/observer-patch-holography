@@ -1,4 +1,7 @@
-import QFT.NoncommutativeWitness
+module
+public import QFT.NoncommutativeWitness
+
+@[expose] public section
 
 /-!
 # Coverage receipts for finite causal observer nets
@@ -212,8 +215,8 @@ corner blocks and vanishing mixed blocks. -/
 def blockDiagonalAlgebra : StarSubalgebra ℂ (Matrix (Fin 4) (Fin 4) ℂ) where
   carrier := {X | X 0 2 = 0 ∧ X 0 3 = 0 ∧ X 1 2 = 0 ∧ X 1 3 = 0 ∧
     X 2 0 = 0 ∧ X 2 1 = 0 ∧ X 3 0 = 0 ∧ X 3 1 = 0}
-  zero_mem' := by simp [Set.mem_setOf_eq]
-  one_mem' := by simp [Set.mem_setOf_eq]
+  zero_mem' := by simp [Set.mem_ofPred_eq]
+  one_mem' := by simp [Set.mem_ofPred_eq]
   add_mem' := by
     intro X Y hX hY
     obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8⟩ := hX
@@ -230,7 +233,7 @@ def blockDiagonalAlgebra : StarSubalgebra ℂ (Matrix (Fin 4) (Fin 4) ℂ) where
         h7, h8, g1, g2, g3, g4, g5, g6, g7, g8]
   algebraMap_mem' := by
     intro c
-    simp [Set.mem_setOf_eq, Algebra.algebraMap_eq_smul_one,
+    simp [Set.mem_ofPred_eq, Algebra.algebraMap_eq_smul_one,
       Matrix.smul_apply]
   star_mem' := by
     intro X hX
@@ -332,7 +335,7 @@ generate all of `M₄(ℂ)`. -/
 theorem blockDiagonalAlgebra_lt_top :
     blockDiagonalAlgebra <
       (⊤ : StarSubalgebra ℂ (Matrix (Fin 4) (Fin 4) ℂ)) := by
-  rw [SetLike.lt_iff_le_and_exists]
+  rw [IsConcreteLE.lt_iff_le_and_exists]
   exact ⟨le_top, blockUnit 0 2, StarSubalgebra.mem_top,
     blockUnit_zero_two_not_mem_blockDiagonal⟩
 

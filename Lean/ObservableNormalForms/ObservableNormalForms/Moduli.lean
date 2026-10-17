@@ -1,4 +1,7 @@
-import ObservableNormalForms.Stability
+module
+public import ObservableNormalForms.Stability
+
+@[expose] public section
 
 /-!
 # Intrinsic finite stability moduli
@@ -111,12 +114,12 @@ noncomputable def residualModulus (C : Finset Q) (hC : C.Nonempty)
 lemma residualModulus_of_nonempty {C : Finset Q} (hC : C.Nonempty)
     {Φ : Q → ℝ} {t : ℝ} (h : (residualSet Φ t).Nonempty) :
     residualModulus C hC Φ t = (residualSet Φ t).sup' h (distToFinset C hC) :=
-  dif_pos h
+  dite_eq_left h
 
 lemma residualModulus_of_empty {C : Finset Q} (hC : C.Nonempty)
     {Φ : Q → ℝ} {t : ℝ} (h : ¬(residualSet Φ t).Nonempty) :
     residualModulus C hC Φ t = 0 :=
-  dif_neg h
+  dite_eq_right h
 
 lemma residualModulus_nonneg (C : Finset Q) (hC : C.Nonempty)
     (Φ : Q → ℝ) (t : ℝ) :
@@ -231,13 +234,13 @@ lemma inverseModulus_of_nonempty {C : Finset Q} {B : Q → 𝓑} {r : ℝ}
     (h : (inverseSet C B r).Nonempty) :
     inverseModulus C B r =
       (inverseSet C B r).sup' h fun p => dist p.1 p.2 :=
-  dif_pos h
+  dite_eq_left h
 
 omit [Fintype Q] in
 lemma inverseModulus_of_empty {C : Finset Q} {B : Q → 𝓑} {r : ℝ}
     (h : ¬(inverseSet C B r).Nonempty) :
     inverseModulus C B r = 0 :=
-  dif_neg h
+  dite_eq_right h
 
 omit [Fintype Q] in
 lemma inverseModulus_nonneg (C : Finset Q) (B : Q → 𝓑) (r : ℝ) :
@@ -335,12 +338,12 @@ lemma settledModulus_of_nonempty {Φ : Q → ℝ} {B : Q → 𝓑} {δ r : ℝ}
     (h : (settledSet Φ B δ r).Nonempty) :
     settledModulus Φ B δ r =
       (settledSet Φ B δ r).sup' h fun p => dist p.1 p.2 :=
-  dif_pos h
+  dite_eq_left h
 
 lemma settledModulus_of_empty {Φ : Q → ℝ} {B : Q → 𝓑} {δ r : ℝ}
     (h : ¬(settledSet Φ B δ r).Nonempty) :
     settledModulus Φ B δ r = 0 :=
-  dif_neg h
+  dite_eq_right h
 
 lemma settledModulus_nonneg (Φ : Q → ℝ) (B : Q → 𝓑) (δ r : ℝ) :
     0 ≤ settledModulus Φ B δ r := by

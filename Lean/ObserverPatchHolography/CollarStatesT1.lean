@@ -1,4 +1,7 @@
-import ObserverPatchHolography.CollarStates
+module
+public import ObserverPatchHolography.CollarStates
+
+@[expose] public section
 
 /-!
 # State-side collar states : T1: the reversal exhibit (#544)
@@ -226,7 +229,7 @@ nonnegative.  Positivity + trace preservation suffice for admissibility;
 complete positivity lies outside the stated requirements (no Choi theatre). -/
 
 theorem quP_idem (s : Fin 2) : quP s * quP s = quP s := by
-  rw [quP_mul, if_pos rfl]
+  rw [quP_mul, ite_eq_left rfl]
 
 theorem quP_posSemidef (s : Fin 2) : (quP s).PosSemidef := by
   have h : quP s = (quP s)ᴴ * quP s := by

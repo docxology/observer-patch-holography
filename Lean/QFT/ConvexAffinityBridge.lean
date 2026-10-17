@@ -1,6 +1,9 @@
-import EventAlgebra.StateExpectation
-import EventAlgebra.FiniteEffectClosureBoundary
-import Tower.ConsensusTower
+module
+public import EventAlgebra.StateExpectation
+public import EventAlgebra.FiniteEffectClosureBoundary
+public import Tower.ConsensusTower
+
+@[expose] public section
 
 /-!
 # The convex-affinity bridge for celestial binary responses

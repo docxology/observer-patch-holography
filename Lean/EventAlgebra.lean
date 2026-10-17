@@ -1,43 +1,46 @@
-import EventAlgebra.Basic
-import EventAlgebra.Lueders
-import EventAlgebra.PartitionPinching
-import EventAlgebra.PartitionPinchingCP
-import EventAlgebra.PartitionAverage
-import EventAlgebra.PartitionAverageCP
-import EventAlgebra.TwoScalePublicRepair
-import EventAlgebra.PublicRecordAlgebra
-import EventAlgebra.NoBroadcastingAdapter
-import EventAlgebra.StateExpectation
-import EventAlgebra.Robertson
-import EventAlgebra.Superselection
-import EventAlgebra.Tsirelson
-import EventAlgebra.ExpectationBound
-import EventAlgebra.FiniteBornFrame
-import EventAlgebra.FiniteEffectClosureBoundary
-import EventAlgebra.FiniteBuschGleason
-import EventAlgebra.InterlockingContexts
-import EventAlgebra.FiniteWebBornNoGo
-import EventAlgebra.FrequencyConcentration
-import EventAlgebra.RecordMajorization
-import EventAlgebra.SpectralEntropyBoundary
-import EventAlgebra.SlotLocalitySurface
-import EventAlgebra.QuantumAdequacySurface
-import EventAlgebra.SchroedingerFrameFlow
-import EventAlgebra.TsirelsonSaturation
-import EventAlgebra.OperationalPhaseInstrument
-import EventAlgebra.PhaseInstrumentDetermination
-import EventAlgebra.SourceReachabilityDelimitation
-import EventAlgebra.PauliMinimalCoupling
-import EventAlgebra.OperationalPhaseAttainment
-import EventAlgebra.OperationalAdditivityBoundary
-import EventAlgebra.LuedersPhaseInstrument
-import EventAlgebra.InstrumentSelectionByCertainStates
-import EventAlgebra.SourceBoundInstrumentInterface
-import EventAlgebra.SourcePhaseSelection
-import EventAlgebra.SourcePhaseInstrumentOutcomeBridge
-import EventAlgebra.SourcePhaseCommonPreparationHull
-import EventAlgebra.SourcePhaseBornWeightBoundary
-import EventAlgebra.ProductSplitSeparability
+module
+public import EventAlgebra.Basic
+public import EventAlgebra.Lueders
+public import EventAlgebra.PartitionPinching
+public import EventAlgebra.PartitionPinchingCP
+public import EventAlgebra.PartitionAverage
+public import EventAlgebra.PartitionAverageCP
+public import EventAlgebra.TwoScalePublicRepair
+public import EventAlgebra.PublicRecordAlgebra
+public import EventAlgebra.NoBroadcastingAdapter
+public import EventAlgebra.StateExpectation
+public import EventAlgebra.Robertson
+public import EventAlgebra.Superselection
+public import EventAlgebra.Tsirelson
+public import EventAlgebra.ExpectationBound
+public import EventAlgebra.FiniteBornFrame
+public import EventAlgebra.FiniteEffectClosureBoundary
+public import EventAlgebra.FiniteBuschGleason
+public import EventAlgebra.InterlockingContexts
+public import EventAlgebra.FiniteWebBornNoGo
+public import EventAlgebra.FrequencyConcentration
+public import EventAlgebra.RecordMajorization
+public import EventAlgebra.SpectralEntropyBoundary
+public import EventAlgebra.SlotLocalitySurface
+public import EventAlgebra.QuantumAdequacySurface
+public import EventAlgebra.SchroedingerFrameFlow
+public import EventAlgebra.TsirelsonSaturation
+public import EventAlgebra.OperationalPhaseInstrument
+public import EventAlgebra.PhaseInstrumentDetermination
+public import EventAlgebra.SourceReachabilityDelimitation
+public import EventAlgebra.PauliMinimalCoupling
+public import EventAlgebra.OperationalPhaseAttainment
+public import EventAlgebra.OperationalAdditivityBoundary
+public import EventAlgebra.LuedersPhaseInstrument
+public import EventAlgebra.InstrumentSelectionByCertainStates
+public import EventAlgebra.SourceBoundInstrumentInterface
+public import EventAlgebra.SourcePhaseSelection
+public import EventAlgebra.SourcePhaseInstrumentOutcomeBridge
+public import EventAlgebra.SourcePhaseCommonPreparationHull
+public import EventAlgebra.SourcePhaseBornWeightBoundary
+public import EventAlgebra.ProductSplitSeparability
+
+@[expose] public section
 
 /-!
 # Finite projection-event calculus: umbrella root

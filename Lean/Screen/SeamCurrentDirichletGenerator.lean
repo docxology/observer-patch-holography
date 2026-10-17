@@ -1,4 +1,7 @@
-import SeamCurrentHomogeneousAction
+module
+public import SeamCurrentHomogeneousAction
+
+@[expose] public section
 
 open scoped BigOperators
 

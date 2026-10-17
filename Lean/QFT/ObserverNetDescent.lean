@@ -1,4 +1,7 @@
-import QFT.FiniteCausalObserverNet
+module
+public import QFT.FiniteCausalObserverNet
+
+@[expose] public section
 
 /-!
 # Finite overlap descent for observer nets
@@ -226,10 +229,10 @@ noncomputable def partitionPublicAllCoversDescent
     refine ⟨F.localSection U hU, ?_, ?_⟩
     · intro V hV
       have hcompat := F.overlap_compatible U hU V hV
-      simpa [partitionPublicCausalNet] using hcompat
+      exact hcompat
     · intro X hX
       have hx := hX U hU
-      simpa [partitionPublicCausalNet] using hx
+      exact hx
 
 /-- A two-member subregion family of the full two-label region in the finite
 partition-public model. -/

@@ -1,6 +1,11 @@
-import ObserverPatchHolography.IcosahedralAntibridge
-import Mathlib.GroupTheory.SpecificGroups.Alternating
-import Mathlib.GroupTheory.GroupAction.Quotient
+module
+public import ObserverPatchHolography.IcosahedralAntibridge
+public import Mathlib.GroupTheory.SpecificGroups.Alternating
+public import Mathlib.GroupTheory.SpecificGroups.Alternating.Simple
+public import Mathlib.GroupTheory.Subgroup.Simple
+public import Mathlib.GroupTheory.GroupAction.Quotient
+
+@[expose] public section
 
 /-!
 # Icosahedral orbit–stabilizer receipts for the `A5` vertex action
@@ -55,8 +60,8 @@ theorem orbit_stabilizer_defectSpace :
     because `A5` is simple and `H5 ≠ ⊤`.  Hence `A5` embeds into the
     permutations of the twelve icosahedral vertices. -/
 theorem defectSpace_action_faithful : H5.normalCore = ⊥ := by
-  rcases (IsSimpleGroup.eq_bot_or_eq_top_of_normal (H5.normalCore)
-      (Subgroup.normalCore_normal H5)) with h | h
+  let := Subgroup.normalCore_normal H5
+  rcases (IsSimpleGroup.eq_bot_or_eq_top_of_normal (H5.normalCore)) with h | h
   · exact h
   · exfalso
     have hle : H5.normalCore ≤ H5 := Subgroup.normalCore_le H5

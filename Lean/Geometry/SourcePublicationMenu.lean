@@ -1,5 +1,8 @@
-import Geometry.SourcePublicationNative
-import Geometry.SourceCheckpointEntropy
+module
+public import Geometry.SourcePublicationNative
+public import Geometry.SourceCheckpointEntropy
+
+@[expose] public section
 
 /-! Common-space record-menu selection.
 The joint entropy problem includes a public-demand label as an actual random
@@ -62,7 +65,7 @@ theorem selected_tendsto (step : S → A → S) (weight : S → A → ℝ)
     Tendsto (fun n => selected prior (fun j => mass step weight (f j) n s) m) atTop
       (𝓝 (selected prior (fun j => eventual step weight (f j) s) m)) := by
   have ht (j : M) := (mass_tendsto step weight hw hs (f j) (hf j) (hp j) s).const_mul (prior j)
-  exact (ht m).div (tendsto_finset_sum Finset.univ (fun j _ => ht j)) hz
+  exact (ht m).div (tendsto_finsetSum Finset.univ (fun j _ => ht j)) hz
 
 omit [Fintype A] in
 /-- Sum over all finite history atoms, retaining the inherited joint prior. -/

@@ -1,6 +1,9 @@
-import Geometry.SourceReusableBusAxiomAudit
-import Geometry.SourceReadAcceptance
-import Geometry.SourceReadAcceptanceSchedule
+module
+public import Geometry.SourceReusableBusAxiomAudit
+public import Geometry.SourceReadAcceptance
+public import Geometry.SourceReadAcceptanceSchedule
+
+@[expose] public section
 
 audit_reusable_bus_axioms OPH.SourceReadAcceptance.identifies_unique
 audit_reusable_bus_axioms OPH.SourceReadAcceptance.sound_publication_identifies

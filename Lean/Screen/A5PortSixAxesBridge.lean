@@ -1,5 +1,8 @@
-import A5PortModule
-import A5SixAxes
+module
+public import A5PortModule
+public import A5SixAxes
+
+@[expose] public section
 
 namespace OPH.A5PortSixAxesBridge
 

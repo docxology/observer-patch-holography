@@ -1,5 +1,8 @@
-import Geometry.SourcePublicationLaw
-import Geometry.SourceCheckpointNative
+module
+public import Geometry.SourcePublicationLaw
+public import Geometry.SourceCheckpointNative
+
+@[expose] public section
 
 /-!
 # Native meaning preservation and the publication limit
@@ -37,10 +40,10 @@ theorem terminal_subharmonic (meaning : X → R) (root : P) (seam : A → P × P
   by_cases hp : Published meaning c
   · have he : ∀ a, terminal meaning (step root seam c a) = 1 := by
       intro a
-      exact if_pos (publication_advance meaning root c (seam a) hp)
+      exact ite_eq_left (publication_advance meaning root c (seam a) hp)
     simp only [he,mul_one,hs]
     exact terminal_le_one meaning c
-  · rw [terminal,if_neg hp]
+  · rw [terminal,ite_eq_right hp]
     exact Finset.sum_nonneg (fun a _ => mul_nonneg (hw c a) (terminal_nonneg meaning _))
 
 def completion (meaning : X → R) (root : P) (seam : A → P × P)
@@ -78,7 +81,7 @@ theorem completion_published (meaning : X → R) (root : P) (seam : A → P × P
     (hs : ∀ c, ∑ a, weight c a = 1) (c : Checkpoint X P) (hp : Published meaning c) :
     completion meaning root seam weight c = 1 := by
   classical
-  exact eventual_eq_one _ _ hw hs _ (terminal_le_one meaning) c (if_pos hp)
+  exact eventual_eq_one _ _ hw hs _ (terminal_le_one meaning) c (ite_eq_left hp)
 
 omit [Fintype A] in
 theorem run_has_root (root : P) (c : Checkpoint X P) (hr : HasRoot root c)

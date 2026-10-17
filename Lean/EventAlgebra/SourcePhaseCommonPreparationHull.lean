@@ -1,4 +1,7 @@
-import EventAlgebra.SourcePhaseInstrumentOutcomeBridge
+module
+public import EventAlgebra.SourcePhaseInstrumentOutcomeBridge
+
+@[expose] public section
 
 set_option autoImplicit false
 

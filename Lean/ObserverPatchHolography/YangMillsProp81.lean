@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Yang–Mills finite repair-gap: Proposition 8.1 (commuting-color spectral gap)
@@ -231,8 +234,8 @@ theorem prop_8_1_gap {ι : Type*} (s : Finset ι) (Ec : ι → (E →L[ℝ] E)) 
   have happ :
       ((∑ a ∈ s, cstar • ((1 : E →L[ℝ] E) - Ec a)) - cstar • ((1 : E →L[ℝ] E) - P0)) x
         = (∑ a ∈ s, cstar • ((1 : E →L[ℝ] E) - Ec a)) x - cstar • x := by
-    rw [ContinuousLinearMap.sub_apply, ContinuousLinearMap.smul_apply,
-      ContinuousLinearMap.sub_apply, ContinuousLinearMap.one_apply, hx, sub_zero]
+    rw [sub_apply, smul_apply,
+      sub_apply, one_apply_eq_self, hx, sub_zero]
   rw [happ, inner_sub_left, real_inner_smul_left, real_inner_self_eq_norm_sq] at hnn
   linarith
 

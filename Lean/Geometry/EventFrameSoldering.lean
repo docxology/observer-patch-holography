@@ -1,4 +1,7 @@
-import Geometry.CelestialSoldering
+module
+public import Geometry.CelestialSoldering
+
+@[expose] public section
 
 /-!
 # C2: observer-frame soldering and exact premise reduction

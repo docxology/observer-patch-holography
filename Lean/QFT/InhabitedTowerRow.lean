@@ -1,4 +1,7 @@
-import QFT.PublicEndpointBridge
+module
+public import QFT.PublicEndpointBridge
+
+@[expose] public section
 
 /-!
 # The F1 inhabited-tower premise row: one enriched common-domain tower

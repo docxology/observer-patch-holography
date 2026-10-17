@@ -1,4 +1,7 @@
-import ActionTimeGram
+module
+public import ActionTimeGram
+
+@[expose] public section
 
 /-!
 # Positive duration uniqueness for the variable-step action equation

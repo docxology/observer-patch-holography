@@ -1,5 +1,8 @@
-import QFT.ColimitGNSRepresentation
-import EventAlgebra.ExpectationBound
+module
+public import QFT.ColimitGNSRepresentation
+public import EventAlgebra.ExpectationBound
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false
@@ -37,13 +40,13 @@ variable {T : ConsensusTower ι}
 /-! ## The compatible finite expectation on the algebraic colimit -/
 
 /-- The trace expectation of the observer selected by `ξ` on one tower germ. -/
-private noncomputable def selectedGermExpectation
+noncomputable def selectedGermExpectation
     (ξ : CoherentObserverFamily T) (p : TowerGerm T) : ℂ :=
   EventAlgebra.expectation (T.state p.1 (ξ.observer p.1)) p.2
 
 /-- State naturality and observer coherence make the selected expectation
 constant on the germ relation. -/
-private theorem selectedGermExpectation_sound
+theorem selectedGermExpectation_sound
     (ξ : CoherentObserverFamily T) {p q : TowerGerm T}
     (h : germRel T p q) :
     selectedGermExpectation ξ p = selectedGermExpectation ξ q := by
@@ -96,7 +99,7 @@ theorem norm_selectedColimitExpectationLinearMap_le
     ‖selectedColimitExpectationLinearMap ξ x‖ ≤ ‖x‖ := by
   obtain ⟨r, X, rfl⟩ := colimitMk_surjective x
   obtain ⟨s, hrs, hs⟩ := exists_stage_norm_eq X
-  letI : NeZero (T.dim s) :=
+  let : NeZero (T.dim s) :=
     ⟨Nat.ne_of_gt (dim_pos_of_observer T s ⟨ξ.observer s⟩)⟩
   have hstate := T.state_natural hrs (ξ.observer r) X
   rw [ξ.coherent hrs] at hstate
@@ -130,11 +133,11 @@ theorem selectedColimitExpectation_colimitMk
 
 /-- The uniformly continuous extension of the selected colimit expectation
 to the completed colimit. -/
-private noncomputable def selectedCompletionExpectationFun
+noncomputable def selectedCompletionExpectationFun
     (ξ : CoherentObserverFamily T) : ColimitCompletion T → ℂ :=
   Completion.extension (selectedColimitExpectation ξ)
 
-private theorem selectedCompletionExpectationFun_coe
+theorem selectedCompletionExpectationFun_coe
     (ξ : CoherentObserverFamily T) (x : TowerColimit T) :
     selectedCompletionExpectationFun ξ (x : ColimitCompletion T) =
       selectedColimitExpectation ξ x := by
@@ -286,3 +289,6 @@ end OPH.QFT
 #print axioms OPH.QFT.norm_witnessColimitGNSUnitClass
 #print axioms OPH.QFT.witnessColimitGNSUnitClass_ne_zero
 #print axioms OPH.QFT.witnessColimitGNS_source_nontrivial_receipt
+
+#print axioms OPH.QFT.selectedGermExpectation_sound
+#print axioms OPH.QFT.selectedCompletionExpectationFun_coe

@@ -1,5 +1,8 @@
-import ObserverPatchHolography.Execution.CumulativeAttemptCapacity
-import ObserverPatchHolography.Execution.AdaptiveRunCounterexamples
+module
+public import ObserverPatchHolography.Execution.CumulativeAttemptCapacity
+public import ObserverPatchHolography.Execution.AdaptiveRunCounterexamples
+
+@[expose] public section
 
 /-!
 # Sharp controls for cumulative attempt capacity
@@ -168,7 +171,7 @@ theorem delayThenProbe_pathwiseWeakFair (delay : Nat) :
 
 /-! ## Parametric independent-defect sharpness carrier -/
 
-def independentDefectCarrier (width : Nat) : OPHCarrier where
+abbrev independentDefectCarrier (width : Nat) : OPHCarrier where
   Patch := Fin width
   State := fun _ => Bool
   Edge := Fin width
@@ -183,9 +186,9 @@ def independentDefectCarrier (width : Nat) : OPHCarrier where
   dist_eq_zero := by
     intro _ a b
     by_cases h : a = b
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact ⟨fun _ => h, fun _ => rfl⟩
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact ⟨fun h1 => absurd h1 one_ne_zero, fun h2 => absurd h2 h⟩
 
 def allBroken (width : Nat) : Records (independentDefectCarrier width) :=
@@ -213,11 +216,11 @@ theorem independent_solvesAt_iff (width : Nat)
   constructor
   · intro h
     have hi := h i (Or.inl rfl)
-    simpa [edgeConsistentAt, independentDefectCarrier] using hi
+    simpa [edgeConsistentAt, independentDefectCarrier, Function.update_apply, id_eq] using hi
   · rintro rfl e hinc
     change e = i ∨ e = i at hinc
     rcases hinc with rfl | rfl <;>
-      simp [edgeConsistentAt, independentDefectCarrier]
+      simp [edgeConsistentAt, independentDefectCarrier, id_eq]
 
 theorem independent_trigger_iff (width : Nat)
     (i : Fin width) (x : Records (independentDefectCarrier width)) :
@@ -226,7 +229,7 @@ theorem independent_trigger_iff (width : Nat)
   · rintro ⟨e, hinc, hbroken⟩
     change e = i ∨ e = i at hinc
     rcases hinc with rfl | rfl <;>
-      simpa [edgeConsistentAt, independentDefectCarrier] using hbroken
+      simpa [edgeConsistentAt, independentDefectCarrier, Function.update_apply, id_eq] using hbroken
   · intro hfalse
     refine ⟨i, Or.inl rfl, ?_⟩
     simp [edgeConsistentAt, independentDefectCarrier, hfalse]
@@ -283,7 +286,7 @@ theorem independent_localRepair_eq_update_true (width : Nat)
       by_cases hji : j = i
       · subst j
         simp [hxi]
-      · simp [Function.update_of_ne hji]
+      · simp only [Function.update_of_ne hji]
 
 theorem independent_localRepair_ne_iff (width : Nat)
     (i : Fin width) (x : Records (independentDefectCarrier width)) :
@@ -300,7 +303,7 @@ theorem independent_localRepair_ne_iff (width : Nat)
         by_cases hji : j = i
         · subst j
           simp [hxi]
-        · simp [Function.update_of_ne hji]
+        · simp only [Function.update_of_ne hji]
   · intro hfalse heq
     have hi := congrFun heq i
     simp [hfalse] at hi
@@ -318,7 +321,7 @@ theorem independent_brokenSet_after_repair (width : Nat)
     have hei : e ≠ i := by
       intro heq
       subst e
-      simp at hvalue
+      simp [] at hvalue
     have hsame : Function.update x i true (show Fin width from e) = x e :=
       Function.update_of_ne hei true x
     apply Finset.mem_erase.mpr
@@ -411,10 +414,7 @@ theorem firstBrokenScheduler_selects_false (width : Nat) [NeZero width]
   classical
   have hselect : firstBrokenScheduler width n x = Classical.choose h := by
     unfold firstBrokenScheduler
-    dsimp
-    split
-    · congr
-    · contradiction
+    simp only [dite_eq_left h]
   rw [hselect]
   exact Classical.choose_spec h
 

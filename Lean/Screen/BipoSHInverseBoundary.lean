@@ -1,6 +1,9 @@
-import Mathlib
-import ObserverPatchHolography.ScalarSeamRepair
-import BipoSHTransferInvariant
+module
+public import Mathlib
+public import ObserverPatchHolography.ScalarSeamRepair
+public import BipoSHTransferInvariant
+
+@[expose] public section
 
 namespace OPH.BipoSHInverseBoundary
 

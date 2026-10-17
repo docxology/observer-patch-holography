@@ -1,5 +1,8 @@
-import PrimitivePortDualMeasure
-import OrientedFaceInvariantMetric
+module
+public import PrimitivePortDualMeasure
+public import OrientedFaceInvariantMetric
+
+@[expose] public section
 
 open scoped BigOperators
 

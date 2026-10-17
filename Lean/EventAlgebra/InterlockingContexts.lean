@@ -1,4 +1,7 @@
-import EventAlgebra.FiniteEffectClosureBoundary
+module
+public import EventAlgebra.FiniteEffectClosureBoundary
+
+@[expose] public section
 
 /-!
 # Interlocking context webs and the Born threshold theorems
@@ -115,7 +118,7 @@ theorem noncontextual_iff_factorsThroughEffects (W : Web) (v : Assignment W) :
     intro C hC j
     have hEx : ∃ p : (C' : Context) × Fin C'.size,
         p.1 ∈ W ∧ p.1.member p.2 = C.member j := ⟨⟨C, j⟩, hC, rfl⟩
-    simp only [dif_pos hEx]
+    simp only [dite_eq_left hEx]
     exact hnc C hC hEx.choose.1 hEx.choose_spec.1 j hEx.choose.2
       hEx.choose_spec.2.symm
   · rintro ⟨f, hf⟩ C hC C' hC' j j' hjj'
@@ -180,7 +183,7 @@ theorem projDirection_proj {n : Spatial} (hn : spatialNormSq n = 1) :
     projDirection (proj n) = n := by
   have hEx : ∃ m, spatialNormSq m = 1 ∧ proj n = proj m := ⟨n, hn, rfl⟩
   unfold projDirection
-  rw [dif_pos hEx]
+  rw [dite_eq_left hEx]
   exact (proj_injective hEx.choose_spec.2).symm
 
 /-! ## The web of all sharp binary contexts -/
@@ -301,7 +304,7 @@ def trineE3 : Herm2 := scaledProj (5 / 8) u3
 
 /-- The unsharp three-outcome trine context: exact rational effects with
 weighted axes summing to zero, so the members sum to the identity. -/
-def trineContext : Context where
+abbrev trineContext : Context where
   size := 3
   member := ![trineE1, trineE2, trineE3]
   member_isEffect := by

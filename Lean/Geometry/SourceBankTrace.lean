@@ -1,4 +1,7 @@
-import Geometry.SourceBankMachine
+module
+public import Geometry.SourceBankMachine
+
+@[expose] public section
 
 /-!
 # Finite correspondence checks for the captured control

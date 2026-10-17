@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Finite-capacity curvature behind the de Sitter shock-sign diagnostic

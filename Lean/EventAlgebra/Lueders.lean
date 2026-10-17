@@ -1,4 +1,7 @@
-import EventAlgebra.Basic
+module
+public import EventAlgebra.Basic
+
+@[expose] public section
 
 /-!
 # Lüders conditioning
@@ -225,7 +228,7 @@ theorem mul_eq_self_of_bornWeight_one {σ P : Matrix (Fin n) (Fin n) ℂ}
   -- Cauchy–Schwarz for the quadratic form of `σ`: `σ (Q x) = 0` for all `x`.
   have hvec : ∀ x : Fin n → ℂ, σ *ᵥ (Q *ᵥ x) = 0 := by
     intro x
-    apply (hσ.1.dotProduct_mulVec_zero_iff (Q *ᵥ x)).mp
+    apply (hσ.1.dotProduct_mulVec_zero_iff).mp
     calc star (Q *ᵥ x) ⬝ᵥ σ *ᵥ (Q *ᵥ x)
         = (star x ᵥ* Q) ⬝ᵥ (σ *ᵥ (Q *ᵥ x)) := by rw [star_mulVec, hQ.1.eq]
       _ = (star x ᵥ* Q) ⬝ᵥ ((σ * Q) *ᵥ x) := by rw [mulVec_mulVec]

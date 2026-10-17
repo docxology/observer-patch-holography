@@ -1,5 +1,8 @@
-import Computation.FixedFederationExecution
-import ObserverPatchHolography.Execution.RankedAttemptCapacity
+module
+public import Computation.FixedFederationExecution
+public import ObserverPatchHolography.Execution.RankedAttemptCapacity
+
+@[expose] public section
 
 /-!
 # Fixed-program accepted-step complexity
@@ -123,14 +126,14 @@ theorem go_use_profile {k : Nat}
         exact go_dependency_count_eq_zero_of_next_le
           psi (go phi c).next hcB _ le_rfl
       constructor
-      · simp only [go, dependencyOccurrences_append,
+      · simp only [go, appendNand, dependencyOccurrences_append,
           dependencyOccurrences_cons, dependencyOccurrences_nil,
           List.append_nil, List.count_append]
         simp [A, B, hAparent, hBparent,
           ne_of_lt hAout_lt_parent,
           ne_of_lt hBout_lt_parent]
       · intro r hrmem hrne
-        simp only [go, List.map_append, List.mem_append] at hrmem
+        simp only [go, appendNand, List.map_append, List.mem_append] at hrmem
         rcases hrmem with hrA | hrB | hrParent
         · obtain ⟨a, ha, har⟩ := List.mem_map.mp hrA
           subst r
@@ -153,7 +156,7 @@ theorem go_use_profile {k : Nat}
                 (dependencyOccurrences (go psi (go phi c).next).nodes).count
                   a.reg = 0 := by
               exact hBzero
-            simp only [go, dependencyOccurrences_append,
+            simp only [go, appendNand, dependencyOccurrences_append,
               dependencyOccurrences_cons, dependencyOccurrences_nil,
               List.append_nil, List.count_append]
             rw [hAzeroA, hBzeroA]
@@ -163,7 +166,7 @@ theorem go_use_profile {k : Nat}
               Ne.symm (by simpa [A, B] using hr_ne_Bout)
             simp [heqA, hneB]
           · have hAone := PA.nonoutput_used_once a.reg hrA hrAout
-            simp only [go, dependencyOccurrences_append,
+            simp only [go, appendNand, dependencyOccurrences_append,
               dependencyOccurrences_cons, dependencyOccurrences_nil,
               List.append_nil, List.count_append]
             rw [hAone, hBzero]
@@ -191,7 +194,7 @@ theorem go_use_profile {k : Nat}
             have hAzeroB :
                 (dependencyOccurrences (go phi c).nodes).count b.reg = 0 := by
               exact hAzero
-            simp only [go, dependencyOccurrences_append,
+            simp only [go, appendNand, dependencyOccurrences_append,
               dependencyOccurrences_cons, dependencyOccurrences_nil,
               List.append_nil, List.count_append]
             rw [hAzeroB, hBzeroB]
@@ -201,7 +204,7 @@ theorem go_use_profile {k : Nat}
               Ne.symm (by simpa [A] using hr_ne_Aout)
             simp [heqB, hneA]
           · have hBone := PB.nonoutput_used_once b.reg hrB hrBout
-            simp only [go, dependencyOccurrences_append,
+            simp only [go, appendNand, dependencyOccurrences_append,
               dependencyOccurrences_cons, dependencyOccurrences_nil,
               List.append_nil, List.count_append]
             rw [hAzero, hBone]
@@ -240,7 +243,7 @@ theorem observer_ok_write_eq_of_not_used
     apply a.val_local
     intro i hi
     simp only [write]
-    rw [if_neg]
+    rw [ite_eq_right]
     intro hir
     apply hdep
     exact hir ▸ hi

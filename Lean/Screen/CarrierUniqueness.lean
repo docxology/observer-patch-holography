@@ -1,5 +1,8 @@
-import Mathlib
-import PortFrameGram
+module
+public import Mathlib
+public import PortFrameGram
+
+@[expose] public section
 
 namespace OPH.CarrierUniqueness
 
@@ -521,12 +524,12 @@ theorem connected :
         (fun a b => ({a, b} : Finset (Fin 12)) ∈ carrier.edges) p q := by
   intro p _ q _
   have hsym :
-      Symmetric (fun a b : Fin 12 =>
+      Std.Symm (fun a b : Fin 12 =>
         ({a, b} : Finset (Fin 12)) ∈ carrier.edges) := by
+    constructor
     intro a b h
     rwa [Finset.pair_comm]
-  exact ((Relation.ReflTransGen.symmetric hsym) (reach_zero p)).trans
-    (reach_zero q)
+  exact (symm (reach_zero p)).trans (reach_zero q)
 
 /-- The icosahedral witness satisfies the declared criteria. -/
 def criteria : EchosahedralCriteria (Fin 12) where

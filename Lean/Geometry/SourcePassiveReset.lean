@@ -1,4 +1,7 @@
-import Geometry.SourceNonlinearRecord
+module
+public import Geometry.SourceNonlinearRecord
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -29,7 +32,7 @@ theorem pairAverage_nonnegative (u v : ι) {x : ι → ℝ} (hx : Nonnegative x)
     Nonnegative (pairAverage u v x) := by
   intro i
   by_cases h : i = u ∨ i = v
-  · simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, h, if_true]
+  · simp only [pairAverage, LinearMap.coe_mk, AddHom.coe_mk, h, ite_true]
     exact div_nonneg (add_nonneg (hx u) (hx v)) (by norm_num)
   · simpa [pairAverage, h] using hx i
 
@@ -57,7 +60,7 @@ theorem retained_self_lower_bound (word : List (ι × ι)) (x : ι → ℝ)
     have h := ih (pairAverage e.1 e.2 x) (pairAverage_nonnegative e.1 e.2 hx)
     by_cases hi : i = e.1 ∨ i = e.2
     · have hs := incident_lower_bound e.1 e.2 i x hx hi
-      simp only [touches, hi, if_true, run, pow_add, pow_one]
+      simp only [touches, hi, ite_true, run, pow_add, pow_one]
       nlinarith
     · have hs := pairAverage_off_seam e.1 e.2 i x (fun h => hi (Or.inl h))
         (fun h => hi (Or.inr h))
@@ -88,7 +91,7 @@ def coldState (a : ℝ) (m i : ℕ) : ℝ :=
 
 theorem coldState_zero (a : ℝ) : coldState a 0 = Pi.single 0 a := by
   ext i
-  by_cases hi : i = 0 <;> simp [coldState, Pi.single_apply, hi]
+  by_cases hi : i = 0 <;> simp [coldState, hi]
 
 theorem coldState_step (a : ℝ) (m : ℕ) :
     pairAverage 0 (m+1) (coldState a m) = coldState a (m+1) := by

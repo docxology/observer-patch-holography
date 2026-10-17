@@ -1,4 +1,7 @@
-import ObserverPatchHolography.Locality.AdaptiveScheduler
+module
+public import ObserverPatchHolography.Locality.AdaptiveScheduler
+
+@[expose] public section
 
 namespace OPH.Execution
 

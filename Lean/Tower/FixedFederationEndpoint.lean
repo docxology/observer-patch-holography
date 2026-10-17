@@ -1,4 +1,7 @@
-import Computation.FixedFederationProgress
+module
+public import Computation.FixedFederationProgress
+
+@[expose] public section
 
 /-!
 # Fixed computation-federation endpoints

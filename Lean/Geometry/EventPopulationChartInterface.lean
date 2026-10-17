@@ -1,6 +1,9 @@
-import Geometry.CausalOrderComposition
-import Geometry.EventGermDisplacement
-import ObserverPatchHolography.Provenance.SemanticEventProvenance
+module
+public import Geometry.CausalOrderComposition
+public import Geometry.EventGermDisplacement
+public import ObserverPatchHolography.Provenance.SemanticEventProvenance
+
+@[expose] public section
 
 /-!
 # Source-derived finite causal-chart interface

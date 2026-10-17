@@ -1,5 +1,8 @@
-import WhitneyTimeBridge
-import Mathlib.Analysis.SpecificLimits.Basic
+module
+public import WhitneyTimeBridge
+public import Mathlib.Analysis.SpecificLimits.Basic
+
+@[expose] public section
 
 /-!
 # Full-metric time-prism Maxwell dynamics

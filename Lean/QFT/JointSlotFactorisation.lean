@@ -1,5 +1,8 @@
-import QFT.SourceOperatorGeneration
-import ObserverPatchHolography.Locality.NoSignalling
+module
+public import QFT.SourceOperatorGeneration
+public import ObserverPatchHolography.Locality.NoSignalling
+
+@[expose] public section
 
 /-!
 # Joint two-slot factorisation of the designated observer pair
@@ -278,19 +281,20 @@ def rightSlotExpectation :
   toFun M := (Fintype.card α : ℂ)⁻¹ •
     ((1 : Matrix α α ℂ) ⊗ₖ OPH.Locality.ptraceFst M)
   map_add' M N := by
-    unfold OPH.Locality.ptraceFst
-    rw [← smul_add, ← Matrix.kronecker_add]
-    congr 2
-    ext b b'
-    simp [Finset.sum_add_distrib]
+    ext ⟨a, b⟩ ⟨a', b'⟩
+    change (Fintype.card α : ℂ)⁻¹ * ((1 : Matrix α α ℂ) a a' *
+      (∑ x : α, (M (x, b) (x, b') + N (x, b) (x, b')))) =
+      (Fintype.card α : ℂ)⁻¹ * ((1 : Matrix α α ℂ) a a' * (∑ x : α, M (x, b) (x, b'))) +
+      (Fintype.card α : ℂ)⁻¹ * ((1 : Matrix α α ℂ) a a' * (∑ x : α, N (x, b) (x, b')))
+    rw [Finset.sum_add_distrib]
+    ring
   map_smul' c M := by
-    unfold OPH.Locality.ptraceFst
-    rw [RingHom.id_apply, smul_comm]
-    congr 1
-    rw [← Matrix.kronecker_smul]
-    congr 1
-    ext b b'
-    simp [Finset.mul_sum]
+    ext ⟨a, b⟩ ⟨a', b'⟩
+    change (Fintype.card α : ℂ)⁻¹ * ((1 : Matrix α α ℂ) a a' *
+      (∑ x : α, c * M (x, b) (x, b'))) =
+      c * ((Fintype.card α : ℂ)⁻¹ * ((1 : Matrix α α ℂ) a a' * (∑ x : α, M (x, b) (x, b'))))
+    rw [← Finset.mul_sum]
+    ring
 
 /-- The matrix-unit Kraus identity of the conditional expectation:
 conjugating by every left-slot matrix unit sums to the right-slot

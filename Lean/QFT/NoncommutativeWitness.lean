@@ -1,4 +1,7 @@
-import QFT.ObserverAccessCut
+module
+public import QFT.ObserverAccessCut
+
+@[expose] public section
 
 /-!
 # A noncommutative region-separating causal-net witness
@@ -100,7 +103,7 @@ theorem no_scalar_hom_of_matrix (n : ℕ) (hn : 2 ≤ n)
     (φ : Matrix (Fin n) (Fin n) ℂ →ₐ[ℂ] ℂ) : False := by
   have h0 : 0 < n := by omega
   have h1 : 1 < n := by omega
-  haveI : Nonempty (Fin n) := ⟨⟨0, h0⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, h0⟩⟩
   have hne : (⟨1, h1⟩ : Fin n) ≠ ⟨0, h0⟩ := by
     simp [Fin.ext_iff]
   have hEE : Matrix.single (⟨0, h0⟩ : Fin n) (⟨1, h1⟩ : Fin n) (1 : ℂ) *
@@ -184,8 +187,8 @@ theorem FiniteCausalObserverNet.no_matrix_factor_over_scalar_restriction
       (X : ConsensusTower.PrivateAlgebra T r) = c • 1) : False := by
   have h0 : 0 < n := by omega
   have h1 : 1 < n := by omega
-  haveI : Nonempty (Fin n) := ⟨⟨0, h0⟩⟩
-  haveI : Nontrivial (N.localAlgebra r V) := by
+  have : Nonempty (Fin n) := ⟨⟨0, h0⟩⟩
+  have : Nontrivial (N.localAlgebra r V) := by
     refine nontrivial_of_ne 0 1 fun h01 => ?_
     have hval := congrArg Subtype.val h01
     have hii := congrFun (congrFun hval i) i
@@ -240,8 +243,8 @@ def leftBlockAlgebra : StarSubalgebra ℂ (Matrix (Fin 4) (Fin 4) ℂ) where
   carrier := {X | X 0 1 = 0 ∧ X 1 0 = 0 ∧ X 1 1 = X 0 0 ∧
     X 0 2 = 0 ∧ X 0 3 = 0 ∧ X 1 2 = 0 ∧ X 1 3 = 0 ∧
     X 2 0 = 0 ∧ X 2 1 = 0 ∧ X 3 0 = 0 ∧ X 3 1 = 0}
-  zero_mem' := by simp [Set.mem_setOf_eq]
-  one_mem' := by simp [Set.mem_setOf_eq]
+  zero_mem' := by simp [Set.mem_ofPred_eq]
+  one_mem' := by simp [Set.mem_ofPred_eq]
   add_mem' := by
     intro X Y hX hY
     obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := hX
@@ -258,7 +261,7 @@ def leftBlockAlgebra : StarSubalgebra ℂ (Matrix (Fin 4) (Fin 4) ℂ) where
         h8, h9, h10, h11, g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11]
   algebraMap_mem' := by
     intro c
-    simp [Set.mem_setOf_eq, Algebra.algebraMap_eq_smul_one,
+    simp [Set.mem_ofPred_eq, Algebra.algebraMap_eq_smul_one,
       Matrix.smul_apply]
   star_mem' := by
     intro X hX
@@ -279,8 +282,8 @@ def rightBlockAlgebra : StarSubalgebra ℂ (Matrix (Fin 4) (Fin 4) ℂ) where
   carrier := {X | X 2 3 = 0 ∧ X 3 2 = 0 ∧ X 3 3 = X 2 2 ∧
     X 0 2 = 0 ∧ X 0 3 = 0 ∧ X 1 2 = 0 ∧ X 1 3 = 0 ∧
     X 2 0 = 0 ∧ X 2 1 = 0 ∧ X 3 0 = 0 ∧ X 3 1 = 0}
-  zero_mem' := by simp [Set.mem_setOf_eq]
-  one_mem' := by simp [Set.mem_setOf_eq]
+  zero_mem' := by simp [Set.mem_ofPred_eq]
+  one_mem' := by simp [Set.mem_ofPred_eq]
   add_mem' := by
     intro X Y hX hY
     obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := hX
@@ -297,7 +300,7 @@ def rightBlockAlgebra : StarSubalgebra ℂ (Matrix (Fin 4) (Fin 4) ℂ) where
         h8, h9, h10, h11, g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11]
   algebraMap_mem' := by
     intro c
-    simp [Set.mem_setOf_eq, Algebra.algebraMap_eq_smul_one,
+    simp [Set.mem_ofPred_eq, Algebra.algebraMap_eq_smul_one,
       Matrix.smul_apply]
   star_mem' := by
     intro X hX
@@ -499,11 +502,15 @@ noncomputable def rightBlockCharacter :
 
 /-- Region labels for the witness net: a bottom overlap region and two
 maximal block regions. -/
-inductive CharacterRegion : Type
+inductive CharacterRegion where
   | bot
   | left
   | right
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype CharacterRegion where
+  elems := {CharacterRegion.bot, CharacterRegion.left, CharacterRegion.right}
+  complete := by intro x; cases x <;> simp
 
 namespace CharacterRegion
 

@@ -1,4 +1,7 @@
-import GibbsReferenceEnergyIdentification
+module
+public import GibbsReferenceEnergyIdentification
+
+@[expose] public section
 
 set_option autoImplicit false
 

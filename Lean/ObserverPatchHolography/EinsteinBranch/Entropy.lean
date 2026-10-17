@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Exact finite entropy and MaxEnt algebra for the Einstein branch

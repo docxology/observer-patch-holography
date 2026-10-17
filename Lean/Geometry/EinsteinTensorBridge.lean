@@ -1,5 +1,8 @@
-import Geometry.CelestialNullCone
-import ObserverPatchHolography.EinsteinBranch.Tensor
+module
+public import Geometry.CelestialNullCone
+public import ObserverPatchHolography.EinsteinBranch.Tensor
+
+@[expose] public section
 
 /-!
 # C1: exact bridge to the Einstein-branch coordinate convention

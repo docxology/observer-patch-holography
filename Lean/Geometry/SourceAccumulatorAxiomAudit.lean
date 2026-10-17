@@ -1,5 +1,8 @@
-import Geometry.SourceReusableBusAxiomAudit
-import Geometry.SourceAccumulatorDecoder
+module
+public import Geometry.SourceReusableBusAxiomAudit
+public import Geometry.SourceAccumulatorDecoder
+
+@[expose] public section
 
 /-! Transitive standard-axiom gate for every theorem. -/
 audit_reusable_bus_axioms OPH.SourceNativeAccumulator.shrink_formula

@@ -1,4 +1,7 @@
-import EventAlgebra.Lueders
+module
+public import EventAlgebra.Lueders
+
+@[expose] public section
 
 /-!
 # Bundled arbitrary-partition pinching onto the block-diagonal commutant

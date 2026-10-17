@@ -1,5 +1,8 @@
-import QFT.ObserverEventWorld
-import Time.ObserverHistory
+module
+public import QFT.ObserverEventWorld
+public import Time.ObserverHistory
+
+@[expose] public section
 
 /-!
 # Observer event towers: precedence, selected refinement, raw-event descent

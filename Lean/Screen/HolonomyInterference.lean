@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Finite path holonomy and character phases
@@ -245,7 +248,11 @@ end Rechart
 
 inductive FourVertex where
   | v0 | v1 | v2 | v3
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype FourVertex where
+  elems := {FourVertex.v0, FourVertex.v1, FourVertex.v2, FourVertex.v3}
+  complete := by intro x; cases x <;> simp
 
 namespace FourVertexControl
 

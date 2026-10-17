@@ -1,4 +1,7 @@
-import QFT.SourceContextTomographyNoGo
+module
+public import QFT.SourceContextTomographyNoGo
+
+@[expose] public section
 
 /-!
 # The exact phase-lift boundary of the current source context web

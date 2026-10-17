@@ -1,4 +1,7 @@
-import QFT.CarrierJoinTransport
+module
+public import QFT.CarrierJoinTransport
+
+@[expose] public section
 
 /-!
 # Record-layer net morphisms for the hinge-fibered carrier join

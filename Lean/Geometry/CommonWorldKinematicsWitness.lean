@@ -1,8 +1,11 @@
-import Geometry.FreeEvolutionPersistence
-import Geometry.CausalOrderComposition
-import QFT.ObserverAccessCut
-import TemporalMaxwellEvolution
-import ElectroweakBreakingComposition
+module
+public import Geometry.FreeEvolutionPersistence
+public import Geometry.CausalOrderComposition
+public import QFT.ObserverAccessCut
+public import TemporalMaxwellEvolution
+public import ElectroweakBreakingComposition
+
+@[expose] public section
 
 set_option autoImplicit false
 

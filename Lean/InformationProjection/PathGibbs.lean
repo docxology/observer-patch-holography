@@ -1,4 +1,7 @@
-import FiniteConditionalRepair
+module
+public import FiniteConditionalRepair
+
+@[expose] public section
 
 namespace OPH.InformationProjection
 
@@ -266,7 +269,7 @@ theorem noiseFamily_nonminimal_mass_tendsto_zero [Nonempty Γ]
         ∑ γ ∈ Finset.univ.filter (fun γ => S γ ≠ S γ₀),
           noiseFamily S β γ)
       Filter.atTop (nhds 0) := by
-  simpa using tendsto_finset_sum
+  simpa using tendsto_finsetSum
     (Finset.univ.filter (fun γ => S γ ≠ S γ₀))
     (fun γ hγ => noiseFamily_strictly_higher_tendsto_zero
       S γ₀ γ (lt_of_le_of_ne (hmin γ)

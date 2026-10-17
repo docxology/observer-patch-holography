@@ -1,5 +1,8 @@
-import QFT.LocallyCovariantLimit
-import ObserverPatchHolography.Provenance.RefinementNaturality
+module
+public import QFT.LocallyCovariantLimit
+public import ObserverPatchHolography.Provenance.RefinementNaturality
+
+@[expose] public section
 
 /-!
 # Restriction naturality on authenticated finite event logs

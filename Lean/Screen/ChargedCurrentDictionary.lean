@@ -1,4 +1,7 @@
-import NeutralCurrentDictionary
+module
+public import NeutralCurrentDictionary
+
+@[expose] public section
 
 /-!
 # The charged-current coupling dictionary on the committed grammar
@@ -310,7 +313,7 @@ theorem chargedCoupling_partner (gW : ℝ) (i : Fin 10)
     (hi : OPH.ExteriorSelection.isDoublet i = true) :
     chargedCoupling gW i 0 1 = gW / chargedNorm := by
   unfold chargedCoupling
-  rw [if_pos ((partner_condition i 0 1).mpr ⟨hi, rfl, rfl⟩)]
+  rw [ite_eq_left ((partner_condition i 0 1).mpr ⟨hi, rfl, rfl⟩)]
 
 /-- **The exact selection rule.**  At a positive declared weak
 coupling, a nonzero charged coupling exists exactly on the committed
@@ -339,7 +342,7 @@ theorem charged_annihilates_singlets (gW : ℝ) (i : Fin 10)
     (hi : OPH.ExteriorSelection.isDoublet i = false) (c d : Fin 2) :
     chargedCoupling gW i c d = 0 := by
   unfold chargedCoupling
-  rw [if_neg]
+  rw [ite_eq_right]
   intro hcd
   have h2 := (partner_condition i c d).mp hcd
   rw [hi] at h2
@@ -359,7 +362,7 @@ theorem charged_mutation_pairs (gW : ℝ) :
   intro i
   refine ⟨?_, ?_, ?_⟩ <;>
     · unfold chargedCoupling
-      rw [if_neg]
+      rw [ite_eq_right]
       first
         | exact (hno i).1
         | exact (hno i).2.1
@@ -433,7 +436,7 @@ theorem charged_coupling_charge_step (gW : ℝ) (i : Fin 10)
   unfold chargedCoupling at h
   by_cases hcd : t3Six i c - t3Six i d = 6
   · exact coupling_steps_unit_charge i c d hcd
-  · rw [if_neg hcd] at h
+  · rw [ite_eq_right hcd] at h
     exact absurd rfl h
 
 /-- The per-row doublet form of the charge step on the committed

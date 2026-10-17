@@ -1,8 +1,11 @@
-import EventAlgebra.Robertson
-import EventAlgebra.Superselection
-import ExteriorComponentBridge
-import QuantumMatterIntegration
-import B10EdgeCenterAction
+module
+public import EventAlgebra.Robertson
+public import EventAlgebra.Superselection
+public import ExteriorComponentBridge
+public import QuantumMatterIntegration
+public import B10EdgeCenterAction
+
+@[expose] public section
 
 /-!
 # B10 finite quantum limitation package

@@ -1,5 +1,8 @@
-import InformationProjection.HistoryLaw
-import MixingChainRealization
+module
+public import InformationProjection.HistoryLaw
+public import MixingChainRealization
+
+@[expose] public section
 
 namespace OPH.InformationProjection
 

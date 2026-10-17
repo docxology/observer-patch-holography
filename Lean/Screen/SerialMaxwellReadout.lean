@@ -1,5 +1,8 @@
-import LabeledEventReadout
-import NeutralPairJointStationaryWitness
+module
+public import LabeledEventReadout
+public import NeutralPairJointStationaryWitness
+
+@[expose] public section
 
 set_option autoImplicit false
 

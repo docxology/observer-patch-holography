@@ -1,4 +1,7 @@
-import Geometry.LorentzOverlapCocycle
+module
+public import Geometry.LorentzOverlapCocycle
+
+@[expose] public section
 
 /-!
 # C1: the kinematic mass shell on the declared Lorentz module

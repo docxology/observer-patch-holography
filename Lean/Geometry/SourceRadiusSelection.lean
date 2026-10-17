@@ -1,5 +1,8 @@
-import Geometry.GoldenSourceCountLimit
-import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+module
+public import Geometry.GoldenSourceCountLimit
+public import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+
+@[expose] public section
 
 /-! A continuum-compatible radius family and the premise needed for balance.
 Neither a shrinking mesh/radius ratio nor continuity-set counting selects
@@ -20,7 +23,7 @@ theorem radius_positive {q L : ℝ} (hq : 0 < q) (hL : 0 < L) (α : ℝ) :
 theorem radius_tendsto (q : ℕ → ℝ) (hq : Tendsto q atTop atTop)
     (L : ℝ) {α : ℝ} (hα : 0 < α) :
     Tendsto (fun n => radius (q n) L α) atTop (𝓝 0) := by
-  simpa only [radius,mul_zero] using ((tendsto_rpow_neg_atTop hα).comp hq).const_mul L
+  simpa only [radius, mul_zero, Function.comp_def] using ((tendsto_rpow_neg_atTop hα).comp hq).const_mul L
 
 theorem mesh_ratio (q L C α : ℝ) (hq : 0 < q) (hL : L ≠ 0) :
     (C*L/q)/radius q L α = C*q^(-(1-α)) := by
@@ -33,7 +36,7 @@ theorem mesh_ratio_tendsto (q : ℕ → ℝ) (hq : Tendsto q atTop atTop)
     (hpos : ∀ n, 0 < q n) (L C : ℝ) (hL : L ≠ 0) {α : ℝ} (hα : α < 1) :
     Tendsto (fun n => (C*L/q n)/radius (q n) L α) atTop (𝓝 0) := by
   simp_rw [mesh_ratio _ _ _ _ (hpos _) hL]
-  simpa only [mul_zero] using
+  simpa only [mul_zero, Function.comp_def] using
     ((tendsto_rpow_neg_atTop (sub_pos.mpr hα)).comp hq).const_mul C
 
 /-- Actual golden event counting has the same limit for every positive

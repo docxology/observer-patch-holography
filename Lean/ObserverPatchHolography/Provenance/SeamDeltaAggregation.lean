@@ -1,5 +1,8 @@
-import Mathlib.Logic.Relation
-import Mathlib.Data.Finset.Basic
+module
+public import Mathlib.Logic.Relation
+public import Mathlib.Data.Finset.Basic
+
+@[expose] public section
 
 /-!
 # Conflict-class aggregation condition for seam proposals

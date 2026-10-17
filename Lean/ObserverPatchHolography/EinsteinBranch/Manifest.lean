@@ -1,4 +1,7 @@
-import Mathlib
+module
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # Strict Einstein-branch dependency manifests
@@ -39,7 +42,11 @@ inductive Dependency where
   | universalCoupling
   | vacuumReference
   | physicalScale
-  deriving DecidableEq, Fintype, Repr
+  deriving DecidableEq, Repr
+
+instance : Fintype Dependency where
+  elems := {Dependency.finiteRepair, Dependency.boundaryFiber, Dependency.typedCommonDomain, Dependency.sourceFactorization, Dependency.lorentzGeometry, Dependency.nineDirectionTomography, Dependency.entropyFirstLaw, Dependency.maxEntEnvelope, Dependency.diamondKernel, Dependency.fixedVolumeArea, Dependency.uniformTail, Dependency.timelikeCoverage, Dependency.wardIdentity, Dependency.bianchiIdentity, Dependency.metricCompatibility, Dependency.connectedComponent, Dependency.universalCoupling, Dependency.vacuumReference, Dependency.physicalScale}
+  complete := by intro x; cases x <;> simp
 
 /-- Raw evaluator data.  These fields are deliberately not proofs. -/
 structure BranchCandidate where

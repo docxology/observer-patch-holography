@@ -1,4 +1,7 @@
-import TemporalMaxwellEvolution
+module
+public import TemporalMaxwellEvolution
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -634,7 +637,7 @@ theorem action_stationary_A_iff_ampere (h : ℝ) (hh : h ≠ 0) (N : ℕ)
     have ha0 : a 0 = 0 := by simp [a]
     have haN : a (N + 1) = 0 := by
       show (if N + 1 = m + 1 then ampereResidual h A φ J m else 0) = 0
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
     have h1 := hexp a
     rw [hstat a ha0 haN, hfv a ha0 haN] at h1
     have hsum : (∑ k ∈ Finset.range N,
@@ -643,17 +646,17 @@ theorem action_stationary_A_iff_ampere (h : ℝ) (hh : h ≠ 0) (N : ℕ)
         if k = m then realSeamEnergy (ampereResidual h A φ J m) else 0 := by
       intro k
       by_cases hkm : k = m
-      · rw [if_pos hkm, hkm]
+      · rw [ite_eq_left hkm, hkm]
         show realSeamInner (ampereResidual h A φ J m)
           (if m + 1 = m + 1 then ampereResidual h A φ J m else 0) = _
-        rw [if_pos rfl, realSeamInner_self_eq_energy]
-      · rw [if_neg hkm]
+        rw [ite_eq_left rfl, realSeamInner_self_eq_energy]
+      · rw [ite_eq_right hkm]
         have hne : k + 1 ≠ m + 1 := by omega
         show realSeamInner (ampereResidual h A φ J k)
           (if k + 1 = m + 1 then ampereResidual h A φ J m else 0) = 0
-        rw [if_neg hne, realSeamInner_zero_right]
+        rw [ite_eq_right hne, realSeamInner_zero_right]
     rw [Finset.sum_congr rfl fun k _ ↦ hk k, Finset.sum_ite_eq',
-      if_pos (Finset.mem_range.mpr hm)] at hsum
+      ite_eq_left (Finset.mem_range.mpr hm)] at hsum
     exact (realSeamEnergy_eq_zero_iff _).mp hsum
   · intro hres a ha0 haN
     rw [hexp a, hfv a ha0 haN]
@@ -701,14 +704,14 @@ theorem action_stationary_phi_iff_gauss (h : ℝ) (hh : h ≠ 0) (N : ℕ)
             (realBoundary (electricFieldScaled h A φ n) - ρ n) else 0 := by
       intro k
       by_cases hkn : k = n
-      · rw [if_pos hkn, hkn]
+      · rw [ite_eq_left hkn, hkn]
         show realPortInner _ (if n = n then _ else 0) = _
-        rw [if_pos rfl]
-      · rw [if_neg hkn]
+        rw [ite_eq_left rfl]
+      · rw [ite_eq_right hkn]
         show realPortInner _ (if k = n then _ else 0) = 0
-        rw [if_neg hkn, portInner_zero_right]
+        rw [ite_eq_right hkn, portInner_zero_right]
     rw [Finset.sum_congr rfl fun k _ ↦ hk k, Finset.sum_ite_eq',
-      if_pos (Finset.mem_range.mpr hn)] at hsum0
+      ite_eq_left (Finset.mem_range.mpr hn)] at hsum0
     exact sub_eq_zero.mp ((realPortInner_self_eq_zero_iff _).mp hsum0)
   · intro hg f
     rw [hexp f, hfv f]
@@ -1516,14 +1519,176 @@ def goldenImageZ : Matrix (Fin 20) (Fin 20) ℤ :=
       ![-9, 5, 5, -3, -3, 5, -3, -3, -3, -3, 3, 3, 3, 3, 3, 3, -5, -5, -5, 9]]
 
 set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_0 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (0 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (0 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_1 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (1 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (1 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_2 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (2 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (2 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_3 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (3 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (3 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_4 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (4 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (4 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_5 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (5 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (5 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_6 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (6 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (6 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_7 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (7 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (7 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_8 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (8 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (8 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_9 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (9 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (9 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_10 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (10 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (10 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_11 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (11 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (11 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_12 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (12 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (12 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_13 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (13 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (13 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_14 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (14 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (14 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_15 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (15 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (15 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_16 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (16 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (16 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_17 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (17 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (17 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_18 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (18 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (18 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
+private theorem faceNormal_incidence_row_19 :
+    ∀ g : Fin 20, (∑ e : Fin 30, faceIncidenceZ (19 : Fin 20) e * faceIncidenceZ g e) =
+      faceNormalZ (19 : Fin 20) g := by
+  intro g
+  fin_cases g <;> decide +kernel
+
+set_option maxRecDepth 16384 in
 /-- The face normal table is the committed incidence product `C Cᵀ`. -/
 theorem faceNormal_eq_incidence :
     ∀ f g : Fin 20, (∑ e : Fin 30, faceIncidenceZ f e * faceIncidenceZ g e) =
       faceNormalZ f g := by
-  decide
+  intro f
+  fin_cases f
+  · exact faceNormal_incidence_row_0
+  · exact faceNormal_incidence_row_1
+  · exact faceNormal_incidence_row_2
+  · exact faceNormal_incidence_row_3
+  · exact faceNormal_incidence_row_4
+  · exact faceNormal_incidence_row_5
+  · exact faceNormal_incidence_row_6
+  · exact faceNormal_incidence_row_7
+  · exact faceNormal_incidence_row_8
+  · exact faceNormal_incidence_row_9
+  · exact faceNormal_incidence_row_10
+  · exact faceNormal_incidence_row_11
+  · exact faceNormal_incidence_row_12
+  · exact faceNormal_incidence_row_13
+  · exact faceNormal_incidence_row_14
+  · exact faceNormal_incidence_row_15
+  · exact faceNormal_incidence_row_16
+  · exact faceNormal_incidence_row_17
+  · exact faceNormal_incidence_row_18
+  · exact faceNormal_incidence_row_19
 
 theorem faceNormalZ_symm : ∀ i j : Fin 20, faceNormalZ i j = faceNormalZ j i := by
-  decide
+  intro i j
+  fin_cases i <;> fin_cases j <;> decide +kernel
 
 set_option maxRecDepth 16384 in
 theorem projZero_idem :
@@ -1536,7 +1701,8 @@ theorem projZero_eigen :
   decide
 
 theorem projZero_symm : ∀ i j : Fin 20, projZeroZ i j = projZeroZ j i := by
-  decide
+  intro i j
+  fin_cases i <;> fin_cases j <;> decide +kernel
 
 set_option maxRecDepth 16384 in
 theorem projTwo_idem :
@@ -1549,7 +1715,8 @@ theorem projTwo_eigen :
   decide
 
 theorem projTwo_symm : ∀ i j : Fin 20, projTwoZ i j = projTwoZ j i := by
-  decide
+  intro i j
+  fin_cases i <;> fin_cases j <;> decide +kernel
 
 set_option maxRecDepth 16384 in
 theorem projThree_idem :
@@ -1562,7 +1729,8 @@ theorem projThree_eigen :
   decide
 
 theorem projThree_symm : ∀ i j : Fin 20, projThreeZ i j = projThreeZ j i := by
-  decide
+  intro i j
+  fin_cases i <;> fin_cases j <;> decide +kernel
 
 set_option maxRecDepth 16384 in
 theorem projFive_idem :
@@ -1575,7 +1743,8 @@ theorem projFive_eigen :
   decide
 
 theorem projFive_symm : ∀ i j : Fin 20, projFiveZ i j = projFiveZ j i := by
-  decide
+  intro i j
+  fin_cases i <;> fin_cases j <;> decide +kernel
 
 set_option maxRecDepth 16384 in
 theorem projGolden_idem :
@@ -1586,12 +1755,14 @@ theorem projGolden_idem :
 set_option maxRecDepth 16384 in
 theorem projGolden_image :
     ∀ i j : Fin 20, (∑ k : Fin 20, faceNormalZ i k * projGoldenZ k j) = goldenImageZ i j := by
-  decide
+  intro i j
+  fin_cases i <;> fin_cases j <;> decide +kernel
 
 set_option maxRecDepth 16384 in
 theorem projGolden_commute :
     ∀ i j : Fin 20, (∑ k : Fin 20, projGoldenZ i k * faceNormalZ k j) = goldenImageZ i j := by
-  decide
+  intro i j
+  fin_cases i <;> fin_cases j <;> decide +kernel
 
 set_option maxRecDepth 16384 in
 /-- The golden sector is annihilated by `N² - 6N + 4`. -/
@@ -1601,7 +1772,8 @@ theorem projGolden_quadratic :
   decide
 
 theorem projGolden_symm : ∀ i j : Fin 20, projGoldenZ i j = projGoldenZ j i := by
-  decide
+  intro i j
+  fin_cases i <;> fin_cases j <;> decide +kernel
 
 /-- The five projectors resolve the identity:
 `(1/20) P₀ + (1/12) P₂ + (1/10) P₃ + (1/30) P₅ + (1/10) P_Q = 1`, cleared to `60`. -/
@@ -1834,14 +2006,14 @@ theorem proj_sum_R : projZeroR + projTwoR + projThreeR + projFiveR + projGoldenR
     Matrix.add_apply, Matrix.smul_apply, smul_eq_mul, castZ_apply, Matrix.one_apply]
   have h := proj_sum i j
   by_cases hij : i = j
-  · rw [if_pos hij] at h
-    rw [if_pos hij]
+  · rw [ite_eq_left hij] at h
+    rw [ite_eq_left hij]
     have hc : 3 * (projZeroZ i j : ℝ) + 5 * (projTwoZ i j : ℝ) + 6 * (projThreeZ i j : ℝ) +
         2 * (projFiveZ i j : ℝ) + 6 * (projGoldenZ i j : ℝ) = 60 := by exact_mod_cast h
     push_cast
     linarith
-  · rw [if_neg hij] at h
-    rw [if_neg hij]
+  · rw [ite_eq_right hij] at h
+    rw [ite_eq_right hij]
     have hc : 3 * (projZeroZ i j : ℝ) + 5 * (projTwoZ i j : ℝ) + 6 * (projThreeZ i j : ℝ) +
         2 * (projFiveZ i j : ℝ) + 6 * (projGoldenZ i j : ℝ) = 0 := by exact_mod_cast h
     push_cast

@@ -1,5 +1,8 @@
-import Geometry.SourceNativeAccumulator
-import Geometry.SourceReadAcceptance
+module
+public import Geometry.SourceNativeAccumulator
+public import Geometry.SourceReadAcceptance
+
+@[expose] public section
 
 /-!
 # Finite native accumulation programs and publication
@@ -189,7 +192,7 @@ theorem native_word_readout_error
   rw [hword, hideal, hlen] at hn
   have ha := hn (receiver,false)
   have hb := hn (receiver,true)
-  simp only [encode, Bool.false_eq_true, if_false, if_true] at ha hb
+  simp only [encode, Bool.false_eq_true, ite_false, ite_true] at ha hb
   have hap := abs_add_le (p-noisyRun noisy x (receiver,false))
     (noisyRun noisy x (receiver,false)-(b+final receiver))
   have hbm := abs_add_le (m-noisyRun noisy x (receiver,true))

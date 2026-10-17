@@ -1,6 +1,9 @@
-import Mathlib
-import ObserverPatchHolography.YangMillsLemma72
-import ObserverPatchHolography.YangMillsProp81
+module
+public import Mathlib
+public import ObserverPatchHolography.YangMillsLemma72
+public import ObserverPatchHolography.YangMillsProp81
+
+@[expose] public section
 
 /-!
 # Yang–Mills finite repair-gap: the commuting-projection branch
@@ -231,7 +234,7 @@ theorem thm_7_3_finite_gap {ι : Type*} (s : Finset ι) (hne : s.Nonempty)
           = (∑ a ∈ s, rate a • ((1 : E →L[ℝ] E) - Ec a))
               - ∑ a ∈ s, cstar • ((1 : E →L[ℝ] E) - Ec a) := by
       simp only [sub_smul, Finset.sum_sub_distrib]
-    refine (ContinuousLinearMap.le_def _ _).mpr ?_
+    refine ContinuousLinearMap.le_def.mpr ?_
     rw [← hdiff]
     refine ContinuousLinearMap.isPositive_sum s (fun a ha => ?_)
     exact ContinuousLinearMap.IsPositive.smul_of_nonneg

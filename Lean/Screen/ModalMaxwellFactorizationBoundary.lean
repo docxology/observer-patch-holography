@@ -1,5 +1,8 @@
-import Mathlib.LinearAlgebra.CrossProduct
-import SeamCurrentFreePhotonLift
+module
+public import Mathlib.LinearAlgebra.CrossProduct
+public import SeamCurrentFreePhotonLift
+
+@[expose] public section
 
 open scoped Matrix
 

@@ -1,9 +1,12 @@
-import Mathlib.Analysis.Matrix.Spectrum
-import Mathlib.LinearAlgebra.Lagrange
-import Mathlib.LinearAlgebra.Dimension.Finite
-import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
-import Mathlib.RingTheory.Adjoin.Polynomial.Basic
-import Dynamics.CentralBlocks
+module
+public import Mathlib.Analysis.Matrix.Spectrum
+public import Mathlib.LinearAlgebra.Lagrange
+public import Mathlib.LinearAlgebra.Dimension.Finite
+public import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
+public import Mathlib.RingTheory.Adjoin.Polynomial.Basic
+public import Dynamics.CentralBlocks
+
+@[expose] public section
 
 /-!
 # Spectral decomposition of the center of a star subalgebra
@@ -410,9 +413,9 @@ private theorem basis_eval_eig {A : Matrix n n ℂ} (hA : A.IsHermitian)
         ((RCLike.ofReal (hA.eigenvalues i) : ℂ)) =
       if (RCLike.ofReal (hA.eigenvalues i) : ℂ) = a then 1 else 0 := by
   by_cases hcase : (RCLike.ofReal (hA.eigenvalues i) : ℂ) = a
-  · rw [if_pos hcase, hcase]
+  · rw [ite_eq_left hcase, hcase]
     simpa using Lagrange.eval_basis_self (Set.injOn_id _) ha
-  · rw [if_neg hcase]
+  · rw [ite_eq_right hcase]
     have hmem : (RCLike.ofReal (hA.eigenvalues i) : ℂ) ∈ spectralSupport hA :=
       Finset.mem_image_of_mem _ (Finset.mem_univ i)
     simpa using Lagrange.eval_basis_of_ne (s := spectralSupport hA)
@@ -445,8 +448,8 @@ theorem spectralProjection_mul_of_ne {A : Matrix n n ℂ}
     rw [Polynomial.eval_mul, basis_eval_eig hA ha i, basis_eval_eig hA hb i,
       Polynomial.eval_zero]
     by_cases h1 : (RCLike.ofReal (hA.eigenvalues i) : ℂ) = a
-    · rw [if_pos h1, if_neg (fun h2 => hab (h1.symm.trans h2)), mul_zero]
-    · rw [if_neg h1, zero_mul]
+    · rw [ite_eq_left h1, ite_eq_right (fun h2 => hab (h1.symm.trans h2)), mul_zero]
+    · rw [ite_eq_right h1, zero_mul]
   rw [h0, map_zero]
 
 /-- Each spectral projection is idempotent. -/
@@ -459,8 +462,8 @@ theorem isIdempotentElem_spectralProjection {A : Matrix n n ℂ}
   refine aeval_eq_of_eval_eq hA (fun i => ?_)
   rw [Polynomial.eval_mul, basis_eval_eig hA ha i]
   by_cases h1 : (RCLike.ofReal (hA.eigenvalues i) : ℂ) = a
-  · rw [if_pos h1, one_mul]
-  · rw [if_neg h1, zero_mul]
+  · rw [ite_eq_left h1, one_mul]
+  · rw [ite_eq_right h1, zero_mul]
 
 /-- The spectral projection in the eigenvector frame: a zero-one
 diagonal conjugated by the eigenvector unitary. -/
@@ -496,8 +499,8 @@ theorem isSelfAdjoint_spectralProjection {A : Matrix n n ℂ}
     funext i
     rw [Pi.star_apply]
     by_cases h1 : (RCLike.ofReal (hA.eigenvalues i) : ℂ) = a
-    · rw [if_pos h1, star_one]
-    · rw [if_neg h1, star_zero]
+    · rw [ite_eq_left h1, star_one]
+    · rw [ite_eq_right h1, star_zero]
   show star (spectralProjection hA a) = spectralProjection hA a
   rw [spectralProjection_eq_diag hA ha, star_mul, star_star, star_mul,
     hdiag, ← mul_assoc]
@@ -533,7 +536,7 @@ theorem eq_sum_smul_spectralProjection [Nonempty n] {A : Matrix n n ℂ}
         Polynomial.C a * Lagrange.basis (spectralSupport hA) id a) =
       Polynomial.aeval A (Polynomial.X : Polynomial ℂ) := by
     refine aeval_eq_of_eval_eq hA (fun i => ?_)
-    rw [Polynomial.eval_finset_sum, Polynomial.eval_X]
+    rw [Polynomial.eval_finsetSum, Polynomial.eval_X]
     have hmem : (RCLike.ofReal (hA.eigenvalues i) : ℂ) ∈ spectralSupport hA :=
       Finset.mem_image_of_mem _ (Finset.mem_univ i)
     have hterm : ∀ a ∈ spectralSupport hA,
@@ -544,7 +547,7 @@ theorem eq_sum_smul_spectralProjection [Nonempty n] {A : Matrix n n ℂ}
       intro a ha
       rw [Polynomial.eval_mul, Polynomial.eval_C, basis_eval_eig hA ha i,
         mul_ite, mul_one, mul_zero]
-    rw [Finset.sum_congr rfl hterm, Finset.sum_ite_eq, if_pos hmem]
+    rw [Finset.sum_congr rfl hterm, Finset.sum_ite_eq, ite_eq_left hmem]
   rw [h1, h2, Polynomial.aeval_X]
 
 /-- Spectral projections at support points are nonzero. -/
@@ -569,7 +572,7 @@ theorem spectralProjection_ne_zero {A : Matrix n n ℂ}
         if (RCLike.ofReal (hA.eigenvalues i) : ℂ) = a then 1 else 0)
         i₀ i₀ = (0 : Matrix n n ℂ) i₀ i₀ := by
     rw [hD]
-  rw [Matrix.diagonal_apply_eq, Matrix.zero_apply, if_pos hi₀] at hentry
+  rw [Matrix.diagonal_apply_eq, Matrix.zero_apply, ite_eq_left hi₀] at hentry
   exact one_ne_zero hentry
 
 variable {S : StarSubalgebra ℂ (Matrix n n ℂ)}
@@ -711,10 +714,10 @@ theorem IsCentralIn.mul_minimal_eq_smul [Nonempty n]
     intro b hbT
     by_cases hb : b = a₀
     · subst hb
-      rw [if_pos rfl, smul_mul_assoc, hcomm b hbT, ha₀e]
-    · rw [if_neg hb, smul_mul_assoc, hcomm b hbT, hzero b hbT hb,
+      rw [ite_eq_left rfl, smul_mul_assoc, hcomm b hbT, ha₀e]
+    · rw [ite_eq_right hb, smul_mul_assoc, hcomm b hbT, hzero b hbT hb,
         smul_zero]
-  rw [Finset.sum_congr rfl hterm, Finset.sum_ite_eq', if_pos ha₀T]
+  rw [Finset.sum_congr rfl hterm, Finset.sum_ite_eq', ite_eq_left ha₀T]
 
 private theorem mul_list_sum {M : Type u} [NonUnitalNonAssocSemiring M]
     (a : M) (l : List M) : a * l.sum = (l.map (fun x => a * x)).sum := by

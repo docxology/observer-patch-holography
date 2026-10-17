@@ -1,6 +1,11 @@
-import Mathlib
-import A5PortAction
-import PortGramRepairCovariance
+module
+public import Mathlib
+public import A5PortAction
+public import PortGramRepairCovariance
+
+public meta import PortGramRepairCovariance
+
+@[expose] public section
 
 open scoped BigOperators Matrix
 
@@ -143,13 +148,13 @@ theorem rotationLinear_portBasis (r : ProperRotation) (p : Fin 12) :
 theorem rotationR_transpose_mul (r : ProperRotation) :
     (rotationR r).transpose * rotationR r = 1 := by
   have h := congrArg realMatrix (rotationQ_orthogonal r).1
-  simpa [rotationR, realMatrix] using h
+  simpa [rotationR, realMatrix, Matrix.transpose_map] using h
 
 /-- Real commutation with the repair-selected projector. -/
 theorem rotationR_commutes_pLow (r : ProperRotation) :
     rotationR r * pLowR = pLowR * rotationR r := by
   have h := congrArg realMatrix (rotationQ_commutes_pLow r)
-  simpa [rotationR, realMatrix] using h
+  simpa [rotationR, realMatrix, Matrix.transpose_map] using h
 
 /-- The proper-rotation action commutes with projection onto the intrinsic
 carrier. -/

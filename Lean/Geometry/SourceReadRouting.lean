@@ -1,4 +1,7 @@
-import Std
+module
+public import Std
+
+@[expose] public section
 
 /-!
 # Full-family compilation under the retained M1 transport law

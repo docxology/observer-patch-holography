@@ -1,5 +1,9 @@
-import Mathlib.InformationTheory.KullbackLeibler.Basic
-import Mathlib.Probability.Distributions.Uniform
+module
+public import Mathlib.InformationTheory.KullbackLeibler.Basic
+public import Mathlib.Probability.Distributions.Uniform
+public import Mathlib.Probability.ProbabilityMassFunction.Constructions
+
+@[expose] public section
 
 /-!
 # Finite repair-word schedule selected by information projection
@@ -38,13 +42,18 @@ variable (Move : Type u) [Fintype Move] [Nonempty Move]
 /-- A length-`k` word in the quotient-visible primitive attempt alphabet. -/
 abbrev Word (k : ℕ) := Fin k → Move
 
+/-- Uniform finite mass with normalization explicit under Mathlib 4.35. -/
+noncomputable def uniformFinite {α : Type*} [Fintype α] [Nonempty α] : PMF α :=
+  PMF.ofFintype (fun _ => (Fintype.card α : ℝ≥0∞)⁻¹) (by
+    simp [ENNReal.mul_inv_cancel, Fintype.card_ne_zero])
+
 /-- Source counting measure on the complete finite word space. -/
 noncomputable def uniformWord (k : ℕ) : PMF (Word Move k) :=
-  PMF.uniformOfFinset Finset.univ Finset.univ_nonempty
+  uniformFinite
 
 /-- The one-event source counting measure. -/
 noncomputable def uniformMove : PMF Move :=
-  PMF.uniformOfFinset Finset.univ Finset.univ_nonempty
+  uniformFinite
 
 /-- A PMF regarded as a measure on the discrete measurable space. Keeping the
 measurable structure explicit prevents any hidden sigma-algebra selector. -/
@@ -94,12 +103,12 @@ theorem selected_eq_uniformWord (k : ℕ)
 theorem uniformWord_apply (k : ℕ) (w : Word Move k) :
     uniformWord Move k w =
       ((Fintype.card Move : ℝ≥0∞) ^ k)⁻¹ := by
-  simp [uniformWord]
+  simp [uniformWord, uniformFinite]
 
 /-- The one-event counting law is `1 / |Move|`. -/
 theorem uniformMove_apply (m : Move) :
     uniformMove Move m = (Fintype.card Move : ℝ≥0∞)⁻¹ := by
-  simp [uniformMove]
+  simp [uniformMove, uniformFinite]
 
 /-- Every quotient-visible primitive identity has positive one-event weight. -/
 theorem uniformMove_positive (m : Move) :

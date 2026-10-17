@@ -1,6 +1,9 @@
-import WhitneyConeModes
-import Mathlib.Algebra.MvPolynomial.Monad
-import Mathlib.LinearAlgebra.Dimension.OrzechProperty
+module
+public import WhitneyConeModes
+public import Mathlib.Algebra.MvPolynomial.Monad
+public import Mathlib.LinearAlgebra.Dimension.OrzechProperty
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -562,14 +565,9 @@ theorem quantumHamiltonian_eq_weightedNumber {a : Type*} [Fintype a]
     congr 1
   · rw [← Finset.sum_smul]
     congr 1
-    have hreal : (∑ x, hbar * omega x / 2) = hbar * (∑ x, omega x) / 2 := by
-      calc
-        (∑ x, hbar * omega x / 2) = (∑ x, hbar * omega x) / 2 := by
-          rw [Finset.sum_div]
-        _ = hbar * (∑ x, omega x) / 2 := by rw [← Finset.mul_sum]
-    apply Complex.ext
-    · simpa using hreal
-    · simp
+    push_cast
+    simp only [div_eq_mul_inv, one_mul]
+    rw [← Finset.sum_mul, ← Finset.mul_sum]
 
 theorem quantumHamiltonian_polynomialTransport
     (F : PositiveNormalFrame (ι := i) mass stiffness constraint)

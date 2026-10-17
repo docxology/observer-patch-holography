@@ -1,6 +1,9 @@
-import Mathlib
-import ObserverPatchHolography.Primitives
-import ObserverPatchHolography.RateNonidentifiability
+module
+public import Mathlib
+public import ObserverPatchHolography.Primitives
+public import ObserverPatchHolography.RateNonidentifiability
+
+@[expose] public section
 
 /-!
 # The rate no-go does not reach the OPH repair layer: a located obstruction
@@ -176,12 +179,12 @@ noncomputable def stepOnce (C : OPHCarrier) (x : Records C) : Records C :=
 theorem stepOnce_of_fire (C : OPHCarrier) (x : Records C)
     (h : ∃ i : Site C, localRepair C i x ≠ x) :
     stepOnce C x = localRepair C (Classical.choose h) x :=
-  dif_pos h
+  dite_eq_left h
 
 theorem stepOnce_of_normal (C : OPHCarrier) (x : Records C)
     (h : ¬ ∃ i : Site C, localRepair C i x ≠ x) :
     stepOnce C x = x :=
-  dif_neg h
+  dite_eq_right h
 
 /-- `stepOnce` moves exactly when some site fires. -/
 theorem stepOnce_ne_iff (C : OPHCarrier) (x : Records C) :

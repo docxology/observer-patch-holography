@@ -1,4 +1,7 @@
-import EventAlgebra.Basic
+module
+public import EventAlgebra.Basic
+
+@[expose] public section
 
 /-!
 # The bundled expectation functional of a state

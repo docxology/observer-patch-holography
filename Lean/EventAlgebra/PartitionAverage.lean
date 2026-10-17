@@ -1,4 +1,7 @@
-import EventAlgebra.PartitionPinching
+module
+public import EventAlgebra.PartitionPinching
+
+@[expose] public section
 
 /-!
 # Block averaging onto the commutative partition span

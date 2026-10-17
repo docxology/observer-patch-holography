@@ -1,6 +1,9 @@
-import Mathlib
-import A5PortModule
-import PortFrameGram
+module
+public import Mathlib
+public import A5PortModule
+public import PortFrameGram
+
+@[expose] public section
 
 namespace OPH.A5Commutant
 
@@ -113,8 +116,8 @@ theorem equivariant_dOrb : Equivariant dOrb := by
   intro g _ i j
   unfold dOrb
   by_cases h : i = j
-  · rw [if_pos (by rw [h]), if_pos h]
-  · rw [if_neg (fun he => h (g.injective he)), if_neg h]
+  · rw [ite_eq_left (by rw [h]), ite_eq_left h]
+  · rw [ite_eq_right (fun he => h (g.injective he)), ite_eq_right h]
 
 theorem equivariant_aOrb : Equivariant aOrb := by
   intro g hg i j
@@ -128,8 +131,8 @@ theorem equivariant_pOrb : Equivariant pOrb := by
     exact ⟨fun h => g.injective h, fun h => by rw [h]⟩
   unfold pOrb
   by_cases h : j = antipode i
-  · rw [if_pos (hiff.mpr h), if_pos h]
-  · rw [if_neg (fun hc => h (hiff.mp hc)), if_neg h]
+  · rw [ite_eq_left (hiff.mpr h), ite_eq_left h]
+  · rw [ite_eq_right (fun hc => h (hiff.mp hc)), ite_eq_right h]
 
 theorem equivariant_nOrb : Equivariant nOrb := by
   intro g hg i j
@@ -140,11 +143,11 @@ theorem equivariant_nOrb : Equivariant nOrb := by
     exact ⟨fun h => g.injective h, fun h => by rw [h]⟩
   unfold nOrb
   by_cases hc : i ≠ j ∧ adj i j = false ∧ j ≠ antipode i
-  · rw [if_pos ⟨fun he => hc.1 (h1.mp he), by rw [h2]; exact hc.2.1,
-      fun he => hc.2.2 (h3.mp he)⟩, if_pos hc]
-  · rw [if_neg (fun hgc => hc ⟨fun he => hgc.1 (h1.mpr he),
+  · rw [ite_eq_left ⟨fun he => hc.1 (h1.mp he), by rw [h2]; exact hc.2.1,
+      fun he => hc.2.2 (h3.mp he)⟩, ite_eq_left hc]
+  · rw [ite_eq_right (fun hgc => hc ⟨fun he => hgc.1 (h1.mpr he),
       by rw [← h2]; exact hgc.2.1, fun he => hgc.2.2 (h3.mpr he)⟩),
-      if_neg hc]
+      ite_eq_right hc]
 
 /-- Every equivariant matrix is the four-parameter orbital combination,
 with coefficients read off at the four canonical entries. -/
@@ -260,8 +263,8 @@ theorem equivariant_iff_commutes (M : Fin 12 → Fin 12 → ℚ) :
             = if k = g j then M (g i) k else 0 := by
         intro k
         by_cases hk : k = g j
-        · rw [if_pos (by rw [hk, hinv]), if_pos hk, mul_one]
-        · rw [if_neg (fun hc => hk (by rw [← hc, hinv'])), if_neg hk,
+        · rw [ite_eq_left (by rw [hk, hinv]), ite_eq_left hk, mul_one]
+        · rw [ite_eq_right (fun hc => hk (by rw [← hc, hinv'])), ite_eq_right hk,
             mul_zero]
       rw [Finset.sum_congr rfl fun k _ => hcond k, Finset.sum_ite_eq']
       simp
@@ -274,8 +277,8 @@ theorem equivariant_iff_commutes (M : Fin 12 → Fin 12 → ℚ) :
             = if k = j then M i k else 0 := by
         intro k
         by_cases hk : k = j
-        · rw [if_pos hk, if_pos hk, mul_one]
-        · rw [if_neg hk, if_neg hk, mul_zero]
+        · rw [ite_eq_left hk, ite_eq_left hk, mul_one]
+        · rw [ite_eq_right hk, ite_eq_right hk, mul_zero]
       rw [Finset.sum_congr rfl fun k _ => hcond k, Finset.sum_ite_eq']
       simp
     rw [hL, hR] at hbasis

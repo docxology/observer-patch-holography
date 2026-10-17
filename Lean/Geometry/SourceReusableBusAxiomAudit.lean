@@ -1,5 +1,9 @@
-import Mathlib.Util.AssertNoSorry
-import Geometry.SourceReusableBus
+module
+public import Mathlib.Util.AssertNoSorry
+public import PortGramA5Isometry
+public import Geometry.SourceReusableBus
+
+@[expose] public section
 
 /-! Every theorem is audited transitively, including proof dependencies. -/
 open Lean Elab Command in
@@ -16,9 +20,12 @@ elab "audit_reusable_bus_axioms " n:ident : command => do
 #guard_msgs in
  audit_reusable_bus_axioms sorryAx
 
-/-- error: Reusable bus axiom audit rejected [Lean.ofReduceBool, Lean.trustCompiler] -/
+-- The control inherits the native axiom of the reviewed rotation proof.
+private alias nativeDecisionControl := OPH.PortGramA5Isometry.rotationQ_orthogonal
+
+/-- error: Reusable bus axiom audit rejected [_private.PortGramA5Isometry.0.OPH.PortGramA5Isometry.rotationQ_orthogonal._native.native_decide.ax_1_1] -/
 #guard_msgs in
- audit_reusable_bus_axioms Lean.ofReduceBool
+ audit_reusable_bus_axioms nativeDecisionControl
 
 audit_reusable_bus_axioms OPH.SourceReusableBus.instruction_native
 audit_reusable_bus_axioms OPH.SourceReusableBus.program_native

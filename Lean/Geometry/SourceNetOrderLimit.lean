@@ -1,5 +1,8 @@
-import Geometry.SourceNetLayeredOrder
-import Mathlib.Analysis.SpecificLimits.Basic
+module
+public import Geometry.SourceNetLayeredOrder
+public import Mathlib.Analysis.SpecificLimits.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

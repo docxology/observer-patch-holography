@@ -1,5 +1,8 @@
-import QFT.TowerAnchoredDiamond
-import QFT.SourceCorrelationCapstone
+module
+public import QFT.TowerAnchoredDiamond
+public import QFT.SourceCorrelationCapstone
+
+@[expose] public section
 
 /-!
 # A finite one-step net-evolution interface and committed candidates
@@ -68,7 +71,7 @@ structure TimeIndexedNetEvolution (γ : Type*) [Fintype γ] [DecidableEq γ]
   /-- Net compatibility: each step's automorphism carries the slice
   region's algebra onto the evolved slice region's algebra. -/
   evolve_net_compatible : ∀ t : Time,
-    StarSubalgebra.map (evolve t : Matrix γ γ ℂ →⋆ₐ[ℂ] Matrix γ γ ℂ)
+    StarSubalgebra.map (evolve t).toStarAlgHom
         (N.localAlgebra (slice t)) =
       N.localAlgebra (slice (step t))
   /-- Admission: the admitted slice data lie in the slice region's
@@ -368,7 +371,7 @@ def stepEvolve (t : Fin 32) :
       Matrix PairIndex247 PairIndex247 ℂ :=
   StarAlgEquiv.ofAlgEquiv (Matrix.reindexAlgEquiv ℂ ℂ (walkStepEquiv t))
     (fun M => by
-      simp only [Matrix.reindexAlgEquiv_apply, Matrix.star_eq_conjTranspose]
+      simp only [Matrix.coe_reindexAlgEquiv, Matrix.star_eq_conjTranspose]
       exact reindex_conjTranspose (walkStepEquiv t) M)
 
 theorem stepEvolve_apply (t : Fin 32)
@@ -403,8 +406,7 @@ the walk-step automorphism carries each regional algebra of the
 committed 86/247 diamond onto itself. -/
 theorem stepEvolve_maps_regions (t : Fin 32) (U : TwoSlotRegion) :
     StarSubalgebra.map
-        (stepEvolve t : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-          Matrix PairIndex247 PairIndex247 ℂ)
+        (stepEvolve t).toStarAlgHom
         (twoSlotAlgebra247 U) = twoSlotAlgebra247 U := by
   cases U
   · -- bottom: the scalars map onto the scalars.
@@ -412,14 +414,12 @@ theorem stepEvolve_maps_regions (t : Fin 32) (U : TwoSlotRegion) :
     · rintro x ⟨y, hy, rfl⟩
       obtain ⟨c, rfl⟩ := StarSubalgebra.mem_bot.mp hy
       exact ⟨c, (AlgHomClass.commutes
-        (stepEvolve t : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-          Matrix PairIndex247 PairIndex247 ℂ) c).symm⟩
+        (stepEvolve t).toStarAlgHom c).symm⟩
     · intro x hx
       obtain ⟨c, rfl⟩ := StarSubalgebra.mem_bot.mp hx
       exact ⟨algebraMap ℂ _ c, ⟨c, rfl⟩,
         AlgHomClass.commutes
-          (stepEvolve t : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-            Matrix PairIndex247 PairIndex247 ℂ) c⟩
+          (stepEvolve t).toStarAlgHom c⟩
   · -- left: the left factor maps onto the left factor.
     apply le_antisymm
     · rintro x ⟨y, ⟨A, rfl⟩, rfl⟩
@@ -453,8 +453,7 @@ theorem stepEvolve_maps_regions (t : Fin 32) (U : TwoSlotRegion) :
       rw [stepEvolve_slotRight, reindex_reindex_symm]
   · -- top: a star-algebra equivalence is surjective.
     show StarSubalgebra.map
-        (stepEvolve t : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-          Matrix PairIndex247 PairIndex247 ℂ) ⊤ = ⊤
+        (stepEvolve t).toStarAlgHom ⊤ = ⊤
     rw [← StarAlgHom.range_eq_map_top, StarSubalgebra.eq_top_iff]
     intro x
     exact ⟨(stepEvolve t).symm x, (stepEvolve t).apply_symm_apply x⟩
@@ -643,8 +642,7 @@ theorem evolvedLiftedSourceGenerators_generate_left (t : Fin 32) :
             Matrix PairIndex247 PairIndex247 ℂ) '' liftedSourceGenerators) =
       (slotLeft (Fin 13) (α := Fin 13)).range := by
   change StarAlgebra.adjoin ℂ
-      ((stepEvolve t : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-          Matrix PairIndex247 PairIndex247 ℂ) '' liftedSourceGenerators) =
+      ((stepEvolve t).toStarAlgHom '' liftedSourceGenerators) =
     (slotLeft (Fin 13) (α := Fin 13)).range
   rw [← StarAlgHom.map_adjoin, liftedSourceGenerators_generate_left]
   exact stepEvolve_maps_regions t TwoSlotRegion.left
@@ -689,8 +687,7 @@ at every step. -/
 theorem walkSlice_candidate_receipts :
     (∀ (t : Fin 32) (U : TwoSlotRegion),
       StarSubalgebra.map
-          (stepEvolve t : Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
-            Matrix PairIndex247 PairIndex247 ℂ)
+          (stepEvolve t).toStarAlgHom
           (twoSlotAlgebra247 U) = twoSlotAlgebra247 U) ∧
     (∀ t : Fin 32, stepEvolve t (walkSliceProjector t) =
       walkSliceProjector (t + 1)) ∧

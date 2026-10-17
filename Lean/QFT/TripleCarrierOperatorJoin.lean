@@ -1,4 +1,7 @@
-import QFT.TripleCarrierJoin
+module
+public import QFT.TripleCarrierJoin
+
+@[expose] public section
 
 /-!
 # Operator embeddings on the same three-observer carrier
@@ -37,14 +40,14 @@ def operatorJoinReindex :
       Matrix TripleCarrier TripleCarrier ℂ :=
   StarAlgEquiv.ofAlgEquiv (Matrix.reindexAlgEquiv ℂ ℂ middleTraceIndexEquiv)
     (fun M => by
-      simp only [Matrix.reindexAlgEquiv_apply, Matrix.star_eq_conjTranspose]
+      simp only [Matrix.coe_reindexAlgEquiv, Matrix.star_eq_conjTranspose]
       exact reindex_conjTranspose middleTraceIndexEquiv M)
 
 /-- Include the 86/247 pair with observer 88 as an identity spectator. -/
 def operatorJoin247 :
     Matrix PairIndex247 PairIndex247 ℂ →⋆ₐ[ℂ]
       Matrix TripleCarrier TripleCarrier ℂ :=
-  (operatorJoinReindex : _ →⋆ₐ[ℂ] _).comp (slotLeft (Fin 14))
+  (operatorJoinReindex).toStarAlgHom.comp (slotLeft (Fin 14))
 
 /-- The common full observer-86 factor, including off-diagonal operators. -/
 def operatorJoin86 :
@@ -62,7 +65,7 @@ def operatorJoin86 :
     operatorJoin247 A q r = A (q.1.1, q.2) (r.1.1, r.2) *
       if q.1.2 = r.1.2 then 1 else 0 := by
   simp [operatorJoin247, operatorJoinReindex, slotLeft,
-    Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.submatrix_apply,
+    Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.submatrix_apply,
     middleTraceIndexEquiv, Matrix.kroneckerMap_apply, Matrix.one_apply]
 
 theorem operatorJoin88_injective : Function.Injective operatorJoin88 :=
@@ -94,7 +97,9 @@ theorem operatorJoin_equal_iff (A : Matrix PairIndex PairIndex ℂ)
     have ha : A = slotLeft (Fin 14) H := by
       ext p p'
       have he := congrFun (congrFun h (p, 0)) (p', 0)
-      simpa [H, slotLeft, Matrix.kroneckerMap_apply, Matrix.one_apply] using he
+      change A p p' = H p.1 p'.1 * (1 : Matrix (Fin 14) (Fin 14) ℂ) p.2 p'.2
+      simpa only [operatorJoin88_apply, operatorJoin247_apply, H,
+        Matrix.one_apply, ite_true, mul_one, mul_ite, mul_zero] using he
     refine ⟨H, ha, ?_⟩
     apply operatorJoin247_injective
     rw [operatorJoin_hinge, ← h, ha]
@@ -177,7 +182,7 @@ theorem operatorJoin88_counted_readout (A : Matrix PairIndex PairIndex ℂ) :
     (tripleCorrelationState * operatorJoin88 A).trace =
       (correlationState88 * A).trace := by
   simp only [tripleCorrelationState, correlationState88, Matrix.trace,
-    Matrix.diag, Matrix.diagonal_mul, operatorJoin88_apply, if_pos, mul_one]
+    Matrix.diag, Matrix.diagonal_mul, operatorJoin88_apply, ite_eq_left, mul_one]
   rw [Fintype.sum_prod_type]
   apply Finset.sum_congr rfl
   intro p _
@@ -192,7 +197,7 @@ theorem operatorJoin247_counted_readout (A : Matrix PairIndex247 PairIndex247 �
     (tripleCorrelationState * operatorJoin247 A).trace =
       (correlationState * A).trace := by
   simp only [tripleCorrelationState, correlationState, Matrix.trace,
-    Matrix.diag, Matrix.diagonal_mul, operatorJoin247_apply, if_pos, mul_one]
+    Matrix.diag, Matrix.diagonal_mul, operatorJoin247_apply, ite_eq_left, mul_one]
   rw [← Equiv.sum_comp middleTraceIndexEquiv]
   rw [Fintype.sum_prod_type]
   apply Finset.sum_congr rfl
@@ -207,7 +212,7 @@ theorem operatorJoin88_evolve (t : Fin 31) (A : Matrix PairIndex PairIndex ℂ) 
     tripleStepEvolve t (operatorJoin88 A) = operatorJoin88 (pair88StepEvolve t A) := by
   ext q r
   simp [tripleStepEvolve, pair88StepEvolve,
-    Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.submatrix_apply,
+    Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.submatrix_apply,
     tripleStepEquiv, Equiv.prodCongr_symm]
 
 /-- Observable inclusion intertwines each actual 86/247 transition. -/
@@ -217,7 +222,7 @@ theorem operatorJoin247_evolve (t : Fin 31)
       operatorJoin247 (stepEvolve t.castSucc A) := by
   ext q r
   simp [tripleStepEvolve, stepEvolve,
-    Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.submatrix_apply,
+    Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.submatrix_apply,
     tripleStepEquiv, walkStepEquiv88, walkStepEquiv, Equiv.prodCongr_symm]
 
 /-- Generation is preserved when two source-generated factors are assembled
@@ -287,8 +292,7 @@ theorem operatorJoinAdmitted_generates :
 This is a finite algebraic statement, not a Cauchy-surface interpretation. -/
 theorem operatorJoinAdmitted_evolved (t : Fin 31) :
     StarAlgebra.adjoin ℂ
-      ((tripleStepEvolve t : Matrix TripleCarrier TripleCarrier ℂ →⋆ₐ[ℂ]
-        Matrix TripleCarrier TripleCarrier ℂ) '' operatorJoinAdmitted) = ⊤ := by
+      ((tripleStepEvolve t).toStarAlgHom '' operatorJoinAdmitted) = ⊤ := by
   rw [← StarAlgHom.map_adjoin, operatorJoinAdmitted_generates,
     ← StarAlgHom.range_eq_map_top]
   rw [StarSubalgebra.eq_top_iff]

@@ -1,4 +1,7 @@
-import PSL2F5SixAxesBridge
+module
+public import PSL2F5SixAxesBridge
+
+@[expose] public section
 
 /-!
 # The canonical `SL(2, F5)` cover of the committed port group

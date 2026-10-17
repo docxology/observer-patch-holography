@@ -95,9 +95,9 @@ jobs:
         run: |
           set -euo pipefail
           test -f lake-manifest.json
-          grep -Fx 'leanprover/lean4:v4.29.1' lean-toolchain
+          grep -Fx 'leanprover/lean4:v4.35.0' lean-toolchain
           grep -F '"mathlib"' lake-manifest.json
-          grep -F 'v4.29.1' lakefile.lean
+          grep -F 'v4.35.0' lakefile.lean
 
       - name: Fetch Mathlib olean cache
         working-directory: Lean

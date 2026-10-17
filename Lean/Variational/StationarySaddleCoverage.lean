@@ -1,4 +1,7 @@
-import Variational.DiscreteEulerLagrange
+module
+public import Variational.DiscreteEulerLagrange
+
+@[expose] public section
 
 /-!
 # A stationary maximum outside the positive-Gibbs mode set

@@ -1,4 +1,7 @@
-import ObserverPatchHolography.Provenance.CausalInterval
+module
+public import ObserverPatchHolography.Provenance.CausalInterval
+
+@[expose] public section
 
 /-!
 # Consequences of a certified refinement order map
