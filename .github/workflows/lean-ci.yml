@@ -453,7 +453,7 @@ jobs:
         working-directory: Lean
         run: |
           set -euo pipefail
-          grep -Fx 'import GoldenSectorPSL2F5Representations' Screen/OPHScreen.lean
+          grep -Fx 'public import GoldenSectorPSL2F5Representations' Screen/OPHScreen.lean
           grep -F '`GoldenSectorPSL2F5Representations' lakefile.lean
 
       - name: Build Golden-sector PSL2F5 bridge under time budget

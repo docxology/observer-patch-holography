@@ -65,8 +65,18 @@ def validate(workflow: str, lakefile: str) -> list[str]:
         build,
     )
     changed_body = changed_step.group("body") if changed_step else ""
-    if "timeout 18m bash -c" not in changed_body or 'lake build "$target"' not in changed_body:
+    if "timeout 18m bash -c" not in changed_body or 'lake build "${targets[@]}"' not in changed_body:
         errors.append("changed Lean modules must retain their 18-minute build budget")
+    for required in (
+        "targets=()",
+        "while IFS= read -r target; do",
+        'targets+=("$target")',
+        'done <<< "$LEAN_TARGETS"',
+        '[ "${#targets[@]}" -gt 0 ] || exit 1',
+    ):
+        if required not in changed_body:
+            errors.append("changed Lean modules must build the complete nonempty target array")
+            break
     if re.search(r"(?m)^\s+lake build\s*$", changed_body):
         errors.append("per-change Lean CI must not run an exhaustive default Lake build")
 

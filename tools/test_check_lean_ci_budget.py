@@ -132,6 +132,18 @@ def test_missing_superseded_run_cancellation_is_rejected() -> None:
 
 def test_exhaustive_default_build_is_rejected() -> None:
     workflow, lakefile = _inputs()
-    mutated = workflow.replace('lake build "$target"', "lake build", 1)
+    mutated = workflow.replace('lake build "${targets[@]}"', "lake build", 1)
     errors = validate(mutated, lakefile)
     assert "per-change Lean CI must not run an exhaustive default Lake build" in errors
+
+
+def test_dropped_target_collection_is_rejected() -> None:
+    workflow, lakefile = _inputs()
+    mutated = workflow.replace('targets+=("$target")', ':', 1)
+    assert "changed Lean modules must build the complete nonempty target array" in validate(mutated, lakefile)
+
+
+def test_empty_target_guard_is_required() -> None:
+    workflow, lakefile = _inputs()
+    mutated = workflow.replace('[ "${#targets[@]}" -gt 0 ] || exit 1', ':', 1)
+    assert "changed Lean modules must build the complete nonempty target array" in validate(mutated, lakefile)
