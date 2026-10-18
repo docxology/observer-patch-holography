@@ -41,7 +41,7 @@ def _shards(job, full):
 def _arguments(job, full, shard):
     command = _step(job, "Run the mandatory suite")["run"]
     match = re.fullmatch(
-        r"python tools/run_mandatory_suite\.py "
+        r"python tools/run_current_mandatory_suite\.py "
         r"\$\{\{ inputs\.full && '([^']+)' \|\| "
         r"format\('([^']+)', matrix\.shard\) \}\}",
         command,
@@ -103,7 +103,7 @@ def test_each_worker_has_a_fresh_complete_checkout_and_the_runtime_ceiling():
     )
     assert _step(job, "Regression-test mandatory sharding and workflow coverage")["run"] == (
         "python -m pytest -q tools/test_mandatory_suite_shards.py "
-        "tools/test_mandatory_suite_workflow.py"
+        "tools/test_mandatory_suite_workflow.py tools/test_current_mandatory_context.py"
     )
     for step in job["steps"]:
         assert not step.get("continue-on-error")
@@ -161,6 +161,6 @@ def test_nightly_full_and_manual_full_are_retained_without_path_filters():
     assert job["runs-on"] == "ubuntu-latest"
     assert "strategy" not in job
     assert _step(job, "Run the full mandatory suite")["run"] == (
-        "python tools/run_mandatory_suite.py --full"
+        "python tools/run_current_mandatory_suite.py --full"
     )
     assert _step(job, "Checkout")["with"]["fetch-depth"] == "0"

@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "kind": "lean-4.35-scalar-parent-custody-migration",
+  "historical_lean_source_commit": "bfa6c44d5347f113a5418d2a25d836f1057993a2",
+  "qualified_lean_source_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+  "parents": [
+    {
+      "path": "code/source_scalar_packet/source_common_scalar_receipt.json",
+      "before_sha256": "c050889ea4b8e46b4635ed6ab7b850f2b8af24f3cfcac51e4a2b349d865ba7de",
+      "after_sha256": "4c6e601c6253499429bf2418383701f45ef99da905969f5024b000b2fc915a4c",
+      "unchanged_mathematical_payload_sha256": "8ce2947c7317ed6d6dbd38ca419a591aec5706f7d62f5fa52641289fd7781fc2",
+      "changed_source_identities": {
+        "Lean/Screen/PortFrameGram.lean": {
+          "before": {
+            "bytes": 5095,
+            "sha256": "d1cebe56450e7586eed730b52068753ebca3a6563da1453679e87fa7c7b653e3"
+          },
+          "after": {
+            "bytes": 5135,
+            "sha256": "c232cb5cc82423c29ccd6fc4b71193d32e6067fcdd134c7cf45948277f389616"
+          }
+        },
+        "Lean/Screen/PrimitivePortFrameQuotient.lean": {
+          "before": {
+            "bytes": 29358,
+            "sha256": "1edb876e3ccfe61dd2e98473e0398391aa28166b2e330742ae3f034db05e3cfd"
+          },
+          "after": {
+            "bytes": 29355,
+            "sha256": "7691fe7b9536e81a2839a85d28c42bb123d10f4e107c58c0577dac323abc316f"
+          }
+        }
+      }
+    },
+    {
+      "path": "code/source_scalar_execution/source_scalar_execution_receipt.json",
+      "before_sha256": "6981fcd4e13fbc33f371224228341a995f34b4733aa70c2ec0b3f6ee5975c7af",
+      "after_sha256": "cf246c2caa072334e0d4796c1c6c49d2a231a263ff34281843a1c35c7cdbb69a",
+      "unchanged_mathematical_payload_sha256": "134e57bea674d54466ded3af1eccf14aff5e6806be9825cacec17707be137f2e",
+      "changed_source_identities": {
+        "Lean/Screen/PortFrameGram.lean": {
+          "before": {
+            "bytes": 5095,
+            "sha256": "d1cebe56450e7586eed730b52068753ebca3a6563da1453679e87fa7c7b653e3"
+          },
+          "after": {
+            "bytes": 5135,
+            "sha256": "c232cb5cc82423c29ccd6fc4b71193d32e6067fcdd134c7cf45948277f389616"
+          }
+        },
+        "Lean/Screen/PrimitivePortFrameQuotient.lean": {
+          "before": {
+            "bytes": 29358,
+            "sha256": "1edb876e3ccfe61dd2e98473e0398391aa28166b2e330742ae3f034db05e3cfd"
+          },
+          "after": {
+            "bytes": 29355,
+            "sha256": "7691fe7b9536e81a2839a85d28c42bb123d10f4e107c58c0577dac323abc316f"
+          }
+        },
+        "Lean/Screen/SeamCurrentCarrierQuotient.lean": {
+          "before": {
+            "bytes": 19162,
+            "sha256": "e5f712cbccc5a1462945f0cb511a47064fe10818748498021d5c70ae169a933f"
+          },
+          "after": {
+            "bytes": 19133,
+            "sha256": "8c14d65c66f4ffdc1f8c303168d1b302760b36ce726ec6f3a1f91ceb7e4aa2cb"
+          }
+        },
+        "code/source_scalar_packet/source_common_scalar_receipt.json": {
+          "before": {
+            "bytes": 15729,
+            "sha256": "c050889ea4b8e46b4635ed6ab7b850f2b8af24f3cfcac51e4a2b349d865ba7de"
+          },
+          "after": {
+            "bytes": 15729,
+            "sha256": "4c6e601c6253499429bf2418383701f45ef99da905969f5024b000b2fc915a4c"
+          }
+        }
+      }
+    }
+  ],
+  "scope": "Complete exact scalar mathematical payload and recorded histories unchanged; only source identities regenerated. No clock, physical, native-law or scientific acceptance promotion."
+}

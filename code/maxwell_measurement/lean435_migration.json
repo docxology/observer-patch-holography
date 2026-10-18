@@ -1,0 +1,54 @@
+{
+  "schema": 2,
+  "kind": "exact-emulator-parent-custody-migration",
+  "steps": [
+    {
+      "schema": 1,
+      "kind": "lean-4.35-emulator-parent-custody-migration",
+      "historical_commit": "bfa6c44d5347f113a5418d2a25d836f1057993a2",
+      "qualified_lean_source_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+      "parent_path": "code/electromagnetism/runtime/serial_maxwell_readout_receipt.json",
+      "before_sha256": "2ec7dbf29f700b420def821f1a69c1f8087428e78f77f8a818bf7483482e73a2",
+      "after_sha256": "18bfd8565e05ae571b0edac9626fb30244edd4d732cb30707d753672e1a36987",
+      "changed_lean_source_identities": {
+        "Lean/ObserverPatchHolography/CoreAxioms.lean": {
+          "before": "addcea08fe55c0ccc3edbeb90ebd9df4b640c96bd20e9755417bcdb84f093fe4",
+          "after": "e6e1ffb6ad6debbd4e97dcdac81f61ef57e7a44dcadb8f0e8773da2a67689da7"
+        },
+        "Lean/Screen/NeutralPairJointStationaryWitness.lean": {
+          "before": "0ee70ba206efdf6972717511698ea6fb8d226cc00a024fa62b650cb52c9d4fd1",
+          "after": "b030b80322d4b9c9d2d62e228701327f0d0696cd4030a9e786891b73647320d8"
+        },
+        "Lean/Screen/SeamCurrentCarrierQuotient.lean": {
+          "before": "e5f712cbccc5a1462945f0cb511a47064fe10818748498021d5c70ae169a933f",
+          "after": "8c14d65c66f4ffdc1f8c303168d1b302760b36ce726ec6f3a1f91ceb7e4aa2cb"
+        },
+        "Lean/Screen/SerialMaxwellReadout.lean": {
+          "before": "7563219ce5a284db6cf55cfa61e82512661ccc5a122d930b6f04360417983a72",
+          "after": "539f89044cc66044b9b60c092b63b596ec4540ea8e9af7fbb437246929fafb49"
+        }
+      },
+      "unchanged_complete_mathematical_execution_payload_sha256": "04e3cd73938a85cb1877a6f62c7057baaf387ba9bac845afb836294100a06384",
+      "scope": "Exact software-emulator parent only; historical registrations/captures unchanged; no physical acceptance or scientific scope promotion."
+    },
+    {
+      "schema": 1,
+      "kind": "lean-4.35-emulator-parent-custody-migration",
+      "qualified_lean_source_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+      "parent_path": "code/electromagnetism/runtime/serial_maxwell_readout_receipt.json",
+      "before_sha256": "18bfd8565e05ae571b0edac9626fb30244edd4d732cb30707d753672e1a36987",
+      "after_sha256": "ed20c921d8e03b73acd85a24c9a3abc76f29c642c51dbee53642704a86134f6d",
+      "unchanged_complete_mathematical_execution_payload_sha256": "04e3cd73938a85cb1877a6f62c7057baaf387ba9bac845afb836294100a06384",
+      "scope": "Exact software-emulator parent only; historical registrations/captures unchanged; no physical acceptance or scientific scope promotion.",
+      "previous_binding_kind": "Retained intermediate run preimage, not an immutable Git source epoch",
+      "previous_receipt_preimage_sha256": "18bfd8565e05ae571b0edac9626fb30244edd4d732cb30707d753672e1a36987",
+      "changed_source_identities": {
+        "code/electromagnetism/local_face_maxwell_action.py": {
+          "before": "ee0e385d1c1bda8f731dbd6d5f95219fdf90dac47f6be7cfcf00e8d79ea93635",
+          "after": "60ffeb8a6b24cecdadffc8bc66a42a9cb5e21a696a6420a77879380d3641ea57"
+        }
+      }
+    }
+  ],
+  "scope": "Complete mathematical executions, assumptions and scope unchanged. First step binds migrated Lean sources; second binds independently qualified producer-source metadata. The intermediate digest is retained as a run preimage and is not falsely attributed to a Git commit. No physical acceptance or calibration."
+}

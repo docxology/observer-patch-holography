@@ -1,0 +1,15 @@
+{
+  "kind": "historical-single-coordinate-witness-not-fresh-replay",
+  "source_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+  "source_receipt_sha256": {
+    "checkpoint": "6405cb4620d3881e0c8de836ecd2ca6561cad5452b8920c78e99c219f74727b6",
+    "dynamics": "f247f4b9e2b46e588bca006389346730ffc91359af218370d60688734ef4f4b9",
+    "instrument": "d4a40859a5c50cbfc473f005b41c60548b3f873a7587b3340d71c52fbaf19d2a"
+  },
+  "sample_index": 79,
+  "coordinate_index": 7,
+  "decoded_exact": "5295654537829081/2251799813685248",
+  "reference_binary64_hex": "0x1.2d05ea7949aeep+1",
+  "absolute_reference_difference": "21/2251799813685248",
+  "scope": "Preserves the original September exact dyadic witness. This fixture alone does not replay or recertify the historical full execution."
+}

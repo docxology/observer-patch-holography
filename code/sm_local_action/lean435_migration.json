@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "kind": "exact-local-action-parent-custody-migration",
+  "qualified_lean_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+  "receipt": {
+    "path": "code/sm_local_action/local_action_receipt.json",
+    "before_sha256": "4949c2fdd0f44917b4808e52ea59f69574d3cc653cdf5cde30e9e8c91a8bb031",
+    "after_sha256": "98f767a0cbec83d5aac34bb2cd6458d382b023a5ec6073e0a62c768afe4532ea",
+    "unchanged_exact_payload_sha256": "3272713bf8ae8e66ab2cd20044fee2d697bf23c1e84262cdec72fea316a636f5"
+  },
+  "scope": "Complete exact65-sector Grassmann/jet/Ward/current payload and scope flags unchanged; current Lean source custody only."
+}

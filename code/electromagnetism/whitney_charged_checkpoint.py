@@ -5,7 +5,9 @@ as an exact dyadic vector and d_j the exact rational event decode. The parent
 interval proof gives ||h_j-y(t)||_infinity <= 1e-10 in the original reduced
 position/velocity coordinates. Thus ||d_j-y(t)|| <= ||d_j-h_j|| + 1e-10.
 This certifies checkpoints only; probe registers and clock quadratures are
-different objects. Neither existing history is regenerated or relabelled.
+different objects. This producer does not regenerate or relabel either input history. The current
+custody successor binds separately qualified v2 software executions; original
+histories remain immutable in Git.
 """
 from fractions import Fraction as Q
 from hashlib import sha256
@@ -22,14 +24,12 @@ PREFIX = "code/electromagnetism/"
 OWN = [PREFIX + name for name in (
     "whitney_charged_checkpoint.py", "verify_whitney_charged_checkpoint.py",
     "test_whitney_charged_checkpoint.py")]
-PARENTS = {
-    "enclosure": (PREFIX + "runtime/whitney_charged_enclosure_receipt.json",
-                  "88cdc380032628e57e4f452ec5e6762a0da156043b1b3db466742cff74694e54"),
-    "instrument": (PREFIX + "runtime/whitney_charged_instrument_receipt.json",
-                   "d4a40859a5c50cbfc473f005b41c60548b3f873a7587b3340d71c52fbaf19d2a"),
-    "historical": (PREFIX + "runtime/whitney_charged_dynamics_receipt.json",
-                   "f247f4b9e2b46e588bca006389346730ffc91359af218370d60688734ef4f4b9"),
-}
+PARENTS = {'enclosure': ('code/electromagnetism/runtime/whitney_charged_enclosure_receipt.json',
+               '509fce37d0df6a3fdd2044c1897415162afb5a541ed2d4ec615731a0d99763c9'),
+ 'instrument': ('code/electromagnetism/runtime/whitney_charged_instrument_receipt.json',
+                '4b7060b48ea3611011b863641a3d706a9496bdc1b0fb81dbf10fe7a84ca3490c'),
+ 'historical': ('code/electromagnetism/runtime/whitney_charged_dynamics_receipt.json',
+                '6062233dc4707ea0b1c6f8eec4b6a474998224f74a417b6fe2dd9faf46fb5264')}
 COORDINATES = ["alpha", "Re(center)", "Im(center)", "Re(boundary)",
                "Im(boundary)", "alpha_dot", "Re(center_dot)",
                "Im(center_dot)", "Re(boundary_dot)", "Im(boundary_dot)"]

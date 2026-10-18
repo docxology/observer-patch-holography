@@ -308,8 +308,8 @@ def independent_rk4(steps, initial):
 def verify(packet):
     require(set(packet) == {"schema", "scope", "source_pins", "parameters", "mesh", "metadata",
         "initial_contract", "integrator", "samples", "controls", "run_id", "source_base_commit"}, "receipt schema fields")
-    require(packet["run_id"] == "whitney-charged-symmetric-2026-09-06-v1", "run identity")
-    require(packet["source_base_commit"] == "79b0a4a5bb7242f7ea733ebe502df48f774cf997", "source base commit")
+    require(packet["run_id"] == "whitney-charged-symmetric-lean435-20261018-v2", "run identity")
+    require(packet["source_base_commit"] == "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2", "source base commit")
     require(packet["schema"] == "oph.whitney_charged_dynamics.v1", "schema")
     require(packet["scope"] == "NUMERICAL_COUPLED_CHARGED_MATTER__SYMMETRIC_SECTOR_OF_FULL_FINITE_ACTION", "scope")
     require(set(packet["source_pins"]) == PINS, "source pin census")

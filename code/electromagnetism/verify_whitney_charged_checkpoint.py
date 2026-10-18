@@ -19,17 +19,15 @@ PREFIX = "code/electromagnetism/"
 PIN_PATHS = tuple(PREFIX + name for name in (
     "whitney_charged_checkpoint.py", "verify_whitney_charged_checkpoint.py",
     "test_whitney_charged_checkpoint.py"))
-PARENTS = {
-    "enclosure": {"path": PREFIX + "runtime/whitney_charged_enclosure_receipt.json",
-                  "sha256": "88cdc380032628e57e4f452ec5e6762a0da156043b1b3db466742cff74694e54",
-                  "bytes": 969123},
-    "instrument": {"path": PREFIX + "runtime/whitney_charged_instrument_receipt.json",
-                   "sha256": "d4a40859a5c50cbfc473f005b41c60548b3f873a7587b3340d71c52fbaf19d2a",
-                   "bytes": 2233726},
-    "historical": {"path": PREFIX + "runtime/whitney_charged_dynamics_receipt.json",
-                   "sha256": "f247f4b9e2b46e588bca006389346730ffc91359af218370d60688734ef4f4b9",
-                   "bytes": 946897},
-}
+PARENTS = {'enclosure': {'path': 'code/electromagnetism/runtime/whitney_charged_enclosure_receipt.json',
+               'sha256': '509fce37d0df6a3fdd2044c1897415162afb5a541ed2d4ec615731a0d99763c9',
+               'bytes': 969123},
+ 'instrument': {'path': 'code/electromagnetism/runtime/whitney_charged_instrument_receipt.json',
+                'sha256': '4b7060b48ea3611011b863641a3d706a9496bdc1b0fb81dbf10fe7a84ca3490c',
+                'bytes': 2232669},
+ 'historical': {'path': 'code/electromagnetism/runtime/whitney_charged_dynamics_receipt.json',
+                'sha256': '6062233dc4707ea0b1c6f8eec4b6a474998224f74a417b6fe2dd9faf46fb5264',
+                'bytes': 946241}}
 
 
 def require(condition, message):

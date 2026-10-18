@@ -45,14 +45,14 @@ SOURCE_CONTRACT = (
     {
         "path": CARRIER_LEAN_PATH,
         "role": "committed thirty-seam incidence table (seamLeft/seamRight)",
-        "bytes": 19162,
-        "sha256": "e5f712cbccc5a1462945f0cb511a47064fe10818748498021d5c70ae169a933f",
+        "bytes": 19133,
+        "sha256": "8c14d65c66f4ffdc1f8c303168d1b302760b36ce726ec6f3a1f91ceb7e4aa2cb",
     },
     {
         "path": GREEN_LEAN_PATH,
         "role": "kernel-checked discrete Coulomb Green receipts (issue 733)",
-        "bytes": 50954,
-        "sha256": "a58830d60688b7df505d2c8cbc1ff2290b057f9be055def25db7006fae7bd078",
+        "bytes": 51203,
+        "sha256": "11c6a4bbac1e4f4b8cc0f1031fccde6098f313fa0e6eda9c13d83f3955fb3bc0",
     },
 )
 

@@ -132,6 +132,49 @@ def test_missing_superseded_run_cancellation_is_rejected() -> None:
 
 def test_exhaustive_default_build_is_rejected() -> None:
     workflow, lakefile = _inputs()
-    mutated = workflow.replace('lake build "$target"', "lake build", 1)
+    mutated = workflow.replace('lake build "${targets[@]}"', "lake build", 1)
     errors = validate(mutated, lakefile)
     assert "per-change Lean CI must not run an exhaustive default Lake build" in errors
+
+
+def test_dropped_target_collection_is_rejected() -> None:
+    workflow, lakefile = _inputs()
+    mutated = workflow.replace('targets+=("$target")', ':', 1)
+    assert "changed Lean modules must build the complete nonempty target array" in validate(mutated, lakefile)
+
+
+def test_empty_target_guard_is_required() -> None:
+    workflow, lakefile = _inputs()
+    mutated = workflow.replace('[ "${#targets[@]}" -gt 0 ] || exit 1', ':', 1)
+    assert "changed Lean modules must build the complete nonempty target array" in validate(mutated, lakefile)
+
+
+def test_mathlib_download_cache_must_save_before_proof_build() -> None:
+    workflow, lakefile = _inputs()
+    mutated = workflow.replace("      - name: Save pinned Mathlib download cache before proof compilation\n", "      - name: Missing download save\n", 1)
+    assert "the golden-sector dependency download cache must persist before proof compilation" in validate(mutated, lakefile)
+
+
+def test_mathlib_download_cache_cannot_accept_failed_fetch() -> None:
+    workflow, lakefile = _inputs()
+    mutated = workflow.replace(" && steps.mathlib_fetch.outputs.status == '0'", "", 1)
+    assert "the golden-sector dependency download cache must use exact platform/toolchain/manifest keys and successful fetch evidence" in validate(mutated, lakefile)
+
+
+def test_mathlib_download_cache_keys_must_include_the_pinned_manifest() -> None:
+    workflow, lakefile = _inputs()
+    mutated = workflow.replace("key: mathlib-download-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('Lean/lean-toolchain', 'Lean/lake-manifest.json') }}", "key: unpinned-mathlib", 1)
+    assert "the golden-sector dependency download cache must use exact platform/toolchain/manifest keys and successful fetch evidence" in validate(mutated, lakefile)
+
+
+def test_mathlib_download_cache_cannot_restore_other_toolchain_keys() -> None:
+    workflow, lakefile = _inputs()
+    marker = "      - name: Restore pinned Mathlib download cache\n"
+    mutated = workflow.replace(marker, marker + "        restore-keys: broad-cache-prefix\n", 1)
+    assert "the golden-sector dependency download cache must use exact platform/toolchain/manifest keys and successful fetch evidence" in validate(mutated, lakefile)
+
+
+def test_mathlib_download_cache_directory_must_match_the_client() -> None:
+    workflow, lakefile = _inputs()
+    mutated = workflow.replace("MATHLIB_CACHE_DIR: ${{ runner.temp }}/oph-mathlib-downloads", "MATHLIB_CACHE_DIR: /unbound-cache", 1)
+    assert "the golden-sector dependency download cache must use exact platform/toolchain/manifest keys and successful fetch evidence" in validate(mutated, lakefile)

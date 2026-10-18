@@ -194,7 +194,7 @@ def independent_parent():
 def verify(packet):
     keys(packet, {"schema", "scope", "run_id", "source_base_commit", "source_pins", "contract", "mesh", "events", "event_root", "frames", "reference_comparison", "clock_readout"}, "instrument schema")
     exact([packet["schema"], packet["scope"], packet["run_id"], packet["source_base_commit"]],
-          ["oph.whitney_charged_instrument.v1", SCOPE, "whitney-charged-self-reading-2026-09-06-v1", "08486bdba2039c916aff3c698bce93e9e62bdfab"], "instrument scope/identity")
+          ["oph.whitney_charged_instrument.v1", SCOPE, "whitney-charged-self-reading-lean435-20261018-v2", "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"], "instrument scope/identity")
     exact(packet["contract"], expected_contract(), "instrument contract")
     keys(packet["source_pins"], PINS, "instrument source pin census")
     for path in PINS:

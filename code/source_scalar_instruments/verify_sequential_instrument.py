@@ -20,11 +20,11 @@ OUTPUT = HERE/'sequential_instrument_receipt.json'
 SCALAR = 'code/source_scalar_execution/source_scalar_execution_receipt.json'
 CLOCK = 'code/source_scalar_clock_quantum/clock_quantum_receipt.json'
 PINS = {
-    SCALAR: '6981fcd4e13fbc33f371224228341a995f34b4733aa70c2ec0b3f6ee5975c7af',
-    CLOCK: 'c29efabfecc67610e3148a12c415466b73e5a73c1b2c5b823262a2da62aad708',
+    SCALAR: 'cf246c2caa072334e0d4796c1c6c49d2a231a263ff34281843a1c35c7cdbb69a',
+    CLOCK: '26ffdec55a41554af735c39f2198cad2858f9ad24a13c9868bde8b1d7b9697d9',
 }
 CLOCK_VERIFIER = 'code/source_scalar_clock_quantum/verify_clock_quantum.py'
-CLOCK_VERIFIER_SHA = 'b4239b5519d0b6572a03869f6927642d1e328391b97fad5fe99f6addd0d20049'
+CLOCK_VERIFIER_SHA = '001cb8258cb531ebb61558babe3eac1d67db4030cb29c75725847e5fcdff5aa5'
 FILES = (
     'code/source_scalar_instruments/sequential_instrument.py',
     'code/source_scalar_instruments/verify_sequential_instrument.py',

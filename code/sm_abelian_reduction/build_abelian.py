@@ -8,7 +8,7 @@ from pilot import canonical, digest, geometry, execute, observables
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 OUTPUT = HERE/'abelian_receipt.json'
-PARENT_COMMIT = '34f258749d5dc43c5247936b148892fef3291da8'
+PARENT_COMMIT = '78f71f4f6f8dc94f80a7e20fe8dd5ea497775e0c'
 PARENTS = ('code/sm_local_action/jet_action.py', 'code/sm_local_action/local_action_receipt.json',
            'paper/tex_fragments/LOCAL_SM_JET_ACTION.tex',
            'code/source_scalar_packet/source_common_scalar.py',

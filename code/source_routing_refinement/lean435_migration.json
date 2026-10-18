@@ -1,0 +1,46 @@
+{
+  "schema": "oph.source-routing-refinement.lean435-migration.v1",
+  "historical_source_commit": "bfa6c44d5347f113a5418d2a25d836f1057993a2",
+  "current_lean_source_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+  "changed_source_pins": [
+    {
+      "path": "Lean/Geometry/SourceRoutingBudget.lean",
+      "before_sha256": "97ccfcecaad82f523ec98bcea486f8f013623a00dc1f63f843244c5bbbec971f",
+      "after_sha256": "dcd37b37fd29e942a252f72a1c50235b1c851be0d68c134b5ec20112c4fc1f59",
+      "git_diff_sha256": "1909248ee19387891938bc7448b06f1e2a68399bd78cb72efb1b48bff285052c",
+      "scope": "module/public import headers only"
+    },
+    {
+      "path": "Lean/Geometry/SourceRoutingHierarchy.lean",
+      "before_sha256": "4f44fea21ba572eed14fa4e064e8c1f70fca12ad767c5b41259f83bfe14f9a78",
+      "after_sha256": "f1fdb1e2e7203f790bd1e4ed09b0f9a607d17f03166823782bd5a189566ff5d3",
+      "git_diff_sha256": "e424a90cdd5dd0e1ff166e266ff94e890875a0b693ea55f1e370045275ef73f9",
+      "scope": "module/public import headers only"
+    },
+    {
+      "path": "Lean/Geometry/SourceRoutingRefinementAxiomAudit.lean",
+      "before_sha256": "00257ea79be210428384a3943bafafc835066785a592c47da33bfc8a0895e136",
+      "after_sha256": "c5cadbc83b0cbf52a6979687a68b37bbe62aa80cd48240936736b05945717c11",
+      "git_diff_sha256": "dcf78a3b356d99655603d70746e582f4bee05c984ba3134fd88478adacb42d1d",
+      "scope": "headers plus equivalent negative native-axiom rejection control adapted to Lean 4.35; whitelist and audited theorem roster unchanged"
+    },
+    {
+      "path": "Lean/Geometry/SourceRoutingStorage.lean",
+      "before_sha256": "5b09360331a223e016513dee7535d8d80ed20813eac36c86cdeb6300e4582a07",
+      "after_sha256": "27ca64c9a5f3eed313cc7b3084c552573b003357c93551b4baf582959dc64f32",
+      "git_diff_sha256": "e9d54ead9ae19f306c688273f8ebcb8dc0955bc6e1df1efb8f9e5046e21d1795",
+      "scope": "module/public import headers only"
+    }
+  ],
+  "all_non_source_pin_receipt_fields_unchanged": true,
+  "retained_mapped_events": 91272,
+  "scope": {
+    "M1_source_selected": false,
+    "arbitrary_retired_version_reads_supported": false,
+    "controller_and_audit_log_in_23_slot_bound": false,
+    "fixed_bit_memory_proved": false,
+    "operation_volume_measure_selected": false,
+    "physical_clock_identified": false
+  },
+  "qualification": "strict native build of all four modules, actual owner regeneration/check, 32 adversarial tests"
+}

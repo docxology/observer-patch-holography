@@ -383,7 +383,7 @@
     "code/pauli_stability/test_pauli_stability.py": "ea04373f498bef803fe13c690ee4ff9e61626da75bf8fe94ceb73fc39d46fe74",
     "code/pauli_stability/verify.py": "f569c227dd9063a094a3fa377621b77d8bef2d48caa315577a4315a8ab9bcd7b",
     "code/sm_fermion_current/current.py": "3ddc0be8031081014614cdbcccd775ceb75e5e305607f1ed795c3fe17c8dbbd3",
-    "code/sm_fermion_current/current_receipt.json": "d4a780d4849d9b5dea1618705b87279597d6aca345a160a20990435929cff8a7",
+    "code/sm_fermion_current/current_receipt.json": "a35e08e270712b8c26c2aaa5ce1c877f0fc97b79770b0a1da57eb006e73f2ffe",
     "paper/tex_fragments/FERMION_SOURCE_CURRENT.tex": "7f7da8f61df386364d4fc80f5945c4c0b1fc00c5c10fdc785f44e843bbfcdd42",
     "paper/tex_fragments/PAULI_STABILITY_SELECTION.tex": "c0f5cf7a6ab8fe176ff82b304dccd8e7fd8c86eec438c26ba2244d26bab0a648"
   },

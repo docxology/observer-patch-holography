@@ -1,0 +1,363 @@
+{
+  "schema": 1,
+  "kind": "reviewed-current-lean435-scientific-software-custody-successors",
+  "qualified_lean_source_base_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+  "toolchain": "leanprover/lean4:v4.35.0",
+  "historical_source_policy": "Historical receipts are retained verbatim in Git at the stated commit. Their internal source pins may identify earlier source epochs; the receipt commit is not falsely asserted to contain every historically pinned source blob. Current file bytes and independently replayed source pins bind the successor.",
+  "current_execution_identities": {
+    "reference": "whitney-charged-symmetric-lean435-20261018-v2",
+    "instrument": "whitney-charged-self-reading-lean435-20261018-v2",
+    "source_base_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+  },
+  "components": [
+    {
+      "family": "seam_maxwell_continuum",
+      "path": "code/electromagnetism/runtime/seam_maxwell_continuum_receipt.json",
+      "historical_receipt_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+      "historical_receipt_sha256": "e8047f55aee42d5c4fa46405ba08cbf4c31335f3c47dd7b487871fb838f2f9e6",
+      "current_receipt_sha256": "64408db8e6fd20d2cee90a63ddbdf8cda5d579766a53128f2e79528607787203",
+      "current_receipt_bytes": 24116,
+      "checks": [
+        {
+          "name": "native",
+          "returncode": 0
+        },
+        {
+          "name": "producer",
+          "returncode": 0
+        },
+        {
+          "name": "independent",
+          "returncode": 0
+        },
+        {
+          "name": "mutation-tests",
+          "returncode": 0
+        }
+      ],
+      "scope": "Actual trigonometric producer, independent exact geometry and matrix-exponential verifier, mutation suite and strict native leaf. All assumptions, bounds, domains, source, scale/time census and nonclaims identical. Any float differences retained and checked under unchanged owner tolerances. No physical attachment or ledger acceptance.",
+      "numeric_delta_count": 0,
+      "maximum_absolute_numeric_change": 0
+    },
+    {
+      "family": "whitney_spatial_consistency",
+      "path": "code/electromagnetism/runtime/whitney_spatial_consistency_receipt.json",
+      "historical_receipt_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+      "historical_receipt_sha256": "aa66b448fbfc0c5a3b914229fe65b9b7df37e48ac4c259792dbec9946176025e",
+      "current_receipt_sha256": "ddd54c17debacd4da14f4c554c06b015ecb0d1f36baf08a396578dd57e335f5a",
+      "current_receipt_bytes": 3420,
+      "checks": [
+        {
+          "name": "native",
+          "returncode": 0
+        },
+        {
+          "name": "producer",
+          "returncode": 0
+        },
+        {
+          "name": "independent",
+          "returncode": 0
+        },
+        {
+          "name": "mutations",
+          "returncode": 0
+        }
+      ],
+      "scope": "Actual manufactured-field generation, separate polynomial/variation verifier, unchanged numerical acceptance policy, mutation suite and strict native leaf. Assumptions, parameters, quadrature, polynomial data and all nonclaims identical. No trajectory or physical attachment claim; postdiction ledgers untouched.",
+      "numeric_delta_count": 1,
+      "maximum_absolute_numeric_change": 2.7755575615628914e-17
+    },
+    {
+      "family": "whitney_quantum_state",
+      "path": "code/electromagnetism/runtime/whitney_quantum_state_receipt.json",
+      "historical_receipt_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+      "historical_receipt_sha256": "4859e8d7e0a60088a441610154c1f5e06142ea77637ece06719de4379ab08fe2",
+      "current_receipt_sha256": "a7d23303d4caada8e920fdd59fec6f0b69c2ffa24e33298af1f75856b25fb4e7",
+      "current_receipt_bytes": 6079,
+      "checks": [
+        {
+          "name": "producer",
+          "returncode": 0
+        },
+        {
+          "name": "independent",
+          "returncode": 0
+        },
+        {
+          "name": "mutations",
+          "returncode": 0
+        }
+      ],
+      "scope": "Fresh replay of the fixed selected neutral Gaussian initial-state contract. Exact rational observables, state definition, parameters, historical run ID and scope remain identical. Only illustrative numerical amplitudes may differ under unchanged independent verifier tolerances. Actual producer, separate verifier and mutation suite pass. No quantum time history, observer preparation or physical comparison claim. Postdiction ledgers unchanged.",
+      "numeric_delta_count": 16,
+      "maximum_absolute_numeric_change": 1.0658141036401503e-14
+    },
+    {
+      "family": "whitney_real_continuum",
+      "path": "code/electromagnetism/runtime/whitney_real_continuum_receipt.json",
+      "historical_receipt_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+      "historical_receipt_sha256": "9277a3053cde7ec08cb1efa0184cf94260dcdce4bded94c3525aaf631362da13",
+      "current_receipt_sha256": "80edee6c0170ca92cc55db0f47bef53f7819edf87e30eb9abb0e3f24093ad641",
+      "current_receipt_bytes": 31383,
+      "checks": [
+        {
+          "name": "producer",
+          "returncode": 0
+        },
+        {
+          "name": "independent",
+          "returncode": 0
+        },
+        {
+          "name": "mutations",
+          "returncode": 0
+        }
+      ],
+      "scope": "Fresh real-sector continuum software replay. All analytic assumptions, exact uniform bounds and nonclaims unchanged. Numerical mesh and trajectory output deltas retained and independently verified with unchanged tolerances. No full charged continuum or physical source/clock claim; no Lean formalization claim. Original postdiction ledgers untouched.",
+      "numeric_delta_count": 952,
+      "maximum_absolute_numeric_change": 8.881784197001252e-16
+    },
+    {
+      "family": "whitney_ephemeris_clock",
+      "path": "code/electromagnetism/runtime/whitney_ephemeris_clock_receipt.json",
+      "historical_receipt_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+      "historical_receipt_sha256": "be97cacfdd4445b679301631695e37a8309a616e9a470957ebf928314ad991c4",
+      "current_receipt_sha256": "ec5c22679b1b4a7f34b09f3c05fac6699c96d53f5e0daa3196526d02ba84b616",
+      "current_receipt_bytes": 9191,
+      "checks": [
+        {
+          "name": "producer",
+          "returncode": 0
+        },
+        {
+          "name": "independent",
+          "returncode": 0
+        },
+        {
+          "name": "mutations",
+          "returncode": 0
+        }
+      ],
+      "scope": "Actual model-internal clock readout from the independently qualified current v2 software execution configurations. Energy, input contract, quadrature, source fields and all nonclaims unchanged. All numerical readout deltas retained and independently checked with unchanged tolerances. No calibrated physical clock, rigorous numerical enclosure or quantum clock operator. Historical postdiction ledgers untouched.",
+      "numeric_delta_count": 214,
+      "maximum_absolute_numeric_change": 1.1102230246251565e-15
+    },
+    {
+      "family": "whitney_quantum_history",
+      "path": "code/electromagnetism/runtime/whitney_quantum_history_receipt.json",
+      "historical_receipt_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+      "historical_receipt_sha256": "1a2b9a1afe2ba32cbb551352c1ca3bc4d45251921268feab6fdcee7749587bbe",
+      "current_receipt_sha256": "e67f946040f4a011e9fc84f44fad1bc538d6854514c57137eb6669091f538e05",
+      "current_receipt_bytes": 10930,
+      "checks": [
+        {
+          "name": "producer",
+          "returncode": 0
+        },
+        {
+          "name": "independent",
+          "returncode": 0
+        },
+        {
+          "name": "mutations",
+          "returncode": 0
+        }
+      ],
+      "scope": "Fresh fixed potential-phase trial certificate replay. All exact Gaussian moments, geometry/coefficient envelopes, global norm bounds, conservative dyadic horizon, declared parameters and nonclaims unchanged. Illustrative numerical phase/history output deltas retained and independently checked under unchanged tolerances. No exact Hamiltonian history, evolving density, observer preparation, physical clock, empirical or ordinary-physics benchmark claim. Original postdiction ledgers untouched.",
+      "numeric_delta_count": 0,
+      "maximum_absolute_numeric_change": 0
+    },
+    {
+      "family": "whitney_charged_dynamics",
+      "path": "code/electromagnetism/runtime/whitney_charged_dynamics_receipt.json",
+      "historical_receipt_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+      "historical_receipt_sha256": "f247f4b9e2b46e588bca006389346730ffc91359af218370d60688734ef4f4b9",
+      "current_receipt_sha256": "6062233dc4707ea0b1c6f8eec4b6a474998224f74a417b6fe2dd9faf46fb5264",
+      "current_receipt_bytes": 946241,
+      "checks": [
+        {
+          "name": "dynamics-producer",
+          "returncode": 0
+        },
+        {
+          "name": "dynamics-independent",
+          "returncode": 0
+        },
+        {
+          "name": "dynamics-mutations",
+          "returncode": 0
+        }
+      ],
+      "scope": "Both freshly qualified numerical reference and exact-register software execution carry distinct v2 run identities and current Git baselines. Their complete already-qualified mathematical payloads are unchanged by this metadata-only epoch binding. Explicit stale historical identity refusal controls pass. Original historical receipts remain immutable in actual Git ancestry. No physical acceptance or ledger acceptance.",
+      "historical_to_current_numerical_revision": {
+        "numeric_delta_count": 29975,
+        "maximum_absolute_change": 4.085620730620576e-14,
+        "epoch_binding_requalification": "The subsequent distinct-v2 identity binding changed metadata only; the already qualified fresh numerical payload remained identical."
+      }
+    },
+    {
+      "family": "whitney_charged_instrument",
+      "path": "code/electromagnetism/runtime/whitney_charged_instrument_receipt.json",
+      "historical_receipt_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+      "historical_receipt_sha256": "d4a40859a5c50cbfc473f005b41c60548b3f873a7587b3340d71c52fbaf19d2a",
+      "current_receipt_sha256": "4b7060b48ea3611011b863641a3d706a9496bdc1b0fb81dbf10fe7a84ca3490c",
+      "current_receipt_bytes": 2232669,
+      "checks": [
+        {
+          "name": "instrument-producer",
+          "returncode": 0
+        },
+        {
+          "name": "instrument-independent",
+          "returncode": 0
+        },
+        {
+          "name": "instrument-mutations",
+          "returncode": 0
+        }
+      ],
+      "scope": "Both freshly qualified numerical reference and exact-register software execution carry distinct v2 run identities and current Git baselines. Their complete already-qualified mathematical payloads are unchanged by this metadata-only epoch binding. Explicit stale historical identity refusal controls pass. Original historical receipts remain immutable in actual Git ancestry. No physical acceptance or ledger acceptance.",
+      "historical_to_current_execution_revision": {
+        "changed_fields": 44135,
+        "kinds": {
+          "derived-hash": 3520,
+          "exact-encoded-current-binary64": 12764,
+          "float": 27851
+        },
+        "maximum_absolute_numeric_change": 1.7763568394002505e-14,
+        "epoch_binding_requalification": "Subsequent current-reference metadata rebinding left this freshly qualified exact event/register payload identical; it was not asserted identical to the historical execution."
+      }
+    },
+    {
+      "family": "whitney_charged_enclosure",
+      "path": "code/electromagnetism/runtime/whitney_charged_enclosure_receipt.json",
+      "historical_receipt_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+      "historical_receipt_sha256": "88cdc380032628e57e4f452ec5e6762a0da156043b1b3db466742cff74694e54",
+      "current_receipt_sha256": "509fce37d0df6a3fdd2044c1897415162afb5a541ed2d4ec615731a0d99763c9",
+      "current_receipt_bytes": 969123,
+      "checks": [
+        {
+          "name": "producer",
+          "returncode": 0
+        },
+        {
+          "name": "independent",
+          "returncode": 0
+        },
+        {
+          "name": "mutations",
+          "returncode": 0
+        }
+      ],
+      "scope": "Actual interval Picard/Taylor producer and separate directed-rounding verifier with full mutation suite. All exact states, polynomials, bounds, methods and interpretation unchanged. Reference sample comparison independently re-proved against the distinct current v2 reference execution; historical receipt remains in Git. No physical clock, spatial limit or ledger acceptance."
+    },
+    {
+      "family": "whitney_charged_checkpoint",
+      "path": "code/electromagnetism/runtime/whitney_charged_checkpoint_receipt.json",
+      "historical_receipt_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+      "historical_receipt_sha256": "6405cb4620d3881e0c8de836ecd2ca6561cad5452b8920c78e99c219f74727b6",
+      "current_receipt_sha256": "247afadf42cb06fe319d717138e928ac87bbeb024c527a2f73909a49da4cb7f3",
+      "current_receipt_bytes": 73073,
+      "checks": [
+        {
+          "name": "producer",
+          "returncode": 0
+        },
+        {
+          "name": "independent",
+          "returncode": 0
+        },
+        {
+          "name": "mutations",
+          "returncode": 0
+        }
+      ],
+      "scope": "Actual exact rational rederivation for all 81 checkpoints of distinct current v2 execution and reference. Independent directed-rounding enclosure and exact event replay run fresh; all mutation controls pass. Contract, counts, scope and base certified error unchanged. Current differences/bounds rederived. Original historical parents/certificate preserved in Git; no physical, continuous-observer, nonlinear-field or ledger acceptance.",
+      "historical_bounds": {
+        "decoded_checkpoint_error_upper": "2199228333677/21990232555520000000000",
+        "historical_qv_error_upper": "1/10000000000",
+        "maximum_decoded_reference_difference": "21/2251799813685248",
+        "simple_checkpoint_error_upper": "10001/100000000000000"
+      },
+      "current_bounds": {
+        "decoded_checkpoint_error_upper": "549804642013/5497558138880000000000",
+        "historical_qv_error_upper": "1/10000000000",
+        "maximum_decoded_reference_difference": "5/562949953421312",
+        "simple_checkpoint_error_upper": "10001/100000000000000"
+      },
+      "historical_witness": {
+        "path": "code/electromagnetism/fixtures/charged_checkpoint_20260906_witness.json",
+        "sha256": "3153d6286ec0d9d7d7d3dadf80f6b76edc3276eadd7d5109f21a16637a949e73"
+      }
+    },
+    {
+      "family": "whitney_magnetic_continuum",
+      "path": "code/electromagnetism/runtime/whitney_magnetic_continuum_receipt.json",
+      "historical_receipt_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+      "historical_receipt_sha256": "9458a6e50367f3643e3f87e8254f977073cafde492e0d846caaacb461cd678e7",
+      "current_receipt_sha256": "047c33ed3e4167c0f45d534ef68fe26ed5318182086ca546264f3d4894afe0ce",
+      "current_receipt_bytes": 14058,
+      "checks": [
+        {
+          "name": "whitney_magnetic_continuum-producer",
+          "returncode": 0
+        },
+        {
+          "name": "whitney_magnetic_continuum-independent",
+          "returncode": 0
+        },
+        {
+          "name": "whitney_magnetic_continuum-mutations",
+          "returncode": 0
+        }
+      ],
+      "scope": "Actual producer, separate independent verifier and all mutation controls pass. Exact analytic assumptions, parameters, contracts, initial exact data, topology/counts and all nonclaims unchanged. Numerical mesh/frame/sample/trajectory deltas explicitly retained and checked under unchanged owner acceptance policy. Magnetic stability leaf compiled strictly and all three public declaration axiom reports retained. No physical calibration, empirical comparison, quantum propagation, covariance evolution or whole-suite acceptance claim.",
+      "numeric_delta_count": 349,
+      "maximum_absolute_numeric_change": 9.299404824843616e-16
+    },
+    {
+      "family": "whitney_quantum_packet",
+      "path": "code/electromagnetism/runtime/whitney_quantum_packet_receipt.json",
+      "historical_receipt_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+      "historical_receipt_sha256": "c4f8efdc1d17ce5a25d6196c8e98b426af5907fbf49b5450df457e01ea3c0b5a",
+      "current_receipt_sha256": "52f318fbc6f8a459d182391cf5051df4fcc1994eb27686ca46601990c77a3ec0",
+      "current_receipt_bytes": 44744,
+      "checks": [
+        {
+          "name": "whitney_quantum_packet-producer",
+          "returncode": 0
+        },
+        {
+          "name": "whitney_quantum_packet-independent",
+          "returncode": 0
+        },
+        {
+          "name": "whitney_quantum_packet-mutations",
+          "returncode": 0
+        }
+      ],
+      "scope": "Actual producer, separate independent verifier and all mutation controls pass. Exact analytic assumptions, parameters, contracts, initial exact data, topology/counts and all nonclaims unchanged. Numerical mesh/frame/sample/trajectory deltas explicitly retained and checked under unchanged owner acceptance policy. Magnetic stability leaf compiled strictly and all three public declaration axiom reports retained. No physical calibration, empirical comparison, quantum propagation, covariance evolution or whole-suite acceptance claim.",
+      "numeric_delta_count": 1750,
+      "maximum_absolute_numeric_change": 0.8004745401711177,
+      "frame_review": "quantum_packet_frame_review.json",
+      "numeric_interpretation": "Large frame entries reflect an orthogonal basis rotation; finite ambient-projector and cotangent covariance checks retained separately. Maximum nonframe numeric change is 4.263256414560601e-14"
+    }
+  ],
+  "magnetic_native_audit": {
+    "leaf": "Lean/Screen/MagneticMatterStability.lean",
+    "leaf_sha256": "aba7c0a556487f8017b7729d23c09026e0dde160f029fd49a1a3a975326274e6",
+    "strict_leaf_compilation": "passed",
+    "public_consumer_source": "import MagneticMatterStability\n#print axioms OPH.MagneticMatterStability.norm_square_difference_le\n#print axioms OPH.MagneticMatterStability.norm_cubic_difference_le\n#print axioms OPH.MagneticMatterStability.norm_cubic_difference_on_ball\n",
+    "public_consumer_source_sha256": "da8785155c98fe135a3864ac95308f417151669293ab7d6bbe7578e50cb0a260",
+    "raw_axiom_reports": "magnetic_stability_axioms.log",
+    "raw_axiom_reports_sha256": "f6e0bdcde0e58d295efe3d32a3e24c945a347a219083282df90242551aa1109c",
+    "declarations": 3,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "scope": "Component execution and source-custody qualification only. Exact assumptions, nonclaims, source-selected/physical boundaries and unproved propagation targets remain unchanged. New current v2 software runs are not relabelled historical executions. Whole-repository mandatory/certificate and hosted gates remain separately required; this record is not scientific acceptance or public promotion."
+}

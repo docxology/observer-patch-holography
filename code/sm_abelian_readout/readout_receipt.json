@@ -97,7 +97,7 @@
     "meaning": "I_intervention(t)-I_baseline(t) <= -(9/20)*t^2 for 0<t<=1/100",
     "sign": "negative"
   },
-  "parent_sha256": "ad6f7baddb69ee3e2ed2e514e0148f3db49466cd2e0dbb6c911de78d318a382a",
+  "parent_sha256": "6dbc4bdeaa9a8242ff0db405d3e5a61be7b6eeb2adfa045eb765e6d142fbba2d",
   "resolved_window": [
     "1/200",
     "1/100"

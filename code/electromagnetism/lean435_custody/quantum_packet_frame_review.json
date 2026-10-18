@@ -1,0 +1,38 @@
+{
+  "state": "passed",
+  "before_sha256": "c4f8efdc1d17ce5a25d6196c8e98b426af5907fbf49b5450df457e01ea3c0b5a",
+  "after_sha256": "52f318fbc6f8a459d182391cf5051df4fcc1994eb27686ca46601990c77a3ec0",
+  "basis_checks": {
+    "old_frame_orthonormality_max_abs": 4.440892098500626e-16,
+    "new_frame_orthonormality_max_abs": 6.661338147750939e-16,
+    "same_ambient_projector_max_abs": 5.551115123125783e-16,
+    "rotation_orthogonality_max_abs": 9.992007221626409e-16,
+    "frame_rotation_reconstruction_max_abs": 5.551115123125783e-16
+  },
+  "sample_covariance_checks": [
+    {
+      "parent_sample_index": 0,
+      "q_radiative_rotation_max_abs": 0.0,
+      "q_scalar_max_abs": 0.0,
+      "velocity_radiative_rotation_max_abs": 6.822725744804833e-17,
+      "velocity_scalar_max_abs": 2.220446049250313e-16,
+      "momentum_radiative_rotation_max_abs": 2.74379654934496e-17,
+      "momentum_scalar_max_abs": 3.552713678800501e-15,
+      "full_q_max_abs": 0.0,
+      "full_velocity_max_abs": 2.220446049250313e-16
+    },
+    {
+      "parent_sample_index": 1,
+      "q_radiative_rotation_max_abs": 3.0722727650175797e-18,
+      "q_scalar_max_abs": 4.163336342344337e-17,
+      "velocity_radiative_rotation_max_abs": 6.940089638198618e-17,
+      "velocity_scalar_max_abs": 1.1102230246251565e-16,
+      "momentum_radiative_rotation_max_abs": 2.5110284153644534e-17,
+      "momentum_scalar_max_abs": 4.440892098500626e-15,
+      "full_q_max_abs": 4.163336342344337e-17,
+      "full_velocity_max_abs": 1.249000902703301e-16
+    }
+  ],
+  "maximum_nonframe_absolute_change": 4.263256414560601e-14,
+  "interpretation": "The large matrix-entry difference is an orthogonal change of basis in the same 30-dimensional Coulomb subspace, not small entrywise rounding. Current q, velocity and cotangent momentum covary with that rotation; ambient coordinates agree within the recorded current-reference replay differences. The full-rank isotropic radiative seed is orthogonally covariant. This is a finite numerical comparison of these packets, not a general verified Hamiltonian propagation or physical state-equivalence theorem."
+}

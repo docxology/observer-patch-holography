@@ -43,7 +43,7 @@ def pins():
         if name in names or not path.is_file():
             continue
         names.add(name)
-        for line in re.findall(r"^import (.+)$", path.read_text(encoding="utf-8"), re.M):
+        for line in re.findall(r"^(?:public )?import (.+)$", path.read_text(encoding="utf-8"), re.M):
             pending.extend(line.split())
     return {name: hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in sorted(names)}
 

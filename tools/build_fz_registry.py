@@ -13,8 +13,10 @@ carry a declared positive owning-lane pointer and a milestone; that pointer may
 be updated before a freeze. Retrospective results occupy a separate collection;
 their former reservations cannot also occur as ladder rows. The issue-506
 record is checked against a fresh replay of its canonical producer as well as
-its recomputed payload digest. Committed custody contracts bind the source-side
-FZ-02 receipt and Lean module. The custody directories themselves are vendored
+its recomputed payload digest. Committed custody contracts bind the original source-side
+FZ-02 receipt and Lean module. Five maintained Lean files have an explicit
+compiler-migration source pair: both historical blobs and the exact current
+4.35 bytes are verified separately without rewriting frozen contracts. The custody directories themselves are vendored
 byte for byte under ``evidence/custody/``, so every clone verifies each
 manifest artifact, detached OpenTimestamps digest, attestation class, and the
 append-only FZ-02 custody and scientific errata. If that directory is removed,
@@ -916,6 +918,62 @@ def validate_hash_mapping(mapping: Any, where: str) -> dict[str, str]:
     return mapping
 
 
+# Compiler migration preserves the frozen register and stamped artifact bytes.
+# Each exception is an exact reviewed pair of immutable source epochs; arbitrary
+# working-tree drift, missing history and metadata-only rehashing still reject.
+LEAN435_CUSTODY_SOURCE_COMMIT = "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+LEAN435_CUSTODY_SOURCE_PAIRS = {('FZ-02', 'Lean/Screen/A5AngularMultiplets.lean'): ('091658ce585c107a260e7b980352be904d2419b2',
+                                                     'e18f8874ea1fdf3a0a74289951a5f6d8bce5763eefaba0e3c9360e0dc659d726',
+                                                     '1c9e866aedad092ea0e216b29c018e28ba7818b2d113871de4ae930a1e485162'),
+ ('FZ-11', 'Lean/Screen/A5PrimitivePortPrediction.lean'): ('05771b773ffaef4be10ae67a72e51cc17e3a38fb',
+                                                           'cb2e81d0555fa90ee1db6502c7af2d540a785b8567d3310fdd776a21fb5aad4e',
+                                                           'a6ffb2d6992b01c82519867307c296cf22ffaccc8b3790fd6e009f189f17d6e6'),
+ ('FZ-12', 'Lean/Screen/A5OrbitRaySeparation.lean'): ('bc5595f8dbb2d2886e2a64ddf447f69fbb00eb3f',
+                                                      '681f214fd1c8b908b12b69c24b4e9805f56c75617dddf1ef193d956554fd1ce2',
+                                                      '3a96c8f970c1c08382b8db87c9a517d4e64417bc1d31a1b858706200aeabf621'),
+ ('FZ-12', 'Lean/Screen/SeamCurrentCarrierQuotient.lean'): ('bc5595f8dbb2d2886e2a64ddf447f69fbb00eb3f',
+                                                            'e5f712cbccc5a1462945f0cb511a47064fe10818748498021d5c70ae169a933f',
+                                                            '8c14d65c66f4ffdc1f8c303168d1b302760b36ce726ec6f3a1f91ceb7e4aa2cb'),
+ ('FZ-12', 'Lean/Screen/SeamCurrentEdge30Moment.lean'): ('bc5595f8dbb2d2886e2a64ddf447f69fbb00eb3f',
+                                                         'dca0b721180b8b6a2363105ec9cb35bb9c5f5dca2da4352a9caef3b00129cd01',
+                                                         '63f271477a0fbd47a4199c584f7887aef25eec5742ff5b5cc1761e0f0d44450d')}
+
+
+def verify_preserved_lean_source_epoch(
+    contract_id: str, relative_path: str, expected_hash: str
+) -> bool:
+    """Check a maintained Lean source separately from its immutable freeze.
+
+    This is not a new freeze or an equivalence/physical acceptance claim.
+    Receipts, targets and stamped custody copies retain their original strict
+    live-byte checks. A migrated Lean file must equal its exact approved 4.35
+    blob, and both old and new blobs must exist in ancestral Git commits.
+    Exported or shallow trees lacking that history cannot supply this evidence.
+    """
+    pair = LEAN435_CUSTODY_SOURCE_PAIRS.get((contract_id, relative_path))
+    if pair is None:
+        return False
+    frozen_commit, frozen_hash, maintained_hash = pair
+    source = ROOT / relative_path
+    if expected_hash != frozen_hash or not source.is_file():
+        return False
+    if sha256_file(source) != maintained_hash:
+        return False
+    checkout = git_checkout_root(ROOT)
+    if checkout is None:
+        fail(f"{contract_id} migrated Lean custody requires exact ancestral Git history")
+    verify_commit_blobs(
+        checkout, frozen_commit, {relative_path: frozen_hash},
+        f"{contract_id} preserved frozen Lean source",
+    )
+    verify_commit_blobs(
+        checkout, LEAN435_CUSTODY_SOURCE_COMMIT,
+        {relative_path: maintained_hash},
+        f"{contract_id} maintained Lean 4.35 source",
+    )
+    return True
+
+
 def validate_custody_contracts(
     register: dict, rows_by_id: dict[str, dict]
 ) -> dict[str, dict]:
@@ -987,9 +1045,12 @@ def validate_custody_contracts(
             if not source_path.is_file():
                 fail(f"{contract_id} missing in-repo custody artifact {relative_path}")
             if sha256_file(source_path) != expected_hash:
-                fail(
-                    f"{contract_id} in-repo custody artifact hash mismatch: {relative_path}"
-                )
+                if not verify_preserved_lean_source_epoch(
+                    contract_id, relative_path, expected_hash
+                ):
+                    fail(
+                        f"{contract_id} in-repo custody artifact hash mismatch: {relative_path}"
+                    )
 
         for row_id in row_ids:
             row = rows_by_id[row_id]
@@ -1680,7 +1741,18 @@ def validate_fz12_prediction(
         source_path = ROOT / relative_path
         expected_hash = "sha256:" + sha256_file(source_path)
         if pin.get("sha256") != expected_hash or pin.get("bytes") != source_path.stat().st_size:
-            fail(f"FZ-12 parent pin differs from live source bytes: {relative_path}")
+            frozen_hash = contract["in_repo_artifact_sha256"].get(relative_path)
+            if (
+                frozen_hash is None
+                or pin.get("sha256") != "sha256:" + frozen_hash
+                or not verify_preserved_lean_source_epoch("FZ-12", relative_path, frozen_hash)
+            ):
+                fail(f"FZ-12 parent pin differs from live source bytes: {relative_path}")
+            frozen_commit = LEAN435_CUSTODY_SOURCE_PAIRS[("FZ-12", relative_path)][0]
+            historical = read_commit_blob(ROOT, frozen_commit, relative_path, "FZ-12 preserved parent size")
+            if pin.get("bytes") != len(historical):
+                fail(f"FZ-12 parent pin differs from live source bytes: {relative_path}")
+            expected_hash = "sha256:" + frozen_hash
         if relative_path in FZ12_IN_REPO_ARTIFACTS and (
             contract["in_repo_artifact_sha256"].get(relative_path)
             != expected_hash.removeprefix("sha256:")

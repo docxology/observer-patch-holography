@@ -19,7 +19,7 @@ def proof_paths():
         if path in paths or not (ROOT/path).is_file():
             continue
         paths.add(path)
-        for line in re.findall(r"^import (.+)$", (ROOT/path).read_text(encoding="utf-8"), re.M):
+        for line in re.findall(r"^(?:public )?import (.+)$", (ROOT/path).read_text(encoding="utf-8"), re.M):
             pending.extend(line.split())
     return paths
 

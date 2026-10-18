@@ -1,0 +1,47 @@
+{
+  "historical_commit": "ddec73e15b88fc2b0e3810df72c6db9a53c5b469",
+  "historical_lean_sha256": "ed19263d88017312363dd04fc46be56372986052ac9940354c9ccf52e2d5da05",
+  "current_lean_sha256": "579d7bfcecfbdf082dee2653d584c12018acba1c5bee2eb4fab2aeb6f0bfe1f4",
+  "imports_and_entire_proof_body_identical": true,
+  "only_receipt_deltas": [
+    {
+      "path": "/receipt_sha256",
+      "old": "sha256:9a378418415b339e8bd858068b8d3a3713d5764e2d8bca9e08c98b3d18a38a2f",
+      "new": "sha256:a09176e72179632911757bede7eed53f9ce014c5395a71cec5176b94e84f3f44"
+    },
+    {
+      "path": "/source_pins/3/sha256",
+      "old": "sha256:ed19263d88017312363dd04fc46be56372986052ac9940354c9ccf52e2d5da05",
+      "new": "sha256:579d7bfcecfbdf082dee2653d584c12018acba1c5bee2eb4fab2aeb6f0bfe1f4"
+    }
+  ],
+  "checks": [
+    {
+      "name": "strict-native",
+      "seconds": 10.42,
+      "passed": true
+    },
+    {
+      "name": "owner-write",
+      "seconds": 0.25,
+      "passed": true
+    },
+    {
+      "name": "owner-check",
+      "seconds": 0.26,
+      "passed": true
+    },
+    {
+      "name": "independent-mutations",
+      "seconds": 0.15,
+      "passed": true
+    },
+    {
+      "name": "owner-tests",
+      "seconds": 1.22,
+      "passed": true
+    }
+  ],
+  "conditional_scope_and_gauge_alone_does_not_protect_proton_verdict_preserved": true,
+  "log_sha256": "d4eb9a6027aac432e192a3416a4fea1ace1015740e32d7187bc737d0c5924bd2"
+}

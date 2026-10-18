@@ -14,7 +14,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 PARENT = ROOT/'code/sm_abelian_reduction/abelian_receipt.json'
 OUTPUT = HERE/'readout_receipt.json'
-PARENT_HASH = 'ad6f7baddb69ee3e2ed2e514e0148f3db49466cd2e0dbb6c911de78d318a382a'
+PARENT_HASH = '6dbc4bdeaa9a8242ff0db405d3e5a61be7b6eeb2adfa045eb765e6d142fbba2d'
 S, A, B, D, T = Q(1,4), Q(1,100000), Q(88), Q(13,250), Q(1,100)
 
 

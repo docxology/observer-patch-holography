@@ -17,7 +17,7 @@ import types
 
 ROOT = Path(__file__).resolve().parents[2]
 PARENT = "code/electromagnetism/runtime/serial_maxwell_readout_receipt.json"
-PARENT_SHA = "2ec7dbf29f700b420def821f1a69c1f8087428e78f77f8a818bf7483482e73a2"
+PARENT_SHA = "ed20c921d8e03b73acd85a24c9a3abc76f29c642c51dbee53642704a86134f6d"
 PARENT_VERIFIER = "code/electromagnetism/verify_serial_maxwell_readout.py"
 PARENT_VERIFIER_SHA = "5432264f6d20fafaa186f546376ac9b9347300d8626bcc4a5d246f8fb83b5325"
 

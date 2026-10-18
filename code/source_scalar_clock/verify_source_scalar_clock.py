@@ -8,10 +8,10 @@ import argparse, importlib.util, json, sys
 HERE=Path(__file__).resolve().parent
 RER=HERE.parents[1]
 PARENT='code/source_scalar_execution/source_scalar_execution_receipt.json'
-PARENT_SHA='6981fcd4e13fbc33f371224228341a995f34b4733aa70c2ec0b3f6ee5975c7af'
+PARENT_SHA='cf246c2caa072334e0d4796c1c6c49d2a231a263ff34281843a1c35c7cdbb69a'
 VERIFIER='code/source_scalar_execution/verify_source_scalar_execution.py'
 VERIFIER_SHA='c03892572732bbf7d019e721d19b6a249b445e2dc30f54d3c237be938cf88d42'
-PARENT_COMMIT='087d229c4e10dea830e42734b9952f425620bde3'
+PARENT_COMMIT='f59c99d69d596055fa77eef5fcde4d184f92bb93'
 FILES=('code/source_scalar_clock/source_scalar_clock.py',
        'code/source_scalar_clock/verify_source_scalar_clock.py',
        'code/source_scalar_clock/test_source_scalar_clock.py',

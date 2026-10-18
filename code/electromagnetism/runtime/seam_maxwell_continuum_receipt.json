@@ -968,7 +968,7 @@
     }
   ],
   "implementation": {
-    "Lean/Screen/SeamMaxwellContinuum.lean": "6755c8c7d2b55610ddaed520a8a272fab4c270130c6ac62a6bcef074ee2d2a41",
+    "Lean/Screen/SeamMaxwellContinuum.lean": "eb37e4fd4fcb2a997e94000b03f0f44064a11245ff5a024a5cf7f6f155a6bf18",
     "code/electromagnetism/seam_maxwell_continuum.py": "c1963e2b1825fc74a05f5bab200bbc9fc56d6315fae9ce8d46eeb815a09cfd87",
     "code/electromagnetism/verify_seam_maxwell_continuum.py": "454147ec3cbd8e8fb0363f72a7e1c02b3b092a2be994a6617f20dbd525054f3c"
   },

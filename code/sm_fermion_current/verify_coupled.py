@@ -216,7 +216,7 @@ REDUCTION = {
 }
 
 PARENT_PATH = 'code/sm_fermion_current/current_receipt.json'
-PARENT_SHA256 = 'd4a780d4849d9b5dea1618705b87279597d6aca345a160a20990435929cff8a7'
+PARENT_SHA256 = 'a35e08e270712b8c26c2aaa5ce1c877f0fc97b79770b0a1da57eb006e73f2ffe'
 SOURCE_PATHS = tuple('code/sm_fermion_current/' + name for name in
                     ('coupled.py', 'build_coupled.py', 'verify_coupled.py', 'test_coupled.py',
                      'coupled_README.md', 'current.py', 'verify_current.py', 'current_receipt.json')) + (

@@ -20,17 +20,17 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent.parent
 DEFAULT_RECEIPT = HERE / "runtime/local_face_maxwell_action_receipt.json"
 SOURCE_ROWS = (
-    ("Lean/Screen/SeamCurrentCarrierQuotient.lean", 19162,
-     "e5f712cbccc5a1462945f0cb511a47064fe10818748498021d5c70ae169a933f",
+    ("Lean/Screen/SeamCurrentCarrierQuotient.lean", 19133,
+     "8c14d65c66f4ffdc1f8c303168d1b302760b36ce726ec6f3a1f91ceb7e4aa2cb",
      "committed 30-seam table"),
-    ("Lean/ObserverPatchHolography/CoreAxioms.lean", 8196,
-     "addcea08fe55c0ccc3edbeb90ebd9df4b640c96bd20e9755417bcdb84f093fe4",
+    ("Lean/ObserverPatchHolography/CoreAxioms.lean", 8243,
+     "e6e1ffb6ad6debbd4e97dcdac81f61ef57e7a44dcadb8f0e8773da2a67689da7",
      "committed 20 oriented faces"),
-    ("Lean/Screen/DiscreteCoulombGreen.lean", 50954,
-     "a58830d60688b7df505d2c8cbc1ff2290b057f9be055def25db7006fae7bd078",
+    ("Lean/Screen/DiscreteCoulombGreen.lean", 51203,
+     "11c6a4bbac1e4f4b8cc0f1031fccde6098f313fa0e6eda9c13d83f3955fb3bc0",
      "exact scalar Green operator"),
-    ("Lean/Screen/LocalFaceMaxwellAction.lean", 32766,
-     "c54da8884d3a3d19ed73baab2218378795fa5f8f2681344d545f285a647cf763",
+    ("Lean/Screen/LocalFaceMaxwellAction.lean", 32813,
+     "97d5a543e8505e7b73c90f94ec212b6346657258bec363f481eaed8db1c5f8d8",
      "kernel-checked local action and typed join"),
 )
 THEOREMS = (

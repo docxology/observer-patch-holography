@@ -133,7 +133,7 @@ def local_proof_import_closure():
             continue
         seen.add(path)
         source = (codec.ROOT/path).read_text(encoding="utf-8")
-        pending.extend(word for imports in re.findall(r"^import (.+)$",source,re.M)
+        pending.extend(word for imports in re.findall(r"^(?:public )?import (.+)$",source,re.M)
                        for word in imports.split())
     return seen
 
