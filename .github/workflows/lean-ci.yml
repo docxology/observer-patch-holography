@@ -436,17 +436,36 @@ jobs:
             golden-psl-v1-${{ runner.os }}-${{ hashFiles('Lean/lean-toolchain', 'Lean/lakefile.lean', 'Lean/lake-manifest.json') }}-${{ github.run_id }}-
             golden-psl-v1-${{ runner.os }}-${{ hashFiles('Lean/lean-toolchain', 'Lean/lakefile.lean', 'Lean/lake-manifest.json') }}-
 
+      - name: Restore pinned Mathlib download cache
+        id: mathlib_download_cache
+        if: steps.changes.outputs.required == 'true'
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ runner.temp }}/oph-mathlib-downloads
+          key: mathlib-download-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('Lean/lean-toolchain', 'Lean/lake-manifest.json') }}
+
       - name: Fetch Mathlib olean cache
+        id: mathlib_fetch
         if: steps.changes.outputs.required == 'true'
         working-directory: Lean
+        env:
+          MATHLIB_CACHE_DIR: ${{ runner.temp }}/oph-mathlib-downloads
         run: |
           set -euo pipefail
           status=0
           lake exe cache get 2>&1 | tee cache-get-golden-psl.log || status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
           tail -n 5 cache-get-golden-psl.log || true
           if [ "$status" -ne 0 ]; then
             echo "::warning::lake exe cache get exited with $status; continuing under the proof budget"
           fi
+
+      - name: Save pinned Mathlib download cache before proof compilation
+        if: steps.changes.outputs.required == 'true' && steps.mathlib_download_cache.outputs.cache-hit != 'true' && steps.mathlib_fetch.outputs.status == '0'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ runner.temp }}/oph-mathlib-downloads
+          key: mathlib-download-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('Lean/lean-toolchain', 'Lean/lake-manifest.json') }}
 
       - name: Verify Golden-sector umbrella registration
         if: steps.changes.outputs.required == 'true'

@@ -107,6 +107,26 @@ def validate(workflow: str, lakefile: str) -> list[str]:
         errors.append("the typed golden-sector job must remain change-aware")
     if "timeout 23m lake build GoldenSectorPSL2F5Representations" not in golden:
         errors.append("the typed golden-sector bridge must retain its 23-minute resumable budget")
+    download_restore = golden.find("      - name: Restore pinned Mathlib download cache\n")
+    download_fetch = golden.find("      - name: Fetch Mathlib olean cache\n")
+    download_save = golden.find("      - name: Save pinned Mathlib download cache before proof compilation\n")
+    proof_build = golden.find("      - name: Build Golden-sector PSL2F5 bridge under time budget\n")
+    download_key = "key: mathlib-download-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('Lean/lean-toolchain', 'Lean/lake-manifest.json') }}"
+    download_directory = "${{ runner.temp }}/oph-mathlib-downloads"
+    if not (0 <= download_restore < download_fetch < download_save < proof_build):
+        errors.append("the golden-sector dependency download cache must persist before proof compilation")
+    elif (
+        golden.count(download_key) != 2
+        or golden.count("path: " + download_directory) != 2
+        or "MATHLIB_CACHE_DIR: " + download_directory not in golden
+        or "        id: mathlib_fetch\n" not in golden
+        or "steps.mathlib_fetch.outputs.status == '0'" not in golden
+        or "steps.mathlib_download_cache.outputs.cache-hit != 'true'" not in golden
+        or 'echo "status=$status" >> "$GITHUB_OUTPUT"' not in golden[download_fetch:download_save]
+        or "restore-keys:" in golden[download_restore:download_save]
+    ):
+        errors.append("the golden-sector dependency download cache must use exact platform/toolchain/manifest keys and successful fetch evidence")
+
     if "Verify Golden-sector umbrella registration" not in golden:
         errors.append("the typed golden-sector lane must verify its OPHScreen/Lake registration")
 

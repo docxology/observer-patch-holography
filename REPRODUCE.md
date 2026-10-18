@@ -343,3 +343,5 @@ python3 code/particles/neutrino/score_neutrino_nufit61.py \
 The scorer checks the registered byte counts and SHA-256 values before parsing.
 No credential, cloud cache, or untracked fixture is accepted as a mandatory
 scientific input.
+
+The Golden-sector CI lane retains the official Mathlib compressed download cache before starting proof compilation. Its cache key includes the runner OS, architecture, Lean toolchain and complete Lake manifest; the client uses the same explicit cache directory. A failed or cancelled project proof does not discard the successfully fetched dependency downloads. Restoring this cache supplies no project-proof verdict: the same Golden-sector target must complete within its 23-minute step budget and 30-minute job limit, and its proof-debt check must pass.
