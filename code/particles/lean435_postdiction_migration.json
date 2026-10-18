@@ -1,0 +1,517 @@
+{
+  "schema": 1,
+  "kind": "reviewed-lean435-current-postdiction-custody-successor",
+  "historical_ledger_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+  "historical_ledger_sha256": "16af6190907a1ff7765b9c0b3f77ef23436a93eb1c60dcb256a637a9787b2f57",
+  "reviewed_current_ledger_sha256": "220f9d5c703c2277f4af874a54ddc1655cc9cff2560d905924289163759e2d5c",
+  "complete_changed_fields": [
+    {
+      "path": "/sections/forced_structure/6/cartan_scalar_continuous_readout_control/immutable_execution_parent_sha256",
+      "before": "ad6f7baddb69ee3e2ed2e514e0148f3db49466cd2e0dbb6c911de78d318a382a",
+      "after": "6dbc4bdeaa9a8242ff0db405d3e5a61be7b6eeb2adfa045eb765e6d142fbba2d"
+    },
+    {
+      "path": "/sections/forced_structure/6/cartan_scalar_continuous_readout_control/receipt_pin/sha256",
+      "before": "684af7ca65fc6218426a7496223ae18591c9ec846c168033874409341a23d898",
+      "after": "3fea2b4d8358ca536c88a1f0b99f21b8ff7bb719eb2bc3e0501623091e3682af"
+    },
+    {
+      "path": "/sections/forced_structure/6/cartan_scalar_execution_control/receipt_pin/sha256",
+      "before": "ad6f7baddb69ee3e2ed2e514e0148f3db49466cd2e0dbb6c911de78d318a382a",
+      "after": "6dbc4bdeaa9a8242ff0db405d3e5a61be7b6eeb2adfa045eb765e6d142fbba2d"
+    },
+    {
+      "path": "/sections/forced_structure/6/declared_local_action_control/custody_verifier_result/sha256",
+      "before": "4949c2fdd0f44917b4808e52ea59f69574d3cc653cdf5cde30e9e8c91a8bb031",
+      "after": "98f767a0cbec83d5aac34bb2cd6458d382b023a5ec6073e0a62c768afe4532ea"
+    },
+    {
+      "path": "/sections/forced_structure/6/declared_local_action_control/receipt_pin/sha256",
+      "before": "4949c2fdd0f44917b4808e52ea59f69574d3cc653cdf5cde30e9e8c91a8bb031",
+      "after": "98f767a0cbec83d5aac34bb2cd6458d382b023a5ec6073e0a62c768afe4532ea"
+    },
+    {
+      "path": "/sections/forced_structure/6/fermion_source_current_control/controls/coupled/receipt_pin/sha256",
+      "before": "90862a6ad6a2d9585b515d030bccfe45305adb54ffabd3fcac6870d08354d850",
+      "after": "d5604bd44ef2e837fc678d65c4d931b915e286e3404c36897aca386e05343593"
+    },
+    {
+      "path": "/sections/forced_structure/6/fermion_source_current_control/controls/mean_field/receipt_pin/sha256",
+      "before": "d4a780d4849d9b5dea1618705b87279597d6aca345a160a20990435929cff8a7",
+      "after": "a35e08e270712b8c26c2aaa5ce1c877f0fc97b79770b0a1da57eb006e73f2ffe"
+    },
+    {
+      "path": "/sections/forced_structure/6/fermion_source_current_control/controls/quantum_link/receipt_pin/sha256",
+      "before": "0a93ada86ff6349623e7cb039309072a669b6fafa04749e382319b922bd77e62",
+      "after": "8c3014546eb30d0a6091b2323023e23da4d35f8a896e2908baac3524e70cf7a2"
+    },
+    {
+      "path": "/sections/forced_structure/22/authenticated_scalar_execution_control/receipt_pin/sha256",
+      "before": "6981fcd4e13fbc33f371224228341a995f34b4733aa70c2ec0b3f6ee5975c7af",
+      "after": "cf246c2caa072334e0d4796c1c6c49d2a231a263ff34281843a1c35c7cdbb69a"
+    },
+    {
+      "path": "/sections/forced_structure/22/common_free_scalar_control/receipt_pin/sha256",
+      "before": "c050889ea4b8e46b4635ed6ab7b850f2b8af24f3cfcac51e4a2b349d865ba7de",
+      "after": "4c6e601c6253499429bf2418383701f45ef99da905969f5024b000b2fc915a4c"
+    },
+    {
+      "path": "/sections/forced_structure/22/declared_count_clock_control/receipt_pin/sha256",
+      "before": "9db7d6cd2b6f53138a2c6d8c2f6637882464ac4fc1ff05954f9805644247d7a5",
+      "after": "e40e9324ef482c9aac73830179bac443ae7f68ecb227ea2693b46ab0b9865c60"
+    },
+    {
+      "path": "/sections/forced_structure/22/declared_source_net_control/independent_verifier_result/packet_sha256",
+      "before": "c0f790ad383039186371b7a8020f190371fa533ad634010f01f9c271f1545681",
+      "after": "409ce224b7705449499599bf7a4c655a9e320742722f85ec3a18f4c4ed3f6a32"
+    },
+    {
+      "path": "/sections/forced_structure/22/declared_source_net_control/receipt_pin/sha256",
+      "before": "c0f790ad383039186371b7a8020f190371fa533ad634010f01f9c271f1545681",
+      "after": "409ce224b7705449499599bf7a4c655a9e320742722f85ec3a18f4c4ed3f6a32"
+    },
+    {
+      "path": "/sections/forced_structure/22/finite_duration_scalar_quantum_instrument_control/receipt_pin/sha256",
+      "before": "a9e922b62896419bb96ac24d9023c24f1c7f4f0cc40ca84c601ece12577a09ad",
+      "after": "2b6ec0425fd0d69c1d40db287944c0939c4df1fb5d68733a3ac46d77d9588232"
+    },
+    {
+      "path": "/sections/forced_structure/22/finite_scalar_quantum_probability_control/receipt_pin/sha256",
+      "before": "30f5f46f49f08e2898d0213d6c37a49bf511daf9d51d7123498a141257e8e1ac",
+      "after": "1545e272e2ed6983f1d8643ce60212e8109437066ab0e162770ee7422f9e86dc"
+    },
+    {
+      "path": "/sections/forced_structure/22/joint_scalar_time_refinement_control/receipt_pin/sha256",
+      "before": "a7b8c0a8581968494bf67cde2fd854f624829b9fd58e074ed276d3bf5d211467",
+      "after": "1df9fac8d52ec491843198441c889c2628eb5e17f8cf26e6177d548c51ed4421"
+    },
+    {
+      "path": "/sections/forced_structure/22/joint_scalar_time_refinement_control/same_compact_spatial_parent/sha256",
+      "before": "c050889ea4b8e46b4635ed6ab7b850f2b8af24f3cfcac51e4a2b349d865ba7de",
+      "after": "4c6e601c6253499429bf2418383701f45ef99da905969f5024b000b2fc915a4c"
+    },
+    {
+      "path": "/sections/forced_structure/22/joint_scalar_time_refinement_control/same_compact_spatial_parent/source_commit",
+      "before": "087d229c4e10dea830e42734b9952f425620bde3",
+      "after": "f59c99d69d596055fa77eef5fcde4d184f92bb93"
+    },
+    {
+      "path": "/sections/forced_structure/22/reconstructed_clock_quantum_control/clock_receipt/sha256",
+      "before": "60539f8a6e9c788e133fcdaa03b80312a281194d2369a5d3a09e210a8a1e4a06",
+      "after": "8908cfe94361cad34c172bb15f9be20ddd0dbc08006759c7a09eb2e3ab6c6748"
+    },
+    {
+      "path": "/sections/forced_structure/22/reconstructed_clock_quantum_control/receipt_pin/sha256",
+      "before": "c29efabfecc67610e3148a12c415466b73e5a73c1b2c5b823262a2da62aad708",
+      "after": "26ffdec55a41554af735c39f2198cad2858f9ad24a13c9868bde8b1d7b9697d9"
+    },
+    {
+      "path": "/sections/forced_structure/22/sequential_scalar_quantum_instrument_control/receipt_pin/sha256",
+      "before": "cc52802cba28f66c8bb9f49f2175dd32a1932262f23759447c289bf203dbf601",
+      "after": "5fefaaeca3760b5a2c4bf81c32634b6c96c39f64a271b3735bee8a0fa8d07468"
+    },
+    {
+      "path": "/sections/forced_structure/31/protected_record_memory/receipt_pin/sha256",
+      "before": "8347678f724317ab8c5586932ab9420d9054e76daafee1edb6d123facac7004f",
+      "after": "c267cc8c1a39461c100759817a59693c37df7beba13a378f29b9243cbad708bf"
+    },
+    {
+      "path": "/sections/forced_structure/41/full_operator_join_control/lean_source_evidence/bytes",
+      "before": 13869,
+      "after": 13951
+    },
+    {
+      "path": "/sections/forced_structure/41/full_operator_join_control/lean_source_evidence/sha256",
+      "before": "6325cd23dff82fe5ab8e37aa0d17df828a643f5c9aa1939fd8d3834bee4457fd",
+      "after": "dc3a208aa267087ed9ab63ba5d9081d360a372c0ccc38432c46c5d3badc7cf93"
+    },
+    {
+      "path": "/sections/forced_structure/41/full_operator_join_control/receipt_pin/sha256",
+      "before": "6d45bf9db9d665963cfd03cf1565a0f2e8e7e4c9913eac9e686198dd201f8b8a",
+      "after": "17e308ff0153fa7d78897549c9d54c1bccacf3263e660393fbedb06176ea6c19"
+    },
+    {
+      "path": "/sections/forced_structure/41/full_operator_join_control/source_parent_pins/Lean/QFT/SourceOperatorGeneration.lean",
+      "before": "362d345e9f45ce4f3c40d8b15f4d764e72973fed2e074093ba7515a8eb36512e",
+      "after": "a20f64d7a399c91c2380941b087f72de811a27c3613604c8d4f46c0af3472fc0"
+    },
+    {
+      "path": "/sections/forced_structure/41/full_operator_join_control/source_parent_pins/Lean/QFT/TowerAnchoredCorrelation.lean",
+      "before": "cfa4b599dbbba9c2bf380231a872ff9acc0618f0333a2e3a87a0b5893c99663b",
+      "after": "19025d4b686a12160eb73fbe9f005df8879d98238f6db5f3940ea0dfa1da8838"
+    },
+    {
+      "path": "/sections/forced_structure/41/full_operator_join_control/source_parent_pins/Lean/QFT/TripleCarrierJoin.lean",
+      "before": "4c5000fc76a4e8a45cb05fc39a7f42ec2692ea8e306a25852f15d52832b64e5f",
+      "after": "7997d50afc089326ec70fce55393766011aa79ac357dce4f8b5a01a9c4865539"
+    },
+    {
+      "path": "/sections/forced_structure/53/decoded_checkpoint_control/independent_verifier_result/decoded_checkpoint_error_upper",
+      "before": "2199228333677/21990232555520000000000",
+      "after": "549804642013/5497558138880000000000"
+    },
+    {
+      "path": "/sections/forced_structure/53/decoded_checkpoint_control/independent_verifier_result/maximum_decoded_reference_difference",
+      "before": "21/2251799813685248",
+      "after": "5/562949953421312"
+    },
+    {
+      "path": "/sections/forced_structure/53/decoded_checkpoint_control/receipt_pin/bytes",
+      "before": 73173,
+      "after": 73073
+    },
+    {
+      "path": "/sections/forced_structure/53/decoded_checkpoint_control/receipt_pin/sha256",
+      "before": "6405cb4620d3881e0c8de836ecd2ca6561cad5452b8920c78e99c219f74727b6",
+      "after": "247afadf42cb06fe319d717138e928ac87bbeb024c527a2f73909a49da4cb7f3"
+    },
+    {
+      "path": "/sections/forced_structure/56/receipt_pin/sha256",
+      "before": "863a85e8d434db48dae49db32be14890457764d47e7d964908e4971f6cec165c",
+      "after": "e07d72b14cf1019c422954669b8874d8ec63f62df82148600576b28d7fe08a85"
+    },
+    {
+      "path": "/sections/forced_structure/57/receipt_pin/sha256",
+      "before": "60468156a30639b267424084943fa6d0b223f2ae6364799aa1447eb7fc3b33a6",
+      "after": "36d54075257b49c98f07cfa78829451d61a44f1b086237823ea2b5c06fbbc571"
+    },
+    {
+      "path": "/sections/forced_structure/58/receipt_pin/sha256",
+      "before": "cb42b27d7a5e92f26c249f35000c95bf9f49be24b22a801f46fe9dea0c228835",
+      "after": "7b64f21d4ce0ef9868ad5f2d38e5245663b463162665a08dd670bb2cc4575fc1"
+    }
+  ],
+  "historical_and_current_digest_bindings": [
+    {
+      "delta_path": "/sections/forced_structure/6/cartan_scalar_continuous_readout_control/immutable_execution_parent_sha256",
+      "before": "ad6f7baddb69ee3e2ed2e514e0148f3db49466cd2e0dbb6c911de78d318a382a",
+      "after": "6dbc4bdeaa9a8242ff0db405d3e5a61be7b6eeb2adfa045eb765e6d142fbba2d",
+      "actual_file_bindings": [
+        {
+          "path": "code/sm_abelian_reduction/abelian_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/6/cartan_scalar_continuous_readout_control/receipt_pin/sha256",
+      "before": "684af7ca65fc6218426a7496223ae18591c9ec846c168033874409341a23d898",
+      "after": "3fea2b4d8358ca536c88a1f0b99f21b8ff7bb719eb2bc3e0501623091e3682af",
+      "actual_file_bindings": [
+        {
+          "path": "code/sm_abelian_readout/readout_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/6/cartan_scalar_execution_control/receipt_pin/sha256",
+      "before": "ad6f7baddb69ee3e2ed2e514e0148f3db49466cd2e0dbb6c911de78d318a382a",
+      "after": "6dbc4bdeaa9a8242ff0db405d3e5a61be7b6eeb2adfa045eb765e6d142fbba2d",
+      "actual_file_bindings": [
+        {
+          "path": "code/sm_abelian_reduction/abelian_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/6/declared_local_action_control/custody_verifier_result/sha256",
+      "before": "4949c2fdd0f44917b4808e52ea59f69574d3cc653cdf5cde30e9e8c91a8bb031",
+      "after": "98f767a0cbec83d5aac34bb2cd6458d382b023a5ec6073e0a62c768afe4532ea",
+      "actual_file_bindings": [
+        {
+          "path": "code/sm_local_action/local_action_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/6/declared_local_action_control/receipt_pin/sha256",
+      "before": "4949c2fdd0f44917b4808e52ea59f69574d3cc653cdf5cde30e9e8c91a8bb031",
+      "after": "98f767a0cbec83d5aac34bb2cd6458d382b023a5ec6073e0a62c768afe4532ea",
+      "actual_file_bindings": [
+        {
+          "path": "code/sm_local_action/local_action_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/6/fermion_source_current_control/controls/coupled/receipt_pin/sha256",
+      "before": "90862a6ad6a2d9585b515d030bccfe45305adb54ffabd3fcac6870d08354d850",
+      "after": "d5604bd44ef2e837fc678d65c4d931b915e286e3404c36897aca386e05343593",
+      "actual_file_bindings": [
+        {
+          "path": "code/sm_fermion_current/coupled_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/6/fermion_source_current_control/controls/mean_field/receipt_pin/sha256",
+      "before": "d4a780d4849d9b5dea1618705b87279597d6aca345a160a20990435929cff8a7",
+      "after": "a35e08e270712b8c26c2aaa5ce1c877f0fc97b79770b0a1da57eb006e73f2ffe",
+      "actual_file_bindings": [
+        {
+          "path": "code/sm_fermion_current/current_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/6/fermion_source_current_control/controls/quantum_link/receipt_pin/sha256",
+      "before": "0a93ada86ff6349623e7cb039309072a669b6fafa04749e382319b922bd77e62",
+      "after": "8c3014546eb30d0a6091b2323023e23da4d35f8a896e2908baac3524e70cf7a2",
+      "actual_file_bindings": [
+        {
+          "path": "code/sm_fermion_current/quantum_link_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/22/authenticated_scalar_execution_control/receipt_pin/sha256",
+      "before": "6981fcd4e13fbc33f371224228341a995f34b4733aa70c2ec0b3f6ee5975c7af",
+      "after": "cf246c2caa072334e0d4796c1c6c49d2a231a263ff34281843a1c35c7cdbb69a",
+      "actual_file_bindings": [
+        {
+          "path": "code/source_scalar_execution/source_scalar_execution_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/22/common_free_scalar_control/receipt_pin/sha256",
+      "before": "c050889ea4b8e46b4635ed6ab7b850f2b8af24f3cfcac51e4a2b349d865ba7de",
+      "after": "4c6e601c6253499429bf2418383701f45ef99da905969f5024b000b2fc915a4c",
+      "actual_file_bindings": [
+        {
+          "path": "code/source_scalar_packet/source_common_scalar_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/22/declared_count_clock_control/receipt_pin/sha256",
+      "before": "9db7d6cd2b6f53138a2c6d8c2f6637882464ac4fc1ff05954f9805644247d7a5",
+      "after": "e40e9324ef482c9aac73830179bac443ae7f68ecb227ea2693b46ab0b9865c60",
+      "actual_file_bindings": [
+        {
+          "path": "code/causal_refinement/source_count_clock_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/22/declared_source_net_control/independent_verifier_result/packet_sha256",
+      "before": "c0f790ad383039186371b7a8020f190371fa533ad634010f01f9c271f1545681",
+      "after": "409ce224b7705449499599bf7a4c655a9e320742722f85ec3a18f4c4ed3f6a32",
+      "actual_file_bindings": [
+        {
+          "path": "code/causal_refinement/source_net_causet_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/22/declared_source_net_control/receipt_pin/sha256",
+      "before": "c0f790ad383039186371b7a8020f190371fa533ad634010f01f9c271f1545681",
+      "after": "409ce224b7705449499599bf7a4c655a9e320742722f85ec3a18f4c4ed3f6a32",
+      "actual_file_bindings": [
+        {
+          "path": "code/causal_refinement/source_net_causet_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/22/finite_duration_scalar_quantum_instrument_control/receipt_pin/sha256",
+      "before": "a9e922b62896419bb96ac24d9023c24f1c7f4f0cc40ca84c601ece12577a09ad",
+      "after": "2b6ec0425fd0d69c1d40db287944c0939c4df1fb5d68733a3ac46d77d9588232",
+      "actual_file_bindings": [
+        {
+          "path": "code/source_scalar_finite_instrument/finite_instrument_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/22/finite_scalar_quantum_probability_control/receipt_pin/sha256",
+      "before": "30f5f46f49f08e2898d0213d6c37a49bf511daf9d51d7123498a141257e8e1ac",
+      "after": "1545e272e2ed6983f1d8643ce60212e8109437066ab0e162770ee7422f9e86dc",
+      "actual_file_bindings": [
+        {
+          "path": "code/source_scalar_quantum/quantum_probability_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/22/joint_scalar_time_refinement_control/receipt_pin/sha256",
+      "before": "a7b8c0a8581968494bf67cde2fd854f624829b9fd58e074ed276d3bf5d211467",
+      "after": "1df9fac8d52ec491843198441c889c2628eb5e17f8cf26e6177d548c51ed4421",
+      "actual_file_bindings": [
+        {
+          "path": "code/source_scalar_time_refinement/source_scalar_time_refinement_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/22/joint_scalar_time_refinement_control/same_compact_spatial_parent/sha256",
+      "before": "c050889ea4b8e46b4635ed6ab7b850f2b8af24f3cfcac51e4a2b349d865ba7de",
+      "after": "4c6e601c6253499429bf2418383701f45ef99da905969f5024b000b2fc915a4c",
+      "actual_file_bindings": [
+        {
+          "path": "code/source_scalar_packet/source_common_scalar_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/22/reconstructed_clock_quantum_control/clock_receipt/sha256",
+      "before": "60539f8a6e9c788e133fcdaa03b80312a281194d2369a5d3a09e210a8a1e4a06",
+      "after": "8908cfe94361cad34c172bb15f9be20ddd0dbc08006759c7a09eb2e3ab6c6748",
+      "actual_file_bindings": [
+        {
+          "path": "code/source_scalar_clock/source_scalar_clock_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/22/reconstructed_clock_quantum_control/receipt_pin/sha256",
+      "before": "c29efabfecc67610e3148a12c415466b73e5a73c1b2c5b823262a2da62aad708",
+      "after": "26ffdec55a41554af735c39f2198cad2858f9ad24a13c9868bde8b1d7b9697d9",
+      "actual_file_bindings": [
+        {
+          "path": "code/source_scalar_clock_quantum/clock_quantum_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/22/sequential_scalar_quantum_instrument_control/receipt_pin/sha256",
+      "before": "cc52802cba28f66c8bb9f49f2175dd32a1932262f23759447c289bf203dbf601",
+      "after": "5fefaaeca3760b5a2c4bf81c32634b6c96c39f64a271b3735bee8a0fa8d07468",
+      "actual_file_bindings": [
+        {
+          "path": "code/source_scalar_instruments/sequential_instrument_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/31/protected_record_memory/receipt_pin/sha256",
+      "before": "8347678f724317ab8c5586932ab9420d9054e76daafee1edb6d123facac7004f",
+      "after": "c267cc8c1a39461c100759817a59693c37df7beba13a378f29b9243cbad708bf",
+      "actual_file_bindings": [
+        {
+          "path": "code/thermodynamics/protected_memory/runtime/protected_memory_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/41/full_operator_join_control/lean_source_evidence/sha256",
+      "before": "6325cd23dff82fe5ab8e37aa0d17df828a643f5c9aa1939fd8d3834bee4457fd",
+      "after": "dc3a208aa267087ed9ab63ba5d9081d360a372c0ccc38432c46c5d3badc7cf93",
+      "actual_file_bindings": [
+        {
+          "path": "Lean/QFT/TripleCarrierOperatorJoin.lean",
+          "historical_commit": "e602f4b71b67cd1e26b245ed7a2a8f9d48b9b683"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/41/full_operator_join_control/receipt_pin/sha256",
+      "before": "6d45bf9db9d665963cfd03cf1565a0f2e8e7e4c9913eac9e686198dd201f8b8a",
+      "after": "17e308ff0153fa7d78897549c9d54c1bccacf3263e660393fbedb06176ea6c19",
+      "actual_file_bindings": [
+        {
+          "path": "code/source_operator_join/operator_join_packet.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/41/full_operator_join_control/source_parent_pins/Lean/QFT/SourceOperatorGeneration.lean",
+      "before": "362d345e9f45ce4f3c40d8b15f4d764e72973fed2e074093ba7515a8eb36512e",
+      "after": "a20f64d7a399c91c2380941b087f72de811a27c3613604c8d4f46c0af3472fc0",
+      "actual_file_bindings": [
+        {
+          "path": "Lean/QFT/SourceOperatorGeneration.lean",
+          "historical_commit": "e602f4b71b67cd1e26b245ed7a2a8f9d48b9b683"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/41/full_operator_join_control/source_parent_pins/Lean/QFT/TowerAnchoredCorrelation.lean",
+      "before": "cfa4b599dbbba9c2bf380231a872ff9acc0618f0333a2e3a87a0b5893c99663b",
+      "after": "19025d4b686a12160eb73fbe9f005df8879d98238f6db5f3940ea0dfa1da8838",
+      "actual_file_bindings": [
+        {
+          "path": "Lean/QFT/TowerAnchoredCorrelation.lean",
+          "historical_commit": "e602f4b71b67cd1e26b245ed7a2a8f9d48b9b683"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/41/full_operator_join_control/source_parent_pins/Lean/QFT/TripleCarrierJoin.lean",
+      "before": "4c5000fc76a4e8a45cb05fc39a7f42ec2692ea8e306a25852f15d52832b64e5f",
+      "after": "7997d50afc089326ec70fce55393766011aa79ac357dce4f8b5a01a9c4865539",
+      "actual_file_bindings": [
+        {
+          "path": "Lean/QFT/TripleCarrierJoin.lean",
+          "historical_commit": "e602f4b71b67cd1e26b245ed7a2a8f9d48b9b683"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/53/decoded_checkpoint_control/receipt_pin/sha256",
+      "before": "6405cb4620d3881e0c8de836ecd2ca6561cad5452b8920c78e99c219f74727b6",
+      "after": "247afadf42cb06fe319d717138e928ac87bbeb024c527a2f73909a49da4cb7f3",
+      "actual_file_bindings": [
+        {
+          "path": "code/electromagnetism/runtime/whitney_charged_checkpoint_receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/56/receipt_pin/sha256",
+      "before": "863a85e8d434db48dae49db32be14890457764d47e7d964908e4971f6cec165c",
+      "after": "e07d72b14cf1019c422954669b8874d8ec63f62df82148600576b28d7fe08a85",
+      "actual_file_bindings": [
+        {
+          "path": "code/spin_exchange/receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/57/receipt_pin/sha256",
+      "before": "60468156a30639b267424084943fa6d0b223f2ae6364799aa1447eb7fc3b33a6",
+      "after": "36d54075257b49c98f07cfa78829451d61a44f1b086237823ea2b5c06fbbc571",
+      "actual_file_bindings": [
+        {
+          "path": "code/pauli_stability/receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    },
+    {
+      "delta_path": "/sections/forced_structure/58/receipt_pin/sha256",
+      "before": "cb42b27d7a5e92f26c249f35000c95bf9f49be24b22a801f46fe9dea0c228835",
+      "after": "7b64f21d4ce0ef9868ad5f2d38e5245663b463162665a08dd670bb2cc4575fc1",
+      "actual_file_bindings": [
+        {
+          "path": "code/pauli_source_selection/receipt.json",
+          "historical_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2"
+        }
+      ]
+    }
+  ],
+  "scope": "All 35 changed fields reviewed: 30 source/receipt digests, one real immutable scalar-parent commit, two actual byte counts and two exact current-v2 checkpoint bound values. Guards, principal results, assumptions and all other payload fields unchanged. The two rational values are independently rederived for the distinct current software executions under the unchanged base/simple certified bounds; the original September witness and receipts remain preserved. No new physical, empirical, universal-proof or public-promotion claim. Frozen registrations and custody records unchanged. Final whole-repository owner gates remain required."
+}

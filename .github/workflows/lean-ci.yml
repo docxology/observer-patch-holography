@@ -99,6 +99,10 @@ jobs:
           grep -F '"mathlib"' lake-manifest.json
           grep -F 'v4.35.0' lakefile.lean
 
+      - name: Check public-import source custody
+        working-directory: .
+        run: python3 tools/test_public_import_custody.py
+
       - name: Fetch Mathlib olean cache
         working-directory: Lean
         run: |
@@ -187,11 +191,16 @@ jobs:
           status=0
           timeout 18m bash -c '
             set -euo pipefail
+            targets=()
             while IFS= read -r target; do
               [ -n "$target" ] || continue
               echo "Building Lean target: $target"
-              lake build "$target"
+              targets+=("$target")
             done <<< "$LEAN_TARGETS"
+            # One dependency graph and scheduler for the same complete target set.
+            # Re-entering Lake for every module repeatedly replans shared imports.
+            [ "${#targets[@]}" -gt 0 ] || exit 1
+            lake build "${targets[@]}"
           ' 2>&1 | tee lake-build.log || status=$?
           echo "status=$status" >> "$GITHUB_OUTPUT"
           if [ "$status" -ne 0 ]; then

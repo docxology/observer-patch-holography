@@ -185,8 +185,8 @@ def build():
         value = rk4(steps)
         controls.append({"steps": steps, "endpoint": value.tolist(),
                          "endpoint_max_error": float(max(abs(value-endpoint)))})
-    packet = {"schema": SCHEMA, "run_id": "whitney-charged-symmetric-2026-09-06-v1",
-        "source_base_commit": "79b0a4a5bb7242f7ea733ebe502df48f774cf997",
+    packet = {"schema": SCHEMA, "run_id": "whitney-charged-symmetric-lean435-20261018-v2",
+        "source_base_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
         "scope": "NUMERICAL_COUPLED_CHARGED_MATTER__SYMMETRIC_SECTOR_OF_FULL_FINITE_ACTION",
         "source_pins": {name: hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in PINS},
         "parameters": PARAMETERS, "mesh": mesh,

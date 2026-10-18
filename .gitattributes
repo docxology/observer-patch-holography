@@ -22,3 +22,7 @@ evidence/support_wiring_776/trace/*.npz -text -eol -diff
 code/source_read_routing/controls/*.tape -text -eol -diff
 code/source_read_routing/controls/*.input -text -eol -diff
 code/source_routing_refinement/controls/*.tape -text -eol -diff
+
+# Generated EOS receipt bytes are pinned by downstream custody records.
+code/equation_of_state/maxwell/runs/maxwell_classical_gibbs.csv -text -eol whitespace=trailing-space,space-before-tab,cr-at-eol
+code/equation_of_state/maxwell/runs/maxwell_eos_receipt.csv -text -eol whitespace=trailing-space,space-before-tab,cr-at-eol

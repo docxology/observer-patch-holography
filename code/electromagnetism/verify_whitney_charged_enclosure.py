@@ -21,7 +21,7 @@ UNIT = 1 << BITS
 POLY_BITS = 96
 SCOPE = "RIGOROUS_FINITE_CHARGED_ACTION_TIME_TUBE__SUPPLIED_MODEL_PARAMETER"
 PARENT = "code/electromagnetism/runtime/whitney_charged_dynamics_receipt.json"
-PARENT_SHA256 = "f247f4b9e2b46e588bca006389346730ffc91359af218370d60688734ef4f4b9"
+PARENT_SHA256 = "6062233dc4707ea0b1c6f8eec4b6a474998224f74a417b6fe2dd9faf46fb5264"
 COORDINATES = ["alpha","Re(C)","Im(C)","Re(b)","Im(b)",
                "p_Re(C)","p_Im(C)","p_Re(b)","p_Im(b)"]
 METHOD = {"name":"Picard inclusion and interval Taylor remainder",

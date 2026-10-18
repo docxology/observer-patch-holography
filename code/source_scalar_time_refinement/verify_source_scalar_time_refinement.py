@@ -7,12 +7,12 @@ import argparse, importlib.util, json, sys
 HERE=Path(__file__).resolve().parent
 RER=HERE.parents[1]
 PARENT='code/source_scalar_packet/source_common_scalar_receipt.json'
-PARENT_SHA='c050889ea4b8e46b4635ed6ab7b850f2b8af24f3cfcac51e4a2b349d865ba7de'
+PARENT_SHA='4c6e601c6253499429bf2418383701f45ef99da905969f5024b000b2fc915a4c'
 VERIFIER='code/source_scalar_packet/verify_source_common_scalar.py'
 VERIFIER_SHA='70665fa34c0c03ae713f9201996a6109e31e9770153a82a725300cd0bc73ad74'
 INTERVALS='code/source_scalar_packet/source_scalar_intervals.py'
 INTERVALS_SHA='ac614f4c8b50bf83da8a7eb9442077c5b981d73dc58ee3cbb1000f8c0f0e2bcf'
-COMMIT='087d229c4e10dea830e42734b9952f425620bde3'
+COMMIT='f59c99d69d596055fa77eef5fcde4d184f92bb93'
 FILES=('code/source_scalar_time_refinement/source_scalar_time_refinement.py',
  'code/source_scalar_time_refinement/verify_source_scalar_time_refinement.py',
  'code/source_scalar_time_refinement/test_source_scalar_time_refinement.py',

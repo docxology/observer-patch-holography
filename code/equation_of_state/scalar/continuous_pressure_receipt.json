@@ -12298,7 +12298,7 @@
   "source_sha256": {
     "code/source_scalar_execution/scalar_execution_algebra.py": "6cd1e44f9c0c5559f447db8db9499a843084424424145e371ad3be388fe92a67",
     "code/source_scalar_execution/source_scalar_execution.py": "663044dab37f456936b649e983b6d2bf7f192c7cc6f4e0faeb7c4860bff29b9d",
-    "code/source_scalar_execution/source_scalar_execution_receipt.json": "6981fcd4e13fbc33f371224228341a995f34b4733aa70c2ec0b3f6ee5975c7af",
+    "code/source_scalar_execution/source_scalar_execution_receipt.json": "cf246c2caa072334e0d4796c1c6c49d2a231a263ff34281843a1c35c7cdbb69a",
     "code/source_scalar_execution/verify_source_scalar_execution.py": "c03892572732bbf7d019e721d19b6a249b445e2dc30f54d3c237be938cf88d42"
   }
 }

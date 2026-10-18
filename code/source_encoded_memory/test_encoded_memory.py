@@ -276,7 +276,9 @@ def test_no_hidden_untested_theorems_and_downstream_audit():
     assert not re.search(r"\b(sorry|admit|axiom|native_decide)\b", declarations)
     assert "Lean.collectAxioms" in audit and "unexpected.isEmpty" in audit
     assert "audit_encoded_axioms sorryAx" in audit
-    assert "audit_encoded_axioms Lean.ofReduceBool" in audit
+    assert "audit_encoded_axioms nativeDecisionControl" in audit
+    assert "private alias nativeDecisionControl := OPH.PortGramA5Isometry.rotationQ_orthogonal" in audit
+    assert "_native.native_decide.ax_" in audit
     assert "import Geometry.SourceEncodedMemoryAxiomAudit" in (lean/"Geometry.lean").read_text(encoding="utf-8")
     workflow = (codec.ROOT/".github/workflows/lean-ci.yml").read_text(encoding="utf-8")
     # Dependency-only changes must rerun this importer; changed-file builds do not suffice.

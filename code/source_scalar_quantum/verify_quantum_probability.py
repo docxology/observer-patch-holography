@@ -10,7 +10,7 @@ import argparse
 HERE=Path(__file__).resolve().parent
 RER=HERE.parents[1]
 PARENT_PATH='code/source_scalar_execution/source_scalar_execution_receipt.json'
-PARENT_SHA='6981fcd4e13fbc33f371224228341a995f34b4733aa70c2ec0b3f6ee5975c7af'
+PARENT_SHA='cf246c2caa072334e0d4796c1c6c49d2a231a263ff34281843a1c35c7cdbb69a'
 VERIFIER_PATH='code/source_scalar_execution/verify_source_scalar_execution.py'
 VERIFIER_SHA='c03892572732bbf7d019e721d19b6a249b445e2dc30f54d3c237be938cf88d42'
 FILES=('paper/tex_fragments/SOURCE_SCALAR_QUANTUM.tex',
@@ -110,7 +110,7 @@ def verify_arithmetic(packet,parent,module,rer=RER):
           'split_response_abs_lower':str(signal),'probability_error_upper':str(error),
           'reference_response_abs_lower':str(max(F(0),signal-error)),'resolved_above_total_bound':signal>error})
     expected={'schema':'oph.finite-scalar-original-vacuum-probability.v1',
-      'parent':{'path':PARENT_PATH,'sha256':PARENT_SHA,'candidate_source_commit':'087d229c4e10dea830e42734b9952f425620bde3'},
+      'parent':{'path':PARENT_PATH,'sha256':PARENT_SHA,'candidate_source_commit':'f59c99d69d596055fa77eef5fcde4d184f92bb93'},
       'scope':expected_scope(),'constants':{'tau_squared':'1/245','cfl_upper':str(r),'operator_lower':'1','rounding_scale':SCALE},
       'moments':{'g_mass_squared_Qphi':g0.encode(),'g_energy_Qphi':g1.encode(),'g_mass_squared_upper':str(g0up),
         'g_norm_upper':str(gnup),'sqrt_mass_energy_upper':str(sqrtup)},

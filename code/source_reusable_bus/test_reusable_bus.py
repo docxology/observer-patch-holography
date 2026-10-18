@@ -198,7 +198,9 @@ def test_every_public_theorem_is_transitively_audited():
     assert len(names)==25
     covered=re.findall(r"^audit_reusable_bus_axioms OPH.SourceReusableBus\.(\w+)$",audit,re.M)
     assert covered==names
-    assert "Lean.collectAxioms" in audit and "Lean.ofReduceBool" in audit and "sorryAx" in audit
+    assert "Lean.collectAxioms" in audit and "nativeDecisionControl" in audit and "sorryAx" in audit
+    assert "private alias nativeDecisionControl := OPH.PortGramA5Isometry.rotationQ_orthogonal" in audit
+    assert "_native.native_decide.ax_" in audit
 
 
 def require_ci_audit_target(workflow):

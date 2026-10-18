@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "kind": "exact-abelian-readout-parent-custody-migration",
+  "immutable_parent_commit": "78f71f4f6f8dc94f80a7e20fe8dd5ea497775e0c",
+  "parent_hash_changes": {
+    "4949c2fdd0f44917b4808e52ea59f69574d3cc653cdf5cde30e9e8c91a8bb031": "98f767a0cbec83d5aac34bb2cd6458d382b023a5ec6073e0a62c768afe4532ea",
+    "1edb876e3ccfe61dd2e98473e0398391aa28166b2e330742ae3f034db05e3cfd": "7691fe7b9536e81a2839a85d28c42bb123d10f4e107c58c0577dac323abc316f",
+    "e5f712cbccc5a1462945f0cb511a47064fe10818748498021d5c70ae169a933f": "8c14d65c66f4ffdc1f8c303168d1b302760b36ce726ec6f3a1f91ceb7e4aa2cb",
+    "d1cebe56450e7586eed730b52068753ebca3a6563da1453679e87fa7c7b653e3": "c232cb5cc82423c29ccd6fc4b71193d32e6067fcdd134c7cf45948277f389616"
+  },
+  "receipts": [
+    {
+      "path": "code/sm_local_action/local_action_receipt.json",
+      "before_sha256": "4949c2fdd0f44917b4808e52ea59f69574d3cc653cdf5cde30e9e8c91a8bb031",
+      "after_sha256": "98f767a0cbec83d5aac34bb2cd6458d382b023a5ec6073e0a62c768afe4532ea",
+      "unchanged_exact_payload_sha256": "3272713bf8ae8e66ab2cd20044fee2d697bf23c1e84262cdec72fea316a636f5"
+    },
+    {
+      "path": "code/sm_abelian_reduction/abelian_receipt.json",
+      "before_sha256": "ad6f7baddb69ee3e2ed2e514e0148f3db49466cd2e0dbb6c911de78d318a382a",
+      "after_sha256": "6dbc4bdeaa9a8242ff0db405d3e5a61be7b6eeb2adfa045eb765e6d142fbba2d",
+      "unchanged_exact_payload_sha256": "b8ab61adb05e9941e45ec9f35d15d0e153047684080ebab473f4101832575bac"
+    },
+    {
+      "path": "code/sm_abelian_readout/readout_receipt.json",
+      "before_sha256": "684af7ca65fc6218426a7496223ae18591c9ec846c168033874409341a23d898",
+      "after_sha256": "3fea2b4d8358ca536c88a1f0b99f21b8ff7bb719eb2bc3e0501623091e3682af",
+      "unchanged_exact_payload_sha256": "41dba91257f7967a16719679bddb8cc517b08864197a4a9e83d04e4d27e53339"
+    }
+  ],
+  "scope": "Complete mathematical payload and scope flags unchanged; verified current Lean parent custody. No physical calibration or source/quantum promotion."
+}

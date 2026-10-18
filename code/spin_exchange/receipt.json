@@ -444,7 +444,7 @@
   "source_pins": {
     "code/sm_fermion_current/current.py": "3ddc0be8031081014614cdbcccd775ceb75e5e305607f1ed795c3fe17c8dbbd3",
     "code/sm_fermion_current/quantum_link.py": "f48ae56a7d6f5cad6892de60f262c68aecd5fdbe277e0e45f8024cf8d40174a7",
-    "code/sm_fermion_current/quantum_link_receipt.json": "0a93ada86ff6349623e7cb039309072a669b6fafa04749e382319b922bd77e62",
+    "code/sm_fermion_current/quantum_link_receipt.json": "8c3014546eb30d0a6091b2323023e23da4d35f8a896e2908baac3524e70cf7a2",
     "code/spin_exchange/build.py": "11b387c165d901d13b7412c532f506cb272c77db0b83c3ff040b461d512470ca",
     "code/spin_exchange/test_spin_exchange.py": "1f61f36f64a70cd11ebfec9a2e91d52a967734ca9ac14c78430dacaba9117a0f",
     "code/spin_exchange/verify.py": "6b9b6acba0c69137b67ea72789cc3d4a1f84f70a9db79ed35ba3e8d74fed4768",

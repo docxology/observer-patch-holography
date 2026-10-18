@@ -179,7 +179,7 @@ def build():
         for frame, old in zip(frames, historical["samples"], strict=True)
         for key, old_key in (("q_exact", "q_reduced"), ("velocity_exact", "v_reduced")) for i in range(5))
     return {"schema": "oph.whitney_charged_instrument.v1", "scope": SCOPE,
-        "run_id": "whitney-charged-self-reading-2026-09-06-v1", "source_base_commit": "08486bdba2039c916aff3c698bce93e9e62bdfab",
+        "run_id": "whitney-charged-self-reading-lean435-20261018-v2", "source_base_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
         "source_pins": {p: hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in PINS},
         "contract": contract(), "mesh": mesh, "events": events, "event_root": events[-1]["event_hash"],
         "frames": frames,

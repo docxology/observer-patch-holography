@@ -1,0 +1,49 @@
+{
+  "before_sha256": "6d45bf9db9d665963cfd03cf1565a0f2e8e7e4c9913eac9e686198dd201f8b8a",
+  "after_sha256": "17e308ff0153fa7d78897549c9d54c1bccacf3263e660393fbedb06176ea6c19",
+  "changed_parent_pins": {
+    "Lean/QFT/SourceOperatorGeneration.lean": {
+      "before": "362d345e9f45ce4f3c40d8b15f4d764e72973fed2e074093ba7515a8eb36512e",
+      "after": "a20f64d7a399c91c2380941b087f72de811a27c3613604c8d4f46c0af3472fc0",
+      "historical_commit": "81a3979e94404bdb85eea9950ae91064d86db310"
+    },
+    "Lean/QFT/TripleCarrierJoin.lean": {
+      "before": "4c5000fc76a4e8a45cb05fc39a7f42ec2692ea8e306a25852f15d52832b64e5f",
+      "after": "7997d50afc089326ec70fce55393766011aa79ac357dce4f8b5a01a9c4865539",
+      "historical_commit": "b6997e2dacca5d0998c1dae34b542646194e748f"
+    },
+    "Lean/QFT/TowerAnchoredCorrelation.lean": {
+      "before": "cfa4b599dbbba9c2bf380231a872ff9acc0618f0333a2e3a87a0b5893c99663b",
+      "after": "19025d4b686a12160eb73fbe9f005df8879d98238f6db5f3940ea0dfa1da8838",
+      "historical_commit": "b6997e2dacca5d0998c1dae34b542646194e748f"
+    }
+  },
+  "unchanged_complete_mathematics_and_scope_sha256": "817a4bbdca21945e4dcee53794aec04477c8f5434a9c022846c638b4748210dc",
+  "leaf_review": {
+    "before": "6325cd23dff82fe5ab8e37aa0d17df828a643f5c9aa1939fd8d3834bee4457fd",
+    "after": "dc3a208aa267087ed9ab63ba5d9081d360a372c0ccc38432c46c5d3badc7cf93",
+    "historical_commit": "e602f4b71b67cd1e26b245ed7a2a8f9d48b9b683",
+    "scope": "Reviewed module visibility, renamed matrix coercion lemmas, explicit StarAlgHom coercions and equivalent proof tactic adaptation. Finite theorem statements preserved modulo explicit coercion syntax; no added axioms or admissions."
+  },
+  "scope": "Actual finite source operator packet generation, independent replay and mutation controls plus separate strict native universal theorem audit. Python does not verify universal Lean statements. No physical clock, regions, outcomes, continuum or pushout claim. Postdiction ledger JSON and frozen records unchanged.",
+  "schema": 1,
+  "kind": "reviewed-lean435-operator-join-custody-successor",
+  "qualified_lean_source_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+  "native_public_consumer": {
+    "declarations": 18,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "raw_log_sha256": "2fa37284f18d47956d74a6cf95cb5c7e4acfdb824d793ff24b476046f04807d2",
+    "consumer": "lean435_public_consumer.lean",
+    "raw_log": "lean435_public_consumer.log"
+  },
+  "checks": {
+    "strict_native_public_consumer": "passed",
+    "actual_packet_generation": "passed",
+    "independent_verifier": "passed",
+    "mutation_tests_passed": 25
+  }
+}

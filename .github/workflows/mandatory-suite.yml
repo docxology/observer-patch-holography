@@ -77,7 +77,7 @@ jobs:
         run: python -m pytest -q tools/test_check_lean_ci_budget.py
 
       - name: Regression-test mandatory sharding and workflow coverage
-        run: python -m pytest -q tools/test_mandatory_suite_shards.py tools/test_mandatory_suite_workflow.py
+        run: python -m pytest -q tools/test_mandatory_suite_shards.py tools/test_mandatory_suite_workflow.py tools/test_current_mandatory_context.py
 
       # The same standard command sequence is partitioned without omissions
       # across nine fresh-checkout shards per OS. It validates the scientific claim registry (#512),
@@ -86,7 +86,7 @@ jobs:
       # a path-filter miss), collects the full scientific suite, and executes
       # the fast validation fixtures.
       - name: Run the mandatory suite
-        run: python tools/run_mandatory_suite.py ${{ inputs.full && '--full' || format('--shard-index {0} --shard-count 9', matrix.shard) }}
+        run: python tools/run_current_mandatory_suite.py ${{ inputs.full && '--full' || format('--shard-index {0} --shard-count 9', matrix.shard) }}
 
   # Preserve the historical status names. Each requires the entire worker
   # matrix to succeed; failed, cancelled, or skipped workers cannot pass.
@@ -135,4 +135,4 @@ jobs:
         run: python -m pytest -q tools/test_check_lean_ci_budget.py
 
       - name: Run the full mandatory suite
-        run: python tools/run_mandatory_suite.py --full
+        run: python tools/run_current_mandatory_suite.py --full

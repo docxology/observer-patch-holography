@@ -71,3 +71,14 @@ This continuous solution and the rational Cayley word are distinct histories.
 The action, quantum preparation, electric quantization and schedule
 are supplied; this finite construction supplies no continuum error estimate,
 non-Abelian or Yukawa evolution, physical clock or laboratory current.
+
+## Lean 4.35 source-custody migration
+
+The registered parent Lean source identities now select the strictly compiled
+4.35 source snapshot. The original 4.29 sources and receipt remain immutable in
+Git history at `bfa6c44d5347f113a5418d2a25d836f1057993a2`.
+`lean435_migration.json` records the exact old/new source and parent-receipt
+identities. Regeneration must preserve the entire original mathematical payload
+when the source-pin map is excluded, and independent exact replay and mutation
+controls must still pass. No arbitrary source identity is accepted, no historical
+prediction registration is rewritten, and no scientific scope is promoted.

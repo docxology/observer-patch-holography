@@ -9,7 +9,7 @@ import json
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
 PARENT='code/source_scalar_execution/source_scalar_execution_receipt.json'
-PARENT_HASH='6981fcd4e13fbc33f371224228341a995f34b4733aa70c2ec0b3f6ee5975c7af'
+PARENT_HASH='cf246c2caa072334e0d4796c1c6c49d2a231a263ff34281843a1c35c7cdbb69a'
 OUTPUT=HERE/'quantum_probability_receipt.json'
 FILES=('paper/tex_fragments/SOURCE_SCALAR_QUANTUM.tex',
  'code/source_scalar_quantum/quantum_probability.py',
@@ -81,7 +81,7 @@ def produce():
           'reference_response_abs_lower':str(max(F(0),signal-err)),
           'resolved_above_total_bound':signal>err})
     return {'schema':'oph.finite-scalar-original-vacuum-probability.v1',
-      'parent':{'path':PARENT,'sha256':PARENT_HASH,'candidate_source_commit':'087d229c4e10dea830e42734b9952f425620bde3'},
+      'parent':{'path':PARENT,'sha256':PARENT_HASH,'candidate_source_commit':'f59c99d69d596055fa77eef5fcde4d184f92bb93'},
       'scope':scope(),'constants':{'tau_squared':'1/245','cfl_upper':str(r),'operator_lower':'1','rounding_scale':SCALE},
       'moments':{'g_mass_squared_Qphi':g0.encode(),'g_energy_Qphi':g1.encode(),
         'g_mass_squared_upper':str(g0u),'g_norm_upper':str(gnu),'sqrt_mass_energy_upper':str(sqrtu)},

@@ -43,3 +43,14 @@ transpositions are supplied postprocessing, not source-selected physical
 operations. This package supplies no physical region or clock, quantum
 preparation or outcome record, continuum refinement, universal algebraic
 pushout, or identification with the separate 64-mode scalar instrument.
+
+## Lean 4.35 custody successor
+
+`lean435_migration.json` versions the reviewed source-custody successor. Its
+parent identities are tied to actual historical Git blobs and the qualified
+4.35 source commit. The complete packet mathematics and interpretation are
+unchanged. The producer, independent verifier and 25 mutation tests passed.
+A separate strict public consumer checked all 18 ledger-cited declarations;
+`lean435_public_consumer.log` retains the raw standard-axiom reports. Python
+still does not run the kernel or prove these universal theorems. Historical
+registrations and the postdiction ledger are not rewritten by this record.

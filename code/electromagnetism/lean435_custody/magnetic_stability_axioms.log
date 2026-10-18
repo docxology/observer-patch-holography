@@ -1,0 +1,3 @@
+'OPH.MagneticMatterStability.norm_square_difference_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OPH.MagneticMatterStability.norm_cubic_difference_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OPH.MagneticMatterStability.norm_cubic_difference_on_ball' depends on axioms: [propext, Classical.choice, Quot.sound]

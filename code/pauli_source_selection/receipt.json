@@ -10124,12 +10124,12 @@
     ]
   },
   "source_pins": {
-    "Lean/InformationProjection/SourceHistoryPacket.lean": "c06fff2418846f8b1ecfeb8f1cbf5d3f4f153dfa8159c98141557d65538e4e0c",
+    "Lean/InformationProjection/SourceHistoryPacket.lean": "6bdf18b02a8b6a5f3d4a6e2614d108345dce0e8385f4974b06c4e8b5ee32cb31",
     "code/pauli_source_selection/build.py": "59f9708a865d29fb9891087df37d754358bd4b1f40c25f93bc3dbe72284c067a",
     "code/pauli_source_selection/test_pauli_source_selection.py": "346a8f331cdecc09ee0414d34e28f1ec757b6a1e48fd8d9759860c1a34618c1c",
     "code/pauli_source_selection/verify.py": "3b80fc7df04c0c83aa12b6beb2b3edef32081f18dc4ac0376df278fdd07edb24",
     "code/sm_fermion_current/current.py": "3ddc0be8031081014614cdbcccd775ceb75e5e305607f1ed795c3fe17c8dbbd3",
-    "code/sm_fermion_current/current_receipt.json": "d4a780d4849d9b5dea1618705b87279597d6aca345a160a20990435929cff8a7",
+    "code/sm_fermion_current/current_receipt.json": "a35e08e270712b8c26c2aaa5ce1c877f0fc97b79770b0a1da57eb006e73f2ffe",
     "paper/tex_fragments/PAULI_SOURCE_SELECTION_BOUNDARY.tex": "29bd146d7603a109f36661890fad95c3d63d50616e1b603ba59d44ac65474794"
   },
   "three_outcome_instrument": {

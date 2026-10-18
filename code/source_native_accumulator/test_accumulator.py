@@ -272,7 +272,9 @@ def test_all_new_theorems_have_transitive_axiom_gate():
     audit = (codec.ROOT/"Lean/Geometry/SourceAccumulatorAxiomAudit.lean").read_text()
     assert set(re.findall(r"^audit_reusable_bus_axioms (\S+)",audit,re.M)) == declarations
     guard = (codec.ROOT/"Lean/Geometry/SourceReusableBusAxiomAudit.lean").read_text(encoding="utf-8")
-    assert "Lean.collectAxioms name" in guard and "sorryAx" in guard and "Lean.ofReduceBool" in guard
+    assert "Lean.collectAxioms name" in guard and "sorryAx" in guard and "nativeDecisionControl" in guard
+    assert "private alias nativeDecisionControl := OPH.PortGramA5Isometry.rotationQ_orthogonal" in guard
+    assert "_native.native_decide.ax_" in guard
     assert "SourceAccumulatorAxiomAudit" in (codec.ROOT/"Lean/Geometry.lean").read_text(encoding="utf-8")
     require_ci_gate((codec.ROOT/".github/workflows/lean-ci.yml").read_text(encoding="utf-8"))
 

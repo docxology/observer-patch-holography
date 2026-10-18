@@ -163,3 +163,18 @@ channels/events/probes, changed held-out coordinates, forged writers/parents,
 extra synthetic reads, missing feedback, wrong current, calibration leakage,
 uncertainty inflation, clock substitution, nonce reuse and capture reordering.
 No synthetic capture is committed as a physical run or valid observed receipt.
+
+## Lean 4.35 parent custody migration
+
+The original emulator parent `2ec7dbf29f700b420def821f1a69c1f8087428e78f77f8a818bf7483482e73a2` is retained in Git
+commit `bfa6c44d5347f113a5418d2a25d836f1057993a2`. The first actual replay changed only
+Lean source identities and produced the intermediate digest
+`18bfd8565e05ae571b0edac9626fb30244edd4d732cb30707d753672e1a36987`. That intermediate is retained as a run preimage,
+not claimed as an immutable Git epoch. A second independent replay bound the
+qualified Maxwell producer source and produced the current parent
+`ed20c921d8e03b73acd85a24c9a3abc76f29c642c51dbee53642704a86134f6d`. The complete exact emulator executions, assumptions
+and scope remain unchanged in both steps. The adjacent migration record
+separates their source identities and evidence. Frozen study and capture
+bytes remain unchanged. A changed adapter requires a new reviewed freeze
+for future capture; these software replays supply no physical measurement
+or calibration evidence.

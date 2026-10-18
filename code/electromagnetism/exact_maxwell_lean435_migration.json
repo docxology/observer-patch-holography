@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "qualified_lean_commit": "a8ab45b7530fecbac8c06eb19ee8b7e95a7196a2",
+  "receipts": [
+    {
+      "path": "code/electromagnetism/runtime/local_face_maxwell_action_receipt.json",
+      "before_sha256": "1c8605a9eee78d8f59d0ae5fc45ffc0c5a0000db91bafb337e119e6564a792d1",
+      "after_sha256": "ede8833522c6e6344d3550dfcc493eb8c6105e68fbce73c71eec322451cb2343",
+      "unchanged_exact_payload_sha256": "a7b743b5307faef48742afeaf5d7022e5993b0b1283e791c0d41fd47f31f8dad"
+    },
+    {
+      "path": "code/electromagnetism/runtime/discrete_coulomb_green_receipt.json",
+      "before_sha256": "0eb5989ad14305cb6d78392a4064e7d353e705870a125df2493a565a7a075201",
+      "after_sha256": "97a357048513c9ab5eb26e249bd1866d6d30a688ce1775a463f00d70b0600e88",
+      "unchanged_exact_payload_sha256": "688b55fcbf97e0ca7c2c1c2d96644cdfc2e211cc0a85e5d3fe053b2b3a08f9d8"
+    }
+  ],
+  "scope": "Exact finite mathematical payload and scope unchanged; no physical identification or calibration."
+}

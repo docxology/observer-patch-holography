@@ -176,3 +176,15 @@ def test_ambiguous_json_rejected(tmp_path, raw):
     path.write_text(raw, encoding="utf-8")
     with pytest.raises(ValueError):
         verifier.load(path)
+
+
+@pytest.mark.parametrize("field, historical", [
+    ("run_id", "whitney-charged-self-reading-2026-09-06-v1"),
+    ("source_base_commit", "08486bdba2039c916aff3c698bce93e9e62bdfab"),
+])
+def test_current_execution_rejects_historical_identity(packet, field, historical):
+    changed = deepcopy(packet)
+    changed[field] = historical
+    rehash(changed)
+    with pytest.raises(ValueError, match="scope/identity"):
+        verifier.verify(changed)

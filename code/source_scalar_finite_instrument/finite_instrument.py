@@ -22,9 +22,9 @@ SEQUENTIAL = 'code/source_scalar_instruments/sequential_instrument_receipt.json'
 SCALAR = 'code/source_scalar_execution/source_scalar_execution_receipt.json'
 PARENT_VERIFIER = 'code/source_scalar_instruments/verify_sequential_instrument.py'
 PINS = {
-    SEQUENTIAL: 'cc52802cba28f66c8bb9f49f2175dd32a1932262f23759447c289bf203dbf601',
-    SCALAR: '6981fcd4e13fbc33f371224228341a995f34b4733aa70c2ec0b3f6ee5975c7af',
-    PARENT_VERIFIER: '0c34c486f2ed28d48550195723eeca2ad71823a46c1db18a8403c9781231d9f9',
+    SEQUENTIAL: '5fefaaeca3760b5a2c4bf81c32634b6c96c39f64a271b3735bee8a0fa8d07468',
+    SCALAR: 'cf246c2caa072334e0d4796c1c6c49d2a231a263ff34281843a1c35c7cdbb69a',
+    PARENT_VERIFIER: '4803d7466e2e43dbf00cccb1bab912b974dd0aa54e7b60effd8008ddd9b675f2',
 }
 FILES = (
     'code/source_scalar_finite_instrument/finite_instrument.py',

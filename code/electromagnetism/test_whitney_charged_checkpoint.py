@@ -39,9 +39,9 @@ def test_actual_parent_proof_and_exact_consumer(packet):
     assert result["events"] == 1782
     assert result["checkpoint_qv_error_certified"] is True
     assert result["parent_enclosure_freshly_verified"] is True
-    assert result["maximum_decoded_reference_difference"] == "21/2251799813685248"
+    assert result["maximum_decoded_reference_difference"] == "5/562949953421312"
     bound = Q(result["decoded_checkpoint_error_upper"])
-    assert bound == Q(1, 10**10) + Q(21, 2**51)
+    assert bound == Q(1, 10**10) + Q(5, 2**49)
     assert bound <= Q(result["simple_checkpoint_error_upper"]) == Q(10001, 10**14)
     for key in ("continuous_observer_error_certified", "configuration_clock_error_certified",
                 "nonlinear_field_error_certified", "physical_clock_calibrated", "quantum_history"):
@@ -53,7 +53,7 @@ def test_actual_worst_component_is_event_decoded_not_float_subtraction(packet, p
     row = packet["checkpoints"][79]
     d = Q(row["decoded_qv"][7])
     ref = Q.from_float(history[79]["v_reduced"][2])
-    assert abs(d-ref) == Q(21, 2**51)
+    assert abs(d-ref) == Q(5, 2**49)
     assert Q(row["absolute_reference_differences"][7]) == abs(d-ref)
     assert any(Q.from_float(h["t"]) != Q(n, 40) for n, h in enumerate(history))
     assert [r["nominal_time"] for r in packet["checkpoints"]] == [str(Q(n, 40)) for n in range(81)]
@@ -229,3 +229,15 @@ def test_every_acceptance_attempt_reaches_new_proof_execution(packet, monkeypatc
         with pytest.raises(ValueError, match="fresh proof sentinel"):
             verifier.verify(packet)
     assert len(calls) == 2
+
+
+def test_original_historical_dyadic_witness_is_preserved():
+    path = Path(__file__).with_name("fixtures") / "charged_checkpoint_20260906_witness.json"
+    raw = path.read_bytes()
+    assert sha256(raw).hexdigest() == "3153d6286ec0d9d7d7d3dadf80f6b76edc3276eadd7d5109f21a16637a949e73"
+    witness = json.loads(raw)
+    assert witness["sample_index"] == 79 and witness["coordinate_index"] == 7
+    decoded = Q(witness["decoded_exact"])
+    reference = Q.from_float(float.fromhex(witness["reference_binary64_hex"]))
+    assert abs(decoded - reference) == Q(21, 2**51)
+    assert str(abs(decoded - reference)) == witness["absolute_reference_difference"]

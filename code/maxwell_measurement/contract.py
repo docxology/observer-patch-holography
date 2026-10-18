@@ -9,7 +9,7 @@ import re
 
 ROOT = Path(__file__).resolve().parents[2]
 PARENT = "code/electromagnetism/runtime/serial_maxwell_readout_receipt.json"
-PARENT_SHA = "2ec7dbf29f700b420def821f1a69c1f8087428e78f77f8a818bf7483482e73a2"
+PARENT_SHA = "ed20c921d8e03b73acd85a24c9a3abc76f29c642c51dbee53642704a86134f6d"
 ADAPTER_SOURCES = ["code/maxwell_measurement/" + name for name in
                    ("contract.py", "verify.py", "test_measurement.py")]
 

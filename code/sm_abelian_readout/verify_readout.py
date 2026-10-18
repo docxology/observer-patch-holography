@@ -15,7 +15,7 @@ HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
 OUTPUT=HERE/'readout_receipt.json'
 PARENT=ROOT/'code/sm_abelian_reduction/abelian_receipt.json'
-PIN='ad6f7baddb69ee3e2ed2e514e0148f3db49466cd2e0dbb6c911de78d318a382a'
+PIN='6dbc4bdeaa9a8242ff0db405d3e5a61be7b6eeb2adfa045eb765e6d142fbba2d'
 
 
 def require(condition, label):

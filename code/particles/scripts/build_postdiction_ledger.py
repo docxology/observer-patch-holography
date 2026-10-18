@@ -898,7 +898,7 @@ SOURCE_OPERATOR_JOIN_DECLARATIONS = (
 )
 # This exact source was independently kernel checked.  A changed proof needs
 # review before this pin changes; source-name checks alone do not verify Lean.
-SOURCE_OPERATOR_JOIN_LEAN_SHA256 = "6325cd23dff82fe5ab8e37aa0d17df828a643f5c9aa1939fd8d3834bee4457fd"
+SOURCE_OPERATOR_JOIN_LEAN_SHA256 = "dc3a208aa267087ed9ab63ba5d9081d360a372c0ccc38432c46c5d3badc7cf93"
 
 
 def _source_operator_join_control(receipt_path: Path | None = None) -> dict[str, Any]:

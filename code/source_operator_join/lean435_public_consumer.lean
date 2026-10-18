@@ -1,0 +1,19 @@
+import QFT.TripleCarrierOperatorJoin
+#print axioms OPH.QFT.operatorJoin88_injective
+#print axioms OPH.QFT.operatorJoin247_injective
+#print axioms OPH.QFT.operatorJoin86_injective
+#print axioms OPH.QFT.operatorJoin_hinge
+#print axioms OPH.QFT.operatorJoin_intersection
+#print axioms OPH.QFT.operatorJoin_generate_top
+#print axioms OPH.QFT.operatorJoin_spectator_locality
+#print axioms OPH.QFT.operatorJoin_hinge_noncommuting
+#print axioms OPH.QFT.operatorJoin88_retraction
+#print axioms OPH.QFT.operatorJoin247_retraction
+#print axioms OPH.QFT.operatorJoin88_counted_readout
+#print axioms OPH.QFT.operatorJoin247_counted_readout
+#print axioms OPH.QFT.operatorJoin88_evolve
+#print axioms OPH.QFT.operatorJoin247_evolve
+#print axioms OPH.QFT.operatorJoinSource88_generates
+#print axioms OPH.QFT.operatorJoinSource247_generates
+#print axioms OPH.QFT.operatorJoinAdmitted_generates
+#print axioms OPH.QFT.operatorJoinAdmitted_evolved

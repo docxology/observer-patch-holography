@@ -255,3 +255,14 @@ assert module.geometry(2)['vertices'].shape == (13, 3)
     result = subprocess.run([sys.executable, "-c", code, str(Path(audit.__file__).resolve())],
                             cwd=tmp_path, capture_output=True, text=True, encoding="utf-8", check=False)
     assert result.returncode == 0, result.stderr
+
+
+@pytest.mark.parametrize("field, historical", [
+    ("run_id", "whitney-charged-symmetric-2026-09-06-v1"),
+    ("source_base_commit", "79b0a4a5bb7242f7ea733ebe502df48f774cf997"),
+])
+def test_current_dynamics_rejects_historical_identity(packet, field, historical):
+    changed = deepcopy(packet)
+    changed[field] = historical
+    with pytest.raises(ValueError, match="run identity|source base commit"):
+        audit.verify(changed)

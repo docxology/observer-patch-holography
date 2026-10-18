@@ -5,6 +5,13 @@ commands verify that the claim registry is internally connected and that the
 public test collection imports without error. Individual evidence families
 then have their own theorem, certificate, or experimental acceptance rule.
 
+## Explicit frozen-source contexts after Lean 4.35
+
+The current compatibility profile uses `tools/run_current_mandatory_suite.py`. It delegates CLI selection, full/certificate modes and sharding to the unchanged byte-frozen owner driver. Every owner step remains enforced. The two invariant-mining campaign commands replay unchanged at their sealed historical Git epoch; four fingerprint test files replay unchanged at their pre-migration epoch. The other fingerprint tests run in the current worktree, in the original file order. No tests are dropped and no comparison seal is rebuilt.
+
+The wrapper requires actual ancestor history, exact frozen package inventories, exact current Lean/dependency bytes, and the reviewed compiler-migration proof adaptations. A complete Git checkout is required. The existing Lean CI separately compiles the current library; historical Python replay does not replace that native check. The original live verifier refuses source drift and does not authorize generation against the migrated source. See [the contextual replay contract](tools/CURRENT_MANDATORY_CONTEXT.md). A passing current compatibility profile is explicitly a combination of current checks and historical frozen replays, not a claim that the original live-source freeze accepts new bytes.
+
+
 The bounded modal Maxwell-shaped factorization is also an exact, laptop-scale
 algebra check rather than a simulation campaign:
 
@@ -84,7 +91,7 @@ and does not derive the supplied feedback law from canonical dynamics.
 python -m venv .venv
 . .venv/bin/activate            # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-python tools/run_mandatory_suite.py
+python tools/run_current_mandatory_suite.py
 ```
 
 `requirements.txt` pins the core dependencies. The default command runs the
@@ -97,8 +104,8 @@ aggregate check. The runner also supports other partition counts; a complete
 two-part local replay uses:
 
 ```bash
-python tools/run_mandatory_suite.py --shard-index 0 --shard-count 2
-python tools/run_mandatory_suite.py --shard-index 1 --shard-count 2
+python tools/run_current_mandatory_suite.py --shard-index 0 --shard-count 2
+python tools/run_current_mandatory_suite.py --shard-index 1 --shard-count 2
 ```
 
 The indices are zero-based. Their ordered union is exactly the default suite;
@@ -109,7 +116,7 @@ replay/mutation-scan steps (listed in `HEAVY_STEP_TITLES` inside the runner)
 are deferred to
 
 ```bash
-python tools/run_mandatory_suite.py --full
+python tools/run_current_mandatory_suite.py --full
 ```
 
 which CI enforces nightly and on demand, and which the release checklist
@@ -131,7 +138,7 @@ minutes) run through the same runner in their own CI workflow
 changes and nightly on both platforms:
 
 ```bash
-python tools/run_mandatory_suite.py --certificates    # mandatory + certificates
+python tools/run_current_mandatory_suite.py --certificates    # mandatory + certificates
 python tools/run_mandatory_suite.py --certificates-only
 ```
 
@@ -151,7 +158,7 @@ mandatory collection unless explicitly enabled:
 ## Scope
 
 The mandatory suite is **collectable and executable** from a clean clone. The
-acceptance bar for this path is a green `python tools/run_mandatory_suite.py`:
+acceptance bar for this path is a green `python tools/run_current_mandatory_suite.py`:
 claim registry, release manifest, scientific-register sync, a clean `--collect-only`
 run with zero import errors, and the executed validation fixtures.
 

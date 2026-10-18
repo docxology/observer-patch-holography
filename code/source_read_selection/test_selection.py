@@ -144,7 +144,7 @@ def proof_closure():
         if relative in found or not path.is_file():
             continue
         found.add(relative)
-        pending.extend(module for line in re.findall(r"^import (.+)$",path.read_text(encoding="utf-8"),re.M)
+        pending.extend(module for line in re.findall(r"^(?:public )?import (.+)$",path.read_text(encoding="utf-8"),re.M)
                        for module in line.split())
     return found
 
