@@ -2,7 +2,7 @@
   "campaign": {
     "campaign_id": "OPH-CE-FINITE-MEMORY-2026-10-28-v1",
     "path": "model/completion/campaign.json",
-    "sha256": "6b12ab2491a801473e79917b0684fa6ead988056a1a8ee205e30c178271424ad"
+    "sha256": "a4dfb518cf3af8af675c810699f65a2c4b5bce3a5acb8eeb435597f222c83b00"
   },
   "canonical_registry": "tracking/premise_register.json",
   "evidence": [

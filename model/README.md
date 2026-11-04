@@ -7,6 +7,24 @@ evidence needed to accept or stop each stage. The packages below are retained
 components and controls; they do not constitute separate particle definitions
 or a completed physical realization.
 
+The [source particle map](completion/SOURCE_PARTICLE_MAP.md) distinguishes
+certified finite interacting poles, their exact radial currents, the native
+memory realization of the pixel-dependent lepton operator, its localized
+native-current inclusion, and the lattice texture energy constraint.
+It identifies each readable source input and each unresolved
+map to observed particles. The finite spectrum contract is
+[particle_derivation_campaign.json](completion/particle_derivation_campaign.json).
+
+[Pixel/mass feedback](pixel_mass_closure/README.md) has certified roots for
+explicit running and scale designs. A [compact opposite-degree pair](compact_defect_pair/README.md)
+has finite-energy bounds and four isolated nonzero modes. A
+[quartic radial core](interacting_defect_response/README.md) has interacting
+poles, a radius-uniform core readout limit and a same-Hamiltonian Gibbs
+response. Their carrier and response assumptions are explicit; a common
+physical particle catalogue requires their compatible realization.
+The [particle consistency contract](completion/particle_consistency_campaign.json)
+binds these three results to their five construction owners.
+
 The [winding search](winding_sector_search/README.md) derives the full-valley
 index of supplied higher-degree textures and retains 28 complete finite
 spectra. The [Majorana bridge](majorana_defect_bridge/README.md) joins the

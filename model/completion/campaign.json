@@ -145,7 +145,7 @@
   "retained_controls": [
     {
       "path": "model/common_source/native_defect_decision_results.json",
-      "sha256": "6f33c6225924af280c8f92da3df6e2f004637e0896c967ff124030fc3359c1f5"
+      "sha256": "64019980aed9aafce5223e2da7df65e10a73f881a5d13ca59bb45158c769502e"
     },
     {
       "path": "model/observer/QUANTUM_MIXING.md",
